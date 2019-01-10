@@ -5,7 +5,7 @@
  */
 
 const Storage = require('storage/index');
-const BaseLocale = require('locales/base');
+const BaseLocale = require('../../../app/locales/base');
 const StorageBase = require('storage/storage-base');
 
 const FailStorage = StorageBase.extend({

@@ -20,7 +20,7 @@ function config(grunt) {
             app: 'index',
             vendor: [
                 'redux', 'redux-thunk', 'reselect',
-                'preact', 'preact-compat', 'preact-redux',
+                'preact', 'preact-redux', 'prop-types',
                 'kdbxweb', 'baron', 'pikaday', 'jsqrcode', 'argon2-wasm', 'argon2'
             ]
         },
@@ -42,9 +42,9 @@ function config(grunt) {
         resolve: {
             modules: [path.join(__dirname, 'app/next'), path.join(__dirname, 'node_modules')],
             alias: {
-                react: 'preact-compat/dist/preact-compat.min.js',
+                react: 'preact/dist/preact.min.js',
                 preact: 'preact/dist/preact.min.js',
-                'react-dom': 'preact-compat/dist/preact-compat.min.js',
+                'react-dom': 'preact/dist/preact.min.js',
                 redux: 'redux/dist/redux.min.js',
                 'redux-thunk': 'redux-thunk/dist/redux-thunk.min.js',
                 'react-redux': 'preact-redux/dist/preact-redux.min.js',
@@ -138,9 +138,9 @@ function devServerConfig(grunt) {
         devtool: 'source-map'
     });
     Object.assign(devServerConfig.resolve.alias, {
-        react: 'preact-compat/dist/preact-compat.js',
+        react: 'preact/dist/preact.js',
         preact: 'preact/dist/preact.js',
-        'react-dom': 'preact-compat/dist/preact-compat.js',
+        'react-dom': 'preact/dist/preact.js',
         redux: 'redux/dist/redux.js',
         'redux-thunk': 'redux-thunk/dist/redux-thunk.js',
         'react-redux': 'preact-redux/dist/preact-redux.js',
