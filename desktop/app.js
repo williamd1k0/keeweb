@@ -252,7 +252,7 @@ function saveMainWindowPosition() {
     delete mainWindowPosition.changed;
     try {
         fs.writeFileSync(windowPositionFileName, JSON.stringify(mainWindowPosition), 'utf8');
-    } catch (e) {}
+    } catch (e) { /* eslint-disable-line no-empty */ }
 }
 
 function restoreMainWindowPosition() {
@@ -367,7 +367,7 @@ function setGlobalShortcuts() {
             electron.globalShortcut.register(shortcut, () => {
                 emitBackboneEvent(eventName);
             });
-        } catch (e) {}
+        } catch (e) { /* eslint-disable-line no-empty */ }
     });
 }
 
@@ -400,7 +400,7 @@ function restorePreferences() {
     let oldProfile;
     try {
         oldProfile = JSON.parse(fs.readFileSync(profileConfigPath, 'utf8'));
-    } catch (e) { }
+    } catch (e) { /* eslint-disable-line no-empty */ }
 
     fs.writeFileSync(profileConfigPath, JSON.stringify(newProfile));
 
@@ -424,7 +424,7 @@ function deleteOldTempFiles() {
             if (dir !== tempUserDataPathRand) {
                 try {
                     deleteRecursive(path.join(tempUserDataPath, dir));
-                } catch (e) {}
+                } catch (e) { /* eslint-disable-line no-empty */ }
             }
         }
         app.oldTempFilesDeleted = true; // this is added to prevent file deletion on restart

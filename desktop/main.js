@@ -19,7 +19,7 @@ try {
     let userPackageStat;
     try {
         userPackageStat = fs.statSync(userDataAppArchivePath);
-    } catch (e) {}
+    } catch (e) { /* eslint-disable-line no-empty */ }
     if (userPackageStat) {
         const packageStat = fs.statSync(appFilePath);
         const userPackageStatTime = Math.max(userPackageStat.mtime.getTime(), userPackageStat.ctime.getTime());

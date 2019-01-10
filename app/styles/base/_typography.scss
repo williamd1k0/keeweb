@@ -5,10 +5,6 @@ html {
 body {
   @include size(100%);
   @include user-select(none);
-  @include th {
-    color: th(text-color);
-    background-color: th(background-color);
-  }
   font-family: $base-font-family;
   font-feature-settings: "kern", "liga 0";
   font-size: 1rem;
@@ -81,7 +77,14 @@ img {
   font-weight: 200;
 }
 
-body:not(.edge) * { // https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/12132854/
+.app {
+  @include th {
+    color: th(text-color);
+    background-color: th(background-color);
+  }
+}
+
+.app:not(.edge) * { // https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/12132854/
   @include selection(true) {
     @include th {
       background-color: th(text-selection-bg-color);

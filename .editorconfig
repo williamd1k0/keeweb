@@ -18,8 +18,8 @@ trim_trailing_whitespace = false
 [*.json]
 indent_size = 2
 
-[.eslintrc]
-indent_size = 4
+[.babelrc]
+indent_size = 2
 
 [*.scss]
 indent_size = 2

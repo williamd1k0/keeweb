@@ -1,3 +1,5 @@
+/* eslint-env node */
+
 const path = require('path');
 
 const webpack = require('webpack');
@@ -15,9 +17,12 @@ function config(grunt) {
     return {
         mode: 'production',
         entry: {
-            app: 'app',
-            vendor: ['jquery', 'underscore', 'backbone', 'kdbxweb', 'baron',
-                'pikaday', 'jsqrcode', 'argon2-wasm', 'argon2']
+            app: 'index',
+            vendor: [
+                'redux', 'redux-thunk', 'reselect',
+                'preact', 'preact-compat', 'preact-redux',
+                'kdbxweb', 'baron', 'pikaday', 'jsqrcode', 'argon2-wasm', 'argon2'
+            ]
         },
         output: {
             path: path.resolve('.', 'tmp/js'),
@@ -35,29 +40,25 @@ function config(grunt) {
         progress: false,
         failOnError: true,
         resolve: {
-            modules: [path.join(__dirname, 'app/scripts'), path.join(__dirname, 'node_modules')],
+            modules: [path.join(__dirname, 'app/next'), path.join(__dirname, 'node_modules')],
             alias: {
-                backbone: 'backbone/backbone-min.js',
-                underscore: 'underscore/underscore-min.js',
-                _: 'underscore/underscore-min.js',
-                jquery: 'jquery/dist/jquery.min.js',
+                react: 'preact-compat/dist/preact-compat.min.js',
+                preact: 'preact/dist/preact.min.js',
+                'react-dom': 'preact-compat/dist/preact-compat.min.js',
+                redux: 'redux/dist/redux.min.js',
+                'redux-thunk': 'redux-thunk/dist/redux-thunk.min.js',
+                'react-redux': 'preact-redux/dist/preact-redux.min.js',
+                'preact-redux': 'preact-redux/dist/preact-redux.min.js',
                 kdbxweb: 'kdbxweb/dist/kdbxweb.js',
                 baron: 'baron/baron.min.js',
                 pikaday: 'pikaday/pikaday.js',
                 qrcode: 'jsqrcode/dist/qrcode.min.js',
                 argon2: 'argon2-browser/dist/argon2.min.js',
-                hbs: 'handlebars/runtime.js',
-                'argon2-wasm': 'argon2-browser/dist/argon2.wasm',
-                templates: path.join(__dirname, 'app/templates')
+                'argon2-wasm': 'argon2-browser/dist/argon2.wasm'
             }
         },
         module: {
             rules: [
-                {
-                    test: /\.hbs$/, loader: StringReplacePlugin.replace('handlebars-loader', {
-                        replacements: [{ pattern: /\r?\n\s*/g, replacement: () => '\n' }]
-                    })
-                },
                 {
                     test: /runtime-info\.js$/, loader: StringReplacePlugin.replace({
                         replacements: [
@@ -70,7 +71,6 @@ function config(grunt) {
                 },
                 {test: /baron(\.min)?\.js$/, loader: 'exports-loader?baron; delete window.baron;'},
                 {test: /pikaday\.js$/, loader: 'uglify-loader'},
-                {test: /handlebars/, loader: 'strip-sourcemap-loader'},
                 {
                     test: /\.js$/, exclude: /(node_modules)/, loader: 'babel-loader',
                     query: {presets: ['@babel/preset-env'], cacheDirectory: true}
@@ -108,7 +108,6 @@ function config(grunt) {
         plugins: [
             new webpack.BannerPlugin('keeweb v' + pkg.version + ', (c) ' + year + ' ' + pkg.author.name +
                 ', opensource.org/licenses/' + pkg.license),
-            new webpack.ProvidePlugin({_: 'underscore', $: 'jquery'}),
             new webpack.IgnorePlugin(/^(moment)$/),
             new StringReplacePlugin()
         ],
@@ -139,10 +138,13 @@ function devServerConfig(grunt) {
         devtool: 'source-map'
     });
     Object.assign(devServerConfig.resolve.alias, {
-        backbone: 'backbone/backbone.js',
-        underscore: 'underscore/underscore.js',
-        _: 'underscore/underscore.js',
-        jquery: 'jquery/dist/jquery.js',
+        react: 'preact-compat/dist/preact-compat.js',
+        preact: 'preact/dist/preact.js',
+        'react-dom': 'preact-compat/dist/preact-compat.js',
+        redux: 'redux/dist/redux.js',
+        'redux-thunk': 'redux-thunk/dist/redux-thunk.js',
+        'react-redux': 'preact-redux/dist/preact-redux.js',
+        'preact-redux': 'preact-redux/dist/preact-redux.js',
         baron: 'baron/baron.js',
         qrcode: 'jsqrcode/dist/qrcode.js',
         argon2: 'argon2-browser/dist/argon2.js'
