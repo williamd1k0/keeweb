@@ -49,6 +49,7 @@
       "impliedStrict": true
     }
   },
+  "parser": "babel-eslint",
   "globals": {
   },
   "env": {

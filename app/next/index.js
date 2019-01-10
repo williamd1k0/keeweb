@@ -1,9 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import App from './components/App';
 
 document.addEventListener('DOMContentLoaded', () => {
     ReactDOM.render(
-        <div className="app th-fb">Hello, world!</div>,
+        <App/>,
         document.body
     );
 });
