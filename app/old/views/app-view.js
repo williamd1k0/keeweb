@@ -156,7 +156,7 @@ const AppView = Backbone.View.extend({
         this.hideSettings();
         this.hideOpenFile();
         this.hideKeyChange();
-        this.views.open = new OpenView({ model: this.model });
+        this.views.add = new OpenView({ model: this.model });
         this.views.open.setElement(this.$el.find('.app__body')).render();
         this.views.open.on('close', this.showEntries, this);
     },
@@ -201,7 +201,7 @@ const AppView = Backbone.View.extend({
     hideOpenFile: function() {
         if (this.views.open) {
             this.views.open.remove();
-            this.views.open = null;
+            this.views.add = null;
         }
     },
 

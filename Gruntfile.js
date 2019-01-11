@@ -144,7 +144,7 @@ module.exports = function(grunt) {
             }
         },
         eslint: {
-            app: ['app/next/**/*.js'],
+            app: ['app/scripts/**/*.js'],
             desktop: ['desktop/**/*.js', '!desktop/node_modules/**'],
             grunt: ['Gruntfile.js', 'grunt/**/*.js']
         },

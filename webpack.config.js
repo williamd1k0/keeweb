@@ -19,8 +19,7 @@ function config(grunt) {
         entry: {
             app: 'index',
             vendor: [
-                'redux', 'redux-thunk', 'reselect',
-                'preact', 'preact-redux', 'prop-types',
+                'redux', 'redux-thunk', 'reselect', 'preact', 'preact-redux',
                 'kdbxweb', 'baron', 'pikaday', 'jsqrcode', 'argon2-wasm', 'argon2'
             ]
         },
@@ -40,15 +39,11 @@ function config(grunt) {
         progress: false,
         failOnError: true,
         resolve: {
-            modules: [path.join(__dirname, 'app/next'), path.join(__dirname, 'node_modules')],
+            modules: [path.join(__dirname, 'app/scripts'), path.join(__dirname, 'node_modules')],
             alias: {
-                react: 'preact/dist/preact.min.js',
-                preact: 'preact/dist/preact.min.js',
-                'react-dom': 'preact/dist/preact.min.js',
-                redux: 'redux/dist/redux.min.js',
-                'redux-thunk': 'redux-thunk/dist/redux-thunk.min.js',
-                'react-redux': 'preact-redux/dist/preact-redux.min.js',
-                'preact-redux': 'preact-redux/dist/preact-redux.min.js',
+                react: 'preact',
+                'react-dom': 'preact',
+                'react-redux': 'preact-redux',
                 kdbxweb: 'kdbxweb/dist/kdbxweb.js',
                 baron: 'baron/baron.min.js',
                 pikaday: 'pikaday/pikaday.js',
@@ -138,13 +133,6 @@ function devServerConfig(grunt) {
         devtool: 'source-map'
     });
     Object.assign(devServerConfig.resolve.alias, {
-        react: 'preact/dist/preact.js',
-        preact: 'preact/dist/preact.js',
-        'react-dom': 'preact/dist/preact.js',
-        redux: 'redux/dist/redux.js',
-        'redux-thunk': 'redux-thunk/dist/redux-thunk.js',
-        'react-redux': 'preact-redux/dist/preact-redux.js',
-        'preact-redux': 'preact-redux/dist/preact-redux.js',
         baron: 'baron/baron.js',
         qrcode: 'jsqrcode/dist/qrcode.js',
         argon2: 'argon2-browser/dist/argon2.js'
