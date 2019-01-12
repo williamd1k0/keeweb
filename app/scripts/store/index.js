@@ -1,13 +1,15 @@
 import { createStore, combineReducers } from 'redux';
 import buildReducer from '../util/build-reducer';
 import env from './env';
+import files from './runtime';
+import runtime from './files';
 import settings from './settings';
-import files from './files';
 
 const reducers = {
     env,
-    settings,
     files,
+    runtime,
+    settings,
 };
 
 for (const key of Object.keys(reducers)) {

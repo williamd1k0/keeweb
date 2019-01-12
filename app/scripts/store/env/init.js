@@ -1,7 +1,7 @@
 const MobileRegex = /iPhone|iPad|iPod|Android|BlackBerry|Opera Mini|IEMobile|WPDesktop|Windows Phone|webOS/i;
 const MinDesktopScreenWidth = 800;
 
-const runtime = {
+const meta = {
     version: '@@VERSION',
     buildDate: '@@DATE',
     commit: '@@COMMIT',
@@ -11,7 +11,7 @@ const runtime = {
 const isDesktop = !!(global.process && global.process.versions && global.process.versions.electron);
 
 const state = {
-    runtime,
+    meta,
     isDesktop: isDesktop,
     isMac: navigator.platform.indexOf('Mac') >= 0,
     isWindows: navigator.platform.indexOf('Win') >= 0,
