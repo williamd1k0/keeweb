@@ -5,9 +5,9 @@ import App from './containers/App';
 import startup from './logic/app/startup';
 import store from './store';
 
-store.dispatch(startup());
-
 document.addEventListener('DOMContentLoaded', () => {
+    store.dispatch(startup());
+
     ReactDOM.render(
         <Provider store={store}>
             <App />
