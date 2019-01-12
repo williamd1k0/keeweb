@@ -2,12 +2,15 @@ import React from 'react';
 import BetaWarning from './BetaWarning';
 import PropTypes from 'prop-types';
 
-const App = ({ env }) => (
-    <div className="app th-fb">{!!env.beta && <BetaWarning />}</div>
+const App = ({ env, settings }) => (
+    <div className={`app th-${settings.theme}`}>
+        {!!env.beta && <BetaWarning />}
+    </div>
 );
 
 App.propTypes = {
-    env: PropTypes.element.isRequired,
+    env: PropTypes.object.isRequired,
+    settings: PropTypes.object.isRequired,
 };
 
 export default App;
