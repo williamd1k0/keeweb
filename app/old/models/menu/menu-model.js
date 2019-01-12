@@ -53,13 +53,11 @@ const MenuModel = Backbone.Model.extend({
             },
         ]);
         Colors.AllColors.forEach(color => {
-            this.colorsSection
-                .get('items')
-                .models[0].addOption({
-                    cls: 'fa ' + color + '-color',
-                    value: color,
-                    filterValue: color,
-                });
+            this.colorsSection.get('items').models[0].addOption({
+                cls: 'fa ' + color + '-color',
+                value: color,
+                filterValue: color,
+            });
         });
         this.menus.app = new MenuSectionCollection([
             this.allItemsSection,
