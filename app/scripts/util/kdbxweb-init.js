@@ -1,5 +1,7 @@
-const kdbxweb = require('kdbxweb');
-const Logger = require('../util/logger');
+import kdbxweb from 'kdbxweb';
+import argon2LoaderCode from 'argon2';
+import wasmBinaryBase64 from 'argon2-wasm';
+import Logger from './logger';
 
 const logger = new Logger('argon2');
 
@@ -30,8 +32,6 @@ const KdbxwebInit = {
             const loadTimeout = setTimeout(() => reject('timeout'), 5000);
             try {
                 const ts = logger.ts();
-                const argon2LoaderCode = require('argon2');
-                const wasmBinaryBase64 = require('argon2-wasm');
 
                 const KB = 1024 * 1024;
                 const MB = 1024 * KB;
@@ -167,4 +167,4 @@ const KdbxwebInit = {
     },
 };
 
-module.exports = KdbxwebInit;
+export default KdbxwebInit;

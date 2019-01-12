@@ -1,6 +1,6 @@
-const Logger = require('./logger');
-const publicKey = require('raw-loader!../../resources/public-key.pem');
-const kdbxweb = require('kdbxweb');
+import kdbxweb from 'kdbxweb';
+import publicKey from 'raw-loader!../../resources/public-key.pem';
+import Logger from './logger';
 
 const SignatureVerifier = {
     logger: new Logger('signature-verifier'),
@@ -85,4 +85,4 @@ const SignatureVerifier = {
     },
 };
 
-module.exports = SignatureVerifier;
+export default SignatureVerifier;

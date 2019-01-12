@@ -51,7 +51,10 @@
   },
   "parser": "babel-eslint",
   "globals": {
-    "global": true
+    "global": true,
+    "Promise": true,
+    "Uint8Array": true,
+    "DataView": true
   },
   "env": {
     "browser": true

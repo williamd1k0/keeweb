@@ -1,5 +1,6 @@
-const kdbxweb = require('kdbxweb');
-const phonetic = require('./phonetic');
+import kdbxweb from 'kdbxweb';
+import phonetic from './phonetic';
+import shuffle from 'lodash/shuffle';
 
 const PasswordGenerator = {
     charRanges: {
@@ -44,7 +45,7 @@ const PasswordGenerator = {
             const rand = Math.round(Math.random() * 1000) + randomBytes[i];
             chars.push(range[rand % range.length]);
         }
-        return _.shuffle(chars).join('');
+        return shuffle(chars).join('');
     },
 
     generateMac: function() {
@@ -101,11 +102,11 @@ const PasswordGenerator = {
             password.forEachChar(ch => {
                 length++;
                 ch = String.fromCharCode(ch);
-                _.forEach(charRanges, (chars, range) => {
+                for (const [chars, range] of Object.entries(charRanges)) {
                     if (chars.indexOf(ch) >= 0) {
                         opts[range] = true;
                     }
-                });
+                }
             });
         }
         opts.length = length;
@@ -117,4 +118,4 @@ const PasswordGenerator = {
     },
 };
 
-module.exports = PasswordGenerator;
+export default PasswordGenerator;

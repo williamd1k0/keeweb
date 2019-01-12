@@ -1,4 +1,4 @@
-const Colors = require('../const/colors');
+import Colors from '../const/colors';
 
 const KnownColors = {};
 
@@ -103,13 +103,13 @@ Color.getNearest = function(colorStr) {
     }
     let selected = null,
         minDistance = Number.MAX_VALUE;
-    _.forEach(KnownColors, (col, name) => {
+    for (const [col, name] of Object.entries(KnownColors)) {
         const distance = color.distanceTo(col);
         if (distance < minDistance) {
             minDistance = distance;
             selected = name;
         }
-    });
+    }
     return selected;
 };
 
@@ -117,9 +117,9 @@ Color.getKnownBgColor = function(knownColor) {
     return Colors.BgColors[knownColor] ? '#' + Colors.BgColors[knownColor] : undefined;
 };
 
-_.forEach(Colors.ColorsValues, (val, name) => {
+for (const [val, name] of Object.entries(Colors.ColorsValues)) {
     KnownColors[name] = new Color(val);
-});
+}
 
 Color.black = new Color('#000');
 
@@ -128,4 +128,4 @@ function hex(num) {
     return str.length < 2 ? '0' + str : str;
 }
 
-module.exports = Color;
+export default Color;

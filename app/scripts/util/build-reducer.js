@@ -1,4 +1,4 @@
-function buildReducer(name, modules) {
+export default function buildReducer(name, modules) {
     const reducers = {};
     for (const [moduleName, module] of Object.entries(modules)) {
         if (moduleName !== 'init' && !module.action) {
@@ -18,5 +18,3 @@ function buildReducer(name, modules) {
         return reducer(state, action);
     };
 }
-
-export default buildReducer;
