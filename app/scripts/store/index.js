@@ -1,13 +1,15 @@
 import { createStore, combineReducers } from 'redux';
 import buildReducer from '../util/build-reducer';
 import env from './env';
-import files from './runtime';
-import runtime from './files';
+import locale from './locale';
+import files from './files';
+import runtime from './runtime';
 import settings from './settings';
 
 const reducers = {
     env,
     files,
+    locale,
     runtime,
     settings,
 };

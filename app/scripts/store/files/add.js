@@ -1,7 +1,7 @@
-export const action = 'files/add';
+export const type = 'files/add';
 
-export default function add() {
-    return { type: action, name: 'xxx' };
+export default function add(name) {
+    return { type, name };
 }
 
 export function reducer(state, action) {
