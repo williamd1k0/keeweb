@@ -9,6 +9,7 @@ const KeyHandler = {
 
     shortcuts: {},
     modal: false,
+    keyPressHandlers: [],
 
     init: function() {
         document.addEventListener('keypress', e => this.keypress(e));
@@ -16,33 +17,35 @@ const KeyHandler = {
 
         this.shortcuts[Keys.DOM_VK_A] = [
             {
-                handler: this.handleAKey,
-                thisArg: this,
+                handler: e => this.handleAKey(e),
                 shortcut: this.SHORTCUT_ACTION,
                 modal: true,
                 noPrevent: true,
             },
         ];
     },
-    onKey: function(key, handler, thisArg, shortcut, modal, noPrevent) {
+    onKey: function(key, handler, shortcut, modal, noPrevent) {
         let keyShortcuts = this.shortcuts[key];
         if (!keyShortcuts) {
             this.shortcuts[key] = keyShortcuts = [];
         }
         keyShortcuts.push({
             handler: handler,
-            thisArg: thisArg,
             shortcut: shortcut,
             modal: modal,
             noPrevent: noPrevent,
         });
     },
-    offKey: function(key, handler, thisArg) {
+    offKey: function(key, handler) {
         if (this.shortcuts[key]) {
-            this.shortcuts[key] = this.shortcuts[key].map(sh => {
-                return !(sh.handler === handler && sh.thisArg === thisArg);
-            });
+            this.shortcuts[key] = this.shortcuts[key].filter(sh => sh.handler !== handler);
         }
+    },
+    onKeyPress: function(modal, handler) {
+        this.keyPressHandlers.push({ modal, handler });
+    },
+    offKeyPress: function(modal, handler) {
+        this.keyPressHandlers = this.keyPressHandlers.filter(kp => kp.handler !== handler);
     },
     setModal: function(modal) {
         this.modal = modal;
@@ -83,7 +86,7 @@ const KeyHandler = {
                         }
                         break;
                 }
-                sh.handler.call(sh.thisArg, e, code);
+                sh.handler.call(undefined, e, code);
                 if (isActionKey && !sh.noPrevent) {
                     e.preventDefault();
                 }
@@ -95,7 +98,6 @@ const KeyHandler = {
     },
     keypress: function(e) {
         if (
-            !this.modal &&
             e.charCode !== Keys.DOM_VK_RETURN &&
             e.charCode !== Keys.DOM_VK_ESCAPE &&
             e.charCode !== Keys.DOM_VK_TAB &&
@@ -103,9 +105,11 @@ const KeyHandler = {
             !e.ctrlKey &&
             !e.metaKey
         ) {
-            this.trigger('keypress', e);
-        } else if (this.modal) {
-            this.trigger('keypress:' + this.modal, e);
+            for (const kph of this.keyPressHandlers) {
+                if (!this.modal || this.modal === kph.modal) {
+                    kph.handler.call(undefined, e);
+                }
+            }
         }
     },
     reg: function() {
