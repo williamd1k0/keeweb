@@ -7,8 +7,9 @@ import Open from '../containers/Open';
 const App = ({ env, settings }) => (
     <div className={`app th-${settings.theme}`}>
         {!!env.isBeta && <BetaWarning />}
-        <div className="app__body" />
-        <Open />
+        <div className="app__body">
+            <Open />
+        </div>
         <Footer />
     </div>
 );
