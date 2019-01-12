@@ -3,10 +3,9 @@ import App from '../components/App';
 
 const mapStateToProps = state => {
     return {
-        env: state.env
+        env: state.env,
+        settings: state.settings,
     };
 };
 
-export default connect(
-    mapStateToProps
-)(App);
+export default connect(mapStateToProps)(App);

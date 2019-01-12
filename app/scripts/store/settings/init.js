@@ -1,0 +1,48 @@
+const state = {
+    theme: 'fb',
+    locale: null,
+    expandGroups: true,
+    listViewWidth: null,
+    menuViewWidth: null,
+    tagsViewHeight: null,
+    autoUpdate: 'install',
+    clipboardSeconds: 0,
+    autoSave: true,
+    autoSaveInterval: 0,
+    rememberKeyFiles: false,
+    idleMinutes: 15,
+    minimizeOnClose: false,
+    tableView: false,
+    colorfulIcons: false,
+    titlebarStyle: 'default',
+    lockOnMinimize: true,
+    lockOnCopy: false,
+    lockOnAutoType: false,
+    lockOnOsLock: false,
+    helpTipCopyShown: false,
+    templateHelpShown: false,
+    skipOpenLocalWarn: false,
+    hideEmptyFields: false,
+    skipHttpsWarning: false,
+    demoOpened: false,
+    fontSize: 0,
+    tableViewColumns: null,
+    generatorPresets: null,
+    cacheConfigSettings: false,
+
+    canOpen: true,
+    canOpenDemo: true,
+    canOpenSettings: true,
+    canCreate: true,
+    canImportXml: true,
+    canRemoveLatest: true,
+
+    dropbox: true,
+    webdav: true,
+    gdrive: true,
+    onedrive: true,
+};
+
+export function reducer() {
+    return state;
+}

@@ -1,8 +1,6 @@
 import PropTypes from 'prop-types';
 
-const Res = ({ id, locale }) => (
-    locale[id]
-);
+const Res = ({ id, locale }) => locale[id];
 
 Res.propTypes = {
     id: PropTypes.string.isRequired,

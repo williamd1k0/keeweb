@@ -3,9 +3,7 @@ import BetaWarning from './BetaWarning';
 import PropTypes from 'prop-types';
 
 const App = ({ env }) => (
-    <div className="app th-fb">
-        {!!env.beta && <BetaWarning/>}
-    </div>
+    <div className="app th-fb">{!!env.beta && <BetaWarning />}</div>
 );
 
 App.propTypes = {

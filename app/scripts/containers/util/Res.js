@@ -12,10 +12,8 @@ const locales = {
 
 const mapStateToProps = state => {
     return {
-        locale: locales[state.env.locale] || base
+        locale: locales[state.settings.locale] || base,
     };
 };
 
-export default connect(
-    mapStateToProps
-)(Res);
+export default connect(mapStateToProps)(Res);
