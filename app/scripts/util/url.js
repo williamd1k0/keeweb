@@ -12,13 +12,13 @@ export function getDataFileName(url) {
 }
 
 export function isKdbx(url) {
-    return url && this.kdbxEndRegex.test(url);
+    return url && kdbxEndRegex.test(url);
 }
 
 export function fixSlashes(url) {
-    return url.replace(this.multiSlashRegex, '/');
+    return url.replace(multiSlashRegex, '/');
 }
 
 export function fileToDir(url) {
-    return url.replace(this.lastPartRegex, '') || '/';
+    return url.replace(lastPartRegex, '') || '/';
 }
