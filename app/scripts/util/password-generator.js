@@ -1,5 +1,5 @@
 import kdbxweb from 'kdbxweb';
-import phonetic from './phonetic';
+import phoneticGenerate from './phonetic';
 import shuffle from 'lodash/shuffle';
 
 const PasswordGenerator = {
@@ -73,7 +73,7 @@ const PasswordGenerator = {
     },
 
     generatePronounceable: function(opts) {
-        const pass = phonetic.generate({
+        const pass = phoneticGenerate({
             length: opts.length,
             seed: this.generateHash(1024),
         });
