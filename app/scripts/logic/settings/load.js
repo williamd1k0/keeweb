@@ -5,7 +5,7 @@ export default function settingsLoad() {
     return dispatch => {
         return SettingsStore.load('app-settings').then(data => {
             if (data) {
-                return dispatch(settingsUpdate(data));
+                return dispatch(settingsUpdate(data, { skipSave: true }));
             }
         });
     };
