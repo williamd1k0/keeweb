@@ -11,16 +11,6 @@ const KeyHandler = {
     init: function() {
         document.addEventListener('keypress', e => this.keypress(e));
         document.addEventListener('keydown', e => this.keydown(e));
-
-        // this.shortcuts[Keys.DOM_VK_A] = [
-        //     {
-        //         handler: this.handleAKey,
-        //         thisArg: this,
-        //         shortcut: this.SHORTCUT_ACTION,
-        //         modal: true,
-        //         noPrevent: true,
-        //     },
-        // ];
     },
     onKey: function(key, shortcut, modal, noPrevent, event, args) {
         store.dispatch(addKeyShortcut({ key, shortcut, modal, noPrevent, event, args }));
@@ -39,6 +29,9 @@ const KeyHandler = {
         const state = store.getState();
         const code = e.keyCode || e.which;
         const keyShortcuts = state.ui.shortcuts[code];
+        if (code === Keys.DOM_VK_A && this.isActionKey(e)) {
+            this.handleAKey(e);
+        }
         if (keyShortcuts && keyShortcuts.length) {
             for (const sh of keyShortcuts) {
                 if (this.modal && !sh.modal) {
