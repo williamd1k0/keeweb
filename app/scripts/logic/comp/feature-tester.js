@@ -1,5 +1,5 @@
-const kdbxweb = require('kdbxweb');
-const FeatureDetector = require('../util/feature-detector');
+import kdbxweb from 'kdbxweb';
+import Launcher from './launcher';
 
 const FeatureTester = {
     test() {
@@ -51,7 +51,7 @@ const FeatureTester = {
     },
 
     checkLocalStorage() {
-        if (FeatureDetector.isDesktop) {
+        if (Launcher) {
             return;
         }
         try {
@@ -63,4 +63,4 @@ const FeatureTester = {
     },
 };
 
-module.exports = FeatureTester;
+export default FeatureTester;

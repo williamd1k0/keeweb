@@ -1,5 +1,5 @@
 const state = {
-    view: 'open',
+    view: '',
 };
 
 export function reducer() {

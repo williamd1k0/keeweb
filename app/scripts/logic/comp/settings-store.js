@@ -1,6 +1,6 @@
-const Launcher = require('./launcher');
-const StringUtil = require('../util/string-util');
-const Logger = require('../util/logger');
+import Launcher from './launcher';
+import Logger from '../../util/logger';
+import camelCase from 'lodash/camelCase';
 
 const logger = new Logger('settings');
 
@@ -23,7 +23,7 @@ const SettingsStore = {
                     }
                 });
             } else {
-                const data = localStorage[StringUtil.camelCase(key)];
+                const data = localStorage[camelCase(key)];
                 return this.parseData(key, data, resolve);
             }
         });
@@ -54,11 +54,11 @@ const SettingsStore = {
                     resolve();
                 });
             } else if (typeof localStorage !== 'undefined') {
-                localStorage[StringUtil.camelCase(key)] = JSON.stringify(data);
+                localStorage[camelCase(key)] = JSON.stringify(data);
                 resolve();
             }
         });
     },
 };
 
-module.exports = SettingsStore;
+export default SettingsStore;
