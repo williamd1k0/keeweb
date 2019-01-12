@@ -5,13 +5,16 @@ import Res from '../containers/util/Res';
 class Open extends React.Component {
     propTypes = {
         locale: PropTypes.object.isRequired,
+        files: PropTypes.array.isRequired,
         firstRow: PropTypes.array.isRequired,
         secondRow: PropTypes.array.isRequired,
         secondRowVisible: PropTypes.bool,
         canOpen: PropTypes.bool,
         canOpenKeyFromDropbox: PropTypes.bool,
+        canRemoveLatest: PropTypes.bool,
         onClick: PropTypes.func.isRequired,
-        onFileChange: PropTypes.func.isRequired,
+        onFileInputChange: PropTypes.func.isRequired,
+        onFileClick: PropTypes.func.isRequired,
     };
     onButtonClick = e => {
         const id = e.target.closest('[data-id]').dataset.id;
@@ -25,6 +28,10 @@ class Open extends React.Component {
                 this.props.onClick({ button: id });
         }
     };
+    onFileClick = e => {
+        const id = e.target.closest('[data-id]').dataset.id;
+        this.props.onFileClick({ id });
+    };
     passInputClick = e => {
         if (e.target.readOnly) {
             this.setState({ button: 'open' });
@@ -35,14 +42,16 @@ class Open extends React.Component {
         const file = e.target.files[0];
         const button = this.state.button;
         this.fileInput.value = null;
-        this.props.onFileChange({ button, file });
+        this.props.onFileInputChange({ button, file });
     };
     render() {
         const {
             locale,
+            files,
             firstRow,
             secondRow,
             canOpen,
+            canRemoveLatest,
             canOpenKeyFromDropbox,
             secondRowVisible,
         } = this.props;
@@ -111,9 +120,9 @@ class Open extends React.Component {
                             placeholder={canOpen ? locale.openClickToOpen : ''}
                             onClick={this.passInputClick}
                             readOnly
-                            tabIndex="13"
+                            tabIndex={++ix}
                         />
-                        <div className="open__pass-enter-btn" tabIndex="14">
+                        <div className="open__pass-enter-btn" tabIndex={++ix}>
                             <i className="fa fa-level-down fa-rotate-90" />
                         </div>
                         <div className="open__pass-opening-icon">
@@ -121,7 +130,7 @@ class Open extends React.Component {
                         </div>
                     </div>
                     <div className="open__settings">
-                        <div className="open__settings-key-file hide" tabIndex="15">
+                        <div className="open__settings-key-file hide" tabIndex={++ix}>
                             <i className="fa fa-key open__settings-key-file-icon" />
                             <span className="open__settings-key-file-name">
                                 {' '}
@@ -136,14 +145,29 @@ class Open extends React.Component {
                         </div>
                     </div>
                     <div className="open__last">
-                        {/*{{#each lastOpenFiles as |file|}}*/}
-                        {/*<div className="open__last-item" data-id="{{file.id}}" title="{{file.path}}" tabindex="{{add @index 16}}">*/}
-                        {/*{{#if file.icon}}<i className="fa fa-{{file.icon}} open__last-item-icon"></i>{{/if}}*/}
-                        {/*{{#if file.iconSvg}}<div className="open__last-item-icon open__last-item-icon--svg">{{{file.iconSvg}}}</div>{{/if}}*/}
-                        {/*<span className="open__last-item-text">{{ file.name }}</span>*/}
-                        {/*{{#if ../canRemoveLatest}}<i className="fa fa-times open__last-item-icon-del"></i>{{/if}}*/}
-                        {/*</div>*/}
-                        {/*{{/each}}*/}
+                        {files.map(file => (
+                            <div
+                                className="open__last-item"
+                                key={file.id}
+                                data-id={file.id}
+                                title={file.path}
+                                tabIndex={++ix}
+                                onClick={this.onFileClick}
+                            >
+                                {!!file.icon && (
+                                    <i className={`fa fa-${file.icon} open__last-item-icon`} />
+                                )}
+                                {!!file.iconSvg && (
+                                    <div className="open__last-item-icon open__last-item-icon--svg">
+                                        {file.iconSvg}
+                                    </div>
+                                )}
+                                <span className="open__last-item-text">{file.name}</span>
+                                {!!canRemoveLatest && (
+                                    <i className="fa fa-times open__last-item-icon-del" />
+                                )}
+                            </div>
+                        ))}
                     </div>
                 </div>
             </div>

@@ -8,7 +8,9 @@ const mapStateToProps = state => {
     return {
         secondRowVisible: state.uiOpen.secondRowVisible,
         locale: state.locale,
+        files: state.files,
         canOpen: state.settings.canOpen,
+        canRemoveLatest: state.settings.canRemoveLatest,
         canOpenKeyFromDropbox: false,
         ...getOpenRows(state),
     };
@@ -24,7 +26,8 @@ const mapDispatchToProps = dispatch => {
                     return dispatch(uiSetView('settings'));
             }
         },
-        onFileChange(e) {
+        onFileClick() {},
+        onFileInputChange(e) {
             switch (e.button) {
                 case 'open':
                     // dispatch(openFile(e.file));
