@@ -83,7 +83,7 @@ export default function settingsLoadRemoteConfig() {
         }
 
         function applyConfig(config) {
-            dispatch(updateSettings(config.settings, { skipSave: true }));
+            dispatch(updateSettings(config.settings));
         }
     };
 }
