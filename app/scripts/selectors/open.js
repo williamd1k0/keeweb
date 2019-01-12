@@ -3,6 +3,11 @@ import { createSelector } from 'reselect';
 const getSettings = state => state.settings;
 const getRuntime = state => state.runtime;
 
+export const getStorageProviders = createSelector(
+    [getSettings],
+    settings => {}
+);
+
 export const getOpenRows = createSelector(
     [getSettings, getRuntime],
     (settings, runtime) => {

@@ -7,7 +7,7 @@ const Colors = {
         red: 'ff0000',
         orange: 'ff8800',
         blue: '0000ff',
-        violet: 'ff00ff'
+        violet: 'ff00ff',
     },
 
     BgColors: {
@@ -16,8 +16,8 @@ const Colors = {
         red: 'ff8888',
         orange: 'ffcc88',
         blue: '8888ff',
-        violet: 'ff88ff'
-    }
+        violet: 'ff88ff',
+    },
 };
 
-module.exports = Colors;
+export default Colors;

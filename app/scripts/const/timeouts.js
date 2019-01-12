@@ -11,7 +11,7 @@ const Timeouts = {
     RedrawInactiveWindow: 50,
     PopupWaitTime: 1000,
     AutoUpdatePluginsAfterStart: 500,
-    LinkDownloadRevoke: 10 * 1000 * 60
+    LinkDownloadRevoke: 10 * 1000 * 60,
 };
 
-module.exports = Timeouts;
+export default Timeouts;

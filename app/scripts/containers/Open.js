@@ -9,7 +9,10 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         onClick(e) {
-            console.log('click', e.id);
+            console.log('onClick', e);
+        },
+        onFileChange(e) {
+            console.log('onFileChange', e);
         },
     };
 };

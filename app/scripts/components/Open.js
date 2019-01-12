@@ -7,6 +7,7 @@ class Open extends React.Component {
         firstRow: PropTypes.array.isRequired,
         secondRow: PropTypes.array.isRequired,
         onClick: PropTypes.func.isRequired,
+        onFileChange: PropTypes.func.isRequired,
     };
     constructor(props) {
         super(props);
@@ -17,8 +18,21 @@ class Open extends React.Component {
     };
     onButtonClick = e => {
         const id = e.target.closest('[data-id]').dataset.id;
-        const { onClick } = this.props;
-        onClick({ id });
+        switch (id) {
+            case 'open':
+            case 'import-xml':
+                this.setState({ button: id });
+                this.fileInput.click();
+                return;
+            default:
+                this.props.onClick({ button: id });
+        }
+    };
+    fileInputChange = e => {
+        const files = e.target.files;
+        const button = this.state.button;
+        this.fileInput.value = null;
+        this.props.onFileChange({ button, files });
     };
     render() {
         const { firstRow, secondRow } = this.props;
@@ -26,6 +40,12 @@ class Open extends React.Component {
         let ix = 0;
         return (
             <div className="open">
+                <input
+                    type="file"
+                    className="open__file-ctrl hide-by-pos"
+                    ref={node => (this.fileInput = node)}
+                    onChange={this.fileInputChange}
+                />
                 <div className="open__icons">
                     {firstRow.map(item => (
                         <div
