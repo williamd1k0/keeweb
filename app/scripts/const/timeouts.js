@@ -12,6 +12,7 @@ const Timeouts = {
     PopupWaitTime: 1000,
     AutoUpdatePluginsAfterStart: 500,
     LinkDownloadRevoke: 10 * 1000 * 60,
+    AlertHide: 100,
 };
 
 export default Timeouts;

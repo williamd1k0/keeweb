@@ -1,9 +1,10 @@
 import Logger from '../../util/logger';
 import FeatureTester from '../comp/feature-tester';
 import ExportApi from '../comp/export-api';
-import uiSetView from '../../store/ui/set-view';
+import showAlert from '../ui/show-alert';
 import settingsLoad from '../settings/load';
 import runtimeLoad from '../runtime/load';
+import uiSetView from '../../store/ui/set-view';
 import { UiViewOpen } from '../../store/ui';
 
 export default function startup() {
@@ -69,16 +70,20 @@ export default function startup() {
 
         function ensureCanRun() {
             return FeatureTester.test().catch(e => {
-                // TODO
-                // Alerts.error({
-                //     header: Locale.appSettingsError,
-                //     body: Locale.appNotSupportedError + '<br/><br/>' + e,
-                //     buttons: [],
-                //     esc: false,
-                //     enter: false,
-                //     click: false,
-                // });
-                // throw 'Feature testing failed: ' + e;
+                dispatch(
+                    showAlert({
+                        icon: 'exclamation-circle',
+                        header: 'appSettingsError',
+                        body: 'appNotSupportedError',
+                        error: e,
+                        buttons: [],
+                        esc: false,
+                        enter: false,
+                        click: false,
+                        opaque: true,
+                    })
+                );
+                throw 'Feature testing failed: ' + e;
             });
         }
 
@@ -89,23 +94,19 @@ export default function startup() {
                 const protocolIsInsecure =
                     ['https:', 'file:', 'app:'].indexOf(location.protocol) < 0;
                 const hostIsInsecure = location.hostname !== 'localhost';
-                if (protocolIsInsecure && hostIsInsecure && !skipHttpsWarning) {
-                    return new Promise(resolve => {
-                        // TODO
-                        // Alerts.error({
-                        //     header: Locale.appSecWarn,
-                        //     icon: 'user-secret',
-                        //     esc: false,
-                        //     enter: false,
-                        //     click: false,
-                        //     body: Locale.appSecWarnBody1 + '<br/><br/>' + Locale.appSecWarnBody2,
-                        //     buttons: [{ result: '', title: Locale.appSecWarnBtn, error: true }],
-                        //     complete: () => {
-                        //         showView();
-                        //         resolve();
-                        //     },
-                        // });
-                    });
+                if ((protocolIsInsecure && hostIsInsecure && !skipHttpsWarning) || 1) {
+                    return dispatch(
+                        showAlert({
+                            preset: 'error',
+                            header: 'appSecWarn',
+                            icon: 'user-secret',
+                            esc: false,
+                            enter: false,
+                            click: false,
+                            body: ['appSecWarnBody1', 'appSecWarnBody2'],
+                            buttons: [{ result: '', title: 'appSecWarnBtn', error: true }],
+                        })
+                    ).then(() => showView());
                 } else {
                     showView();
                 }
