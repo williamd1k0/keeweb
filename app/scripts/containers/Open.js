@@ -3,7 +3,12 @@ import { getOpenRows } from '../selectors/open';
 import Open from '../components/Open';
 
 const mapStateToProps = state => {
-    return { ...getOpenRows(state) };
+    return {
+        locale: state.locale,
+        canOpen: state.settings.canOpen,
+        canOpenKeyFromDropbox: false,
+        ...getOpenRows(state),
+    };
 };
 
 const mapDispatchToProps = dispatch => {
