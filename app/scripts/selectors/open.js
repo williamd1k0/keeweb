@@ -41,6 +41,8 @@ export const getOpenRows = createSelector(
             if (secondRow.length === 1) {
                 firstRow.push(...secondRow);
                 secondRow.length = 0;
+            } else {
+                firstRow.push({ id: 'more', icon: 'ellipsis-h', res: 'openMore' });
             }
         }
 

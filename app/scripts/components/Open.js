@@ -12,7 +12,6 @@ class Open extends React.Component {
         canOpenKeyFromDropbox: PropTypes.bool,
         onClick: PropTypes.func.isRequired,
         onFileChange: PropTypes.func.isRequired,
-        onMoreClick: PropTypes.func.isRequired,
     };
     onButtonClick = e => {
         const id = e.target.closest('[data-id]').dataset.id;
@@ -46,7 +45,6 @@ class Open extends React.Component {
             canOpen,
             canOpenKeyFromDropbox,
             secondRowVisible,
-            onMoreClick,
         } = this.props;
         let ix = 0;
         return (
@@ -72,19 +70,6 @@ class Open extends React.Component {
                             </div>
                         </div>
                     ))}
-                    {secondRow.length > 0 && (
-                        <div
-                            key="more"
-                            className={`open__icon open__icon-more`}
-                            tabIndex={++ix}
-                            onClick={onMoreClick}
-                        >
-                            <i className={`fa fa-ellipsis-h open__icon-i`} />
-                            <div className="open__icon-text">
-                                <Res id="openMore" />
-                            </div>
-                        </div>
-                    )}
                 </div>
                 {!!secondRowVisible && (
                     <div className="open__icons open__icons--lower">

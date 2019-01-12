@@ -4,6 +4,7 @@ import ExportApi from '../comp/export-api';
 import uiSetView from '../../store/ui/set-view';
 import settingsLoad from '../settings/load';
 import runtimeLoad from '../runtime/load';
+import { UiViewOpen } from '../../store/ui';
 
 export default function startup() {
     return (dispatch, getState) => {
@@ -112,7 +113,7 @@ export default function startup() {
         }
 
         function showView() {
-            dispatch(uiSetView('open'));
+            dispatch(uiSetView(UiViewOpen));
             logStartupTime();
         }
 
