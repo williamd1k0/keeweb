@@ -24,7 +24,9 @@ const privateKeyPath = args
 const signerModule = args
     .filter(arg => arg.startsWith('--signer-module='))
     .map(arg => arg.replace('--signer-module=', ''))[0];
-const serverPort = args.filter(arg => arg.startsWith('--port=')).map(arg => arg.replace('--port=', ''))[0];
+const serverPort = args
+    .filter(arg => arg.startsWith('--port='))
+    .map(arg => arg.replace('--port=', ''))[0];
 
 showBanner();
 
@@ -93,7 +95,10 @@ function signPlugin(packageName) {
                 if (bumpVersion) {
                     manifest.version = manifest.version.replace(/\d+$/, v => +v + 1);
                 }
-                fs.writeFileSync(path.join(packageName, 'manifest.json'), JSON.stringify(manifest, null, 2));
+                fs.writeFileSync(
+                    path.join(packageName, 'manifest.json'),
+                    JSON.stringify(manifest, null, 2)
+                );
                 console.log('Done, package manifest updated');
             } else {
                 console.log('No changes');
@@ -110,7 +115,10 @@ function signResource(packageName, fileName) {
     if (signerModule) {
         return require(signerModule)(data);
     } else {
-        const privateKey = fs.readFileSync(privateKeyPath || path.join(packageName, 'private_key.pem'), 'binary');
+        const privateKey = fs.readFileSync(
+            privateKeyPath || path.join(packageName, 'private_key.pem'),
+            'binary'
+        );
         return Promise.resolve().then(() => {
             const sign = crypto.createSign('RSA-SHA256');
             sign.write(data);
@@ -157,9 +165,13 @@ function servePlugin(packageName) {
         } else {
             https.get('https://app.keeweb.info', kwRes => {
                 if (kwRes.statusCode !== 200) {
-                    console.error('Error loading https://app.keeweb.info: HTTP status ' + kwRes.statusCode);
+                    console.error(
+                        'Error loading https://app.keeweb.info: HTTP status ' + kwRes.statusCode
+                    );
                     res.writeHead(500);
-                    return res.end('Error loading https://app.keeweb.info: HTTP status ' + kwRes.statusCode);
+                    return res.end(
+                        'Error loading https://app.keeweb.info: HTTP status ' + kwRes.statusCode
+                    );
                 }
                 const data = [];
                 kwRes.on('data', chunk => data.push(chunk));
@@ -188,7 +200,10 @@ function servePlugin(packageName) {
     https
         .createServer(options, (req, res) => {
             console.log('GET', req.connection.remoteAddress, req.url);
-            const filePath = path.resolve(packageName, '.' + req.url.replace(/\.\./g, '').replace(/\?.*/, ''));
+            const filePath = path.resolve(
+                packageName,
+                '.' + req.url.replace(/\.\./g, '').replace(/\?.*/, '')
+            );
             const packagePath = path.resolve(packageName);
             if (!filePath.startsWith(packagePath)) {
                 res.writeHead(404);

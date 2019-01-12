@@ -182,7 +182,11 @@ const AppView = Backbone.View.extend({
     },
 
     updateApp: function() {
-        if (UpdateModel.instance.get('updateStatus') === 'ready' && !Launcher && !this.model.files.hasOpenFiles()) {
+        if (
+            UpdateModel.instance.get('updateStatus') === 'ready' &&
+            !Launcher &&
+            !this.model.files.hasOpenFiles()
+        ) {
             window.location.reload();
         }
     },
@@ -301,7 +305,9 @@ const AppView = Backbone.View.extend({
     },
 
     showFileSettings: function(e) {
-        const menuItem = this.model.menu.filesSection.get('items').find(item => item.get('file').cid === e.fileId);
+        const menuItem = this.model.menu.filesSection
+            .get('items')
+            .find(item => item.get('file').cid === e.fileId);
         if (this.views.settings) {
             if (this.views.settings.file === menuItem.get('file')) {
                 this.showEntries();
@@ -531,7 +537,10 @@ const AppView = Backbone.View.extend({
             if (--pendingCallbacks === 0) {
                 if (errorFiles.length && that.model.files.hasDirtyFiles()) {
                     if (!Alerts.alertDisplayed) {
-                        const alertBody = errorFiles.length > 1 ? Locale.appSaveErrorBodyMul : Locale.appSaveErrorBody;
+                        const alertBody =
+                            errorFiles.length > 1
+                                ? Locale.appSaveErrorBodyMul
+                                : Locale.appSaveErrorBody;
                         Alerts.error({
                             header: Locale.appSaveError,
                             body: alertBody + ' ' + errorFiles.join(', '),

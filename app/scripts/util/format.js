@@ -13,18 +13,18 @@ export function padStr(str, len) {
     return str;
 }
 
-export function dtStr(dt) {
+export function dtStr(dt, locale) {
     if (typeof dt === 'number') {
         dt = new Date(dt);
     }
     return dt
-        ? this.dStr(dt) +
+        ? dStr(dt, locale) +
               ' ' +
-              this.pad(dt.getHours(), 2) +
+              pad(dt.getHours(), 2) +
               ':' +
-              this.pad(dt.getMinutes(), 2) +
+              pad(dt.getMinutes(), 2) +
               ':' +
-              this.pad(dt.getSeconds(), 2)
+              pad(dt.getSeconds(), 2)
         : '';
 }
 
@@ -32,7 +32,9 @@ export function dStr(dt, locale) {
     if (typeof dt === 'number') {
         dt = new Date(dt);
     }
-    return dt ? dt.getDate() + ' ' + locale.monthsShort[dt.getMonth()] + ' ' + dt.getFullYear() : '';
+    return dt
+        ? dt.getDate() + ' ' + locale.monthsShort[dt.getMonth()] + ' ' + dt.getFullYear()
+        : '';
 }
 
 export function capFirst(str) {
@@ -49,14 +51,14 @@ export function dtStrFs(dt) {
     return dt
         ? dt.getFullYear() +
               '-' +
-              this.pad(dt.getMonth() + 1, 2) +
+              pad(dt.getMonth() + 1, 2) +
               '-' +
-              this.pad(dt.getDate(), 2) +
+              pad(dt.getDate(), 2) +
               'T' +
-              this.pad(dt.getHours(), 2) +
+              pad(dt.getHours(), 2) +
               '-' +
-              this.pad(dt.getMinutes(), 2) +
+              pad(dt.getMinutes(), 2) +
               '-' +
-              this.pad(dt.getSeconds(), 2)
+              pad(dt.getSeconds(), 2)
         : '';
 }

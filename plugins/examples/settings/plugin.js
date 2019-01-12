@@ -18,7 +18,10 @@ module.exports.getSettings = function() {
             name: 'MySel',
             label: 'Select setting',
             type: 'select',
-            options: [{ value: 'apple', label: 'Green apple' }, { value: 'banana', label: 'Yellow banana' }],
+            options: [
+                { value: 'apple', label: 'Green apple' },
+                { value: 'banana', label: 'Yellow banana' },
+            ],
             value: 'banana',
         },
         {

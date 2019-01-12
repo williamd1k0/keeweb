@@ -21,7 +21,34 @@ const GeneratorView = Backbone.View.extend({
         'click .gen__btn-refresh': 'newPass',
     },
 
-    valuesMap: [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 22, 24, 26, 28, 30, 32, 48, 64],
+    valuesMap: [
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        22,
+        24,
+        26,
+        28,
+        30,
+        32,
+        48,
+        64,
+    ],
 
     presets: null,
     preset: null,
@@ -36,8 +63,17 @@ const GeneratorView = Backbone.View.extend({
 
     render: function() {
         const canCopy = document.queryCommandSupported('copy');
-        const btnTitle = this.model.copy ? (canCopy ? Locale.alertCopy : Locale.alertClose) : Locale.alertOk;
-        this.renderTemplate({ btnTitle: btnTitle, opt: this.gen, presets: this.presets, preset: this.preset });
+        const btnTitle = this.model.copy
+            ? canCopy
+                ? Locale.alertCopy
+                : Locale.alertClose
+            : Locale.alertOk;
+        this.renderTemplate({
+            btnTitle: btnTitle,
+            opt: this.gen,
+            presets: this.presets,
+            preset: this.preset,
+        });
         this.resultEl = this.$el.find('.gen__result');
         this.$el.css(this.model.pos);
         this.generate();
@@ -46,7 +82,10 @@ const GeneratorView = Backbone.View.extend({
 
     createPresets: function() {
         this.presets = GeneratorPresets.enabled;
-        if (this.model.password && (!this.model.password.isProtected || this.model.password.byteLength)) {
+        if (
+            this.model.password &&
+            (!this.model.password.isProtected || this.model.password.byteLength)
+        ) {
             const derivedPreset = { name: 'Derived', title: Locale.genPresetDerived };
             _.extend(derivedPreset, PasswordGenerator.deriveOpts(this.model.password));
             this.presets.splice(0, 0, derivedPreset);

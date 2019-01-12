@@ -6,7 +6,11 @@ const FeatureDetector = {
         return this.isMac ? '⌥' : formatting ? '<span class="thin">alt + </span>' : 'alt-';
     },
     globalShortcutSymbol: function(formatting) {
-        return this.isMac ? '⌃⌥' : formatting ? '<span class="thin">shift+alt+</span>' : 'shift-alt-';
+        return this.isMac
+            ? '⌃⌥'
+            : formatting
+            ? '<span class="thin">shift+alt+</span>'
+            : 'shift-alt-';
     },
     globalShortcutIsLarge: function() {
         return !this.isMac;

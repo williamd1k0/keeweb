@@ -139,12 +139,22 @@ const SettingsGeneralView = Backbone.View.extend({
                             Format.dtStr(UpdateModel.instance.get('lastSuccessCheckDate'))
                         ) +
                         ': ' +
-                        Locale.setGenLastCheckVer.replace('{}', UpdateModel.instance.get('lastVersion'));
+                        Locale.setGenLastCheckVer.replace(
+                            '{}',
+                            UpdateModel.instance.get('lastVersion')
+                        );
                 }
                 return errMsg;
             case 'ok':
-                let msg = Locale.setGenCheckedAt + ' ' + Format.dtStr(UpdateModel.instance.get('lastCheckDate')) + ': ';
-                const cmp = SemVer.compareVersions(RuntimeInfo.version, UpdateModel.instance.get('lastVersion'));
+                let msg =
+                    Locale.setGenCheckedAt +
+                    ' ' +
+                    Format.dtStr(UpdateModel.instance.get('lastCheckDate')) +
+                    ': ';
+                const cmp = SemVer.compareVersions(
+                    RuntimeInfo.version,
+                    UpdateModel.instance.get('lastVersion')
+                );
                 if (cmp >= 0) {
                     msg += Locale.setGenLatestVer;
                 } else {
@@ -192,7 +202,9 @@ const SettingsGeneralView = Backbone.View.extend({
         const locale = e.target.value;
         if (locale === '...') {
             e.target.value = AppSettingsModel.instance.get('locale') || 'en';
-            this.appModel.menu.select({ item: this.appModel.menu.pluginsSection.get('items').first() });
+            this.appModel.menu.select({
+                item: this.appModel.menu.pluginsSection.get('items').first(),
+            });
             return;
         }
         AppSettingsModel.instance.set('locale', locale);
@@ -312,12 +324,16 @@ const SettingsGeneralView = Backbone.View.extend({
         if (storage) {
             storage.setEnabled(e.target.checked);
             AppSettingsModel.instance.set(storage.name, storage.enabled);
-            this.$el.find('.settings__general-' + storage.name).toggleClass('hide', !e.target.checked);
+            this.$el
+                .find('.settings__general-' + storage.name)
+                .toggleClass('hide', !e.target.checked);
         }
     },
 
     showAdvancedSettings: function() {
-        this.$el.find('.settings__general-show-advanced, .settings__general-advanced').toggleClass('hide');
+        this.$el
+            .find('.settings__general-show-advanced, .settings__general-advanced')
+            .toggleClass('hide');
         this.scrollToBottom();
     },
 
@@ -342,7 +358,9 @@ const SettingsGeneralView = Backbone.View.extend({
         if (this.views.logView) {
             this.views.logView.remove();
         }
-        this.views.logView = new SettingsLogsView({ el: this.$el.find('.settings__general-advanced') }).render();
+        this.views.logView = new SettingsLogsView({
+            el: this.$el.find('.settings__general-advanced'),
+        }).render();
         this.scrollToBottom();
     },
 

@@ -24,7 +24,9 @@ const tempUserDataPath = path.join(userDataDir, 'temp');
 const tempUserDataPathRand = Date.now().toString() + Math.random().toString();
 const systemNotificationIds = [];
 
-let htmlPath = process.argv.filter(arg => arg.startsWith('--htmlpath=')).map(arg => arg.replace('--htmlpath=', ''))[0];
+let htmlPath = process.argv
+    .filter(arg => arg.startsWith('--htmlpath='))
+    .map(arg => arg.replace('--htmlpath=', ''))[0];
 if (!htmlPath) {
     htmlPath = 'file://' + path.join(__dirname, 'index.html');
 }
@@ -396,15 +398,21 @@ function subscribePowerEvents() {
         emitBackboneEvent('power-monitor-resume');
     });
     if (process.platform === 'darwin') {
-        const id = electron.systemPreferences.subscribeNotification('com.apple.screenIsLocked', () => {
-            emitBackboneEvent('os-lock');
-        });
+        const id = electron.systemPreferences.subscribeNotification(
+            'com.apple.screenIsLocked',
+            () => {
+                emitBackboneEvent('os-lock');
+            }
+        );
         systemNotificationIds.push(id);
     }
 }
 
 function setEnv() {
-    if (process.platform === 'linux' && ['Pantheon', 'Unity:Unity7'].indexOf(process.env.XDG_CURRENT_DESKTOP) !== -1) {
+    if (
+        process.platform === 'linux' &&
+        ['Pantheon', 'Unity:Unity7'].indexOf(process.env.XDG_CURRENT_DESKTOP) !== -1
+    ) {
         // https://github.com/electron/electron/issues/9046
         process.env.XDG_CURRENT_DESKTOP = 'Unity';
     }
@@ -428,7 +436,10 @@ function restorePreferences() {
         const newProfilePath = path.join(tempUserDataPath, newProfile.dir);
         if (fs.existsSync(path.join(oldProfilePath, 'Cookies'))) {
             fs.mkdirSync(newProfilePath);
-            fs.renameSync(path.join(oldProfilePath, 'Cookies'), path.join(newProfilePath, 'Cookies'));
+            fs.renameSync(
+                path.join(oldProfilePath, 'Cookies'),
+                path.join(newProfilePath, 'Cookies')
+            );
         }
     }
 }
@@ -495,8 +506,10 @@ function coerceMainWindowPositionToConnectedDisplay() {
     // 160px width and 2/3s the title bar height should be enough that the user can grab it
     for (let i = 0; i < displays.length; ++i) {
         const workArea = displays[i].workArea;
-        const overlapWidth = Math.min(tbRight, workArea.x + workArea.width) - Math.max(tbLeft, workArea.x);
-        const overlapHeight = Math.min(tbBottom, workArea.y + workArea.height) - Math.max(tbTop, workArea.y);
+        const overlapWidth =
+            Math.min(tbRight, workArea.x + workArea.width) - Math.max(tbLeft, workArea.x);
+        const overlapHeight =
+            Math.min(tbBottom, workArea.y + workArea.height) - Math.max(tbTop, workArea.y);
         if (overlapWidth >= 160 && 3 * overlapHeight >= 2 * (tbBottom - tbTop)) return;
     }
     // If we get here, no display contains a big enough strip of the title bar

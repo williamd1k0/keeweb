@@ -56,7 +56,9 @@ class Open extends React.Component {
                             onClick={this.onButtonClick}
                         >
                             <i className={`fa fa-${item.icon} open__icon-i`} />
-                            <div className="open__icon-text">{item.text ? item.text : <Res id={item.res} />}</div>
+                            <div className="open__icon-text">
+                                {item.text ? item.text : <Res id={item.res} />}
+                            </div>
                         </div>
                     ))}
                     {secondRow.length > 0 && (
@@ -84,7 +86,9 @@ class Open extends React.Component {
                                 onClick={this.onButtonClick}
                             >
                                 <i className={`fa fa-${item.icon} open__icon-i`} />
-                                <div className="open__icon-text">{item.text ? item.text : <Res id={item.res} />}</div>
+                                <div className="open__icon-text">
+                                    {item.text ? item.text : <Res id={item.res} />}
+                                </div>
                             </div>
                         ))}
                     </div>

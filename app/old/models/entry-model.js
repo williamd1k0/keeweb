@@ -115,7 +115,9 @@ const EntryModel = Backbone.Model.extend({
         this.customIcon = null;
         this.customIconId = null;
         if (this.entry.customIcon) {
-            this.customIcon = IconUrl.toDataUrl(this.file.db.meta.customIcons[this.entry.customIcon]);
+            this.customIcon = IconUrl.toDataUrl(
+                this.file.db.meta.customIcons[this.entry.customIcon]
+            );
             this.customIconId = this.entry.customIcon.toString();
         }
     },
@@ -131,7 +133,8 @@ const EntryModel = Backbone.Model.extend({
     _buildAutoType: function() {
         this.autoTypeEnabled = this.entry.autoType.enabled;
         this.autoTypeObfuscation =
-            this.entry.autoType.obfuscation === kdbxweb.Consts.AutoTypeObfuscationOptions.UseClipboard;
+            this.entry.autoType.obfuscation ===
+            kdbxweb.Consts.AutoTypeObfuscationOptions.UseClipboard;
         this.autoTypeSequence = this.entry.autoType.defaultSequence;
         this.autoTypeWindows = this.entry.autoType.items.map(this._convertAutoTypeItem);
     },
@@ -202,8 +205,12 @@ const EntryModel = Backbone.Model.extend({
             !filter ||
             ((!filter.tagLower || this.searchTags.indexOf(filter.tagLower) >= 0) &&
                 (!filter.textLower ||
-                    (filter.advanced ? this.matchesAdv(filter) : this.searchText.indexOf(filter.textLower) >= 0)) &&
-                (!filter.color || (filter.color === true && this.searchColor) || this.searchColor === filter.color) &&
+                    (filter.advanced
+                        ? this.matchesAdv(filter)
+                        : this.searchText.indexOf(filter.textLower) >= 0)) &&
+                (!filter.color ||
+                    (filter.color === true && this.searchColor) ||
+                    this.searchColor === filter.color) &&
                 (!filter.autoType || this.autoTypeEnabled))
         );
     },

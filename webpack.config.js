@@ -74,7 +74,8 @@ function config(grunt) {
                             { pattern: /@@DATE/g, replacement: () => dt },
                             {
                                 pattern: /@@COMMIT/g,
-                                replacement: () => grunt.config.get('gitinfo.local.branch.current.shortSHA') || '',
+                                replacement: () =>
+                                    grunt.config.get('gitinfo.local.branch.current.shortSHA') || '',
                             },
                         ],
                     }),
