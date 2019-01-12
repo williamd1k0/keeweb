@@ -4,14 +4,13 @@ import PropTypes from 'prop-types';
 import Footer from '../containers/Footer';
 import Open from '../containers/Open';
 import Alert from '../containers/Alert';
-import { UiViewOpen, UiViewSettings } from '../store/ui';
 
 const App = ({ view, isBeta, alert, theme }) => (
     <div className={`app th-${theme}`}>
         {!!isBeta && <BetaWarning />}
         <div className="app__body">
-            {view === UiViewOpen && <Open />}
-            {view === UiViewSettings && 'Settings...'}
+            {view === 'open' && <Open />}
+            {view === 'settings' && 'Settings...'}
         </div>
         <Footer />
         {!!alert && <Alert />}

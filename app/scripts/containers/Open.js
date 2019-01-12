@@ -1,7 +1,6 @@
 import { connect } from 'react-redux';
 import { getOpenRows } from '../selectors/open';
 import Open from '../components/Open';
-import { UiViewSettings } from '../store/ui';
 import uiSetView from '../store/ui/set-view';
 import toggleSecondRow from '../store/ui-open/toggle-second-row';
 
@@ -22,7 +21,7 @@ const mapDispatchToProps = dispatch => {
                 case 'more':
                     return dispatch(toggleSecondRow());
                 case 'settings':
-                    return dispatch(uiSetView(UiViewSettings));
+                    return dispatch(uiSetView('settings'));
             }
         },
         onFileChange(e) {

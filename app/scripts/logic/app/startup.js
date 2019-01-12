@@ -7,7 +7,6 @@ import showAlert from '../ui/show-alert';
 import settingsLoad from '../settings/load';
 import runtimeLoad from '../runtime/load';
 import uiSetView from '../../store/ui/set-view';
-import { UiViewOpen } from '../../store/ui';
 
 export default function startup() {
     return (dispatch, getState) => {
@@ -116,7 +115,7 @@ export default function startup() {
         }
 
         function showView() {
-            dispatch(uiSetView(UiViewOpen));
+            dispatch(uiSetView('open'));
             logStartupTime();
         }
 

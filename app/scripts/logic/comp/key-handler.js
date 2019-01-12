@@ -1,22 +1,48 @@
 import Keys from '../../const/keys';
-import store from '../../store';
 import IdleTracker from './idle-tracker';
-import { ShortcutAction, ShortcutOpt } from '../../store/ui';
-import addKeyShortcut from '../../store/ui/keys/add-key-shortcut';
-import removeKeyShortcut from '../../store/ui/keys/remove-key-shortcut';
 
 const shortcutKeyProp = navigator.platform.indexOf('Mac') >= 0 ? 'metaKey' : 'ctrlKey';
 
 const KeyHandler = {
+    SHORTCUT_ACTION: 1,
+    SHORTCUT_OPT: 2,
+
+    shortcuts: {},
+    modal: false,
+
     init: function() {
         document.addEventListener('keypress', e => this.keypress(e));
         document.addEventListener('keydown', e => this.keydown(e));
+
+        this.shortcuts[Keys.DOM_VK_A] = [
+            {
+                handler: this.handleAKey,
+                thisArg: this,
+                shortcut: this.SHORTCUT_ACTION,
+                modal: true,
+                noPrevent: true,
+            },
+        ];
     },
-    onKey: function(key, shortcut, modal, noPrevent, event, args) {
-        store.dispatch(addKeyShortcut({ key, shortcut, modal, noPrevent, event, args }));
+    onKey: function(key, handler, thisArg, shortcut, modal, noPrevent) {
+        let keyShortcuts = this.shortcuts[key];
+        if (!keyShortcuts) {
+            this.shortcuts[key] = keyShortcuts = [];
+        }
+        keyShortcuts.push({
+            handler: handler,
+            thisArg: thisArg,
+            shortcut: shortcut,
+            modal: modal,
+            noPrevent: noPrevent,
+        });
     },
-    offKey: function(key, event, arg) {
-        store.dispatch(removeKeyShortcut({ key, event, arg }));
+    offKey: function(key, handler, thisArg) {
+        if (this.shortcuts[key]) {
+            this.shortcuts[key] = this.shortcuts[key].map(sh => {
+                return !(sh.handler === handler && sh.thisArg === thisArg);
+            });
+        }
     },
     setModal: function(modal) {
         this.modal = modal;
@@ -26,12 +52,8 @@ const KeyHandler = {
     },
     keydown: function(e) {
         IdleTracker.regUserAction();
-        const state = store.getState();
         const code = e.keyCode || e.which;
-        const keyShortcuts = state.ui.shortcuts[code];
-        if (code === Keys.DOM_VK_A && this.isActionKey(e)) {
-            this.handleAKey(e);
-        }
+        const keyShortcuts = this.shortcuts[code];
         if (keyShortcuts && keyShortcuts.length) {
             for (const sh of keyShortcuts) {
                 if (this.modal && !sh.modal) {
@@ -40,17 +62,17 @@ const KeyHandler = {
                 }
                 const isActionKey = this.isActionKey(e);
                 switch (sh.shortcut) {
-                    case ShortcutAction:
+                    case this.SHORTCUT_ACTION:
                         if (!isActionKey) {
                             continue;
                         }
                         break;
-                    case ShortcutOpt:
+                    case this.SHORTCUT_OPT:
                         if (!e.altKey) {
                             continue;
                         }
                         break;
-                    case ShortcutAction + ShortcutOpt:
+                    case this.SHORTCUT_ACTION + this.SHORTCUT_OPT:
                         if (!e.altKey || !isActionKey) {
                             continue;
                         }
@@ -61,13 +83,7 @@ const KeyHandler = {
                         }
                         break;
                 }
-                if (sh.event) {
-                    const event = { type: sh.event };
-                    if (sh.arg) {
-                        event.arg = sh.arg;
-                    }
-                    store.dispatch(event);
-                }
+                sh.handler.call(sh.thisArg, e, code);
                 if (isActionKey && !sh.noPrevent) {
                     e.preventDefault();
                 }
@@ -87,9 +103,9 @@ const KeyHandler = {
             !e.ctrlKey &&
             !e.metaKey
         ) {
-            // this.trigger('keypress', e);
+            this.trigger('keypress', e);
         } else if (this.modal) {
-            // this.trigger('keypress:' + this.modal, e);
+            this.trigger('keypress:' + this.modal, e);
         }
     },
     reg: function() {
