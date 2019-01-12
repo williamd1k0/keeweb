@@ -1,6 +1,6 @@
 import { reducer as getDefaultSettings } from './init';
 
-export const type = 'settings/set';
+export const type = 'settings/set-settings';
 
 export default function(values) {
     return { type, values };

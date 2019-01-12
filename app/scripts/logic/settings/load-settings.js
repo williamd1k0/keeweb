@@ -1,11 +1,11 @@
 import SettingsStore from '../comp/settings-store';
-import settingsUpdate from './update';
+import updateSettings from './update-settings';
 
-export default function settingsLoad() {
+export default function loadSettings() {
     return dispatch => {
         return SettingsStore.load('app-settings').then(data => {
             if (data) {
-                return dispatch(settingsUpdate(data, { skipSave: true }));
+                return dispatch(updateSettings(data, { skipSave: true }));
             }
         });
     };

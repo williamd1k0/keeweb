@@ -1,7 +1,7 @@
 import * as init from './init';
-import * as set from './set';
+import * as setSettings from './set-settings';
 
 export default {
     init,
-    set,
+    setSettings,
 };

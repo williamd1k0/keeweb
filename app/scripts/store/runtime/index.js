@@ -1,7 +1,7 @@
 import * as init from './init';
-import * as set from './set';
+import * as setRuntime from './set-runtime';
 
 export default {
     init,
-    set,
+    setRuntime,
 };

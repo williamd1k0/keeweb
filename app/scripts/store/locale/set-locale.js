@@ -8,7 +8,7 @@ const locales = {
     'fr-FR': localeFR,
 };
 
-export const type = 'locale/set';
+export const type = 'locale/set-locale';
 
 export default function(name) {
     return { type, name };

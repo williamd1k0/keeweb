@@ -1,5 +1,5 @@
 import store from '../../store';
-import settingsUpdate from '../settings/update';
+import updateSettings from '../settings/update-settings';
 
 const ExportApi = {
     settings: {
@@ -8,10 +8,10 @@ const ExportApi = {
             return key ? settings[key] : settings;
         },
         set: function(key, value) {
-            store.dispatch(settingsUpdate({ [key]: value }));
+            store.dispatch(updateSettings({ [key]: value }));
         },
         del: function(key) {
-            store.dispatch(settingsUpdate({ [key]: undefined }));
+            store.dispatch(updateSettings({ [key]: undefined }));
         },
     },
 };

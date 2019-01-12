@@ -1,9 +1,9 @@
-import runtimeSet from '../../store/runtime/set';
+import setRuntime from '../../store/runtime/set-runtime';
 import SettingsStore from '../comp/settings-store';
 
-export default function runtimeUpdate(values) {
+export default function updateRuntime(values) {
     return dispatch => {
-        dispatch(runtimeSet(values));
+        dispatch(setRuntime(values));
         return SettingsStore.save('runtime-data', values);
     };
 }

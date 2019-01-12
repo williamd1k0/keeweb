@@ -5,8 +5,9 @@ import IdleTracker from '../comp/idle-tracker';
 import KeyHandler from '../comp/key-handler';
 import showAlert from '../ui/show-alert';
 import settingsLoadRemoteConfig from '../settings/load-remote-config';
-import settingsLoad from '../settings/load';
-import runtimeLoad from '../runtime/load';
+import loadSettings from '../settings/load-settings';
+import loadRuntime from '../runtime/load-runtime';
+import loadFileInfo from '../files/load-file-info';
 import uiSetView from '../../store/ui/set-view';
 
 export default function startup() {
@@ -33,10 +34,10 @@ export default function startup() {
 
         function loadConfigs() {
             return Promise.all([
-                dispatch(settingsLoad()),
-                dispatch(runtimeLoad()),
+                dispatch(loadSettings()),
+                dispatch(loadRuntime()),
+                dispatch(loadFileInfo()),
                 // UpdateModel.instance.load(),
-                // FileInfoCollection.instance.load(),
             ]);
         }
 

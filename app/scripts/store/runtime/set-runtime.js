@@ -1,4 +1,4 @@
-export const type = 'runtime/set';
+export const type = 'runtime/set-runtime';
 
 export default function(values) {
     return { type, values };

@@ -1,15 +1,15 @@
-import settingsSet from '../../store/settings/set';
-import localeSet from '../../store/locale/set';
+import setSettings from '../../store/settings/set-settings';
+import setLocale from '../../store/locale/set-locale';
 import SettingsStore from '../comp/settings-store';
 
-export default function settingsUpdate(values, options = {}) {
+export default function updateSettings(values, options = {}) {
     return (dispatch, getState) => {
         const oldState = getState();
 
-        dispatch(settingsSet(values));
+        dispatch(setSettings(values));
 
         if (values.locale !== undefined && values.locale !== oldState.settings.locale) {
-            dispatch(localeSet(values.locale));
+            dispatch(setLocale(values.locale));
         }
 
         return Promise.resolve().then(() => {

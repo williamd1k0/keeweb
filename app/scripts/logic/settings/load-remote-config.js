@@ -1,5 +1,5 @@
 import Logger from '../../util/logger';
-import settingsUpdate from './update';
+import updateSettings from './update-settings';
 
 export default function settingsLoadRemoteConfig() {
     return (dispatch, getState) => {
@@ -83,7 +83,7 @@ export default function settingsLoadRemoteConfig() {
         }
 
         function applyConfig(config) {
-            dispatch(settingsUpdate(config.settings, { skipSave: true }));
+            dispatch(updateSettings(config.settings, { skipSave: true }));
         }
     };
 }

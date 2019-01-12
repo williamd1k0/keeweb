@@ -1,7 +1,7 @@
 import * as init from './init';
-import * as set from './set';
+import * as setLocale from './set-locale';
 
 export default {
     init,
-    set,
+    setLocale,
 };
