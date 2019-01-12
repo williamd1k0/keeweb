@@ -13,6 +13,7 @@ const Timeouts = {
     AutoUpdatePluginsAfterStart: 500,
     LinkDownloadRevoke: 10 * 1000 * 60,
     AlertHide: 100,
+    IdleCheck: 1000 * 60,
 };
 
 export default Timeouts;

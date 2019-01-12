@@ -1,6 +1,8 @@
 import Logger from '../../util/logger';
 import FeatureTester from '../comp/feature-tester';
 import ExportApi from '../comp/export-api';
+import IdleTracker from '../comp/idle-tracker';
+import KeyHandler from '../comp/key-handler';
 import showAlert from '../ui/show-alert';
 import settingsLoad from '../settings/load';
 import runtimeLoad from '../runtime/load';
@@ -40,8 +42,8 @@ export default function startup() {
 
         function initModules() {
             window.kw = ExportApi;
-            // KeyHandler.init();
-            // IdleTracker.init();
+            IdleTracker.init();
+            KeyHandler.init();
             // PopupNotifier.init();
             // KdbxwebInit.init();
             // return PluginManager.init();

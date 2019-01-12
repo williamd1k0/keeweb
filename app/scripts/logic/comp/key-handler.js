@@ -1,49 +1,32 @@
-const Backbone = require('backbone');
-const Keys = require('../const/keys');
-const IdleTracker = require('../comp/idle-tracker');
+import Keys from '../../const/keys';
+import store from '../../store';
+import IdleTracker from './idle-tracker';
+import { ShortcutAction, ShortcutOpt } from '../../store/ui';
+import addKeyShortcut from '../../store/ui/keys/add-key-shortcut';
+import removeKeyShortcut from '../../store/ui/keys/remove-key-shortcut';
 
 const shortcutKeyProp = navigator.platform.indexOf('Mac') >= 0 ? 'metaKey' : 'ctrlKey';
 
 const KeyHandler = {
-    SHORTCUT_ACTION: 1,
-    SHORTCUT_OPT: 2,
-
-    shortcuts: {},
-    modal: false,
-
     init: function() {
-        $(document).bind('keypress', this.keypress.bind(this));
-        $(document).bind('keydown', this.keydown.bind(this));
+        document.addEventListener('keypress', e => this.keypress(e));
+        document.addEventListener('keydown', e => this.keydown(e));
 
-        this.shortcuts[Keys.DOM_VK_A] = [
-            {
-                handler: this.handleAKey,
-                thisArg: this,
-                shortcut: this.SHORTCUT_ACTION,
-                modal: true,
-                noPrevent: true,
-            },
-        ];
+        // this.shortcuts[Keys.DOM_VK_A] = [
+        //     {
+        //         handler: this.handleAKey,
+        //         thisArg: this,
+        //         shortcut: this.SHORTCUT_ACTION,
+        //         modal: true,
+        //         noPrevent: true,
+        //     },
+        // ];
     },
-    onKey: function(key, handler, thisArg, shortcut, modal, noPrevent) {
-        let keyShortcuts = this.shortcuts[key];
-        if (!keyShortcuts) {
-            this.shortcuts[key] = keyShortcuts = [];
-        }
-        keyShortcuts.push({
-            handler: handler,
-            thisArg: thisArg,
-            shortcut: shortcut,
-            modal: modal,
-            noPrevent: noPrevent,
-        });
+    onKey: function(key, shortcut, modal, noPrevent, event, args) {
+        store.dispatch(addKeyShortcut({ key, shortcut, modal, noPrevent, event, args }));
     },
-    offKey: function(key, handler, thisArg) {
-        if (this.shortcuts[key]) {
-            this.shortcuts[key] = _.reject(this.shortcuts[key], sh => {
-                return sh.handler === handler && sh.thisArg === thisArg;
-            });
-        }
+    offKey: function(key, event, arg) {
+        store.dispatch(removeKeyShortcut({ key, event, arg }));
     },
     setModal: function(modal) {
         this.modal = modal;
@@ -53,8 +36,9 @@ const KeyHandler = {
     },
     keydown: function(e) {
         IdleTracker.regUserAction();
+        const state = store.getState();
         const code = e.keyCode || e.which;
-        const keyShortcuts = this.shortcuts[code];
+        const keyShortcuts = state.ui.shortcuts[code];
         if (keyShortcuts && keyShortcuts.length) {
             for (const sh of keyShortcuts) {
                 if (this.modal && !sh.modal) {
@@ -63,17 +47,17 @@ const KeyHandler = {
                 }
                 const isActionKey = this.isActionKey(e);
                 switch (sh.shortcut) {
-                    case this.SHORTCUT_ACTION:
+                    case ShortcutAction:
                         if (!isActionKey) {
                             continue;
                         }
                         break;
-                    case this.SHORTCUT_OPT:
+                    case ShortcutOpt:
                         if (!e.altKey) {
                             continue;
                         }
                         break;
-                    case this.SHORTCUT_ACTION + this.SHORTCUT_OPT:
+                    case ShortcutAction + ShortcutOpt:
                         if (!e.altKey || !isActionKey) {
                             continue;
                         }
@@ -84,7 +68,13 @@ const KeyHandler = {
                         }
                         break;
                 }
-                sh.handler.call(sh.thisArg, e, code);
+                if (sh.event) {
+                    const event = { type: sh.event };
+                    if (sh.arg) {
+                        event.arg = sh.arg;
+                    }
+                    store.dispatch(event);
+                }
                 if (isActionKey && !sh.noPrevent) {
                     e.preventDefault();
                 }
@@ -124,6 +114,4 @@ const KeyHandler = {
     },
 };
 
-_.extend(KeyHandler, Backbone.Events);
-
-module.exports = KeyHandler;
+export default KeyHandler;

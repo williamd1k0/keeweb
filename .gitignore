@@ -6,7 +6,7 @@ node_modules/
 dist/
 tmp/
 coverage/
-keys
+/keys
 *.user
 bin/
 obj/
