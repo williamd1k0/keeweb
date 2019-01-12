@@ -8,7 +8,7 @@ const KeyHandler = {
     SHORTCUT_OPT: 2,
 
     shortcuts: {},
-    modal: false,
+    modalStack: [],
     keyPressHandlers: [],
 
     init: function() {
@@ -18,27 +18,31 @@ const KeyHandler = {
         this.shortcuts[Keys.DOM_VK_A] = [
             {
                 handler: e => this.handleAKey(e),
+                thisArg: this,
                 shortcut: this.SHORTCUT_ACTION,
                 modal: true,
                 noPrevent: true,
             },
         ];
     },
-    onKey: function(key, handler, shortcut, modal, noPrevent) {
+    onKey: function(key, handler, thisArg, shortcut, modal, noPrevent) {
         let keyShortcuts = this.shortcuts[key];
         if (!keyShortcuts) {
             this.shortcuts[key] = keyShortcuts = [];
         }
         keyShortcuts.push({
             handler: handler,
+            thisArg: thisArg,
             shortcut: shortcut,
             modal: modal,
             noPrevent: noPrevent,
         });
     },
-    offKey: function(key, handler) {
+    offKey: function(key, handler, thisArg) {
         if (this.shortcuts[key]) {
-            this.shortcuts[key] = this.shortcuts[key].filter(sh => sh.handler !== handler);
+            this.shortcuts[key] = this.shortcuts[key].filter(
+                sh => sh.handler !== handler || sh.thisArg !== thisArg
+            );
         }
     },
     onKeyPress: function(modal, handler) {
@@ -48,7 +52,10 @@ const KeyHandler = {
         this.keyPressHandlers = this.keyPressHandlers.filter(kp => kp.handler !== handler);
     },
     setModal: function(modal) {
-        this.modal = modal;
+        this.modalStack.push(modal);
+    },
+    resetModal: function() {
+        this.modalStack.pop();
     },
     isActionKey: function(e) {
         return e[shortcutKeyProp];
@@ -59,7 +66,7 @@ const KeyHandler = {
         const keyShortcuts = this.shortcuts[code];
         if (keyShortcuts && keyShortcuts.length) {
             for (const sh of keyShortcuts) {
-                if (this.modal && !sh.modal) {
+                if (this.modalStack.length && !sh.modal) {
                     e.stopPropagation();
                     continue;
                 }
@@ -86,11 +93,11 @@ const KeyHandler = {
                         }
                         break;
                 }
-                sh.handler.call(undefined, e, code);
+                const result = sh.handler.call(sh.thisArg, e, code);
                 if (isActionKey && !sh.noPrevent) {
                     e.preventDefault();
                 }
-                if (e.isImmediatePropagationStopped()) {
+                if (result === false) {
                     break;
                 }
             }
@@ -105,8 +112,11 @@ const KeyHandler = {
             !e.ctrlKey &&
             !e.metaKey
         ) {
+            const modal = this.modalStack.length
+                ? this.modalStack[this.modalStack.length - 1]
+                : null;
             for (const kph of this.keyPressHandlers) {
-                if (!this.modal || this.modal === kph.modal) {
+                if (!modal || modal === kph.modal) {
                     kph.handler.call(undefined, e);
                 }
             }
