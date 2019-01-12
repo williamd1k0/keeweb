@@ -51,6 +51,7 @@
   },
   "parser": "babel-eslint",
   "globals": {
+    "global": true
   },
   "env": {
     "browser": true

@@ -19,22 +19,31 @@ function config(grunt) {
         entry: {
             app: 'index',
             vendor: [
-                'redux', 'redux-thunk', 'reselect', 'preact', 'preact-redux',
-                'kdbxweb', 'baron', 'pikaday', 'jsqrcode', 'argon2-wasm', 'argon2'
-            ]
+                'redux',
+                'redux-thunk',
+                'reselect',
+                'preact',
+                'preact-redux',
+                'kdbxweb',
+                'baron',
+                'pikaday',
+                'jsqrcode',
+                'argon2-wasm',
+                'argon2',
+            ],
         },
         output: {
             path: path.resolve('.', 'tmp/js'),
-            filename: '[name].js'
+            filename: '[name].js',
         },
         target: 'web',
         performance: {
-            hints: false
+            hints: false,
         },
         stats: {
             colors: false,
             modules: true,
-            reasons: true
+            reasons: true,
         },
         progress: false,
         failOnError: true,
@@ -49,31 +58,46 @@ function config(grunt) {
                 pikaday: 'pikaday/pikaday.js',
                 qrcode: 'jsqrcode/dist/qrcode.min.js',
                 argon2: 'argon2-browser/dist/argon2.min.js',
-                'argon2-wasm': 'argon2-browser/dist/argon2.wasm'
-            }
+                'argon2-wasm': 'argon2-browser/dist/argon2.wasm',
+            },
         },
         module: {
             rules: [
                 {
-                    test: /runtime-info\.js$/, loader: StringReplacePlugin.replace({
+                    test: /store\/env\/init\.js$/,
+                    loader: StringReplacePlugin.replace({
                         replacements: [
-                            { pattern: /@@VERSION/g, replacement: () => pkg.version + (grunt.option('beta') ? '-beta' : '') },
-                            { pattern: /@@BETA/g, replacement: () => grunt.option('beta') ? '1' : '' },
+                            {
+                                pattern: /@@VERSION/g,
+                                replacement: () => pkg.version,
+                            },
                             { pattern: /@@DATE/g, replacement: () => dt },
-                            { pattern: /@@COMMIT/g, replacement: () => grunt.config.get('gitinfo.local.branch.current.shortSHA') }
-                        ]
-                    })
+                            {
+                                pattern: /@@COMMIT/g,
+                                replacement: () => grunt.config.get('gitinfo.local.branch.current.shortSHA') || '',
+                            },
+                        ],
+                    }),
                 },
-                {test: /baron(\.min)?\.js$/, loader: 'exports-loader?baron; delete window.baron;'},
-                {test: /pikaday\.js$/, loader: 'uglify-loader'},
                 {
-                    test: /\.js$/, exclude: /(node_modules)/, loader: 'babel-loader',
-                    query: {cacheDirectory: true}
+                    test: /baron(\.min)?\.js$/,
+                    loader: 'exports-loader?baron; delete window.baron;',
                 },
-                {test: /argon2\.wasm/, type: 'javascript/auto', loader: 'base64-loader'},
-                {test: /argon2(\.min)?\.js/, loader: 'raw-loader'},
-                {test: /\.scss$/, loader: 'raw-loader'}
-            ]
+                { test: /pikaday\.js$/, loader: 'uglify-loader' },
+                {
+                    test: /\.js$/,
+                    exclude: /(node_modules)/,
+                    loader: 'babel-loader',
+                    query: { cacheDirectory: true },
+                },
+                {
+                    test: /argon2\.wasm/,
+                    type: 'javascript/auto',
+                    loader: 'base64-loader',
+                },
+                { test: /argon2(\.min)?\.js/, loader: 'raw-loader' },
+                { test: /\.scss$/, loader: 'raw-loader' },
+            ],
         },
         optimization: {
             runtimeChunk: 'single',
@@ -82,29 +106,37 @@ function config(grunt) {
                     vendor: {
                         test: /[\\/]node_modules[\\/]/,
                         name: 'vendor',
-                        chunks: 'all'
-                    }
-                }
+                        chunks: 'all',
+                    },
+                },
             },
             minimizer: [
                 new UglifyJsPlugin({
                     cache: true,
-                    parallel: true
+                    parallel: true,
                 }),
                 new BundleAnalyzerPlugin({
                     openAnalyzer: false,
                     analyzerMode: 'static',
                     reportFilename: '../stats/analyzer_report.html',
                     generateStatsFile: true,
-                    statsFilename: '../stats/stats.json'
-                })
-            ]
+                    statsFilename: '../stats/stats.json',
+                }),
+            ],
         },
         plugins: [
-            new webpack.BannerPlugin('keeweb v' + pkg.version + ', (c) ' + year + ' ' + pkg.author.name +
-                ', opensource.org/licenses/' + pkg.license),
+            new webpack.BannerPlugin(
+                'keeweb v' +
+                    pkg.version +
+                    ', (c) ' +
+                    year +
+                    ' ' +
+                    pkg.author.name +
+                    ', opensource.org/licenses/' +
+                    pkg.license
+            ),
             new webpack.IgnorePlugin(/^(moment)$/),
-            new StringReplacePlugin()
+            new StringReplacePlugin(),
         ],
         node: {
             console: false,
@@ -115,14 +147,14 @@ function config(grunt) {
             __dirname: false,
             fs: false,
             setImmediate: false,
-            path: false
+            path: false,
         },
         externals: {
             xmldom: 'null',
             crypto: 'null',
             fs: 'null',
-            path: 'null'
-        }
+            path: 'null',
+        },
     };
 }
 
@@ -130,12 +162,12 @@ function devServerConfig(grunt) {
     const devServerConfig = config(grunt);
     Object.assign(devServerConfig, {
         mode: 'development',
-        devtool: 'source-map'
+        devtool: 'source-map',
     });
     Object.assign(devServerConfig.resolve.alias, {
         baron: 'baron/baron.js',
         qrcode: 'jsqrcode/dist/qrcode.js',
-        argon2: 'argon2-browser/dist/argon2.js'
+        argon2: 'argon2-browser/dist/argon2.js',
     });
     return devServerConfig;
 }
