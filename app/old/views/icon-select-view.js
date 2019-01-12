@@ -12,23 +12,26 @@ const IconSelectView = Backbone.View.extend({
         'click .icon-select__icon': 'iconClick',
         'click .icon-select__icon-download': 'downloadIcon',
         'click .icon-select__icon-select': 'selectIcon',
-        'change .icon-select__file-input': 'iconSelected'
+        'change .icon-select__file-input': 'iconSelected',
     },
 
     initialize: function() {
         this.special = {
             select: null,
-            download: null
+            download: null,
         };
     },
 
     render: function() {
-        this.renderTemplate({
-            sel: this.model.iconId,
-            icons: IconMap,
-            canDownloadFavicon: !!this.model.url,
-            customIcons: this.model.file.getCustomIcons()
-        }, true);
+        this.renderTemplate(
+            {
+                sel: this.model.iconId,
+                icons: IconMap,
+                canDownloadFavicon: !!this.model.url,
+                customIcons: this.model.file.getCustomIcons(),
+            },
+            true
+        );
         return this;
     },
 
@@ -64,13 +67,17 @@ const IconSelectView = Backbone.View.extend({
             this.setSpecialImage(img, 'download');
             this.$el.find('.icon-select__icon-download img').remove();
             this.$el.find('.icon-select__icon-download>i').removeClass('fa-spinner fa-spin');
-            this.$el.find('.icon-select__icon-download').addClass('icon-select__icon--custom-selected').append(img);
+            this.$el
+                .find('.icon-select__icon-download')
+                .addClass('icon-select__icon--custom-selected')
+                .append(img);
             this.downloadingFavicon = false;
         };
         img.onerror = e => {
             logger.error('Favicon download error: ' + url, e);
             this.$el.find('.icon-select__icon-download>i').removeClass('fa-spinner fa-spin');
-            this.$el.find('.icon-select__icon-download')
+            this.$el
+                .find('.icon-select__icon-download')
                 .removeClass('icon-select__icon--custom-selected')
                 .addClass('icon-select__icon--download-error');
             this.downloadingFavicon = false;
@@ -104,7 +111,10 @@ const IconSelectView = Backbone.View.extend({
                 img.onload = () => {
                     this.setSpecialImage(img, 'select');
                     this.$el.find('.icon-select__icon-select img').remove();
-                    this.$el.find('.icon-select__icon-select').addClass('icon-select__icon--custom-selected').append(img);
+                    this.$el
+                        .find('.icon-select__icon-select')
+                        .addClass('icon-select__icon--custom-selected')
+                        .append(img);
                 };
                 img.src = e.target.result;
             };
@@ -124,7 +134,7 @@ const IconSelectView = Backbone.View.extend({
         ctx.drawImage(img, 0, 0, size, size);
         const data = canvas.toDataURL().replace(/^.*,/, '');
         this.special[name] = { width: img.width, height: img.height, data: data };
-    }
+    },
 });
 
 module.exports = IconSelectView;

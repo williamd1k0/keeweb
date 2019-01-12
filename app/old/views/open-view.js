@@ -38,9 +38,9 @@ const OpenView = Backbone.View.extend({
         'click .open__pass-enter-btn': 'openDb',
         'click .open__settings-key-file': 'openKeyFile',
         'click .open__last-item': 'openLast',
-        'dragover': 'dragover',
-        'dragleave': 'dragleave',
-        'drop': 'drop'
+        dragover: 'dragover',
+        dragleave: 'dragleave',
+        drop: 'drop',
     },
 
     views: null,
@@ -49,7 +49,7 @@ const OpenView = Backbone.View.extend({
     busy: false,
     currentSelectedIndex: -1,
 
-    initialize: function () {
+    initialize: function() {
         this.views = {};
         this.params = {
             id: null,
@@ -60,7 +60,7 @@ const OpenView = Backbone.View.extend({
             keyFileData: null,
             keyFilePath: null,
             fileData: null,
-            rev: null
+            rev: null,
         };
         this.passwordInput = new SecureInput();
         KeyHandler.onKey(Keys.DOM_VK_Z, this.undoKeyPress, this, KeyHandler.SHORTCUT_ACTION);
@@ -71,7 +71,7 @@ const OpenView = Backbone.View.extend({
         KeyHandler.onKey(Keys.DOM_VK_UP, this.moveOpenFileSelectionUp, this);
     },
 
-    render: function () {
+    render: function() {
         if (this.dragTimeout) {
             clearTimeout(this.dragTimeout);
         }
@@ -84,7 +84,10 @@ const OpenView = Backbone.View.extend({
         });
         storageProviders.sort((x, y) => (x.uipos || Infinity) - (y.uipos || Infinity));
         const showMore = storageProviders.length || this.model.settings.get('canOpenSettings');
-        const showLogo = !showMore && !this.model.settings.get('canOpen') && !this.model.settings.get('canCreate') &&
+        const showLogo =
+            !showMore &&
+            !this.model.settings.get('canOpen') &&
+            !this.model.settings.get('canCreate') &&
             !(this.model.settings.get('canOpenDemo') && !this.model.settings.get('demoOpened'));
         this.renderTemplate({
             lastOpenFiles: this.getLastOpenFiles(),
@@ -98,7 +101,7 @@ const OpenView = Backbone.View.extend({
             canImportXml: this.model.settings.get('canImportXml'),
             canRemoveLatest: this.model.settings.get('canRemoveLatest'),
             showMore: showMore,
-            showLogo: showLogo
+            showLogo: showLogo,
         });
         this.inputEl = this.$el.find('.open__pass-input');
         this.passwordInput.setElement(this.inputEl);
@@ -126,7 +129,7 @@ const OpenView = Backbone.View.extend({
                 name: f.get('name'),
                 path: this.getDisplayedPath(f),
                 icon: icon,
-                iconSvg: storage ? storage.iconSvg : undefined
+                iconSvg: storage ? storage.iconSvg : undefined,
             };
         });
     },
@@ -157,8 +160,8 @@ const OpenView = Backbone.View.extend({
             body: Locale.openLocalFileBody,
             icon: 'file-text',
             buttons: [
-                {result: 'skip', title: Locale.openLocalFileDontShow, error: true},
-                {result: 'ok', title: Locale.alertOk}
+                { result: 'skip', title: Locale.openLocalFileDontShow, error: true },
+                { result: 'ok', title: Locale.alertOk },
             ],
             click: '',
             esc: '',
@@ -168,7 +171,7 @@ const OpenView = Backbone.View.extend({
                 if (res === 'skip') {
                     this.model.settings.set('skipOpenLocalWarn', true);
                 }
-            }
+            },
         });
     },
 
@@ -269,7 +272,9 @@ const OpenView = Backbone.View.extend({
 
     displayOpenKeyFile: function() {
         this.$el.toggleClass('open--key-file', !!this.params.keyFileName);
-        this.$el.find('.open__settings-key-file-name').text(this.params.keyFileName || this.params.keyFilePath || Locale.openKeyFile);
+        this.$el
+            .find('.open__settings-key-file-name')
+            .text(this.params.keyFileName || this.params.keyFilePath || Locale.openKeyFile);
         this.focusInput();
     },
 
@@ -336,7 +341,10 @@ const OpenView = Backbone.View.extend({
         this.reading = reading;
         this.params[reading] = null;
 
-        const fileInput = this.$el.find('.open__file-ctrl').attr('accept', ext || '').val(null);
+        const fileInput = this.$el
+            .find('.open__file-ctrl')
+            .attr('accept', ext || '')
+            .val(null);
 
         if (Launcher && Launcher.openFileChooser) {
             Launcher.openFileChooser((err, file) => {
@@ -355,20 +363,22 @@ const OpenView = Backbone.View.extend({
         if (this.busy) {
             return;
         }
-        const id = $(e.target).closest('.open__last-item').data('id').toString();
+        const id = $(e.target)
+            .closest('.open__last-item')
+            .data('id')
+            .toString();
         if ($(e.target).is('.open__last-item-icon-del')) {
             const fileInfo = this.model.fileInfos.get(id);
             if (!fileInfo.get('storage') || fileInfo.get('modified')) {
                 Alerts.yesno({
                     header: Locale.openRemoveLastQuestion,
-                    body: fileInfo.get('modified') ? Locale.openRemoveLastQuestionModBody : Locale.openRemoveLastQuestionBody,
-                    buttons: [
-                        {result: 'yes', title: Locale.alertYes},
-                        {result: '', title: Locale.alertNo}
-                    ],
+                    body: fileInfo.get('modified')
+                        ? Locale.openRemoveLastQuestionModBody
+                        : Locale.openRemoveLastQuestionBody,
+                    buttons: [{ result: 'yes', title: Locale.alertYes }, { result: '', title: Locale.alertNo }],
                     success: () => {
                         this.removeFile(id);
-                    }
+                    },
                 });
                 return;
             }
@@ -463,11 +473,24 @@ const OpenView = Backbone.View.extend({
         this.closeConfig();
         this.$el.removeClass('open--drag');
         const files = e.target.files || e.originalEvent.dataTransfer.files;
-        const dataFile = _.find(files, file => file.name.split('.').pop().toLowerCase() === 'kdbx');
-        const keyFile = _.find(files, file => file.name.split('.').pop().toLowerCase() === 'key');
+        const dataFile = _.find(
+            files,
+            file =>
+                file.name
+                    .split('.')
+                    .pop()
+                    .toLowerCase() === 'kdbx'
+        );
+        const keyFile = _.find(
+            files,
+            file =>
+                file.name
+                    .split('.')
+                    .pop()
+                    .toLowerCase() === 'key'
+        );
         if (dataFile) {
-            this.setFile(dataFile, keyFile,
-                dataFile.path ? null : this.showLocalFileAlert.bind(this));
+            this.setFile(dataFile, keyFile, dataFile.path ? null : this.showLocalFileAlert.bind(this));
         }
     },
 
@@ -589,7 +612,8 @@ const OpenView = Backbone.View.extend({
                 }
                 Alerts.error({
                     header: Locale.openError,
-                    body: Locale.openErrorDescription + '<pre class="modal__pre">' + _.escape(err.toString()) + '</pre>'
+                    body:
+                        Locale.openErrorDescription + '<pre class="modal__pre">' + _.escape(err.toString()) + '</pre>',
                 });
             }
         } else {
@@ -604,13 +628,15 @@ const OpenView = Backbone.View.extend({
         this.$el.toggleClass('open--opening', true);
         this.inputEl.attr('disabled', 'disabled');
         this.busy = true;
-        this.afterPaint(() => this.model.importFileWithXml(this.params, err => {
-            if (err) {
-                this.params.name = '';
-                this.params.fileXml = null;
-            }
-            this.openDbComplete(err);
-        }));
+        this.afterPaint(() =>
+            this.model.importFileWithXml(this.params, err => {
+                if (err) {
+                    this.params.name = '';
+                    this.params.fileXml = null;
+                }
+                this.openDbComplete(err);
+            })
+        );
     },
 
     toggleMore: function() {
@@ -629,7 +655,12 @@ const OpenView = Backbone.View.extend({
         if (this.busy) {
             return;
         }
-        const storage = Storage[$(e.target).closest('.open__icon').data('storage')];
+        const storage =
+            Storage[
+                $(e.target)
+                    .closest('.open__icon')
+                    .data('storage')
+            ];
         if (!storage) {
             return;
         }
@@ -658,7 +689,8 @@ const OpenView = Backbone.View.extend({
                 if (err.lastIndexOf('OAuth', 0) !== 0 && !Alerts.alertDisplayed) {
                     Alerts.error({
                         header: Locale.openError,
-                        body: Locale.openListErrorBody + '<pre class="modal__pre">' + _.escape(err.toString()) + '</pre>'
+                        body:
+                            Locale.openListErrorBody + '<pre class="modal__pre">' + _.escape(err.toString()) + '</pre>',
                     });
                 }
                 return;
@@ -666,7 +698,7 @@ const OpenView = Backbone.View.extend({
             if (!files.length) {
                 Alerts.error({
                     header: Locale.openNothingFound,
-                    body: Locale.openNothingFoundBody
+                    body: Locale.openNothingFoundBody,
                 });
                 return;
             }
@@ -682,21 +714,21 @@ const OpenView = Backbone.View.extend({
                 files.unshift({
                     path: config.prevDir,
                     name: '..',
-                    dir: true
+                    dir: true,
                 });
             }
             const listView = new StorageFileListView({
                 model: {
                     files,
-                    showHiddenFiles: config && config.showHiddenFiles
-                }
+                    showHiddenFiles: config && config.showHiddenFiles,
+                },
             });
             listView.on('selected', file => {
                 if (file.dir) {
                     this.listStorage(storage, {
                         dir: file.path,
-                        prevDir: config && config.dir || '',
-                        showHiddenFiles: true
+                        prevDir: (config && config.dir) || '',
+                        showHiddenFiles: true,
                     });
                 } else {
                     this.openStorageFile(storage, file);
@@ -706,10 +738,10 @@ const OpenView = Backbone.View.extend({
                 header: Locale.openSelectFile,
                 body: Locale.openSelectFileBody,
                 icon: storage.icon || 'files-o',
-                buttons: [{result: '', title: Locale.alertCancel}],
+                buttons: [{ result: '', title: Locale.alertCancel }],
                 esc: '',
                 click: '',
-                view: listView
+                view: listView,
             });
         });
     },
@@ -734,12 +766,15 @@ const OpenView = Backbone.View.extend({
         if (this.views.openConfig) {
             this.views.openConfig.remove();
         }
-        const config = _.extend({
-            id: storage.name,
-            name: Locale[storage.name] || storage.name,
-            icon: storage.icon,
-            buttons: true
-        }, storage.getOpenConfig());
+        const config = _.extend(
+            {
+                id: storage.name,
+                name: Locale[storage.name] || storage.name,
+                icon: storage.icon,
+                buttons: true,
+            },
+            storage.getOpenConfig()
+        );
         this.views.openConfig = new OpenConfigView({ el: this.$el.find('.open__config-wrap'), model: config }).render();
         this.views.openConfig.on('cancel', this.closeConfig.bind(this));
         this.views.openConfig.on('apply', this.applyConfig.bind(this));
@@ -775,7 +810,7 @@ const OpenView = Backbone.View.extend({
             waitId: this.storageWaitId,
             storage: config.storage,
             path: path,
-            opts: opts
+            opts: opts,
         };
         if (storage.applyConfig) {
             storage.applyConfig(opts, this.storageApplyConfigComplete.bind(this, req));
@@ -822,8 +857,7 @@ const OpenView = Backbone.View.extend({
 
     moveOpenFileSelection: function(steps) {
         const lastOpenFiles = this.getLastOpenFiles();
-        if (this.currentSelectedIndex + steps >= 0 &&
-            this.currentSelectedIndex + steps <= lastOpenFiles.length - 1) {
+        if (this.currentSelectedIndex + steps >= 0 && this.currentSelectedIndex + steps <= lastOpenFiles.length - 1) {
             this.currentSelectedIndex = this.currentSelectedIndex + steps;
         }
 
@@ -841,7 +875,7 @@ const OpenView = Backbone.View.extend({
 
     moveOpenFileSelectionUp: function() {
         this.moveOpenFileSelection(-1);
-    }
+    },
 });
 
 module.exports = OpenView;

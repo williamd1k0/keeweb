@@ -19,7 +19,7 @@ const MenuItemModel = Backbone.Model.extend({
         drop: false,
         filterKey: null,
         filterValue: null,
-        collapsible: false
+        collapsible: false,
     },
 
     initialize: function(model) {
@@ -64,7 +64,7 @@ const MenuItemModel = Backbone.Model.extend({
 
     changeTitle: function(model, newTitle) {
         this.set('title', newTitle);
-    }
+    },
 });
 
 module.exports = MenuItemModel;

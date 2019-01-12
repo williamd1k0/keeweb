@@ -6,7 +6,7 @@ const MenuItemModel = Backbone.Model.extend({
         items: null,
         scrollable: false,
         grow: false,
-        drag: false
+        drag: false,
     },
 
     defaultItems: undefined,
@@ -51,7 +51,7 @@ const MenuItemModel = Backbone.Model.extend({
     setItems: function(items) {
         this.get('items').reset(items);
         this.trigger('change-items');
-    }
+    },
 });
 
 module.exports = MenuItemModel;

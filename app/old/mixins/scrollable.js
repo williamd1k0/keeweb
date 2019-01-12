@@ -48,7 +48,7 @@ const Scrollable = {
         if (isEnabled) {
             this.listenTo(Backbone, 'page-geometry', this.pageResized);
         }
-    }
+    },
 };
 
 module.exports = Scrollable;

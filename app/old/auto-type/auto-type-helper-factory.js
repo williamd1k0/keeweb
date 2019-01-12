@@ -7,7 +7,7 @@ const AutoTypeHelperFactory = {
             return new AutoTypeHelper();
         }
         return null;
-    }
+    },
 };
 
 module.exports = AutoTypeHelperFactory;

@@ -1,5 +1,5 @@
 const DragDropInfo = {
-    dragObject: null
+    dragObject: null,
 };
 
 module.exports = DragDropInfo;

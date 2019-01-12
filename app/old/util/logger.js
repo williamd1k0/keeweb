@@ -4,7 +4,7 @@ const Level = {
     Warn: 2,
     Info: 3,
     Debug: 4,
-    All: 5
+    All: 5,
 };
 
 const MaxLogsToSave = 100;
@@ -12,7 +12,7 @@ const MaxLogsToSave = 100;
 const lastLogs = [];
 
 const Logger = function(name, id) {
-    this.prefix = (name ? name + (id ? ':' + id : '') : 'default');
+    this.prefix = name ? name + (id ? ':' + id : '') : 'default';
     this.level = Level.All;
 };
 

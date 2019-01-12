@@ -12,7 +12,7 @@ const StorageCache = StorageBase.extend({
         StorageBase.prototype.init.call(this);
         this.io = new IoBrowserCache({
             cacheName: 'FilesCache',
-            logger: this.logger
+            logger: this.logger,
         });
     },
 
@@ -26,7 +26,7 @@ const StorageCache = StorageBase.extend({
 
     remove(id, opts, callback) {
         this.io.remove(id, callback);
-    }
+    },
 });
 
 module.exports = new StorageCache();

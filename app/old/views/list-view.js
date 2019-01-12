@@ -18,7 +18,7 @@ const ListView = Backbone.View.extend({
     events: {
         'click .list__item': 'itemClick',
         'click .list__table-options': 'tableOptionsClick',
-        'dragstart .list__item': 'itemDragStart'
+        'dragstart .list__item': 'itemDragStart',
     },
 
     views: null,
@@ -37,10 +37,10 @@ const ListView = Backbone.View.extend({
         { val: 'tags', name: 'tags', enabled: true },
         { val: 'notes', name: 'notes', enabled: true },
         { val: 'groupName', name: 'group', enabled: false },
-        { val: 'fileName', name: 'file', enabled: false }
+        { val: 'fileName', name: 'file', enabled: false },
     ],
 
-    initialize: function () {
+    initialize: function() {
         this.initScroll();
         this.views = {};
         this.views.search = new ListSearchView({ model: this.model });
@@ -64,7 +64,7 @@ const ListView = Backbone.View.extend({
         this.items = new EntryCollection();
     },
 
-    render: function () {
+    render: function() {
         if (!this.itemsEl) {
             this.$el.html(this.template());
             this.itemsEl = this.$el.find('.list__items>.scroller');
@@ -74,7 +74,7 @@ const ListView = Backbone.View.extend({
             this.createScroll({
                 root: this.$el.find('.list__items')[0],
                 scroller: this.$el.find('.scroller')[0],
-                bar: this.$el.find('.scroller__bar')[0]
+                bar: this.$el.find('.scroller__bar')[0],
             });
         }
         if (this.items.length) {
@@ -128,7 +128,9 @@ const ListView = Backbone.View.extend({
     },
 
     itemClick: function(e) {
-        const id = $(e.target).closest('.list__item').attr('id');
+        const id = $(e.target)
+            .closest('.list__item')
+            .attr('id');
         const item = this.items.get(id);
         if (!item.active) {
             this.selectItem(item);
@@ -167,13 +169,15 @@ const ListView = Backbone.View.extend({
             Alerts.yesno({
                 icon: 'sticky-note-o',
                 header: Locale.listAddTemplateHeader,
-                body: Locale.listAddTemplateBody1.replace('{}', '<i class="fa fa-plus"></i>') + '<br/>' +
+                body:
+                    Locale.listAddTemplateBody1.replace('{}', '<i class="fa fa-plus"></i>') +
+                    '<br/>' +
                     Locale.listAddTemplateBody2.replace('{}', 'Templates'),
                 buttons: [Alerts.buttons.ok, Alerts.buttons.cancel],
                 success: () => {
                     this.model.settings.set('templateHelpShown', true);
                     this.createTemplate();
-                }
+                },
             });
             return;
         }
@@ -248,7 +252,9 @@ const ListView = Backbone.View.extend({
 
     itemDragStart: function(e) {
         e.stopPropagation();
-        const id = $(e.target).closest('.list__item').attr('id');
+        const id = $(e.target)
+            .closest('.list__item')
+            .attr('id');
         e.originalEvent.dataTransfer.setData('text/entry', id);
         e.originalEvent.dataTransfer.effectAllowed = 'move';
         DragDropInfo.dragObject = this.items.get(id);
@@ -267,14 +273,14 @@ const ListView = Backbone.View.extend({
         const options = this.tableColumns.map(col => ({
             value: col.val,
             icon: col.enabled ? 'check-square-o' : 'square-o',
-            text: Format.capFirst(Locale[col.name])
+            text: Format.capFirst(Locale[col.name]),
         }));
         view.render({
             position: {
                 top: targetElRect.bottom,
-                left: targetElRect.left
+                left: targetElRect.left,
             },
-            options: options
+            options: options,
         });
         this.views.optionsDropdown = view;
     },
@@ -306,7 +312,7 @@ const ListView = Backbone.View.extend({
     saveTableColumnsEnabled() {
         const tableViewColumns = this.tableColumns.filter(column => column.enabled).map(column => column.name);
         AppSettingsModel.instance.set('tableViewColumns', tableViewColumns);
-    }
+    },
 });
 
 _.extend(ListView.prototype, Resizable);

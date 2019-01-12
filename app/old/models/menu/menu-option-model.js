@@ -6,8 +6,8 @@ const MenuOptionModel = Backbone.Model.extend({
         cls: '',
         value: '',
         active: false,
-        filterValue: null
-    }
+        filterValue: null,
+    },
 });
 
 module.exports = MenuOptionModel;

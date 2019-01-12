@@ -12,10 +12,12 @@ const MenuSectionView = Backbone.View.extend({
     itemViews: null,
 
     minHeight: 55,
-    maxHeight: function() { return this.$el.parent().height() - 116; },
+    maxHeight: function() {
+        return this.$el.parent().height() - 116;
+    },
     autoHeight: 'auto',
 
-    initialize: function () {
+    initialize: function() {
         this.itemViews = [];
         this.listenTo(this.model, 'change-items', this.itemsChanged);
         this.listenTo(this, 'view-resize', this.viewResized);
@@ -30,7 +32,7 @@ const MenuSectionView = Backbone.View.extend({
                 this.createScroll({
                     root: this.$el[0],
                     scroller: this.$el.find('.scroller')[0],
-                    bar: this.$el.find('.scroller__bar')[0]
+                    bar: this.$el.find('.scroller__bar')[0],
                 });
             }
         } else {
@@ -75,7 +77,7 @@ const MenuSectionView = Backbone.View.extend({
 
     saveViewHeight: _.throttle(size => {
         AppSettingsModel.instance.set('tagsViewHeight', size);
-    }, 1000)
+    }, 1000),
 });
 
 _.extend(MenuSectionView.prototype, Resizable);

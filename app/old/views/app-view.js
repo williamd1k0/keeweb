@@ -29,19 +29,19 @@ const AppView = Backbone.View.extend({
     template: require('templates/app.hbs'),
 
     events: {
-        'contextmenu': 'contextMenu',
-        'drop': 'drop',
-        'dragenter': 'dragover',
-        'dragover': 'dragover',
+        contextmenu: 'contextMenu',
+        drop: 'drop',
+        dragenter: 'dragover',
+        dragover: 'dragover',
         'click a[target=_blank]': 'extLinkClick',
-        'mousedown': 'bodyClick'
+        mousedown: 'bodyClick',
     },
 
     views: null,
 
     titlebarStyle: 'default',
 
-    initialize: function () {
+    initialize: function() {
         this.views = {};
         this.views.menu = new MenuView({ model: this.model.menu });
         this.views.menuDrag = new DragView('x');
@@ -121,16 +121,20 @@ const AppView = Backbone.View.extend({
         // https://github.com/keeweb/keeweb/issues/636#issuecomment-304225634
         // https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/5782378/
         if (FeatureDetector.needFixClicks) {
-            const msEdgeScrewer = $('<input/>').appendTo(this.$el).focus();
+            const msEdgeScrewer = $('<input/>')
+                .appendTo(this.$el)
+                .focus();
             setTimeout(() => msEdgeScrewer.remove(), 0);
         }
     },
 
-    render: function () {
-        this.$el.html(this.template({
-            beta: this.model.isBeta,
-            titlebarStyle: this.titlebarStyle
-        }));
+    render: function() {
+        this.$el.html(
+            this.template({
+                beta: this.model.isBeta,
+                titlebarStyle: this.titlebarStyle,
+            })
+        );
         this.panelEl = this.$el.find('.app__panel:first');
         this.views.listWrap.setElement(this.$el.find('.app__list-wrap')).render();
         this.views.menu.setElement(this.$el.find('.app__menu')).render();
@@ -178,8 +182,7 @@ const AppView = Backbone.View.extend({
     },
 
     updateApp: function() {
-        if (UpdateModel.instance.get('updateStatus') === 'ready' &&
-            !Launcher && !this.model.files.hasOpenFiles()) {
+        if (UpdateModel.instance.get('updateStatus') === 'ready' && !Launcher && !this.model.files.hasOpenFiles()) {
             window.location.reload();
         }
     },
@@ -281,7 +284,7 @@ const AppView = Backbone.View.extend({
         this.views.listDrag.hide();
         this.views.details.hide();
         this.views.keyChange = new KeyChangeView({
-            model: { file: file, expired: viewConfig.expired, remote: viewConfig.remote }
+            model: { file: file, expired: viewConfig.expired, remote: viewConfig.remote },
         });
         this.views.keyChange.setElement(this.$el.find('.app__body')).render();
         this.views.keyChange.on('accept', this.keyChangeAccept.bind(this));
@@ -321,7 +324,11 @@ const AppView = Backbone.View.extend({
     },
 
     beforeUnload: function(e) {
-        const exitEvent = { preventDefault() { this.prevented = true; } };
+        const exitEvent = {
+            preventDefault() {
+                this.prevented = true;
+            },
+        };
         Backbone.trigger('main-window-will-close', exitEvent);
         if (exitEvent.prevented) {
             Launcher.preventExit(e);
@@ -341,7 +348,11 @@ const AppView = Backbone.View.extend({
             if (Launcher) {
                 if (!this.exitAlertShown) {
                     if (this.model.settings.get('autoSave')) {
-                        this.saveAndLock(result => { if (result) { exit(); } });
+                        this.saveAndLock(result => {
+                            if (result) {
+                                exit();
+                            }
+                        });
                         return Launcher.preventExit(e);
                     }
                     this.exitAlertShown = true;
@@ -349,13 +360,17 @@ const AppView = Backbone.View.extend({
                         header: Locale.appUnsavedWarn,
                         body: Locale.appUnsavedWarnBody,
                         buttons: [
-                            {result: 'save', title: Locale.saveChanges},
-                            {result: 'exit', title: Locale.discardChanges, error: true},
-                            {result: '', title: Locale.appDontExitBtn}
+                            { result: 'save', title: Locale.saveChanges },
+                            { result: 'exit', title: Locale.discardChanges, error: true },
+                            { result: '', title: Locale.appDontExitBtn },
                         ],
                         success: result => {
                             if (result === 'save') {
-                                this.saveAndLock(result => { if (result) { exit(); } });
+                                this.saveAndLock(result => {
+                                    if (result) {
+                                        exit();
+                                    }
+                                });
                             } else {
                                 exit();
                             }
@@ -365,14 +380,19 @@ const AppView = Backbone.View.extend({
                         },
                         complete: () => {
                             this.exitAlertShown = false;
-                        }
+                        },
                     });
                 }
                 return Launcher.preventExit(e);
             }
             return Locale.appUnsavedWarnBody;
-        } else if (Launcher && !Launcher.exitRequested && !Launcher.restartPending &&
-                Launcher.canMinimize() && this.model.settings.get('minimizeOnClose')) {
+        } else if (
+            Launcher &&
+            !Launcher.exitRequested &&
+            !Launcher.restartPending &&
+            Launcher.canMinimize() &&
+            this.model.settings.get('minimizeOnClose')
+        ) {
             Launcher.minimizeApp();
             return Launcher.preventExit(e);
         }
@@ -388,11 +408,11 @@ const AppView = Backbone.View.extend({
         }
     },
 
-    enterFullScreen: function () {
+    enterFullScreen: function() {
         this.$el.addClass('fullscreen');
     },
 
-    leaveFullScreen: function () {
+    leaveFullScreen: function() {
         this.$el.removeClass('fullscreen');
     },
 
@@ -457,7 +477,7 @@ const AppView = Backbone.View.extend({
                     buttons: [
                         { result: 'save', title: Locale.saveChanges },
                         { result: 'discard', title: Locale.discardChanges, error: true },
-                        { result: '', title: Locale.alertCancel }
+                        { result: '', title: Locale.alertCancel },
                     ],
                     checkbox: Locale.appAutoSave,
                     success: (result, autoSaveChecked) => {
@@ -469,7 +489,7 @@ const AppView = Backbone.View.extend({
                         } else if (result === 'discard') {
                             this.model.closeAllFiles();
                         }
-                    }
+                    },
                 });
             }
         } else {
@@ -477,7 +497,7 @@ const AppView = Backbone.View.extend({
         }
     },
 
-    handleAutoSaveTimer: function () {
+    handleAutoSaveTimer: function() {
         if (this.model.settings.get('autoSaveInterval') !== 0) {
             // trigger periodical auto save
             if (this.autoSaveTimeoutId) {
@@ -514,13 +534,17 @@ const AppView = Backbone.View.extend({
                         const alertBody = errorFiles.length > 1 ? Locale.appSaveErrorBodyMul : Locale.appSaveErrorBody;
                         Alerts.error({
                             header: Locale.appSaveError,
-                            body: alertBody + ' ' + errorFiles.join(', ')
+                            body: alertBody + ' ' + errorFiles.join(', '),
                         });
                     }
-                    if (complete) { complete(true); }
+                    if (complete) {
+                        complete(true);
+                    }
                 } else {
                     that.closeAllFilesAndShowFirst();
-                    if (complete) { complete(true); }
+                    if (complete) {
+                        complete(true);
+                    }
                 }
             }
         }
@@ -533,7 +557,11 @@ const AppView = Backbone.View.extend({
             fileToShow = this.model.fileInfos.getLast();
         }
         if (fileToShow) {
-            const fileInfo = this.model.fileInfos.getMatch(fileToShow.get('storage'), fileToShow.get('name'), fileToShow.get('path'));
+            const fileInfo = this.model.fileInfos.getMatch(
+                fileToShow.get('storage'),
+                fileToShow.get('name'),
+                fileToShow.get('path')
+            );
             if (fileInfo) {
                 this.views.open.showOpenFileInfo(fileInfo);
             }
@@ -574,8 +602,8 @@ const AppView = Backbone.View.extend({
                 remoteKey: {
                     password: e.password,
                     keyFileName: e.keyFileName,
-                    keyFileData: e.keyFileData
-                }
+                    keyFileData: e.keyFileData,
+                },
             });
         }
     },
@@ -595,13 +623,13 @@ const AppView = Backbone.View.extend({
                 }
             } else {
                 if (menuItem) {
-                    this.model.menu.select({item: menuItem});
+                    this.model.menu.select({ item: menuItem });
                 }
             }
         } else {
             this.showSettings();
             if (menuItem) {
-                this.model.menu.select({item: menuItem});
+                this.model.menu.select({ item: menuItem });
             }
         }
     },
@@ -664,7 +692,7 @@ const AppView = Backbone.View.extend({
             const menu = new DropdownView({ model: e });
             menu.render({
                 position: { left: e.pageX, top: e.pageY },
-                options: e.options
+                options: e.options,
             });
             menu.on('cancel', e => this.hideContextMenu());
             menu.on('select', e => this.contextMenuSelect(e));
@@ -687,8 +715,12 @@ const AppView = Backbone.View.extend({
     showSingleInstanceAlert: function() {
         this.hideOpenFile();
         Alerts.error({
-            header: Locale.appTabWarn, body: Locale.appTabWarnBody,
-            esc: false, enter: false, click: false, buttons: []
+            header: Locale.appTabWarn,
+            body: Locale.appTabWarnBody,
+            esc: false,
+            enter: false,
+            click: false,
+            buttons: [],
         });
     },
 
@@ -728,7 +760,7 @@ const AppView = Backbone.View.extend({
     bodyClick: function(e) {
         IdleTracker.regUserAction();
         Backbone.trigger('click', e);
-    }
+    },
 });
 
 module.exports = AppView;

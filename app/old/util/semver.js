@@ -13,7 +13,7 @@ const SemVer = {
             }
         }
         return 0;
-    }
+    },
 };
 
 module.exports = SemVer;

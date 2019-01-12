@@ -97,7 +97,7 @@ const FieldViewOtp = FieldViewText.extend({
         }
         this.fieldOpacity = opacity;
         this.valueEl.css('opacity', opacity);
-    }
+    },
 });
 
 module.exports = FieldViewOtp;

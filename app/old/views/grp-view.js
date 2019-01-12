@@ -15,7 +15,7 @@ const GrpView = Backbone.View.extend({
         'focus #grp__field-auto-type-seq': 'focusAutoTypeSeq',
         'input #grp__field-auto-type-seq': 'changeAutoTypeSeq',
         'change #grp__check-search': 'setEnableSearching',
-        'change #grp__check-auto-type': 'setEnableAutoType'
+        'change #grp__check-auto-type': 'setEnableAutoType',
     },
 
     initialize: function() {
@@ -25,17 +25,20 @@ const GrpView = Backbone.View.extend({
     render: function() {
         this.removeSubView();
         if (this.model) {
-            this.renderTemplate({
-                title: this.model.get('title'),
-                icon: this.model.get('icon') || 'folder',
-                customIcon: this.model.get('customIcon'),
-                enableSearching: this.model.getEffectiveEnableSearching(),
-                readonly: this.model.get('top'),
-                canAutoType: AutoType.enabled,
-                autoTypeSeq: this.model.get('autoTypeSeq'),
-                autoTypeEnabled: this.model.getEffectiveEnableAutoType(),
-                defaultAutoTypeSeq: this.model.getParentEffectiveAutoTypeSeq()
-            }, true);
+            this.renderTemplate(
+                {
+                    title: this.model.get('title'),
+                    icon: this.model.get('icon') || 'folder',
+                    customIcon: this.model.get('customIcon'),
+                    enableSearching: this.model.getEffectiveEnableSearching(),
+                    readonly: this.model.get('top'),
+                    canAutoType: AutoType.enabled,
+                    autoTypeSeq: this.model.get('autoTypeSeq'),
+                    autoTypeEnabled: this.model.getEffectiveEnableAutoType(),
+                    defaultAutoTypeSeq: this.model.getParentEffectiveAutoTypeSeq(),
+                },
+                true
+            );
             if (!this.model.get('title')) {
                 this.$el.find('#grp__field-title').focus();
             }
@@ -43,7 +46,7 @@ const GrpView = Backbone.View.extend({
         this.createScroll({
             root: this.$el.find('.grp')[0],
             scroller: this.$el.find('.scroller')[0],
-            bar: this.$el.find('.scroller__bar')[0]
+            bar: this.$el.find('.scroller__bar')[0],
         });
         this.pageResized();
         return this;
@@ -88,8 +91,10 @@ const GrpView = Backbone.View.extend({
 
     focusAutoTypeSeq: function(e) {
         if (!this.views.hint) {
-            this.views.hint = new AutoTypeHintView({input: e.target}).render();
-            this.views.hint.on('remove', () => { delete this.views.hint; });
+            this.views.hint = new AutoTypeHintView({ input: e.target }).render();
+            this.views.hint.on('remove', () => {
+                delete this.views.hint;
+            });
         }
     },
 
@@ -101,8 +106,8 @@ const GrpView = Backbone.View.extend({
                 el: this.$el.find('.grp__icons'),
                 model: {
                     iconId: this.model.get('customIconId') || this.model.get('iconId'),
-                    file: this.model.file
-                }
+                    file: this.model.file,
+                },
             });
             this.listenTo(subView, 'select', this.iconSelected);
             subView.render();
@@ -139,7 +144,7 @@ const GrpView = Backbone.View.extend({
 
     returnToApp: function() {
         Backbone.trigger('edit-group');
-    }
+    },
 });
 
 _.extend(GrpView.prototype, Scrollable);

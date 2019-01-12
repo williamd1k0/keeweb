@@ -12,9 +12,9 @@ const SettingsShortcutsView = Backbone.View.extend({
             global: FeatureDetector.globalShortcutSymbol(true),
             globalIsLarge: FeatureDetector.globalShortcutIsLarge(),
             globalShortcutsSupported: !!Launcher,
-            autoTypeSupported: !!Launcher
+            autoTypeSupported: !!Launcher,
         });
-    }
+    },
 });
 
 module.exports = SettingsShortcutsView;

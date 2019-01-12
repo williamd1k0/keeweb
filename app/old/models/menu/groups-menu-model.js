@@ -4,7 +4,7 @@ const GroupCollection = require('../../collections/group-collection');
 const GroupsMenuModel = MenuSectionModel.extend({
     defaults: _.extend({}, MenuSectionModel.prototype.defaults, {
         scrollable: true,
-        grow: true
+        grow: true,
     }),
 
     initialize: function() {
@@ -13,7 +13,7 @@ const GroupsMenuModel = MenuSectionModel.extend({
 
     _loadItemCollectionType: function() {
         return require('../../collections/group-collection');
-    }
+    },
 });
 
 module.exports = GroupsMenuModel;

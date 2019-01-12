@@ -28,7 +28,7 @@ const SettingsPluginsView = Backbone.View.extend({
         'change input[type=checkbox].settings__plugins-plugin-input': 'pluginSettingChange',
         'input input[type=text].settings__plugins-plugin-input': 'pluginSettingChange',
         'change .settings__plugins-plugin-updates': 'autoUpdateChange',
-        'click .settings__plugins-gallery-load-btn': 'loadPluginGalleryClick'
+        'click .settings__plugins-gallery-load-btn': 'loadPluginGalleryClick',
     },
 
     searchStr: null,
@@ -43,18 +43,20 @@ const SettingsPluginsView = Backbone.View.extend({
 
     render() {
         this.renderTemplate({
-            plugins: PluginManager.get('plugins').map(plugin => ({
-                id: plugin.id,
-                manifest: plugin.get('manifest'),
-                status: plugin.get('status'),
-                installTime: Math.round(plugin.get('installTime')),
-                updateError: plugin.get('updateError'),
-                updateCheckDate: Format.dtStr(plugin.get('updateCheckDate')),
-                installError: plugin.get('installError'),
-                official: plugin.get('official'),
-                autoUpdate: plugin.get('autoUpdate'),
-                settings: plugin.getSettings()
-            })).sort(Comparators.stringComparator('id', true)),
+            plugins: PluginManager.get('plugins')
+                .map(plugin => ({
+                    id: plugin.id,
+                    manifest: plugin.get('manifest'),
+                    status: plugin.get('status'),
+                    installTime: Math.round(plugin.get('installTime')),
+                    updateError: plugin.get('updateError'),
+                    updateCheckDate: Format.dtStr(plugin.get('updateCheckDate')),
+                    installError: plugin.get('installError'),
+                    official: plugin.get('official'),
+                    autoUpdate: plugin.get('autoUpdate'),
+                    settings: plugin.getSettings(),
+                }))
+                .sort(Comparators.stringComparator('id', true)),
             installingFromUrl: this.installFromUrl && !this.installFromUrl.error,
             installUrl: this.installFromUrl ? this.installFromUrl.url : null,
             installUrlError: this.installFromUrl ? this.installFromUrl.error : null,
@@ -64,7 +66,7 @@ const SettingsPluginsView = Backbone.View.extend({
             searchStr: this.searchStr,
             hasUnicodeFlags: FeatureDetector.hasUnicodeFlags(),
             pluginDevLink: Links.PluginDevelopStart,
-            translateLink: Links.Translation
+            translateLink: Links.Translation,
         });
         if (this.searchStr) {
             this.showFilterResults();
@@ -88,7 +90,7 @@ const SettingsPluginsView = Backbone.View.extend({
                 manifest: pl.manifest,
                 installing: this.installing[pl.url],
                 installError: this.installErrors[pl.url],
-                official: pl.official
+                official: pl.official,
             }))
             .filter(pl => !plugins.get(pl.manifest.name) && this.canInstallPlugin(pl))
             .sort((x, y) => x.manifest.name.localeCompare(y.manifest.name));
@@ -221,12 +223,14 @@ const SettingsPluginsView = Backbone.View.extend({
     pluginMatchesFilter(plugin) {
         const searchStr = this.searchStr;
         const manifest = plugin.manifest;
-        return !searchStr ||
+        return (
+            !searchStr ||
             manifest.name.toLowerCase().indexOf(searchStr) >= 0 ||
-            manifest.description && manifest.description.toLowerCase().indexOf(searchStr) >= 0 ||
-            manifest.locale &&
+            (manifest.description && manifest.description.toLowerCase().indexOf(searchStr) >= 0) ||
+            (manifest.locale &&
                 (manifest.locale.name.toLowerCase().indexOf(searchStr) >= 0 ||
-                manifest.locale.title.toLowerCase().indexOf(searchStr) >= 0);
+                    manifest.locale.title.toLowerCase().indexOf(searchStr) >= 0))
+        );
     },
 
     pluginSettingChange(e) {
@@ -243,7 +247,7 @@ const SettingsPluginsView = Backbone.View.extend({
         const pluginId = $(e.target).data('plugin');
         const enabled = e.target.checked;
         PluginManager.setAutoUpdate(pluginId, enabled);
-    }
+    },
 });
 
 module.exports = SettingsPluginsView;

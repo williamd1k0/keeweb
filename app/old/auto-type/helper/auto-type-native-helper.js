@@ -15,7 +15,7 @@ const AutoTypeNativeHelper = {
         logger.debug('Using auto-type helper', helperPath);
         this._helperPath = helperPath;
         return helperPath;
-    }
+    },
 };
 
 module.exports = AutoTypeNativeHelper;

@@ -28,7 +28,7 @@ const AuthReceiver = {
             }
         });
         return message;
-    }
+    },
 };
 
 module.exports = AuthReceiver;

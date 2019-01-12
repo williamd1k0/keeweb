@@ -46,7 +46,7 @@ const SettingsGeneralView = Backbone.View.extend({
         'click .settings__general-show-advanced': 'showAdvancedSettings',
         'click .settings__general-dev-tools-link': 'openDevTools',
         'click .settings__general-try-beta-link': 'tryBeta',
-        'click .settings__general-show-logs-link': 'showLogs'
+        'click .settings__general-show-logs-link': 'showLogs',
     },
 
     views: null,
@@ -103,7 +103,7 @@ const SettingsGeneralView = Backbone.View.extend({
             colorfulIcons: AppSettingsModel.instance.get('colorfulIcons'),
             supportsTitleBarStyles: Launcher && FeatureDetector.supportsTitleBarStyles(),
             titlebarStyle: AppSettingsModel.instance.get('titlebarStyle'),
-            storageProviders: storageProviders
+            storageProviders: storageProviders,
         });
         this.renderProviderViews(storageProviders);
     },
@@ -116,7 +116,7 @@ const SettingsGeneralView = Backbone.View.extend({
             if (prv.hasConfig) {
                 this.views[prv.name] = new SettingsPrvView({
                     el: this.$el.find('.settings__general-' + prv.name),
-                    model: prv
+                    model: prv,
                 }).render();
             }
         }, this);
@@ -132,8 +132,14 @@ const SettingsGeneralView = Backbone.View.extend({
                     errMsg += ': ' + UpdateModel.instance.get('lastError');
                 }
                 if (UpdateModel.instance.get('lastSuccessCheckDate')) {
-                    errMsg += '. ' + Locale.setGenLastCheckSuccess.replace('{}', Format.dtStr(UpdateModel.instance.get('lastSuccessCheckDate'))) +
-                        ': ' + Locale.setGenLastCheckVer.replace('{}', UpdateModel.instance.get('lastVersion'));
+                    errMsg +=
+                        '. ' +
+                        Locale.setGenLastCheckSuccess.replace(
+                            '{}',
+                            Format.dtStr(UpdateModel.instance.get('lastSuccessCheckDate'))
+                        ) +
+                        ': ' +
+                        Locale.setGenLastCheckVer.replace('{}', UpdateModel.instance.get('lastVersion'));
                 }
                 return errMsg;
             case 'ok':
@@ -142,7 +148,9 @@ const SettingsGeneralView = Backbone.View.extend({
                 if (cmp >= 0) {
                     msg += Locale.setGenLatestVer;
                 } else {
-                    msg += Locale.setGenNewVer.replace('{}', UpdateModel.instance.get('lastVersion')) + ' ' +
+                    msg +=
+                        Locale.setGenNewVer.replace('{}', UpdateModel.instance.get('lastVersion')) +
+                        ' ' +
                         Format.dStr(UpdateModel.instance.get('lastVersionReleaseDate'));
                 }
                 switch (UpdateModel.instance.get('updateStatus')) {
@@ -171,7 +179,7 @@ const SettingsGeneralView = Backbone.View.extend({
         return storageProviders.map(sp => ({
             name: sp.name,
             enabled: sp.enabled,
-            hasConfig: sp.getSettingsConfig
+            hasConfig: sp.getSettingsConfig,
         }));
     },
 
@@ -323,7 +331,7 @@ const SettingsGeneralView = Backbone.View.extend({
         if (this.appModel.files.hasUnsavedFiles()) {
             Alerts.info({
                 header: Locale.setGenTryBetaWarning,
-                body: Locale.setGenTryBetaWarningBody
+                body: Locale.setGenTryBetaWarningBody,
             });
         } else {
             location.href = Links.BetaWebApp;
@@ -340,7 +348,7 @@ const SettingsGeneralView = Backbone.View.extend({
 
     scrollToBottom: function() {
         this.$el.closest('.scroller').scrollTop(this.$el.height());
-    }
+    },
 });
 
 module.exports = SettingsGeneralView;

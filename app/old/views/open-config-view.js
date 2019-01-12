@@ -9,7 +9,7 @@ const OpenConfigView = Backbone.View.extend({
         'click .open__config-btn-cancel': 'cancel',
         'click .open__config-btn-ok': 'apply',
         'input input': 'changeInput',
-        'keyup input': 'keyup'
+        'keyup input': 'keyup',
     },
 
     render: function() {
@@ -70,9 +70,10 @@ const OpenConfigView = Backbone.View.extend({
     },
 
     setError: function(err) {
-        const errText = err && err.notFound ? Locale.openConfigErrorNotFound : Locale.openConfigError.replace('{}', err);
+        const errText =
+            err && err.notFound ? Locale.openConfigErrorNotFound : Locale.openConfigError.replace('{}', err);
         this.$el.find('.open__config-error').text(errText);
-    }
+    },
 });
 
 module.exports = OpenConfigView;

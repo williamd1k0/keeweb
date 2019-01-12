@@ -63,7 +63,7 @@ const Resizable = {
     getSizeProp: function(prop) {
         const member = this[prop];
         return typeof member === 'function' ? member.call(this) : member;
-    }
+    },
 };
 
 module.exports = Resizable;

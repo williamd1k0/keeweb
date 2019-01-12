@@ -5,7 +5,7 @@ const FieldViewReadOnlyRaw = FieldView.extend({
         return value;
     },
 
-    readonly: true
+    readonly: true,
 });
 
 module.exports = FieldViewReadOnlyRaw;

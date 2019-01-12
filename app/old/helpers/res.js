@@ -12,7 +12,8 @@ Handlebars.registerHelper('res', function(key, options) {
     return value;
 });
 
-Handlebars.registerHelper('Res', function(key) { // eslint-disable-line prefer-arrow-callback
+Handlebars.registerHelper('Res', function(key) {
+    // eslint-disable-line prefer-arrow-callback
     let value = Locale[key];
     if (value) {
         value = value[0].toUpperCase() + value.substr(1);

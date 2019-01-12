@@ -11,9 +11,9 @@ const SettingsAboutView = Backbone.View.extend({
             licenseLink: Links.License,
             licenseLinkApache: Links.LicenseApache,
             repoLink: Links.Repo,
-            donationLink: Links.Donation
+            donationLink: Links.Donation,
         });
-    }
+    },
 });
 
 module.exports = SettingsAboutView;

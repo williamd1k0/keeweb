@@ -28,16 +28,21 @@ DropboxChooser.prototype.choose = function() {
 DropboxChooser.prototype.buildUrl = function() {
     const urlParams = {
         origin: encodeURIComponent(window.location.protocol + '//' + window.location.host),
-        'app_key': AppSettingsModel.instance.get('dropboxAppKey') || ChooserAppKey,
-        'link_type': 'direct',
+        app_key: AppSettingsModel.instance.get('dropboxAppKey') || ChooserAppKey,
+        link_type: 'direct',
         trigger: 'js',
         multiselect: 'false',
         extensions: '',
         folderselect: 'false',
         iframe: 'false',
-        version: 2
+        version: 2,
     };
-    return 'https://www.dropbox.com/chooser?' + Object.keys(urlParams).map(key => key + '=' + urlParams[key]).join('&');
+    return (
+        'https://www.dropbox.com/chooser?' +
+        Object.keys(urlParams)
+            .map(key => key + '=' + urlParams[key])
+            .join('&')
+    );
 };
 
 DropboxChooser.prototype.onMessage = function(e) {

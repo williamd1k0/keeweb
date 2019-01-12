@@ -5,7 +5,7 @@ const FieldViewReadOnly = FieldView.extend({
         return value.isProtected ? new Array(value.textLength + 1).join('•') : _.escape(value);
     },
 
-    readonly: true
+    readonly: true,
 });
 
 module.exports = FieldViewReadOnly;

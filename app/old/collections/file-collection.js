@@ -18,7 +18,7 @@ const FileCollection = Backbone.Collection.extend({
 
     getByName: function(name) {
         return this.find(file => file.get('name').toLowerCase() === name.toLowerCase());
-    }
+    },
 });
 
 module.exports = FileCollection;

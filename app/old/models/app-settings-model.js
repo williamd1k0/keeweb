@@ -44,7 +44,7 @@ const AppSettingsModel = Backbone.Model.extend({
         dropbox: true,
         webdav: true,
         gdrive: true,
-        onedrive: true
+        onedrive: true,
     },
 
     initialize: function() {
@@ -55,7 +55,7 @@ const AppSettingsModel = Backbone.Model.extend({
         return SettingsStore.load('app-settings').then(data => {
             if (data) {
                 this.upgrade(data);
-                this.set(data, {silent: true});
+                this.set(data, { silent: true });
             }
         });
     },
@@ -71,7 +71,7 @@ const AppSettingsModel = Backbone.Model.extend({
 
     save: function() {
         SettingsStore.save('app-settings', this.attributes);
-    }
+    },
 });
 
 AppSettingsModel.instance = new AppSettingsModel();

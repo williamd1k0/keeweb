@@ -83,17 +83,17 @@ app.on('activate', () => {
 app.on('will-quit', () => {
     electron.globalShortcut.unregisterAll();
 });
-app.restartApp = function () {
+app.restartApp = function() {
     restartPending = true;
     mainWindow.close();
     setTimeout(() => {
         restartPending = false;
     }, 1000);
 };
-app.openWindow = function (opts) {
+app.openWindow = function(opts) {
     return new electron.BrowserWindow(opts);
 };
-app.minimizeApp = function () {
+app.minimizeApp = function() {
     let imagePath;
     mainWindow.hide();
     if (process.platform === 'darwin') {
@@ -108,20 +108,20 @@ app.minimizeApp = function () {
         appIcon = new electron.Tray(image);
         appIcon.on('click', restoreMainWindow);
         const contextMenu = electron.Menu.buildFromTemplate([
-            {label: 'Open KeeWeb', click: restoreMainWindow},
-            {label: 'Quit KeeWeb', click: closeMainWindow}
+            { label: 'Open KeeWeb', click: restoreMainWindow },
+            { label: 'Quit KeeWeb', click: closeMainWindow },
         ]);
         appIcon.setContextMenu(contextMenu);
         appIcon.setToolTip('KeeWeb');
     }
 };
-app.minimizeThenHideIfInTray = function () {
+app.minimizeThenHideIfInTray = function() {
     // This function is called when auto-type has displayed a selection list and a selection was made.
     // To ensure focus returns to the previous window we must minimize first even if we're going to hide.
     mainWindow.minimize();
     if (appIcon) mainWindow.hide();
 };
-app.getMainWindow = function () {
+app.getMainWindow = function() {
     return mainWindow;
 };
 app.emitBackboneEvent = emitBackboneEvent;
@@ -142,12 +142,15 @@ function createMainWindow() {
     const appSettings = readAppSettings();
     const windowOptions = {
         show: false,
-        width: 1000, height: 700, minWidth: 700, minHeight: 400,
+        width: 1000,
+        height: 700,
+        minWidth: 700,
+        minHeight: 400,
         titleBarStyle: appSettings ? appSettings.titlebarStyle : undefined,
         backgroundColor: '#282C34',
         webPreferences: {
-            backgroundThrottling: false
-        }
+            backgroundThrottling: false,
+        },
     };
     if (process.platform !== 'win32') {
         windowOptions.icon = path.join(__dirname, 'icon.png');
@@ -252,7 +255,9 @@ function saveMainWindowPosition() {
     delete mainWindowPosition.changed;
     try {
         fs.writeFileSync(windowPositionFileName, JSON.stringify(mainWindowPosition), 'utf8');
-    } catch (e) { /* eslint-disable-line no-empty */ }
+    } catch (e) {
+        /* eslint-disable-line no-empty */
+    }
 }
 
 function restoreMainWindowPosition() {
@@ -264,8 +269,12 @@ function restoreMainWindowPosition() {
                     mainWindow.setBounds(mainWindowPosition);
                     coerceMainWindowPositionToConnectedDisplay();
                 }
-                if (mainWindowPosition.maximized) { mainWindow.maximize(); }
-                if (mainWindowPosition.fullScreen) { mainWindow.setFullScreen(true); }
+                if (mainWindowPosition.maximized) {
+                    mainWindow.maximize();
+                }
+                if (mainWindowPosition.fullScreen) {
+                    mainWindow.setFullScreen(true);
+                }
             }
         }
     });
@@ -297,8 +306,8 @@ function setMenu() {
                     { accelerator: 'Command+Shift+H', role: 'hideothers' },
                     { role: 'unhide' },
                     { type: 'separator' },
-                    { role: 'quit', accelerator: 'Command+Q' }
-                ]
+                    { role: 'quit', accelerator: 'Command+Q' },
+                ],
             },
             {
                 label: 'Edit',
@@ -309,15 +318,13 @@ function setMenu() {
                     { accelerator: 'CmdOrCtrl+X', role: 'cut' },
                     { accelerator: 'CmdOrCtrl+C', role: 'copy' },
                     { accelerator: 'CmdOrCtrl+V', role: 'paste' },
-                    { accelerator: 'CmdOrCtrl+A', role: 'selectall' }
-                ]
+                    { accelerator: 'CmdOrCtrl+A', role: 'selectall' },
+                ],
             },
             {
                 label: 'Window',
-                submenu: [
-                    { accelerator: 'CmdOrCtrl+M', role: 'minimize' }
-                ]
-            }
+                submenu: [{ accelerator: 'CmdOrCtrl+M', role: 'minimize' }],
+            },
         ];
         const menu = electron.Menu.buildFromTemplate(template);
         electron.Menu.setApplicationMenu(menu);
@@ -330,24 +337,32 @@ function onContextMenu(e, props) {
     }
     const Menu = electron.Menu;
     const inputMenu = Menu.buildFromTemplate([
-        {role: 'undo'},
-        {role: 'redo'},
-        {type: 'separator'},
-        {role: 'cut'},
-        {role: 'copy'},
-        {role: 'paste'},
-        {type: 'separator'},
-        {role: 'selectall'}
+        { role: 'undo' },
+        { role: 'redo' },
+        { type: 'separator' },
+        { role: 'cut' },
+        { role: 'copy' },
+        { role: 'paste' },
+        { type: 'separator' },
+        { role: 'selectall' },
     ]);
     inputMenu.popup(mainWindow);
 }
 
 function notifyOpenFile() {
     if (ready && openFile && mainWindow) {
-        const openKeyfile = process.argv.filter(arg => arg.startsWith('--keyfile=')).map(arg => arg.replace('--keyfile=', ''))[0];
+        const openKeyfile = process.argv
+            .filter(arg => arg.startsWith('--keyfile='))
+            .map(arg => arg.replace('--keyfile=', ''))[0];
         const fileInfo = JSON.stringify({ data: openFile, key: openKeyfile });
-        mainWindow.webContents.executeJavaScript('if (window.launcherOpen) { window.launcherOpen(' + fileInfo + '); } ' +
-            ' else { window.launcherOpenedFile=' + fileInfo + '; }');
+        mainWindow.webContents.executeJavaScript(
+            'if (window.launcherOpen) { window.launcherOpen(' +
+                fileInfo +
+                '); } ' +
+                ' else { window.launcherOpenedFile=' +
+                fileInfo +
+                '; }'
+        );
         openFile = null;
     }
 }
@@ -358,7 +373,7 @@ function setGlobalShortcuts() {
         C: 'copy-password',
         B: 'copy-user',
         U: 'copy-url',
-        T: 'auto-type'
+        T: 'auto-type',
     };
     Object.keys(shortcuts).forEach(key => {
         const shortcut = shortcutModifiers + key;
@@ -367,7 +382,9 @@ function setGlobalShortcuts() {
             electron.globalShortcut.register(shortcut, () => {
                 emitBackboneEvent(eventName);
             });
-        } catch (e) { /* eslint-disable-line no-empty */ }
+        } catch (e) {
+            /* eslint-disable-line no-empty */
+        }
     });
 }
 
@@ -400,7 +417,9 @@ function restorePreferences() {
     let oldProfile;
     try {
         oldProfile = JSON.parse(fs.readFileSync(profileConfigPath, 'utf8'));
-    } catch (e) { /* eslint-disable-line no-empty */ }
+    } catch (e) {
+        /* eslint-disable-line no-empty */
+    }
 
     fs.writeFileSync(profileConfigPath, JSON.stringify(newProfile));
 
@@ -409,8 +428,7 @@ function restorePreferences() {
         const newProfilePath = path.join(tempUserDataPath, newProfile.dir);
         if (fs.existsSync(path.join(oldProfilePath, 'Cookies'))) {
             fs.mkdirSync(newProfilePath);
-            fs.renameSync(path.join(oldProfilePath, 'Cookies'),
-                path.join(newProfilePath, 'Cookies'));
+            fs.renameSync(path.join(oldProfilePath, 'Cookies'), path.join(newProfilePath, 'Cookies'));
         }
     }
 }
@@ -424,7 +442,9 @@ function deleteOldTempFiles() {
             if (dir !== tempUserDataPathRand) {
                 try {
                     deleteRecursive(path.join(tempUserDataPath, dir));
-                } catch (e) { /* eslint-disable-line no-empty */ }
+                } catch (e) {
+                    /* eslint-disable-line no-empty */
+                }
             }
         }
         app.oldTempFilesDeleted = true; // this is added to prevent file deletion on restart
@@ -452,7 +472,7 @@ function hookRequestHeaders() {
         if (!details.url.startsWith('ws:')) {
             delete details.requestHeaders['Origin'];
         }
-        callback({cancel: false, requestHeaders: details.requestHeaders});
+        callback({ cancel: false, requestHeaders: details.requestHeaders });
     });
 }
 
@@ -487,10 +507,10 @@ function coerceMainWindowPositionToConnectedDisplay() {
     const newWidth = Math.min(windowBounds.width, Math.floor(0.9 * workArea.width));
     const newHeight = Math.min(windowBounds.height, Math.floor(0.9 * workArea.height));
     mainWindow.setBounds({
-        'x': workArea.x + Math.floor((workArea.width - newWidth) / 2),
-        'y': workArea.y + Math.floor((workArea.height - newHeight) / 2),
-        'width': newWidth,
-        'height': newHeight
+        x: workArea.x + Math.floor((workArea.width - newWidth) / 2),
+        y: workArea.y + Math.floor((workArea.height - newHeight) / 2),
+        width: newWidth,
+        height: newHeight,
     });
     updateMainWindowPosition();
 }

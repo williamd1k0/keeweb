@@ -18,25 +18,32 @@ const OtpQrReader = {
         if (screenshotKey) {
             screenshotKey = Locale.detSetupOtpAlertBodyWith.replace('{}', '<code>' + screenshotKey + '</code>');
         }
-        const pasteKey = FeatureDetector.isMobile ? ''
-            : Locale.detSetupOtpAlertBodyWith.replace('{}',
-                '<code>' + FeatureDetector.actionShortcutSymbol() + 'V</code>');
+        const pasteKey = FeatureDetector.isMobile
+            ? ''
+            : Locale.detSetupOtpAlertBodyWith.replace(
+                  '{}',
+                  '<code>' + FeatureDetector.actionShortcutSymbol() + 'V</code>'
+              );
         OtpQrReader.startListenClipoard();
-        const buttons = [{result: 'manually', title: Locale.detSetupOtpManualButton, silent: true},
-            Alerts.buttons.cancel];
+        const buttons = [
+            { result: 'manually', title: Locale.detSetupOtpManualButton, silent: true },
+            Alerts.buttons.cancel,
+        ];
         if (FeatureDetector.isMobile) {
-            buttons.unshift({result: 'select', title: Locale.detSetupOtpScanButton});
+            buttons.unshift({ result: 'select', title: Locale.detSetupOtpScanButton });
         }
-        const line3 = FeatureDetector.isMobile ? Locale.detSetupOtpAlertBody3Mobile
+        const line3 = FeatureDetector.isMobile
+            ? Locale.detSetupOtpAlertBody3Mobile
             : Locale.detSetupOtpAlertBody3.replace('{}', pasteKey || '');
         OtpQrReader.alert = Alerts.alert({
             icon: 'qrcode',
             header: Locale.detSetupOtpAlert,
-            body: [Locale.detSetupOtpAlertBody,
+            body: [
+                Locale.detSetupOtpAlertBody,
                 Locale.detSetupOtpAlertBody1,
                 Locale.detSetupOtpAlertBody2.replace('{}', screenshotKey || ''),
                 line3,
-                Locale.detSetupOtpAlertBody4
+                Locale.detSetupOtpAlertBody4,
             ].join('<br/>'),
             esc: '',
             click: '',
@@ -50,7 +57,7 @@ const OtpQrReader = {
                 } else if (res === 'manually') {
                     OtpQrReader.enterManually();
                 }
-            }
+            },
         });
         // transparent window with QR scanner - is it better? check usability of this
         // var BrowserWindow = require('../../comp/launcher').remReq('browser-window');
@@ -96,7 +103,7 @@ const OtpQrReader = {
         logger.info('Reading pasted image', item.type);
         if (OtpQrReader.alert) {
             OtpQrReader.alert.change({
-                header: Locale.detOtpImageReading
+                header: Locale.detOtpImageReading,
             });
         }
         OtpQrReader.readFile(item.getAsFile());
@@ -127,7 +134,8 @@ const OtpQrReader = {
                     logger.error('Error parsing QR code', err);
                     Alerts.error({
                         header: Locale.detOtpQrWrong,
-                        body: Locale.detOtpQrWrongBody + '<pre class="modal__pre">' + _.escape(err.toString()) + '</pre>'
+                        body:
+                            Locale.detOtpQrWrongBody + '<pre class="modal__pre">' + _.escape(err.toString()) + '</pre>',
                     });
                 }
             } catch (e) {
@@ -135,7 +143,7 @@ const OtpQrReader = {
                 OtpQrReader.removeAlert();
                 Alerts.error({
                     header: Locale.detOtpQrError,
-                    body: Locale.detOtpQrErrorBody
+                    body: Locale.detOtpQrErrorBody,
                 });
             }
         };
@@ -144,7 +152,7 @@ const OtpQrReader = {
             OtpQrReader.removeAlert();
             Alerts.error({
                 header: Locale.detOtpImageError,
-                body: Locale.detOtpImageErrorBody
+                body: Locale.detOtpImageErrorBody,
             });
         };
         image.src = imageData;
@@ -158,7 +166,7 @@ const OtpQrReader = {
         if (OtpQrReader.alert) {
             OtpQrReader.alert.closeImmediate();
         }
-    }
+    },
 };
 
 _.extend(OtpQrReader, Backbone.Events);

@@ -43,7 +43,11 @@ const ThemeVars = {
                 result = result.replace(/([\w\-]+)\([^()]+\)/, fnText => {
                     replaced = true;
                     const [, name, argsStr] = fnText.match(/([\w\-]+)\((.*)\)/);
-                    const args = argsStr.trim().split(/\s*,\s*/).filter(arg => arg).map(arg => this.resolveArg(arg, cssStyle, locals));
+                    const args = argsStr
+                        .trim()
+                        .split(/\s*,\s*/)
+                        .filter(arg => arg)
+                        .map(arg => this.resolveArg(arg, cssStyle, locals));
                     locals.push(this.fn[name](...args));
                     return 'L' + (locals.length - 1);
                 });
@@ -85,13 +89,13 @@ const ThemeVars = {
     },
 
     fn: {
-        'mix'(color1, color2, percent) {
+        mix(color1, color2, percent) {
             return color1.mix(color2, percent).toRgba();
         },
         'semi-mute-percent'(mutePercent) {
             return mutePercent / 2;
         },
-        'rgba'(color, alpha) {
+        rgba(color, alpha) {
             const res = new Color(color);
             res.a = alpha;
             return res.toRgba();
@@ -108,10 +112,10 @@ const ThemeVars = {
             res.a += Math.min(0, Math.max(1, alpha));
             return res.toHsla();
         },
-        'shade'(color, percent) {
+        shade(color, percent) {
             return Color.black.mix(color, percent).toRgba();
-        }
-    }
+        },
+    },
 };
 
 module.exports = ThemeVars;

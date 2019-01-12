@@ -8,7 +8,7 @@ const TagView = Backbone.View.extend({
     events: {
         'click .tag__buttons-trash': 'moveToTrash',
         'click .back-button': 'returnToApp',
-        'click .tag__btn-rename': 'renameTag'
+        'click .tag__btn-rename': 'renameTag',
     },
 
     initialize: function() {
@@ -17,9 +17,12 @@ const TagView = Backbone.View.extend({
 
     render: function() {
         if (this.model) {
-            this.renderTemplate({
-                title: this.model.get('title')
-            }, true);
+            this.renderTemplate(
+                {
+                    title: this.model.get('title'),
+                },
+                true
+            );
         }
         return this;
     },
@@ -54,13 +57,13 @@ const TagView = Backbone.View.extend({
             success: () => {
                 this.appModel.renameTag(this.model.get('title'), undefined);
                 Backbone.trigger('select-all');
-            }
+            },
         });
     },
 
     returnToApp: function() {
         Backbone.trigger('edit-tag');
-    }
+    },
 });
 
 module.exports = TagView;

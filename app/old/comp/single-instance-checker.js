@@ -30,9 +30,11 @@ const SingleInstanceChecker = {
     setKey: function(key, value) {
         try {
             localStorage.setItem(key, value);
-            setTimeout(() => { localStorage.removeItem(key); }, 100);
+            setTimeout(() => {
+                localStorage.removeItem(key);
+            }, 100);
         } catch (e) {}
-    }
+    },
 };
 
 module.exports = SingleInstanceChecker;

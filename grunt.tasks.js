@@ -17,13 +17,13 @@ module.exports = function(grunt) {
         'string-replace:manifest-html',
         'string-replace:manifest',
         'copy:dist-icons',
-        'copy:dist-manifest'
+        'copy:dist-manifest',
     ]);
 
     grunt.registerTask('build-desktop-app-content', [
         'copy:desktop-app-content',
         'string-replace:desktop-public-key',
-        'string-replace:desktop-html'
+        'string-replace:desktop-html',
     ]);
 
     grunt.registerTask('build-desktop-update', [
@@ -32,7 +32,7 @@ module.exports = function(grunt) {
         'sign-desktop-files:desktop-update',
         'compress:desktop-update',
         'sign-archive:desktop-update',
-        'validate-desktop-update'
+        'validate-desktop-update',
     ]);
 
     grunt.registerTask('build-desktop-executables', [
@@ -43,20 +43,17 @@ module.exports = function(grunt) {
         'copy:desktop-darwin-installer',
         'copy:desktop-windows-helper-ia32',
         'copy:desktop-windows-helper-x64',
-        'codesign:app'
+        'codesign:app',
     ]);
 
     grunt.registerTask('build-desktop-archives', [
         'compress:win32-x64',
         'compress:win32-ia32',
         'compress:linux-x64',
-        'compress:linux-ia32'
+        'compress:linux-ia32',
     ]);
 
-    grunt.registerTask('build-desktop-dist-darwin', [
-        'appdmg',
-        'codesign:dmg'
-    ]);
+    grunt.registerTask('build-desktop-dist-darwin', ['appdmg', 'codesign:dmg']);
 
     grunt.registerTask('build-desktop-dist-win32', [
         'nsis:win32-un-x64',
@@ -68,18 +65,15 @@ module.exports = function(grunt) {
         'sign-exe:win32-installer-x64',
         'sign-exe:win32-installer-ia32',
         'copy:desktop-win32-dist-x64',
-        'copy:desktop-win32-dist-ia32'
+        'copy:desktop-win32-dist-ia32',
     ]);
 
-    grunt.registerTask('build-desktop-dist-linux', [
-        'deb:linux-x64',
-        'deb:linux-ia32'
-    ]);
+    grunt.registerTask('build-desktop-dist-linux', ['deb:linux-x64', 'deb:linux-ia32']);
 
     grunt.registerTask('build-desktop-dist', [
         'build-desktop-dist-darwin',
         'build-desktop-dist-win32',
-        'build-desktop-dist-linux'
+        'build-desktop-dist-linux',
     ]);
 
     grunt.registerTask('build-desktop', [
@@ -90,16 +84,10 @@ module.exports = function(grunt) {
         'build-desktop-update',
         'build-desktop-archives',
         'build-desktop-dist',
-        'sign-dist'
+        'sign-dist',
     ]);
 
-    grunt.registerTask('build-cordova-app-content', [
-        'string-replace:cordova-html'
-    ]);
+    grunt.registerTask('build-cordova-app-content', ['string-replace:cordova-html']);
 
-    grunt.registerTask('build-cordova', [
-        'gitinfo',
-        'clean:cordova',
-        'build-cordova-app-content'
-    ]);
+    grunt.registerTask('build-cordova', ['gitinfo', 'clean:cordova', 'build-cordova-app-content']);
 };

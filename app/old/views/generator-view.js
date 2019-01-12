@@ -10,7 +10,7 @@ const GeneratorView = Backbone.View.extend({
     template: require('templates/generator.hbs'),
 
     events: {
-        'click': 'click',
+        click: 'click',
         'mousedown .gen__length-range': 'generate',
         'mousemove .gen__length-range': 'lengthMouseMove',
         'input .gen__length-range': 'lengthChange',
@@ -18,7 +18,7 @@ const GeneratorView = Backbone.View.extend({
         'change .gen__check input[type=checkbox]': 'checkChange',
         'click .gen__btn-ok': 'btnOkClick',
         'change .gen__sel-tpl': 'presetChange',
-        'click .gen__btn-refresh': 'newPass'
+        'click .gen__btn-refresh': 'newPass',
     },
 
     valuesMap: [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 22, 24, 26, 28, 30, 32, 48, 64],
@@ -26,7 +26,7 @@ const GeneratorView = Backbone.View.extend({
     presets: null,
     preset: null,
 
-    initialize: function () {
+    initialize: function() {
         this.createPresets();
         const preset = this.preset;
         this.gen = _.clone(_.find(this.presets, pr => pr.name === preset));
@@ -36,7 +36,7 @@ const GeneratorView = Backbone.View.extend({
 
     render: function() {
         const canCopy = document.queryCommandSupported('copy');
-        const btnTitle = this.model.copy ? canCopy ? Locale.alertCopy : Locale.alertClose : Locale.alertOk;
+        const btnTitle = this.model.copy ? (canCopy ? Locale.alertCopy : Locale.alertClose) : Locale.alertOk;
         this.renderTemplate({ btnTitle: btnTitle, opt: this.gen, presets: this.presets, preset: this.preset });
         this.resultEl = this.$el.find('.gen__result');
         this.$el.css(this.model.pos);
@@ -93,8 +93,10 @@ const GeneratorView = Backbone.View.extend({
     },
 
     optionChanged: function(option) {
-        if (this.preset === 'Custom' ||
-            this.preset === 'Pronounceable' && ['length', 'lower', 'upper'].indexOf(option) >= 0) {
+        if (
+            this.preset === 'Custom' ||
+            (this.preset === 'Pronounceable' && ['length', 'lower', 'upper'].indexOf(option) >= 0)
+        ) {
             return;
         }
         this.preset = this.gen.name = 'Custom';
@@ -134,7 +136,7 @@ const GeneratorView = Backbone.View.extend({
 
     newPass: function() {
         this.generate();
-    }
+    },
 });
 
 module.exports = GeneratorView;

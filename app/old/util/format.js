@@ -18,8 +18,15 @@ const Format = {
         if (typeof dt === 'number') {
             dt = new Date(dt);
         }
-        return dt ? this.dStr(dt) + ' ' + this.pad(dt.getHours(), 2) + ':' + this.pad(dt.getMinutes(), 2) +
-            ':' + this.pad(dt.getSeconds(), 2) : '';
+        return dt
+            ? this.dStr(dt) +
+                  ' ' +
+                  this.pad(dt.getHours(), 2) +
+                  ':' +
+                  this.pad(dt.getMinutes(), 2) +
+                  ':' +
+                  this.pad(dt.getSeconds(), 2)
+            : '';
     },
     dStr: function(dt) {
         if (typeof dt === 'number') {
@@ -37,10 +44,20 @@ const Format = {
         if (typeof dt === 'number') {
             dt = new Date(dt);
         }
-        return dt ? dt.getFullYear() + '-' + this.pad(dt.getMonth() + 1, 2) + '-' + this.pad(dt.getDate(), 2) + 'T' +
-            this.pad(dt.getHours(), 2) + '-' + this.pad(dt.getMinutes(), 2) + '-' + this.pad(dt.getSeconds(), 2)
+        return dt
+            ? dt.getFullYear() +
+                  '-' +
+                  this.pad(dt.getMonth() + 1, 2) +
+                  '-' +
+                  this.pad(dt.getDate(), 2) +
+                  'T' +
+                  this.pad(dt.getHours(), 2) +
+                  '-' +
+                  this.pad(dt.getMinutes(), 2) +
+                  '-' +
+                  this.pad(dt.getSeconds(), 2)
             : '';
-    }
+    },
 };
 
 module.exports = Format;

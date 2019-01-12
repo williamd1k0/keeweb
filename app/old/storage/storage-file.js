@@ -114,10 +114,14 @@ const StorageFile = StorageBase.extend({
         Launcher.mkdir(path, err => {
             if (err) {
                 this.logger.error('Error making local dir', path, err);
-                if (callback) { callback('Error making local dir'); }
+                if (callback) {
+                    callback('Error making local dir');
+                }
             } else {
                 this.logger.debug('Made dir', path, this.logger.ts(ts));
-                if (callback) { callback(); }
+                if (callback) {
+                    callback();
+                }
             }
         });
     },
@@ -131,7 +135,7 @@ const StorageFile = StorageBase.extend({
                 fsWatcher.on('change', this.fsWatcherChange.bind(this, names.dir));
                 fileWatchers[names.dir] = {
                     fsWatcher: fsWatcher,
-                    callbacks: []
+                    callbacks: [],
                 };
             }
         }
@@ -140,7 +144,7 @@ const StorageFile = StorageBase.extend({
         if (fsWatcher) {
             fsWatcher.callbacks.push({
                 file: names.file,
-                callback: callback
+                callback: callback,
             });
         }
     },
@@ -171,7 +175,7 @@ const StorageFile = StorageBase.extend({
                 }
             });
         }
-    }
+    },
 });
 
 module.exports = new StorageFile();

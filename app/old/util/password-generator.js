@@ -9,7 +9,7 @@ const PasswordGenerator = {
         special: '!@#$%^&*_+-=,./?;:`"~\'\\',
         brackets: '(){}[]<>',
         high: '¡¢£¤¥¦§©ª«¬®¯°±²³´µ¶¹º»¼½¾¿ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõö÷øùúûüýþ',
-        ambiguous: 'O0oIl'
+        ambiguous: 'O0oIl',
     },
 
     generate: function(opts) {
@@ -28,7 +28,9 @@ const PasswordGenerator = {
         }
         const ranges = Object.keys(this.charRanges)
             .filter(r => opts[r])
-            .map(function(r) { return this.charRanges[r]; }, this);
+            .map(function(r) {
+                return this.charRanges[r];
+            }, this);
         if (opts.include && opts.include.length) {
             ranges.push(opts.include);
         }
@@ -71,7 +73,7 @@ const PasswordGenerator = {
     generatePronounceable: function(opts) {
         const pass = phonetic.generate({
             length: opts.length,
-            seed: this.generateHash(1024)
+            seed: this.generateHash(1024),
         });
         let result = '';
         const upper = [];
@@ -112,7 +114,7 @@ const PasswordGenerator = {
 
     present: function(length) {
         return new Array(length + 1).join('•');
-    }
+    },
 };
 
 module.exports = PasswordGenerator;

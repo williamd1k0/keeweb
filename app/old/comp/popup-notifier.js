@@ -26,7 +26,7 @@ const PopupNotifier = {
                     if (!Alerts.alertDisplayed) {
                         Alerts.error({
                             header: Locale.authPopupRequired,
-                            body: Locale.authPopupRequiredBody
+                            body: Locale.authPopupRequiredBody,
                         });
                     }
                 }
@@ -42,8 +42,8 @@ const PopupNotifier = {
                 nodeIntegration: false,
                 webSecurity: false,
                 allowDisplayingInsecureContent: true,
-                allowRunningInsecureContent: true
-            }
+                allowRunningInsecureContent: true,
+            },
         };
         if (settings) {
             const settingsObj = {};
@@ -51,10 +51,18 @@ const PopupNotifier = {
                 const parts = part.split('=');
                 settingsObj[parts[0].trim()] = parts[1].trim();
             });
-            if (settingsObj.width) { opts.width = +settingsObj.width; }
-            if (settingsObj.height) { opts.height = +settingsObj.height; }
-            if (settingsObj.top) { opts.y = +settingsObj.top; }
-            if (settingsObj.left) { opts.x = +settingsObj.left; }
+            if (settingsObj.width) {
+                opts.width = +settingsObj.width;
+            }
+            if (settingsObj.height) {
+                opts.height = +settingsObj.height;
+            }
+            if (settingsObj.top) {
+                opts.y = +settingsObj.top;
+            }
+            if (settingsObj.left) {
+                opts.x = +settingsObj.left;
+            }
         }
         let win = Launcher.openWindow(opts);
         win.webContents.on('will-redirect', (e, url) => {
@@ -101,8 +109,7 @@ const PopupNotifier = {
     },
 
     isOwnUrl(url) {
-        return url.lastIndexOf(Links.WebApp, 0) === 0 ||
-            url.lastIndexOf(location.origin + location.pathname, 0) === 0;
+        return url.lastIndexOf(Links.WebApp, 0) === 0 || url.lastIndexOf(location.origin + location.pathname, 0) === 0;
     },
 
     processReturnToApp: function(url) {
@@ -128,7 +135,7 @@ const PopupNotifier = {
 
     triggerClosed: function(win) {
         Backbone.trigger('popup-closed', win);
-    }
+    },
 };
 
 module.exports = PopupNotifier;

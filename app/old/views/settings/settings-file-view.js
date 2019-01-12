@@ -45,7 +45,7 @@ const SettingsFileView = Backbone.View.extend({
         'input #settings__file-hist-size': 'changeHistorySize',
         'input #settings__file-key-rounds': 'changeKeyRounds',
         'input #settings__file-key-change-force': 'changeKeyChangeForce',
-        'input .settings__input-kdf': 'changeKdfParameter'
+        'input .settings__input-kdf': 'changeKdfParameter',
     },
 
     appModel: null,
@@ -65,7 +65,11 @@ const SettingsFileView = Backbone.View.extend({
             }
             if (!prv.system && prv.enabled) {
                 storageProviders.push({
-                    name: prv.name, icon: prv.icon, iconSvg: prv.iconSvg, own: name === fileStorage, backup: prv.backup
+                    name: prv.name,
+                    icon: prv.icon,
+                    iconSvg: prv.iconSvg,
+                    own: name === fileStorage,
+                    backup: prv.backup,
                 });
             }
         });
@@ -86,7 +90,7 @@ const SettingsFileView = Backbone.View.extend({
             recycleBinEnabled: this.model.get('recycleBinEnabled'),
             backupEnabled: backup && backup.enabled,
             backupStorage: backup && backup.storage,
-            backupPath: backup && backup.path || DefaultBackupPath.replace('{name}', this.model.get('name')),
+            backupPath: (backup && backup.path) || DefaultBackupPath.replace('{name}', this.model.get('name')),
             backupSchedule: backup ? backup.schedule : DefaultBackupSchedule,
             historyMaxItems: this.model.get('historyMaxItems'),
             historyMaxSize: Math.round(this.model.get('historyMaxSize') / 1024 / 1024),
@@ -94,7 +98,7 @@ const SettingsFileView = Backbone.View.extend({
             keyChangeForce: this.model.get('keyChangeForce') > 0 ? this.model.get('keyChangeForce') : null,
             kdfParameters: this.kdfParametersToUi(this.model.get('kdfParameters')),
             storageProviders: storageProviders,
-            canBackup: canBackup
+            canBackup: canBackup,
         });
         if (!this.model.get('created')) {
             this.$el.find('.settings__file-master-pass-warning').toggle(this.model.get('passwordChanged'));
@@ -114,15 +118,32 @@ const SettingsFileView = Backbone.View.extend({
         const sel = this.$el.find('#settings__file-key-file');
         sel.html('');
         if (keyFileName && keyFileChanged) {
-            const text = keyFileName !== 'Generated' ? Locale.setFileUseKeyFile + ' ' + keyFileName : Locale.setFileUseGenKeyFile;
-            $('<option/>').val('ex').text(text).appendTo(sel);
+            const text =
+                keyFileName !== 'Generated'
+                    ? Locale.setFileUseKeyFile + ' ' + keyFileName
+                    : Locale.setFileUseGenKeyFile;
+            $('<option/>')
+                .val('ex')
+                .text(text)
+                .appendTo(sel);
         }
         if (oldKeyFileName) {
-            const useText = keyFileChanged ? Locale.setFileUseOldKeyFile : Locale.setFileUseKeyFile + ' ' + oldKeyFileName;
-            $('<option/>').val('old').text(useText).appendTo(sel);
+            const useText = keyFileChanged
+                ? Locale.setFileUseOldKeyFile
+                : Locale.setFileUseKeyFile + ' ' + oldKeyFileName;
+            $('<option/>')
+                .val('old')
+                .text(useText)
+                .appendTo(sel);
         }
-        $('<option/>').val('gen').text(Locale.setFileGenKeyFile).appendTo(sel);
-        $('<option/>').val('none').text(Locale.setFileDontUseKeyFile).appendTo(sel);
+        $('<option/>')
+            .val('gen')
+            .text(Locale.setFileGenKeyFile)
+            .appendTo(sel);
+        $('<option/>')
+            .val('none')
+            .text(Locale.setFileDontUseKeyFile)
+            .appendTo(sel);
         if (keyFileName && keyFileChanged) {
             sel.val('ex');
         } else if (!keyFileName) {
@@ -142,7 +163,7 @@ const SettingsFileView = Backbone.View.extend({
                 },
                 cancel: () => {
                     this.$el.find('#settings__file-master-pass').focus();
-                }
+                },
             });
             return false;
         }
@@ -183,7 +204,7 @@ const SettingsFileView = Backbone.View.extend({
         if (Launcher && !this.model.get('storage')) {
             Launcher.getSaveFileName(fileName, path => {
                 if (path) {
-                    this.save({storage: 'file', path: path});
+                    this.save({ storage: 'file', path: path });
                 }
             });
         } else {
@@ -198,14 +219,14 @@ const SettingsFileView = Backbone.View.extend({
                                 if (err) {
                                     Alerts.error({
                                         header: Locale.setFileSaveError,
-                                        body: Locale.setFileSaveErrorBody + ' ' + path + ': \n' + err
+                                        body: Locale.setFileSaveErrorBody + ' ' + path + ': \n' + err,
                                     });
                                 }
                             });
                         }
                     });
                 } else {
-                    const blob = new Blob([data], {type: 'application/octet-stream'});
+                    const blob = new Blob([data], { type: 'application/octet-stream' });
                     FileSaver.saveAs(blob, fileName);
                 }
             });
@@ -214,7 +235,7 @@ const SettingsFileView = Backbone.View.extend({
 
     saveToXml: function() {
         this.model.getXml(xml => {
-            const blob = new Blob([xml], {type: 'text/xml'});
+            const blob = new Blob([xml], { type: 'text/xml' });
             FileSaver.saveAs(blob, this.model.get('name') + '.xml');
         });
     },
@@ -223,7 +244,9 @@ const SettingsFileView = Backbone.View.extend({
         if (this.model.get('syncing') || this.model.get('demo')) {
             return;
         }
-        const storageName = $(e.target).closest('.settings__file-save-to-storage').data('storage');
+        const storageName = $(e.target)
+            .closest('.settings__file-save-to-storage')
+            .data('storage');
         const storage = Storage[storageName];
         if (!storage) {
             return;
@@ -233,12 +256,15 @@ const SettingsFileView = Backbone.View.extend({
         } else {
             if (!storage.list) {
                 if (storage.getOpenConfig) {
-                    const config = _.extend({
-                        id: storage.name,
-                        name: Locale[storage.name] || storage.name,
-                        icon: storage.icon,
-                        buttons: false
-                    }, storage.getOpenConfig());
+                    const config = _.extend(
+                        {
+                            id: storage.name,
+                            name: Locale[storage.name] || storage.name,
+                            icon: storage.icon,
+                            buttons: false,
+                        },
+                        storage.getOpenConfig()
+                    );
                     const openConfigView = new OpenConfigView({ model: config });
                     Alerts.alert({
                         header: '',
@@ -258,7 +284,7 @@ const SettingsFileView = Backbone.View.extend({
                                 this.model.set('opts', opts);
                             }
                             this.save({ storage: storageName, path: storageConfig.path, opts });
-                        }
+                        },
                     });
                 } else {
                     Alerts.notImplemented();
@@ -284,13 +310,13 @@ const SettingsFileView = Backbone.View.extend({
                             storage.remove(existingFile.path, err => {
                                 this.model.set('syncing', false);
                                 if (!err) {
-                                    this.save({storage: storageName});
+                                    this.save({ storage: storageName });
                                 }
                             });
-                        }
+                        },
                     });
                 } else {
-                    this.save({storage: storageName});
+                    this.save({ storage: storageName });
                 }
             });
         }
@@ -302,14 +328,14 @@ const SettingsFileView = Backbone.View.extend({
                 header: Locale.setFileUnsaved,
                 body: Locale.setFileUnsavedBody,
                 buttons: [
-                    {result: 'close', title: Locale.setFileCloseNoSave, error: true},
-                    {result: '', title: Locale.setFileDontClose}
+                    { result: 'close', title: Locale.setFileCloseNoSave, error: true },
+                    { result: '', title: Locale.setFileDontClose },
                 ],
                 success: result => {
                     if (result === 'close') {
                         this.closeFileNoCheck();
                     }
-                }
+                },
             });
         } else {
             this.closeFileNoCheck();
@@ -341,7 +367,7 @@ const SettingsFileView = Backbone.View.extend({
 
     generateKeyFile: function() {
         const keyFile = this.model.generateAndSetKeyFile();
-        const blob = new Blob([keyFile], {type: 'application/octet-stream'});
+        const blob = new Blob([keyFile], { type: 'application/octet-stream' });
         FileSaver.saveAs(blob, this.model.get('name') + '.key');
         this.renderKeyFileSelect();
     },
@@ -509,7 +535,7 @@ const SettingsFileView = Backbone.View.extend({
                 backupButton.text(Locale.setFileBackupNow);
                 return;
             }
-            this.appModel.backupFile(this.model, data, (err) => {
+            this.appModel.backupFile(this.model, data, err => {
                 this.backupInProgress = false;
                 backupButton.text(Locale.setFileBackupNow);
                 if (err) {
@@ -524,10 +550,7 @@ const SettingsFileView = Backbone.View.extend({
                     }
                     Alerts.error({
                         title: title,
-                        body: description +
-                            '<pre class="modal__pre">' +
-                            _.escape(err.toString()) +
-                            '</pre>'
+                        body: description + '<pre class="modal__pre">' + _.escape(err.toString()) + '</pre>',
                     });
                 }
             });
@@ -599,7 +622,7 @@ const SettingsFileView = Backbone.View.extend({
         if (value > 0) {
             this.model.setKdfParameter(field, value);
         }
-    }
+    },
 });
 
 module.exports = SettingsFileView;

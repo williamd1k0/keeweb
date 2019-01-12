@@ -30,8 +30,8 @@ const FieldViewDate = FieldViewText.extend({
                 nextMonth: '',
                 months: Locale.months,
                 weekdays: Locale.weekdays,
-                weekdaysShort: Locale.weekdaysShort
-            }
+                weekdaysShort: Locale.weekdaysShort,
+            },
         });
         _.defer(this.picker.show.bind(this.picker));
     },
@@ -44,7 +44,9 @@ const FieldViewDate = FieldViewText.extend({
 
     endEdit: function(newVal, extra) {
         if (this.picker) {
-            try { this.picker.destroy(); } catch (e) {}
+            try {
+                this.picker.destroy();
+            } catch (e) {}
             this.picker = null;
         }
         newVal = new Date(newVal);
@@ -60,7 +62,7 @@ const FieldViewDate = FieldViewText.extend({
 
     pickerSelect: function(dt) {
         this.endEdit(dt);
-    }
+    },
 });
 
 module.exports = FieldViewDate;

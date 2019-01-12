@@ -10,7 +10,8 @@ const Tip = require('../../util/tip');
 
 const FieldViewText = FieldView.extend({
     renderValue: function(value) {
-        return value && value.isProtected ? PasswordGenerator.present(value.textLength)
+        return value && value.isProtected
+            ? PasswordGenerator.present(value.textLength)
             : _.escape(value || '').replace(/\n/g, '<br/>');
     },
 
@@ -24,14 +25,17 @@ const FieldViewText = FieldView.extend({
         this.$el.toggleClass('details__field--protected', isProtected);
         this.input = $(document.createElement(this.model.multiline ? 'textarea' : 'input'));
         this.valueEl.html('').append(this.input);
-        this.input.attr({ autocomplete: 'off', spellcheck: 'false' })
-            .val(text).focus()[0].setSelectionRange(text.length, text.length);
+        this.input
+            .attr({ autocomplete: 'off', spellcheck: 'false' })
+            .val(text)
+            .focus()[0]
+            .setSelectionRange(text.length, text.length);
         this.input.bind({
             input: this.fieldValueInput.bind(this),
             keydown: this.fieldValueKeydown.bind(this),
             keypress: this.fieldValueInput.bind(this),
             click: this.fieldValueInputClick.bind(this),
-            mousedown: this.fieldValueInputMouseDown.bind(this)
+            mousedown: this.fieldValueInputMouseDown.bind(this),
         });
         this.listenTo(Backbone, 'click', this.fieldValueBlur);
         this.listenTo(Backbone, 'main-window-will-close user-idle', this.externalEndEdit);
@@ -42,7 +46,9 @@ const FieldViewText = FieldView.extend({
             this.createMobileControls();
         }
         if (this.model.canGen) {
-            $('<div/>').addClass('details__field-value-btn details__field-value-btn-gen').appendTo(this.valueEl)
+            $('<div/>')
+                .addClass('details__field-value-btn details__field-value-btn-gen')
+                .appendTo(this.valueEl)
                 .click(this.showGeneratorClick.bind(this))
                 .mousedown(this.showGenerator.bind(this));
         }
@@ -61,7 +67,7 @@ const FieldViewText = FieldView.extend({
                     mousedown: this.mobileFieldControlMouseDown.bind(this),
                     touchstart: this.mobileFieldControlTouchStart.bind(this),
                     touchend: this.mobileFieldControlTouchEnd.bind(this),
-                    touchmove: this.mobileFieldControlTouchMove.bind(this)
+                    touchmove: this.mobileFieldControlTouchMove.bind(this),
                 });
         });
     },
@@ -78,7 +84,9 @@ const FieldViewText = FieldView.extend({
             this.hideGenerator();
         } else {
             const fieldRect = this.input[0].getBoundingClientRect();
-            this.gen = new GeneratorView({model: {pos: {left: fieldRect.left, top: fieldRect.bottom}, password: this.value}}).render();
+            this.gen = new GeneratorView({
+                model: { pos: { left: fieldRect.left, top: fieldRect.bottom }, password: this.value },
+            }).render();
             this.gen.once('remove', this.generatorClosed.bind(this));
             this.gen.once('result', this.generatorResult.bind(this));
         }
@@ -231,8 +239,11 @@ const FieldViewText = FieldView.extend({
     mobileFieldControlTouchMove(e) {
         const touch = e.originalEvent.targetTouches[0];
         const rect = touch.target.getBoundingClientRect();
-        const inside = touch.clientX >= rect.left && touch.clientX <= rect.right &&
-            touch.clientY >= rect.top && touch.clientY <= rect.bottom;
+        const inside =
+            touch.clientX >= rect.left &&
+            touch.clientX <= rect.right &&
+            touch.clientY >= rect.top &&
+            touch.clientY <= rect.bottom;
         if (inside) {
             this.$el.attr('active-mobile-action', $(e.target).data('action'));
         } else {
@@ -242,7 +253,7 @@ const FieldViewText = FieldView.extend({
 
     render() {
         FieldView.prototype.render.call(this);
-    }
+    },
 });
 
 module.exports = FieldViewText;

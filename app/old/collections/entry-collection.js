@@ -8,24 +8,26 @@ const EntryCollection = Backbone.Collection.extend({
     comparator: null,
 
     comparators: {
-        'none': null,
-        'title': Comparators.stringComparator('title', true),
+        none: null,
+        title: Comparators.stringComparator('title', true),
         '-title': Comparators.stringComparator('title', false),
-        'website': Comparators.stringComparator('url', true),
+        website: Comparators.stringComparator('url', true),
         '-website': Comparators.stringComparator('url', false),
-        'user': Comparators.stringComparator('user', true),
+        user: Comparators.stringComparator('user', true),
         '-user': Comparators.stringComparator('user', false),
-        'created': Comparators.dateComparator('created', true),
+        created: Comparators.dateComparator('created', true),
         '-created': Comparators.dateComparator('created', false),
-        'updated': Comparators.dateComparator('updated', true),
+        updated: Comparators.dateComparator('updated', true),
         '-updated': Comparators.dateComparator('updated', false),
-        '-attachments': function(x, y) { return this.attachmentSortVal(x).localeCompare(this.attachmentSortVal(y)); }
+        '-attachments': function(x, y) {
+            return this.attachmentSortVal(x).localeCompare(this.attachmentSortVal(y));
+        },
     },
 
     defaultComparator: 'title',
 
     initialize: function(models, options) {
-        const comparatorName = options && options.comparator || this.defaultComparator;
+        const comparatorName = (options && options.comparator) || this.defaultComparator;
         this.comparator = this.comparators[comparatorName];
     },
 
@@ -41,7 +43,7 @@ const EntryCollection = Backbone.Collection.extend({
             str += att[0].title;
         }
         return str;
-    }
+    },
 });
 
 module.exports = EntryCollection;

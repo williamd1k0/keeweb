@@ -6,10 +6,10 @@ const SettingsPrvView = Backbone.View.extend({
 
     events: {
         'change .settings__general-prv-field-sel': 'changeField',
-        'input .settings__general-prv-field-txt': 'changeField'
+        'input .settings__general-prv-field-txt': 'changeField',
     },
 
-    render: function () {
+    render: function() {
         const storage = Storage[this.model.name];
         if (storage && storage.getSettingsConfig) {
             this.renderTemplate(storage.getSettingsConfig());
@@ -28,7 +28,7 @@ const SettingsPrvView = Backbone.View.extend({
         if ($(e.target).is('select')) {
             this.render();
         }
-    }
+    },
 });
 
 module.exports = SettingsPrvView;

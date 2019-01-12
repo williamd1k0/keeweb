@@ -16,7 +16,7 @@ const AutoTypePopupView = Backbone.View.extend({
 
     events: {
         'click .at-select__header-filter-clear': 'clearFilterText',
-        'click .at-select__item': 'itemClicked'
+        'click .at-select__item': 'itemClicked',
     },
 
     result: null,
@@ -40,8 +40,10 @@ const AutoTypePopupView = Backbone.View.extend({
     render() {
         let topMessage;
         if (this.model.filter.title || this.model.filter.url) {
-            topMessage = Locale.autoTypeMsgMatchedByWindow.replace('{}',
-                this.model.filter.title || this.model.filter.url);
+            topMessage = Locale.autoTypeMsgMatchedByWindow.replace(
+                '{}',
+                this.model.filter.title || this.model.filter.url
+            );
         } else {
             topMessage = Locale.autoTypeMsgNoWindow;
         }
@@ -64,13 +66,13 @@ const AutoTypePopupView = Backbone.View.extend({
             itemsHtml: itemsHtml,
             actionSymbol: FeatureDetector.actionShortcutSymbol(true),
             altSymbol: FeatureDetector.altShortcutSymbol(true),
-            keyEnter: Locale.keyEnter
+            keyEnter: Locale.keyEnter,
         });
         document.activeElement.blur();
         this.createScroll({
             root: this.$el.find('.at-select__items')[0],
             scroller: this.$el.find('.scroller')[0],
-            bar: this.$el.find('.scroller__bar')[0]
+            bar: this.$el.find('.scroller__bar')[0],
         });
         return this;
     },
@@ -97,7 +99,7 @@ const AutoTypePopupView = Backbone.View.extend({
         }
         this.trigger('result', {
             entry: this.result,
-            sequenceType: sequenceType
+            sequenceType: sequenceType,
         });
     },
 
@@ -185,7 +187,7 @@ const AutoTypePopupView = Backbone.View.extend({
     mainWindowWillClose(e) {
         e.preventDefault();
         this.cancelAndClose();
-    }
+    },
 });
 
 _.extend(AutoTypePopupView.prototype, Scrollable);

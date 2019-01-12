@@ -18,8 +18,12 @@ const pkg = require('./package.json');
 const op = args.shift();
 
 const bumpVersion = args.some(arg => arg === '--bump-version');
-const privateKeyPath = args.filter(arg => arg.startsWith('--private-key=')).map(arg => arg.replace('--private-key=', ''))[0];
-const signerModule = args.filter(arg => arg.startsWith('--signer-module=')).map(arg => arg.replace('--signer-module=', ''))[0];
+const privateKeyPath = args
+    .filter(arg => arg.startsWith('--private-key='))
+    .map(arg => arg.replace('--private-key=', ''))[0];
+const signerModule = args
+    .filter(arg => arg.startsWith('--signer-module='))
+    .map(arg => arg.replace('--signer-module=', ''))[0];
 const serverPort = args.filter(arg => arg.startsWith('--port=')).map(arg => arg.replace('--port=', ''))[0];
 
 showBanner();
@@ -83,19 +87,21 @@ function signPlugin(packageName) {
             });
         });
     }
-    signPromise.then(changed => {
-        if (changed) {
-            if (bumpVersion) {
-                manifest.version = manifest.version.replace(/\d+$/, v => +v + 1);
+    signPromise
+        .then(changed => {
+            if (changed) {
+                if (bumpVersion) {
+                    manifest.version = manifest.version.replace(/\d+$/, v => +v + 1);
+                }
+                fs.writeFileSync(path.join(packageName, 'manifest.json'), JSON.stringify(manifest, null, 2));
+                console.log('Done, package manifest updated');
+            } else {
+                console.log('No changes');
             }
-            fs.writeFileSync(path.join(packageName, 'manifest.json'), JSON.stringify(manifest, null, 2));
-            console.log('Done, package manifest updated');
-        } else {
-            console.log('No changes');
-        }
-    }).catch(e => {
-        console.error('Error', e);
-    });
+        })
+        .catch(e => {
+            console.error('Error', e);
+        });
 }
 
 function signResource(packageName, fileName) {
@@ -140,7 +146,7 @@ function watchSignPlugin() {
 function servePlugin(packageName) {
     const options = {
         key: fs.readFileSync(path.join(__dirname, 'self-signed-key.pem')),
-        cert: fs.readFileSync(path.join(__dirname, 'self-signed-cert.pem'))
+        cert: fs.readFileSync(path.join(__dirname, 'self-signed-cert.pem')),
     };
     const port = serverPort || 8089;
     let keeWebHtmlCached;
@@ -158,7 +164,9 @@ function servePlugin(packageName) {
                 const data = [];
                 kwRes.on('data', chunk => data.push(chunk));
                 kwRes.on('end', () => {
-                    keeWebHtmlCached = Buffer.concat(data).toString('utf8').replace('(no-config)', 'config.json');
+                    keeWebHtmlCached = Buffer.concat(data)
+                        .toString('utf8')
+                        .replace('(no-config)', 'config.json');
                     serveKeeWebHtml(res);
                 });
                 kwRes.on('error', e => {
@@ -177,38 +185,40 @@ function servePlugin(packageName) {
         res.writeHead(200);
         res.end(`{"settings":{},"plugins":[{"url":"/"}]}`);
     };
-    https.createServer(options, (req, res) => {
-        console.log('GET', req.connection.remoteAddress, req.url);
-        const filePath = path.resolve(packageName, '.' + req.url.replace(/\.\./g, '').replace(/\?.*/, ''));
-        const packagePath = path.resolve(packageName);
-        if (!filePath.startsWith(packagePath)) {
-            res.writeHead(404);
-            res.end('Not found');
-            return;
-        }
-        if (req.url === '/') {
-            return serveKeeWebHtml(res);
-        } else if (req.url === '/manifest.appcache') {
-            return serveManifestAppCache(res);
-        } else if (req.url === '/config.json') {
-            return serveConfig(res);
-        }
-        fs.readFile(filePath, (err, data) => {
-            if (err) {
+    https
+        .createServer(options, (req, res) => {
+            console.log('GET', req.connection.remoteAddress, req.url);
+            const filePath = path.resolve(packageName, '.' + req.url.replace(/\.\./g, '').replace(/\?.*/, ''));
+            const packagePath = path.resolve(packageName);
+            if (!filePath.startsWith(packagePath)) {
                 res.writeHead(404);
                 res.end('Not found');
-            } else {
-                res.setHeader('Access-Control-Allow-Origin', '*');
-                res.setHeader('Access-Control-Allow-Credentials', true);
-                res.setHeader('Access-Control-Allow-Methods', 'GET');
-                res.setHeader('Content-type', 'text/plain');
-                res.writeHead(200);
-                res.end(data);
+                return;
             }
-        });
-    }).listen(port);
+            if (req.url === '/') {
+                return serveKeeWebHtml(res);
+            } else if (req.url === '/manifest.appcache') {
+                return serveManifestAppCache(res);
+            } else if (req.url === '/config.json') {
+                return serveConfig(res);
+            }
+            fs.readFile(filePath, (err, data) => {
+                if (err) {
+                    res.writeHead(404);
+                    res.end('Not found');
+                } else {
+                    res.setHeader('Access-Control-Allow-Origin', '*');
+                    res.setHeader('Access-Control-Allow-Credentials', true);
+                    res.setHeader('Access-Control-Allow-Methods', 'GET');
+                    res.setHeader('Content-type', 'text/plain');
+                    res.writeHead(200);
+                    res.end(data);
+                }
+            });
+        })
+        .listen(port);
     console.log(`Open this URL in your browser or add it to KeeWeb: https://127.0.0.1:${port}`);
-    console.log('If you see a browser warning about an unsafe website, click Proceed, it\'s safe.');
+    console.log("If you see a browser warning about an unsafe website, click Proceed, it's safe.");
 }
 
 function getPackageArg() {

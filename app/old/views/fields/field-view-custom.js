@@ -8,7 +8,7 @@ const Locale = require('../../util/locale');
 
 const FieldViewCustom = FieldViewText.extend({
     events: {
-        'mousedown .details__field-label': 'fieldLabelMousedown'
+        'mousedown .details__field-label': 'fieldLabelMousedown',
     },
 
     initialize: function() {
@@ -22,7 +22,8 @@ const FieldViewCustom = FieldViewText.extend({
             this.isProtected = this.value instanceof kdbxweb.ProtectedValue;
         }
         this.$el.toggleClass('details__field--protected', this.isProtected);
-        $('<div/>').addClass('details__field-value-btn details__field-value-btn-protect')
+        $('<div/>')
+            .addClass('details__field-value-btn details__field-value-btn-protect')
             .appendTo(this.valueEl)
             .mousedown(this.protectBtnClick.bind(this));
         let securityTipTitle = Locale.detLockField;
@@ -30,7 +31,7 @@ const FieldViewCustom = FieldViewText.extend({
             securityTipTitle = Locale.detUnlockField;
         }
         const securityTip = new Tip($(this.valueEl).find('.details__field-value-btn'), {
-            title: securityTipTitle
+            title: securityTipTitle,
         });
         securityTip.init();
     },
@@ -63,14 +64,17 @@ const FieldViewCustom = FieldViewText.extend({
         const text = emptyTitle ? '' : this.model.title || '';
         this.labelInput = $('<input/>');
         this.labelEl.html('').append(this.labelInput);
-        this.labelInput.attr({ autocomplete: 'off', spellcheck: 'false' })
-            .val(text).focus()[0].setSelectionRange(text.length, text.length);
+        this.labelInput
+            .attr({ autocomplete: 'off', spellcheck: 'false' })
+            .val(text)
+            .focus()[0]
+            .setSelectionRange(text.length, text.length);
         this.labelInput.bind({
             input: this.fieldLabelInput.bind(this),
             keydown: this.fieldLabelKeydown.bind(this),
             keypress: this.fieldLabelInput.bind(this),
             mousedown: this.fieldLabelInputClick.bind(this),
-            click: this.fieldLabelInputClick.bind(this)
+            click: this.fieldLabelInputClick.bind(this),
         });
     },
 
@@ -81,7 +85,7 @@ const FieldViewCustom = FieldViewText.extend({
         } else if (newTitle === '') {
             this.trigger('change', {
                 field: '$' + this.model.title,
-                val: ''
+                val: '',
             });
         }
         this.$el.find('.details__field-label').text(this.model.title);
@@ -152,8 +156,10 @@ const FieldViewCustom = FieldViewText.extend({
         if (this.labelInput) {
             this.endEditTitle(this.labelInput.val());
         }
-        this.setTimeout(function() { this.input.focus(); });
-    }
+        this.setTimeout(function() {
+            this.input.focus();
+        });
+    },
 });
 
 module.exports = FieldViewCustom;

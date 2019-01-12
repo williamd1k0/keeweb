@@ -14,7 +14,7 @@ const KeyChangeView = Backbone.View.extend({
         'click .key-change__keyfile': 'keyFileClicked',
         'change .key-change__file': 'keyFileSelected',
         'click .key-change__btn-ok': 'accept',
-        'click .key-change__btn-cancel': 'cancel'
+        'click .key-change__btn-cancel': 'cancel',
     },
 
     passwordInput: null,
@@ -34,7 +34,7 @@ const KeyChangeView = Backbone.View.extend({
             keyFileName: this.model.file.get('keyFileName'),
             title: this.model.expired ? Locale.keyChangeTitleExpired : Locale.keyChangeTitleRemote,
             message: this.model.expired ? Locale.keyChangeMessageExpired : Locale.keyChangeMessageRemote,
-            repeat: repeat
+            repeat: repeat,
         });
         this.$el.find('.key-change__keyfile-name').text(this.keyFileName ? ': ' + this.keyFileName : '');
         this.inputEl = this.$el.find('.key-change__pass');
@@ -65,7 +65,10 @@ const KeyChangeView = Backbone.View.extend({
             this.keyFile = null;
             this.$el.find('.key-change__keyfile-name').html('');
         }
-        this.$el.find('.key-change__file').val(null).click();
+        this.$el
+            .find('.key-change__file')
+            .val(null)
+            .click();
         this.inputEl.focus();
     },
 
@@ -110,13 +113,13 @@ const KeyChangeView = Backbone.View.extend({
             expired: this.model.expired,
             password: this.passwordInput.value,
             keyFileName: this.keyFileName,
-            keyFileData: this.keyFileData
+            keyFileData: this.keyFileData,
         });
     },
 
     cancel: function() {
         this.trigger('cancel');
-    }
+    },
 });
 
 module.exports = KeyChangeView;

@@ -8,13 +8,18 @@ const FieldView = Backbone.View.extend({
     events: {
         'click .details__field-label': 'fieldLabelClick',
         'click .details__field-value': 'fieldValueClick',
-        'dragstart .details__field-label': 'fieldLabelDrag'
+        'dragstart .details__field-label': 'fieldLabelDrag',
     },
 
     render: function() {
         this.value = typeof this.model.value === 'function' ? this.model.value() : this.model.value;
-        this.renderTemplate({ editable: !this.readonly, multiline: this.model.multiline, title: this.model.title,
-            canEditTitle: this.model.newField, protect: this.value && this.value.isProtected });
+        this.renderTemplate({
+            editable: !this.readonly,
+            multiline: this.model.multiline,
+            title: this.model.title,
+            canEditTitle: this.model.newField,
+            protect: this.value && this.value.isProtected,
+        });
         this.valueEl = this.$el.find('.details__field-value');
         this.valueEl.html(this.renderValue(this.value));
         this.labelEl = this.$el.find('.details__field-label');
@@ -38,7 +43,10 @@ const FieldView = Backbone.View.extend({
     update: function() {
         if (typeof this.model.value === 'function') {
             const newVal = this.model.value();
-            if (!_.isEqual(newVal, this.value) || (this.value && newVal && this.value.toString() !== newVal.toString())) {
+            if (
+                !_.isEqual(newVal, this.value) ||
+                (this.value && newVal && this.value.toString() !== newVal.toString())
+            ) {
                 this.render();
             }
         }
@@ -121,7 +129,9 @@ const FieldView = Backbone.View.extend({
             return;
         }
         this.editing = false;
-        setTimeout(() => { this.preventCopy = false; }, 300);
+        setTimeout(() => {
+            this.preventCopy = false;
+        }, 300);
         let textEqual;
         if (this.value && this.value.isProtected) {
             textEqual = this.value.equals(newVal);
@@ -152,7 +162,7 @@ const FieldView = Backbone.View.extend({
     triggerChange: function(arg) {
         arg.sender = this;
         this.trigger('change', arg);
-    }
+    },
 });
 
 module.exports = FieldView;

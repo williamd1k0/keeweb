@@ -16,7 +16,7 @@ const FileSaver = {
         setTimeout(() => {
             URL.revokeObjectURL(link.href);
         }, timeouts.LinkDownloadRevoke);
-    }
+    },
 };
 
 module.exports = FileSaver;

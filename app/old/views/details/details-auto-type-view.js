@@ -1,4 +1,3 @@
-
 const Backbone = require('backbone');
 const AutoTypeHintView = require('../auto-type-hint-view');
 const Locale = require('../../util/locale');
@@ -14,7 +13,7 @@ const DetailsAutoTypeView = Backbone.View.extend({
         'keypress #details__auto-type-sequence': 'seqKeyPress',
         'keydown #details__auto-type-sequence': 'seqKeyDown',
         'change #details__auto-type-enabled': 'enabledChange',
-        'change #details__auto-type-obfuscation': 'obfuscationChange'
+        'change #details__auto-type-obfuscation': 'obfuscationChange',
     },
 
     initialize: function() {
@@ -31,7 +30,7 @@ const DetailsAutoTypeView = Backbone.View.extend({
             sequence: this.model.autoTypeSequence,
             windows: this.model.autoTypeWindows,
             defaultSequence: this.model.group.getEffectiveAutoTypeSeq(),
-            detAutoTypeShortcutsDesc: detAutoTypeShortcutsDesc
+            detAutoTypeShortcutsDesc: detAutoTypeShortcutsDesc,
         });
         return this;
     },
@@ -57,8 +56,10 @@ const DetailsAutoTypeView = Backbone.View.extend({
 
     seqFocus: function(e) {
         if (!this.views.hint) {
-            this.views.hint = new AutoTypeHintView({input: e.target}).render();
-            this.views.hint.on('remove', () => { delete this.views.hint; });
+            this.views.hint = new AutoTypeHintView({ input: e.target }).render();
+            this.views.hint.on('remove', () => {
+                delete this.views.hint;
+            });
         }
     },
 
@@ -68,7 +69,7 @@ const DetailsAutoTypeView = Backbone.View.extend({
 
     obfuscationChange: function(e) {
         this.model.setAutoTypeObfuscation(e.target.checked);
-    }
+    },
 });
 
 module.exports = DetailsAutoTypeView;

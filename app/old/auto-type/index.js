@@ -31,14 +31,16 @@ const AutoType = {
     },
 
     handleEvent(e) {
-        const entry = e && e.entry || null;
+        const entry = (e && e.entry) || null;
         logger.debug('Auto type event', entry);
         if (this.running) {
             logger.debug('Already running, skipping event');
             return;
         }
         if (entry) {
-            this.hideWindow(() => { this.runAndHandleResult({ entry }); });
+            this.hideWindow(() => {
+                this.runAndHandleResult({ entry });
+            });
         } else {
             if (this.selectEntryView) {
                 return;
@@ -47,7 +49,7 @@ const AutoType = {
                 return Alerts.error({
                     header: Locale.autoTypeError,
                     body: Locale.autoTypeErrorGlobal,
-                    skipIfAlertDisplayed: true
+                    skipIfAlertDisplayed: true,
                 });
             }
             this.selectEntryAndRun();
@@ -59,7 +61,7 @@ const AutoType = {
             if (err) {
                 Alerts.error({
                     header: Locale.autoTypeError,
-                    body: Locale.autoTypeErrorGeneric.replace('{}', err.toString())
+                    body: Locale.autoTypeErrorGeneric.replace('{}', err.toString()),
                 });
             }
         });
@@ -180,7 +182,7 @@ const AutoType = {
 
     selectEntryAndRun() {
         this.getActiveWindowTitle((e, title, url) => {
-            const filter = new AutoTypeFilter({title, url}, this.appModel);
+            const filter = new AutoTypeFilter({ title, url }, this.appModel);
             const evt = { filter };
             if (!this.appModel.files.hasOpenFiles()) {
                 this.pendingEvent = evt;
@@ -208,7 +210,7 @@ const AutoType = {
         this.focusMainWindow();
         evt.filter.ignoreWindowInfo = true;
         this.selectEntryView = new AutoTypeSelectView({
-            model: { filter: evt.filter }
+            model: { filter: evt.filter },
         }).render();
         this.selectEntryView.on('result', result => {
             logger.debug('Entry selected', result);
@@ -240,7 +242,7 @@ const AutoType = {
         this.appModel.files.off('update', this.processPendingEvent, this);
         this.pendingEvent = null;
         this.processEventWithFilter(evt);
-    }
+    },
 };
 
 module.exports = AutoType;

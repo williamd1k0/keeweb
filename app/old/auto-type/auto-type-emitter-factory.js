@@ -7,7 +7,7 @@ const AutoTypeEmitterFactory = {
             return new AutoTypeEmitter(callback);
         }
         return null;
-    }
+    },
 };
 
 module.exports = AutoTypeEmitterFactory;

@@ -40,7 +40,7 @@ const FailStorage = StorageBase.extend({
 
     setEnabled(enabled) {
         StorageBase.prototype.setEnabled.call(this, enabled);
-    }
+    },
 });
 
 BaseLocale.failStorage = 'Fail';

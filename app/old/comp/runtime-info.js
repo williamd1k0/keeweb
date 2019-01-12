@@ -6,7 +6,7 @@ const RuntimeInfo = {
     buildDate: '@@DATE',
     commit: '@@COMMIT',
     userAgent: navigator.userAgent,
-    launcher: Launcher ? Launcher.name + ' v' + Launcher.version : ''
+    launcher: Launcher ? Launcher.name + ' v' + Launcher.version : '',
 };
 
 module.exports = RuntimeInfo;

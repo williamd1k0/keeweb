@@ -22,7 +22,7 @@ const UrlUtil = {
 
     fileToDir: function(url) {
         return url.replace(this.lastPartRegex, '') || '/';
-    }
+    },
 };
 
 module.exports = UrlUtil;

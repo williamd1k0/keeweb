@@ -9,25 +9,25 @@ const MenuItemView = Backbone.View.extend({
     template: require('templates/menu/menu-item.hbs'),
 
     events: {
-        'mouseover': 'mouseover',
-        'mouseout': 'mouseout',
+        mouseover: 'mouseover',
+        mouseout: 'mouseout',
         'click .menu__item-option': 'selectOption',
-        'click': 'selectItem',
-        'dblclick': 'expandItem',
+        click: 'selectItem',
+        dblclick: 'expandItem',
         'click .menu__item-edit': 'editItem',
         'click .menu__item-empty-trash': 'emptyTrash',
-        'dragstart': 'dragstart',
-        'dragover': 'dragover',
-        'dragleave': 'dragleave',
-        'drop': 'drop',
+        dragstart: 'dragstart',
+        dragover: 'dragover',
+        dragleave: 'dragleave',
+        drop: 'drop',
         'dragover .menu__item-drag-top': 'dragoverTop',
-        'dragleave .menu__item-drag-top': 'dragleaveTop'
+        'dragleave .menu__item-drag-top': 'dragleaveTop',
     },
 
     iconEl: null,
     itemViews: null,
 
-    initialize: function () {
+    initialize: function() {
         this.itemViews = [];
         this.listenTo(this.model, 'change:title', this.changeTitle);
         this.listenTo(this.model, 'change:icon', this.changeIcon);
@@ -52,7 +52,7 @@ const MenuItemView = Backbone.View.extend({
         this.iconEl = this.$el.find('i.menu__item-icon');
         const items = this.model.get('items');
         if (items) {
-            items.forEach(function (item) {
+            items.forEach(function(item) {
                 if (item.get('visible')) {
                     this.insertItem(item);
                 }
@@ -63,7 +63,7 @@ const MenuItemView = Backbone.View.extend({
     },
 
     insertItem: function(item) {
-        this.itemViews.push(new MenuItemView({el: this.$el, model: item}).render());
+        this.itemViews.push(new MenuItemView({ el: this.$el, model: item }).render());
     },
 
     remove: function() {
@@ -84,7 +84,10 @@ const MenuItemView = Backbone.View.extend({
     },
 
     changeTitle: function(model, title) {
-        this.$el.find('.menu__item-title').first().text(title || '(no title)');
+        this.$el
+            .find('.menu__item-title')
+            .first()
+            .text(title || '(no title)');
     },
 
     changeIcon: function(model, icon) {
@@ -175,7 +178,7 @@ const MenuItemView = Backbone.View.extend({
             icon: 'minus-circle',
             success: function() {
                 Backbone.trigger('empty-trash');
-            }
+            },
         });
     },
 
@@ -251,7 +254,7 @@ const MenuItemView = Backbone.View.extend({
         if (this.dropTopAllowed(e)) {
             this.$el.removeClass('menu__item--drag-top');
         }
-    }
+    },
 });
 
 module.exports = MenuItemView;

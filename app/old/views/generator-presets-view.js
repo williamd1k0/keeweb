@@ -17,7 +17,7 @@ const GeneratorPresetsView = Backbone.View.extend({
         'change #gen-ps__check-default': 'changeDefault',
         'input #gen-ps__field-length': 'changeLength',
         'change .gen-ps__check-range': 'changeRange',
-        'input #gen-ps__field-include': 'changeInclude'
+        'input #gen-ps__field-include': 'changeInclude',
     },
 
     selected: null,
@@ -33,15 +33,18 @@ const GeneratorPresetsView = Backbone.View.extend({
         if (!this.selected || !this.presets.some(p => p.name === this.selected)) {
             this.selected = (this.presets.filter(p => p.default)[0] || this.presets[0]).name;
         }
-        this.renderTemplate({
-            presets: this.presets,
-            selected: this.getPreset(this.selected),
-            ranges: this.getSelectedRanges()
-        }, true);
+        this.renderTemplate(
+            {
+                presets: this.presets,
+                selected: this.getPreset(this.selected),
+                ranges: this.getSelectedRanges(),
+            },
+            true
+        );
         this.createScroll({
             root: this.$el.find('.gen-ps')[0],
             scroller: this.$el.find('.scroller')[0],
-            bar: this.$el.find('.scroller__bar')[0]
+            bar: this.$el.find('.scroller__bar')[0],
         });
         this.renderExample();
         return this;
@@ -57,7 +60,7 @@ const GeneratorPresetsView = Backbone.View.extend({
     getSelectedRanges: function() {
         const sel = this.getPreset(this.selected);
         const rangeOverride = {
-            high: '¡¢£¤¥¦§©ª«¬®¯°±¹²´µ¶»¼÷¿ÀÖîü...'
+            high: '¡¢£¤¥¦§©ª«¬®¯°±¹²´µ¶»¼÷¿ÀÖîü...',
         };
         return ['Upper', 'Lower', 'Digits', 'Special', 'Brackets', 'High', 'Ambiguous'].map(name => {
             const nameLower = name.toLowerCase();
@@ -65,7 +68,7 @@ const GeneratorPresetsView = Backbone.View.extend({
                 name: nameLower,
                 title: Locale['genPs' + name],
                 enabled: sel[nameLower],
-                sample: rangeOverride[nameLower] || PasswordGenerator.charRanges[nameLower]
+                sample: rangeOverride[nameLower] || PasswordGenerator.charRanges[nameLower],
             };
         });
     },
@@ -97,11 +100,16 @@ const GeneratorPresetsView = Backbone.View.extend({
         }
         const selected = this.getPreset(this.selected);
         const preset = {
-            name, title,
+            name,
+            title,
             length: selected.length,
-            upper: selected.upper, lower: selected.lower, digits: selected.digits,
-            special: selected.special, brackets: selected.brackets, ambiguous: selected.ambiguous,
-            include: selected.include
+            upper: selected.upper,
+            lower: selected.lower,
+            digits: selected.digits,
+            special: selected.special,
+            brackets: selected.brackets,
+            ambiguous: selected.ambiguous,
+            include: selected.include,
         };
         GeneratorPresets.add(preset);
         this.selected = name;
@@ -168,7 +176,7 @@ const GeneratorPresetsView = Backbone.View.extend({
         }
         this.presets = GeneratorPresets.all;
         this.renderExample();
-    }
+    },
 });
 
 _.extend(GeneratorPresetsView.prototype, Scrollable);

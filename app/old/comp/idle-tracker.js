@@ -15,7 +15,7 @@ const IdleTracker = {
     },
     regUserAction: function() {
         this.actionTime = Date.now();
-    }
+    },
 };
 
 Backbone.on('power-monitor-resume', IdleTracker.checkIdle, IdleTracker);

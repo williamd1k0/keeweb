@@ -6,7 +6,7 @@ const StorageFileListView = Backbone.View.extend({
 
     events: {
         'click .open-list__file': 'fileClick',
-        'click .open-list__check-wrap': 'showAllCheckClick'
+        'click .open-list__check-wrap': 'showAllCheckClick',
     },
 
     initialize() {
@@ -21,7 +21,7 @@ const StorageFileListView = Backbone.View.extend({
                 path: file.path,
                 name: file.name.replace(/\.kdbx$/i, ''),
                 kdbx: UrlUtil.isKdbx(file.name),
-                dir: file.dir
+                dir: file.dir,
             };
         });
         const visibleFiles = files.filter(f => !f.dir && f.kdbx);
@@ -38,13 +38,15 @@ const StorageFileListView = Backbone.View.extend({
             files,
             density,
             showHiddenFiles: this.showHiddenFiles,
-            canShowHiddenFiles: canShowHiddenFiles
+            canShowHiddenFiles: canShowHiddenFiles,
         });
         return this;
     },
 
     fileClick(e) {
-        const result = $(e.target).closest('.open-list__file').data('path');
+        const result = $(e.target)
+            .closest('.open-list__file')
+            .data('path');
         const file = this.allStorageFiles[result];
         this.trigger('selected', file);
     },
@@ -53,7 +55,7 @@ const StorageFileListView = Backbone.View.extend({
         e.stopPropagation();
         this.showHiddenFiles = !this.showHiddenFiles;
         this.render();
-    }
+    },
 });
 
 module.exports = StorageFileListView;

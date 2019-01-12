@@ -37,31 +37,31 @@ const AppRightsChecker = {
         this.alert = Alerts.alert({
             icon: 'lock',
             header: Locale.appRightsAlert,
-            body: Locale.appRightsAlertBody1.replace('{}', `<code>${this.AppPath}</code>`) +
-                '<br/>' + Locale.appRightsAlertBody2 + `: <pre>${command}</pre>`,
-            buttons: [
-                {result: 'skip', title: Locale.alertDoNotAsk, error: true},
-                Alerts.buttons.ok
-            ],
-            success: (result) => {
+            body:
+                Locale.appRightsAlertBody1.replace('{}', `<code>${this.AppPath}</code>`) +
+                '<br/>' +
+                Locale.appRightsAlertBody2 +
+                `: <pre>${command}</pre>`,
+            buttons: [{ result: 'skip', title: Locale.alertDoNotAsk, error: true }, Alerts.buttons.ok],
+            success: result => {
                 if (result === 'skip') {
                     this.dontAskAnymore();
                 }
                 this.alert = null;
-            }
+            },
         });
     },
 
     runInstaller() {
         Launcher.spawn({
-            cmd: this.AppPath + '/Contents/Installer/KeeWeb\ Installer.app/Contents/MacOS/applet',
+            cmd: this.AppPath + '/Contents/Installer/KeeWeb Installer.app/Contents/MacOS/applet',
             complete: () => {
                 this.needRunInstaller(needRun => {
                     if (this.alert && !needRun) {
                         this.alert.closeWithResult('cancel');
                     }
                 });
-            }
+            },
         });
     },
 
@@ -71,7 +71,7 @@ const AppRightsChecker = {
                 AppSettingsModel.instance.set('skipFolderRightsWarning', true);
             }
         });
-    }
+    },
 };
 
 module.exports = AppRightsChecker;

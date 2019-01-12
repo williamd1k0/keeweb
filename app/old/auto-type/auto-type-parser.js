@@ -48,7 +48,7 @@ AutoTypeParser.prototype.parse = function() {
 AutoTypeParser.prototype.pushState = function() {
     this.states.unshift({
         modifiers: null,
-        ops: []
+        ops: [],
     });
 };
 
@@ -102,7 +102,7 @@ AutoTypeParser.prototype.addState = function(state) {
     this.state().ops.push({
         type: 'group',
         value: state.ops,
-        mod: this.resetModifiers()
+        mod: this.resetModifiers(),
     });
 };
 
@@ -110,7 +110,7 @@ AutoTypeParser.prototype.addChar = function(ch) {
     this.state().ops.push({
         type: 'text',
         value: ch,
-        mod: this.resetModifiers()
+        mod: this.resetModifiers(),
     });
 };
 
@@ -120,7 +120,7 @@ AutoTypeParser.prototype.addOp = function(op, sep, arg) {
         value: op,
         mod: this.resetModifiers(),
         sep: sep,
-        arg: arg
+        arg: arg,
     });
 };
 

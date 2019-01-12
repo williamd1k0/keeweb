@@ -13,7 +13,7 @@ const FieldViewHistory = FieldView.extend({
         return '<a class="details__history-link">' + text + '</a>';
     },
 
-    readonly: true
+    readonly: true,
 });
 
 module.exports = FieldViewHistory;

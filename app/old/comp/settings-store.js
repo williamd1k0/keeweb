@@ -58,7 +58,7 @@ const SettingsStore = {
                 resolve();
             }
         });
-    }
+    },
 };
 
 module.exports = SettingsStore;

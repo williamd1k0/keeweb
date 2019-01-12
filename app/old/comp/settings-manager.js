@@ -6,9 +6,9 @@ const SettingsManager = {
     activeLocale: 'en',
 
     allLocales: {
-        'en': 'English',
+        en: 'English',
         'de-DE': 'Deutsch',
-        'fr-FR': 'Français'
+        'fr-FR': 'Français',
     },
 
     allThemes: {
@@ -18,11 +18,10 @@ const SettingsManager = {
         sl: 'setGenThemeSl',
         wh: 'setGenThemeWh',
         te: 'setGenThemeTe',
-        hc: 'setGenThemeHc'
+        hc: 'setGenThemeHc',
     },
 
-    customLocales: {
-    },
+    customLocales: {},
 
     setBySettings: function(settings) {
         if (settings.get('theme')) {
@@ -59,7 +58,7 @@ const SettingsManager = {
     },
 
     setFontSize: function(fontSize) {
-        document.documentElement.style.fontSize = fontSize ? (12 + fontSize * 2) + 'px' : '';
+        document.documentElement.style.fontSize = fontSize ? 12 + fontSize * 2 + 'px' : '';
     },
 
     setLocale(loc) {
@@ -83,12 +82,12 @@ const SettingsManager = {
     },
 
     getBrowserLocale: function() {
-        const language = navigator.languages && navigator.languages[0] || navigator.language;
+        const language = (navigator.languages && navigator.languages[0]) || navigator.language;
         if (language && language.lastIndexOf('en', 0) === 0) {
             return 'en';
         }
         return language;
-    }
+    },
 };
 
 module.exports = SettingsManager;
