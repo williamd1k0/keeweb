@@ -10,7 +10,7 @@ const locales = {
 
 export const type = 'locale/set';
 
-export default function set(name) {
+export default function(name) {
     return { type, name };
 }
 

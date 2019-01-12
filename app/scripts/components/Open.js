@@ -7,17 +7,12 @@ class Open extends React.Component {
         locale: PropTypes.object.isRequired,
         firstRow: PropTypes.array.isRequired,
         secondRow: PropTypes.array.isRequired,
+        secondRowVisible: PropTypes.bool,
         canOpen: PropTypes.bool,
         canOpenKeyFromDropbox: PropTypes.bool,
         onClick: PropTypes.func.isRequired,
         onFileChange: PropTypes.func.isRequired,
-    };
-    constructor(props) {
-        super(props);
-        this.state = { secondRowVisible: false };
-    }
-    onMoreClick = () => {
-        this.setState({ secondRowVisible: !this.state.secondRowVisible });
+        onMoreClick: PropTypes.func.isRequired,
     };
     onButtonClick = e => {
         const id = e.target.closest('[data-id]').dataset.id;
@@ -31,15 +26,28 @@ class Open extends React.Component {
                 this.props.onClick({ button: id });
         }
     };
+    passInputClick = e => {
+        if (e.target.readOnly) {
+            this.setState({ button: 'open' });
+            this.fileInput.click();
+        }
+    };
     fileInputChange = e => {
-        const files = e.target.files;
+        const file = e.target.files[0];
         const button = this.state.button;
         this.fileInput.value = null;
-        this.props.onFileChange({ button, files });
+        this.props.onFileChange({ button, file });
     };
     render() {
-        const { locale, firstRow, secondRow, canOpen, canOpenKeyFromDropbox } = this.props;
-        const { secondRowVisible } = this.state;
+        const {
+            locale,
+            firstRow,
+            secondRow,
+            canOpen,
+            canOpenKeyFromDropbox,
+            secondRowVisible,
+            onMoreClick,
+        } = this.props;
         let ix = 0;
         return (
             <div className="open">
@@ -69,7 +77,7 @@ class Open extends React.Component {
                             key="more"
                             className={`open__icon open__icon-more`}
                             tabIndex={++ix}
-                            onClick={this.onMoreClick}
+                            onClick={onMoreClick}
                         >
                             <i className={`fa fa-ellipsis-h open__icon-i`} />
                             <div className="open__icon-text">
@@ -116,6 +124,7 @@ class Open extends React.Component {
                             autoComplete="new-password"
                             maxLength="1024"
                             placeholder={canOpen ? locale.openClickToOpen : ''}
+                            onClick={this.passInputClick}
                             readOnly
                             tabIndex="13"
                         />

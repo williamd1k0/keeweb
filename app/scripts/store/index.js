@@ -1,10 +1,13 @@
-import { createStore, combineReducers } from 'redux';
+import { createStore, applyMiddleware, combineReducers, compose } from 'redux';
+import thunkMiddleware from 'redux-thunk';
 import buildReducer from '../util/build-reducer';
 import env from './env';
 import locale from './locale';
 import files from './files';
 import runtime from './runtime';
 import settings from './settings';
+import ui from './ui';
+import uiOpen from './ui-open';
 
 const reducers = {
     env,
@@ -12,6 +15,8 @@ const reducers = {
     locale,
     runtime,
     settings,
+    ui,
+    uiOpen,
 };
 
 for (const key of Object.keys(reducers)) {
@@ -20,9 +25,8 @@ for (const key of Object.keys(reducers)) {
 
 const rootReducer = combineReducers(reducers);
 
-const devToolsEnhancer =
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__();
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-const store = createStore(rootReducer, devToolsEnhancer);
+const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunkMiddleware)));
 
 export default store;

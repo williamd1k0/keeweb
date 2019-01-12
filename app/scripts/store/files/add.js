@@ -1,6 +1,6 @@
 export const type = 'files/add';
 
-export default function add(name) {
+export default function(name) {
     return { type, name };
 }
 

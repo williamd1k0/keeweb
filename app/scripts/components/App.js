@@ -4,19 +4,18 @@ import PropTypes from 'prop-types';
 import Footer from '../containers/Footer';
 import Open from '../containers/Open';
 
-const App = ({ env, settings }) => (
-    <div className={`app th-${settings.theme}`}>
-        {!!env.isBeta && <BetaWarning />}
-        <div className="app__body">
-            <Open />
-        </div>
+const App = ({ view, isBeta, theme }) => (
+    <div className={`app th-${theme}`}>
+        {!!isBeta && <BetaWarning />}
+        <div className="app__body">{view === 'open' && <Open />}</div>
         <Footer />
     </div>
 );
 
 App.propTypes = {
-    env: PropTypes.object.isRequired,
-    settings: PropTypes.object.isRequired,
+    view: PropTypes.string.isRequired,
+    isBeta: PropTypes.bool.isRequired,
+    theme: PropTypes.string.isRequired,
 };
 
 export default App;

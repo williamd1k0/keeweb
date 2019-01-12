@@ -3,8 +3,9 @@ import App from '../components/App';
 
 const mapStateToProps = state => {
     return {
-        env: state.env,
-        settings: state.settings,
+        view: state.ui.view,
+        isBeta: state.env.isBeta,
+        theme: state.settings.theme,
     };
 };
 
