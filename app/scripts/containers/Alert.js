@@ -1,4 +1,4 @@
-import { connect } from 'preact-redux';
+import { connect } from 'react-redux';
 import Alert from '../components/Alert';
 import timeouts from '../const/timeouts';
 import removeAlert from '../store/ui/alerts/remove-alert';

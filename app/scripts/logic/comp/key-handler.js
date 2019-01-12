@@ -87,9 +87,9 @@ const KeyHandler = {
             !e.ctrlKey &&
             !e.metaKey
         ) {
-            this.trigger('keypress', e);
+            // this.trigger('keypress', e);
         } else if (this.modal) {
-            this.trigger('keypress:' + this.modal, e);
+            // this.trigger('keypress:' + this.modal, e);
         }
     },
     reg: function() {

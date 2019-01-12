@@ -1,4 +1,4 @@
-import { connect } from 'preact-redux';
+import { connect } from 'react-redux';
 import Res from '../../components/util/Res';
 
 const mapStateToProps = state => {

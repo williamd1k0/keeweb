@@ -1,4 +1,4 @@
-import { connect } from 'preact-redux';
+import { connect } from 'react-redux';
 import { getOpenRows } from '../selectors/open';
 import Open from '../components/Open';
 import { UiViewSettings } from '../store/ui';
