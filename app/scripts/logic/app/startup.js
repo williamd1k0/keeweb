@@ -4,6 +4,7 @@ import ExportApi from '../comp/export-api';
 import IdleTracker from '../comp/idle-tracker';
 import KeyHandler from '../comp/key-handler';
 import showAlert from '../ui/show-alert';
+import settingsLoadRemoteConfig from '../settings/load-remote-config';
 import settingsLoad from '../settings/load';
 import runtimeLoad from '../runtime/load';
 import uiSetView from '../../store/ui/set-view';
@@ -49,23 +50,19 @@ export default function startup() {
         }
 
         function loadRemoteConfig() {
-            return Promise.resolve().then(() => {
-                // TODO
-                // SettingsManager.setBySettings(appModel.settings);
-                // const configParam = getConfigParam();
-                // if (configParam) {
-                //     return appModel
-                //         .loadConfig(configParam)
-                //         .then(() => {
-                //             SettingsManager.setBySettings(appModel.settings);
-                //         })
-                //         .catch(e => {
-                //             if (!appModel.settings.get('cacheConfigSettings')) {
-                //                 showSettingsLoadError();
-                //                 throw e;
-                //             }
-                //         });
-                // }
+            return dispatch(settingsLoadRemoteConfig()).catch(e => {
+                dispatch(
+                    showAlert({
+                        preset: 'error',
+                        header: 'appSettingsError',
+                        body: 'appSettingsErrorBody',
+                        buttons: [],
+                        esc: false,
+                        enter: false,
+                        click: false,
+                    })
+                );
+                throw e;
             });
         }
 
