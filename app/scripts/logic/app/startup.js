@@ -3,6 +3,7 @@ import FeatureTester from '../comp/feature-tester';
 import ExportApi from '../comp/export-api';
 import IdleTracker from '../comp/idle-tracker';
 import KeyHandler from '../comp/key-handler';
+import KdbxwebInit from '../../util/kdbxweb-init';
 import showAlert from '../ui/show-alert';
 import settingsLoadRemoteConfig from '../settings/load-remote-config';
 import loadSettings from '../settings/load-settings';
@@ -43,8 +44,8 @@ export default function startup() {
             window.kw = ExportApi;
             IdleTracker.init();
             KeyHandler.init();
+            KdbxwebInit.init();
             // PopupNotifier.init();
-            // KdbxwebInit.init();
             // return PluginManager.init();
         }
 
