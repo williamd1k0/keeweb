@@ -1,17 +1,8 @@
 import Storage from 'storage';
 import { createSelector } from 'reselect';
+import { getStorageProviders } from 'selectors/storage';
 
 const getSettings = state => state.settings;
-
-export const getStorageProviders = createSelector(
-    [getSettings],
-    settings => {
-        return Object.values(Storage)
-            .filter(provider => !provider.system && provider.enabled)
-            .map(provider => provider.name)
-            .filter(name => settings[name]);
-    }
-);
 
 export const getOpenRows = createSelector(
     [getSettings, getStorageProviders],

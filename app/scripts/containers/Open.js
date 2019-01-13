@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import { getOpenRows } from 'selectors/open';
+import { getLastFiles } from 'selectors/files';
 import Open from 'components/Open';
 import uiSetView from 'store/ui/set-view';
 import toggleSecondRow from 'store/ui-open/toggle-second-row';
@@ -8,10 +9,10 @@ const mapStateToProps = state => {
     return {
         secondRowVisible: state.uiOpen.secondRowVisible,
         locale: state.locale,
-        files: state.files,
         canOpen: state.settings.canOpen,
         canRemoveLatest: state.settings.canRemoveLatest,
         canOpenKeyFromDropbox: false,
+        lastFiles: getLastFiles(state),
         ...getOpenRows(state),
     };
 };

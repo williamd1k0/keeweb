@@ -1,7 +1,7 @@
 import * as init from 'store/files/init';
-import * as setFiles from 'store/files/set-files';
+import * as setLastFiles from 'store/files/set-last-files';
 
 export default {
     init,
-    setFiles,
+    setFiles: setLastFiles,
 };

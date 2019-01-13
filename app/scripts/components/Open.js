@@ -6,7 +6,7 @@ import OpenButton from 'components/OpenButton';
 class Open extends React.Component {
     propTypes = {
         locale: PropTypes.object.isRequired,
-        files: PropTypes.array.isRequired,
+        lastFiles: PropTypes.array.isRequired,
         firstRow: PropTypes.array.isRequired,
         secondRow: PropTypes.array.isRequired,
         secondRowVisible: PropTypes.bool,
@@ -48,7 +48,7 @@ class Open extends React.Component {
     render() {
         const {
             locale,
-            files,
+            lastFiles,
             firstRow,
             secondRow,
             canOpen,
@@ -134,7 +134,7 @@ class Open extends React.Component {
                         </div>
                     </div>
                     <div className="open__last">
-                        {files.map(file => (
+                        {lastFiles.map(file => (
                             <div
                                 className="open__last-item"
                                 key={file.id}
