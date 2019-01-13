@@ -1,4 +1,4 @@
-import Colors from '../const/colors';
+import Colors from 'const/colors';
 
 const KnownColors = {};
 

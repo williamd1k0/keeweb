@@ -1,4 +1,4 @@
-import StorageBase from './storage-base';
+import StorageBase from 'storage/storage-base';
 
 class StorageWebDav extends StorageBase {
     name = 'webdav';

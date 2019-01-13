@@ -1,6 +1,6 @@
-import Launcher from './launcher';
-import store from '../../store';
-import showAlert from '../ui/show-alert';
+import Launcher from 'logic/comp/launcher';
+import store from 'store';
+import showAlert from 'logic/ui/show-alert';
 
 const LocalStorageKeyName = 'instanceCheck';
 const LocalStorageResponseKeyName = 'instanceMaster';

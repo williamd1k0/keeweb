@@ -1,6 +1,6 @@
-import setSettings from '../../store/settings/set-settings';
-import setLocale from '../../store/locale/set-locale';
-import SettingsStore from '../comp/settings-store';
+import setSettings from 'store/settings/set-settings';
+import setLocale from 'store/locale/set-locale';
+import SettingsStore from 'logic/comp/settings-store';
 
 export default function updateSettings(values, options = {}) {
     return (dispatch, getState) => {

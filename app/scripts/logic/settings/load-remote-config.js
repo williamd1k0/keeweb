@@ -1,5 +1,5 @@
-import Logger from '../../util/logger';
-import updateSettings from './update-settings';
+import Logger from 'util/logger';
+import updateSettings from 'logic/settings/update-settings';
 
 export default function settingsLoadRemoteConfig() {
     return (dispatch, getState) => {

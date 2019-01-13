@@ -1,5 +1,5 @@
-import SettingsStore from '../comp/settings-store';
-import updateSettings from './update-settings';
+import SettingsStore from 'logic/comp/settings-store';
+import updateSettings from 'logic/settings/update-settings';
 
 export default function loadSettings() {
     return dispatch => {

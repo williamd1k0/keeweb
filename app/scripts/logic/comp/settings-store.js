@@ -1,5 +1,5 @@
-import Launcher from './launcher';
-import Logger from '../../util/logger';
+import Launcher from 'logic/comp/launcher';
+import Logger from 'util/logger';
 import camelCase from 'lodash/camelCase';
 
 const logger = new Logger('settings');

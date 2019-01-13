@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Res from '../containers/util/Res';
-import OpenButton from './OpenButton';
+import Res from 'containers/util/Res';
+import OpenButton from 'components/OpenButton';
 
 class Open extends React.Component {
     propTypes = {

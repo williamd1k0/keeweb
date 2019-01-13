@@ -1,8 +1,8 @@
 import kdbxweb from 'kdbxweb';
-import ProtectedValueEx from './protected-value-ex';
 import argon2LoaderCode from 'argon2';
 import wasmBinaryBase64 from 'argon2-wasm';
-import Logger from '../logger';
+import ProtectedValueEx from 'util/kdbxweb/protected-value-ex';
+import Logger from 'util/logger';
 
 const logger = new Logger('argon2');
 

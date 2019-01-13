@@ -1,5 +1,5 @@
-import StorageBase from './storage-base';
-import { fixSlashes } from '../util/text/url';
+import StorageBase from 'storage/storage-base';
+import { fixSlashes } from 'util/text/url';
 
 const DropboxKeys = {
     AppFolder: 'qp7ctun6qt5n9d6',

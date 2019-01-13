@@ -1,7 +1,7 @@
-import Logger from '../util/logger';
-import Links from '../const/links';
-import updateSettings from '../logic/settings/update-settings';
-import store from '../store';
+import Logger from 'util/logger';
+import Links from 'const/links';
+import updateSettings from 'logic/settings/update-settings';
+import store from 'store';
 
 const MaxRequestRetries = 3;
 

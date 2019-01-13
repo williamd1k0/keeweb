@@ -1,17 +1,17 @@
-import Logger from '../../util/logger';
-import FeatureTester from '../comp/feature-tester';
-import ExportApi from '../comp/export-api';
-import IdleTracker from '../comp/idle-tracker';
-import KeyHandler from '../comp/key-handler';
-import AuthReceiver from '../comp/auth-receiver';
-import PopupNotifier from '../comp/popup-notifier';
-import KdbxwebInit from '../../util/kdbxweb/kdbxweb-init';
-import showAlert from '../ui/show-alert';
-import settingsLoadRemoteConfig from '../settings/load-remote-config';
-import loadSettings from '../settings/load-settings';
-import loadFileInfo from '../files/load-file-info';
-import uiSetView from '../../store/ui/set-view';
-import SingleInstanceChecker from '../comp/single-instance-checker';
+import Logger from 'util/logger';
+import FeatureTester from 'logic/comp/feature-tester';
+import ExportApi from 'logic/comp/export-api';
+import IdleTracker from 'logic/comp/idle-tracker';
+import KeyHandler from 'logic/comp/key-handler';
+import AuthReceiver from 'logic/comp/auth-receiver';
+import PopupNotifier from 'logic/comp/popup-notifier';
+import KdbxwebInit from 'util/kdbxweb/kdbxweb-init';
+import showAlert from 'logic/ui/show-alert';
+import settingsLoadRemoteConfig from 'logic/settings/load-remote-config';
+import loadSettings from 'logic/settings/load-settings';
+import loadFileInfo from 'logic/files/load-file-info';
+import uiSetView from 'store/ui/set-view';
+import SingleInstanceChecker from 'logic/comp/single-instance-checker';
 
 export default function startup() {
     return (dispatch, getState) => {

@@ -1,5 +1,5 @@
-import StorageBase from './storage-base';
-import IconOneDrive from './icons/onedrive.svg';
+import StorageBase from 'storage/storage-base';
+import IconOneDrive from '../../resources/icons/onedrive.svg';
 
 const OneDriveClientId = {
     Production: '000000004818ED3A',

@@ -1,5 +1,5 @@
-import SettingsStore from '../comp/settings-store';
-import setFiles from '../../store/files/set-files';
+import SettingsStore from 'logic/comp/settings-store';
+import setFiles from 'store/files/set-files';
 
 export default function loadFileInfo() {
     return dispatch => {

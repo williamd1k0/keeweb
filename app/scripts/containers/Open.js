@@ -1,8 +1,8 @@
 import { connect } from 'react-redux';
-import { getOpenRows } from '../selectors/open';
-import Open from '../components/Open';
-import uiSetView from '../store/ui/set-view';
-import toggleSecondRow from '../store/ui-open/toggle-second-row';
+import { getOpenRows } from 'selectors/open';
+import Open from 'components/Open';
+import uiSetView from 'store/ui/set-view';
+import toggleSecondRow from 'store/ui-open/toggle-second-row';
 
 const mapStateToProps = state => {
     return {

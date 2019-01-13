@@ -1,4 +1,4 @@
-import setAlert from '../../store/ui/alerts/set-alert';
+import setAlert from 'store/ui/alerts/set-alert';
 
 const DefaultButtons = {
     ok: {

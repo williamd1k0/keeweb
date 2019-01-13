@@ -1,4 +1,4 @@
-import timeouts from '../const/timeouts';
+import timeouts from 'const/timeouts';
 
 export function saveAs(blob, name) {
     const link = document.createElement('a');

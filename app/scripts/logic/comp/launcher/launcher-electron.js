@@ -1,6 +1,6 @@
 /* eslint-env node */
 
-import Logger from '../../../util/logger';
+import Logger from 'util/logger';
 import noop from 'lodash/noop';
 
 let Launcher = undefined;

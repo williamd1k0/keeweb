@@ -1,5 +1,5 @@
 import React from 'react';
-import Res from '../containers/util/Res';
+import Res from 'containers/util/Res';
 
 const BetaWarning = () => (
     <div className="app__beta">

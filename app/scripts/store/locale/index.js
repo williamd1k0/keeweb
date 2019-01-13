@@ -1,5 +1,5 @@
-import * as init from './init';
-import * as setLocale from './set-locale';
+import * as init from 'store/locale/init';
+import * as setLocale from 'store/locale/set-locale';
 
 export default {
     init,

@@ -1,12 +1,12 @@
 import { createStore, applyMiddleware, combineReducers, compose } from 'redux';
 import thunkMiddleware from 'redux-thunk';
-import buildReducer from '../util/redux/build-reducer';
-import env from './env';
-import locale from './locale';
-import files from './files';
-import settings from './settings';
-import ui from './ui';
-import uiOpen from './ui-open';
+import buildReducer from 'util/redux/build-reducer';
+import env from 'store/env';
+import locale from 'store/locale';
+import files from 'store/files';
+import settings from 'store/settings';
+import ui from 'store/ui';
+import uiOpen from 'store/ui-open';
 
 const reducers = {
     env,

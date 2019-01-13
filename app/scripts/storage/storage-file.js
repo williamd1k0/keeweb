@@ -1,5 +1,5 @@
-import StorageBase from './storage-base';
-import Launcher from '../logic/comp/launcher';
+import StorageBase from 'storage/storage-base';
+import Launcher from 'logic/comp/launcher';
 
 const fileWatchers = {};
 

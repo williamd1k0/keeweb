@@ -1,5 +1,5 @@
-import store from '../../store';
-import updateSettings from '../settings/update-settings';
+import store from 'store';
+import updateSettings from 'logic/settings/update-settings';
 
 const ExportApi = {
     settings: {

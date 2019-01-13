@@ -1,5 +1,5 @@
 import kdbxweb from 'kdbxweb';
-import Launcher from './launcher';
+import Launcher from 'logic/comp/launcher';
 
 const FeatureTester = {
     test() {

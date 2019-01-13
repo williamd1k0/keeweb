@@ -1,5 +1,5 @@
-import timeouts from '../../const/timeouts';
-import store from '../../store';
+import timeouts from 'const/timeouts';
+import store from 'store';
 
 const IdleTracker = {
     actionTime: Date.now(),

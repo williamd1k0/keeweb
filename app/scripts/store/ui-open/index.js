@@ -1,5 +1,5 @@
-import * as init from './init';
-import * as toggleSecondRow from './toggle-second-row';
+import * as init from 'store/ui-open/init';
+import * as toggleSecondRow from 'store/ui-open/toggle-second-row';
 
 export default {
     init,

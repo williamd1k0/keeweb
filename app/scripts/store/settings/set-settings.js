@@ -1,4 +1,4 @@
-import { reducer as getDefaultSettings } from './init';
+import { reducer as getDefaultSettings } from 'store/settings/init';
 
 export const type = 'settings/set-settings';
 
