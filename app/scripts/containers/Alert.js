@@ -41,12 +41,12 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onMount() {
+        onShow() {
             KeyHandler.setModal('alert');
             KeyHandler.onKey(Keys.DOM_VK_ESCAPE, this.onEscPressed, this, undefined, 'alert');
             KeyHandler.onKey(Keys.DOM_VK_RETURN, this.onEnterPressed, this, undefined, 'alert');
         },
-        onUnmount() {
+        onHide() {
             KeyHandler.resetModal();
             KeyHandler.offKey(Keys.DOM_VK_ESCAPE, this.onEscPressed, this);
             KeyHandler.offKey(Keys.DOM_VK_RETURN, this.onEnterPressed, this);

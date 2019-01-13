@@ -11,11 +11,11 @@ class Alert extends React.Component {
         opaque: PropTypes.bool,
         hidden: PropTypes.bool,
         onButtonClick: PropTypes.func.isRequired,
-        onMount: PropTypes.func.isRequired,
-        onUnmount: PropTypes.func.isRequired,
+        onShow: PropTypes.func.isRequired,
+        onHide: PropTypes.func.isRequired,
     };
     componentDidMount() {
-        this.props.onMount();
+        this.props.onShow();
         setTimeout(() => {
             this.setState({ visible: true });
         }, 0);
@@ -25,7 +25,7 @@ class Alert extends React.Component {
     }
     hide() {
         this.setState({ visible: false });
-        this.props.onUnmount();
+        this.props.onHide();
     }
     onButtonClick = e => {
         const result = e.target.closest('[data-result]').dataset.result;
