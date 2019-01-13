@@ -9,7 +9,7 @@ import KdbxwebInit from 'util/kdbxweb/kdbxweb-init';
 import showAlert from 'logic/ui/show-alert';
 import loadRemoteConfig from 'logic/settings/load-remote-config';
 import loadSettings from 'logic/settings/load-settings';
-import loadFileInfo from 'logic/files/load-file-info';
+import loadLastFiles from 'logic/files/load-last-files';
 import initStorage from 'logic/storage/init-storage';
 import uiSetView from 'store/ui/set-view';
 import SingleInstanceChecker from 'logic/comp/single-instance-checker';
@@ -40,7 +40,7 @@ export default function startup() {
         function loadConfigs() {
             return Promise.all([
                 dispatch(loadSettings()),
-                dispatch(loadFileInfo()),
+                dispatch(loadLastFiles()),
                 // UpdateModel.instance.load(), // TODO
             ]);
         }
