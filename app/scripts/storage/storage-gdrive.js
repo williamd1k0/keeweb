@@ -1,5 +1,5 @@
 import StorageBase from 'storage/storage-base';
-import IconGDrive from '../../resources/icons/gdrive.svg';
+import IconGDrive from 'resources/icons/gdrive.svg';
 
 const GDriveClientId = {
     Local: '783608538594-36tkdh8iscrq8t8dq87gghubnhivhjp5.apps.googleusercontent.com',

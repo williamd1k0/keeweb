@@ -59,6 +59,8 @@ function config(grunt) {
                 qrcode: 'jsqrcode/dist/qrcode.min.js',
                 argon2: 'argon2-browser/dist/argon2.min.js',
                 'argon2-wasm': 'argon2-browser/dist/argon2.wasm',
+                resources: path.join(__dirname, 'app/resources'),
+                locales: path.join(__dirname, 'app/locales'),
             },
         },
         module: {

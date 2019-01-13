@@ -1,6 +1,6 @@
-import base from '../../../locales/base.json';
-import localeFR from '../../../locales/fr-FR';
-import localeDE from '../../../locales/de-DE';
+import base from 'locales/base.json';
+import localeFR from 'locales/fr-FR';
+import localeDE from 'locales/de-DE';
 
 const locales = {
     en: base,
