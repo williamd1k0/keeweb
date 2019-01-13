@@ -1,5 +1,5 @@
 import StorageBase from './storage-base';
-import UrlUtil from '../util/url';
+import { fixSlashes } from '../util/url';
 
 const DropboxKeys = {
     AppFolder: 'qp7ctun6qt5n9d6',
@@ -20,7 +20,7 @@ class StorageDropbox extends StorageBase {
     _toFullPath(path) {
         const rootFolder = this._state.settings.dropboxFolder;
         if (rootFolder) {
-            path = UrlUtil.fixSlashes('/' + rootFolder + '/' + path);
+            path = fixSlashes('/' + rootFolder + '/' + path);
         }
         return path;
     }
@@ -34,7 +34,7 @@ class StorageDropbox extends StorageBase {
             } else if (ix === 1) {
                 path = path.substr(rootFolder.length + 1);
             }
-            path = UrlUtil.fixSlashes('/' + path);
+            path = fixSlashes('/' + path);
         }
         return path;
     }

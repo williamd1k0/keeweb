@@ -1,3 +1,4 @@
+import Storage from '../storage';
 import { createSelector } from 'reselect';
 
 const getSettings = state => state.settings;
@@ -5,12 +6,17 @@ const getRuntime = state => state.runtime;
 
 export const getStorageProviders = createSelector(
     [getSettings],
-    settings => {}
+    settings => {
+        return Object.values(Storage)
+            .filter(provider => !provider.system && provider.enabled)
+            .map(provider => provider.name)
+            .filter(name => settings[name]);
+    }
 );
 
 export const getOpenRows = createSelector(
-    [getSettings, getRuntime],
-    (settings, runtime) => {
+    [getSettings, getRuntime, getStorageProviders],
+    (settings, runtime, storageProviders) => {
         const firstRow = [];
         const secondRow = [];
 
@@ -25,6 +31,16 @@ export const getOpenRows = createSelector(
         }
         if (!firstRow.length && !secondRow.length) {
             firstRow.push({ id: 'icon', icon: 'key', text: 'KeeWeb' });
+        }
+
+        for (const provider of storageProviders) {
+            const storage = Storage[provider];
+            secondRow.push({
+                id: provider,
+                icon: storage.icon,
+                iconSvg: storage.iconSvg,
+                res: provider,
+            });
         }
 
         if (settings.canImportXml) {

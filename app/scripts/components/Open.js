@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Res from '../containers/util/Res';
+import OpenButton from './OpenButton';
 
 class Open extends React.Component {
     propTypes = {
@@ -65,36 +66,24 @@ class Open extends React.Component {
                     onChange={this.fileInputChange}
                 />
                 <div className="open__icons">
-                    {firstRow.map(item => (
-                        <div
-                            key={item.id}
-                            data-id={item.id}
-                            className={`open__icon open__icon-${item.id}`}
+                    {firstRow.map(btn => (
+                        <OpenButton
+                            key={btn.id}
+                            button={btn}
                             tabIndex={++ix}
                             onClick={this.onButtonClick}
-                        >
-                            <i className={`fa fa-${item.icon} open__icon-i`} />
-                            <div className="open__icon-text">
-                                {item.text ? item.text : <Res id={item.res} />}
-                            </div>
-                        </div>
+                        />
                     ))}
                 </div>
                 {!!secondRowVisible && (
                     <div className="open__icons open__icons--lower">
-                        {secondRow.map(item => (
-                            <div
-                                key={item.id}
-                                data-id={item.id}
-                                className={`open__icon open__icon-${item.id}`}
+                        {secondRow.map(btn => (
+                            <OpenButton
+                                key={btn.id}
+                                button={btn}
                                 tabIndex={++ix}
                                 onClick={this.onButtonClick}
-                            >
-                                <i className={`fa fa-${item.icon} open__icon-i`} />
-                                <div className="open__icon-text">
-                                    {item.text ? item.text : <Res id={item.res} />}
-                                </div>
-                            </div>
+                            />
                         ))}
                     </div>
                 )}

@@ -98,6 +98,13 @@ function config(grunt) {
                 },
                 { test: /argon2(\.min)?\.js/, loader: 'raw-loader' },
                 { test: /\.scss$/, loader: 'raw-loader' },
+                {
+                    test: /\.svg$/,
+                    use: [
+                        { loader: 'babel-loader', options: { presets: ['@babel/preset-react'] } },
+                        { loader: 'react-svg-loader', options: { jsx: false } },
+                    ],
+                },
             ],
         },
         optimization: {

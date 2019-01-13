@@ -64,6 +64,7 @@
     "prettier": "^1.15.3",
     "prop-types": "^15.6.2",
     "raw-loader": "1.0.0",
+    "react-svg-loader": "^2.1.0",
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
     "reselect": "^4.0.0",
