@@ -9,8 +9,8 @@ class StorageCache extends StorageBase {
 
     io = null;
 
-    init() {
-        super.init();
+    init(...args) {
+        super.init(...args);
         this.io = new IoBrowserCache({
             cacheName: 'FilesCache',
             logger: this.logger,

@@ -12,6 +12,7 @@ import loadSettings from 'logic/settings/load-settings';
 import loadFileInfo from 'logic/files/load-file-info';
 import uiSetView from 'store/ui/set-view';
 import SingleInstanceChecker from 'logic/comp/single-instance-checker';
+import { init as initStorage } from 'storage';
 
 export default function startup() {
     return (dispatch, getState) => {
@@ -50,6 +51,7 @@ export default function startup() {
             KeyHandler.init();
             KdbxwebInit.init();
             PopupNotifier.init();
+            initStorage(dispatch, getState);
             // return PluginManager.init();  // TODO
         }
 

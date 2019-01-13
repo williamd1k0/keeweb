@@ -1,7 +1,6 @@
 import Logger from 'util/logger';
 import Links from 'const/links';
 import updateSettings from 'logic/settings/update-settings';
-import store from 'store';
 
 const MaxRequestRetries = 3;
 
@@ -14,8 +13,10 @@ class StorageBase {
     uipos = null;
 
     logger = null;
+    _dispatch = null;
+    _getState = null;
 
-    init() {
+    init(dispatch, getState) {
         if (!this.name) {
             throw 'Failed to init provider: no name';
         }
@@ -26,6 +27,8 @@ class StorageBase {
             delete this._oauthReturnMessage;
             delete sessionStorage.authStorage;
         }
+        this._dispatch = dispatch;
+        this._getState = getState;
         return this;
     }
 
@@ -241,11 +244,11 @@ class StorageBase {
     }
 
     get _state() {
-        return store.getState();
+        return this._getState();
     }
 
     _updateSettings(values) {
-        return store.dispatch(updateSettings(values));
+        return this._dispatch(updateSettings(values));
     }
 }
 
