@@ -87,7 +87,7 @@ export default function startup() {
                 const protocolIsInsecure =
                     ['https:', 'file:', 'app:'].indexOf(location.protocol) < 0;
                 const hostIsInsecure = location.hostname !== 'localhost';
-                if ((protocolIsInsecure && hostIsInsecure && !skipHttpsWarning) || 1) {
+                if (protocolIsInsecure && hostIsInsecure && !skipHttpsWarning) {
                     return dispatch(
                         showAlert({
                             preset: 'fatal-error',
