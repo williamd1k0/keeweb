@@ -9,7 +9,7 @@ module.exports = function(grunt) {
         'copy:manifest',
         'copy:fonts',
         'webpack',
-        'uglify',
+        // 'uglify', // TODO: uglify
         'sass',
         'postcss',
         'inline',

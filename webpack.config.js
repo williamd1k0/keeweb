@@ -121,10 +121,11 @@ function config(grunt) {
                 },
             },
             minimizer: [
-                new UglifyJsPlugin({
-                    cache: true,
-                    parallel: true,
-                }),
+                // TODO: uglify
+                // new UglifyJsPlugin({
+                //     cache: true,
+                //     parallel: true,
+                // }),
                 new BundleAnalyzerPlugin({
                     openAnalyzer: false,
                     analyzerMode: 'static',
