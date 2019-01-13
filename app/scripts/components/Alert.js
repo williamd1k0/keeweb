@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import KeyHandler from '../logic/comp/key-handler';
+import Keys from '../const/keys';
 
 class Alert extends React.Component {
     propTypes = {
@@ -10,26 +12,52 @@ class Alert extends React.Component {
         buttons: PropTypes.array.isRequired,
         opaque: PropTypes.bool,
         hidden: PropTypes.bool,
+        enter: PropTypes.string,
+        esc: PropTypes.string,
         onButtonClick: PropTypes.func.isRequired,
-        onShow: PropTypes.func.isRequired,
+        onEscPressed: PropTypes.func.isRequired,
+        onEnterPressed: PropTypes.func.isRequired,
         onHide: PropTypes.func.isRequired,
     };
     componentDidMount() {
-        this.props.onShow();
         setTimeout(() => {
             this.setState({ visible: true });
         }, 0);
+
+        KeyHandler.setModal('alert');
+        if (typeof this.props.enter === 'string') {
+            KeyHandler.onKey(Keys.DOM_VK_RETURN, this.onEnterPressed, this, undefined, 'alert');
+        }
+        if (typeof this.props.esc === 'string') {
+            KeyHandler.onKey(Keys.DOM_VK_ESCAPE, this.onEscPressed, this, undefined, 'alert');
+        }
     }
     componentWillUnmount() {
         this.setState({ visible: false });
     }
     hide() {
+        KeyHandler.resetModal();
+        if (typeof this.props.esc === 'string') {
+            KeyHandler.offKey(Keys.DOM_VK_ESCAPE, this.onEscPressed, this);
+        }
+        if (typeof this.props.enter === 'string') {
+            KeyHandler.offKey(Keys.DOM_VK_RETURN, this.onEnterPressed, this);
+        }
+
         this.setState({ visible: false });
         this.props.onHide();
     }
     onButtonClick = e => {
         const result = e.target.closest('[data-result]').dataset.result;
         this.props.onButtonClick({ result });
+        this.hide();
+    };
+    onEnterPressed = () => {
+        this.props.onEnterPressed();
+        this.hide();
+    };
+    onEscPressed = () => {
+        this.props.onEscPressed();
         this.hide();
     };
     render() {

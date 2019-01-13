@@ -57,13 +57,9 @@ export default function startup() {
             return dispatch(settingsLoadRemoteConfig()).catch(e => {
                 dispatch(
                     showAlert({
-                        preset: 'error',
+                        preset: 'fatalError',
                         header: 'appSettingsError',
                         body: 'appSettingsErrorBody',
-                        buttons: [],
-                        esc: false,
-                        enter: false,
-                        click: false,
                     })
                 );
                 throw e;
@@ -74,15 +70,10 @@ export default function startup() {
             return FeatureTester.test().catch(e => {
                 dispatch(
                     showAlert({
-                        icon: 'exclamation-circle',
+                        preset: 'fatalError',
                         header: 'appSettingsError',
                         body: 'appNotSupportedError',
                         error: e,
-                        buttons: [],
-                        esc: false,
-                        enter: false,
-                        click: false,
-                        opaque: true,
                     })
                 );
                 throw 'Feature testing failed: ' + e;
@@ -96,15 +87,12 @@ export default function startup() {
                 const protocolIsInsecure =
                     ['https:', 'file:', 'app:'].indexOf(location.protocol) < 0;
                 const hostIsInsecure = location.hostname !== 'localhost';
-                if (protocolIsInsecure && hostIsInsecure && !skipHttpsWarning) {
+                if ((protocolIsInsecure && hostIsInsecure && !skipHttpsWarning) || 1) {
                     return dispatch(
                         showAlert({
-                            preset: 'error',
+                            preset: 'fatal-error',
                             header: 'appSecWarn',
                             icon: 'user-secret',
-                            esc: false,
-                            enter: false,
-                            click: false,
                             body: ['appSecWarnBody1', 'appSecWarnBody2'],
                             buttons: [{ result: '', title: 'appSecWarnBtn', error: true }],
                         })

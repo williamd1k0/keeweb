@@ -55,6 +55,14 @@ const AlertPresets = {
         click: '',
         enter: '',
     },
+    fatalError: {
+        icon: 'exclamation-circle',
+        esc: false,
+        enter: false,
+        click: false,
+        buttons: [],
+        opaque: true,
+    },
     yesno: {
         header: '',
         body: '',
