@@ -1,5 +1,6 @@
-const Backbone = require('backbone');
-const Launcher = require('./launcher');
+import Launcher from './launcher';
+import store from '../../store';
+import showAlert from '../ui/show-alert';
 
 const LocalStorageKeyName = 'instanceCheck';
 const LocalStorageResponseKeyName = 'instanceMaster';
@@ -26,7 +27,7 @@ const SingleInstanceChecker = {
             );
         } else if (e.key === LocalStorageResponseKeyName && e.newValue.indexOf(instanceKey) < 0) {
             window.removeEventListener('storage', SingleInstanceChecker.storageChanged);
-            Backbone.trigger('second-instance');
+            SingleInstanceChecker.showSecondInstanceAlert();
         }
     },
 
@@ -36,8 +37,24 @@ const SingleInstanceChecker = {
             setTimeout(() => {
                 localStorage.removeItem(key);
             }, 100);
-        } catch (e) {}
+        } catch (e) {
+            // doesn't matter
+        }
+    },
+
+    showSecondInstanceAlert() {
+        store.dispatch(
+            showAlert({
+                preset: 'error',
+                header: 'appTabWarn',
+                body: 'appTabWarnBody',
+                esc: false,
+                enter: false,
+                click: false,
+                buttons: [],
+            })
+        );
     },
 };
 
-module.exports = SingleInstanceChecker;
+export default SingleInstanceChecker;

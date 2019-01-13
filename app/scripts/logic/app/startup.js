@@ -11,6 +11,7 @@ import settingsLoadRemoteConfig from '../settings/load-remote-config';
 import loadSettings from '../settings/load-settings';
 import loadFileInfo from '../files/load-file-info';
 import uiSetView from '../../store/ui/set-view';
+import SingleInstanceChecker from '../comp/single-instance-checker';
 
 export default function startup() {
     return (dispatch, getState) => {
@@ -126,7 +127,7 @@ export default function startup() {
 
         function postInit() {
             // Updater.init();
-            // SingleInstanceChecker.init();
+            SingleInstanceChecker.init();
             // AppRightsChecker.init();
             // setTimeout(() => PluginManager.runAutoUpdate(), Timeouts.AutoUpdatePluginsAfterStart);
         }
