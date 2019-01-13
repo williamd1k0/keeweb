@@ -40,7 +40,7 @@ export default function startup() {
             return Promise.all([
                 dispatch(loadSettings()),
                 dispatch(loadFileInfo()),
-                // UpdateModel.instance.load(),
+                // UpdateModel.instance.load(), // TODO
             ]);
         }
 
@@ -50,7 +50,7 @@ export default function startup() {
             KeyHandler.init();
             KdbxwebInit.init();
             PopupNotifier.init();
-            // return PluginManager.init();
+            // return PluginManager.init();  // TODO
         }
 
         function loadRemoteConfig() {
@@ -114,9 +114,9 @@ export default function startup() {
         }
 
         function postInit() {
-            // Updater.init();
             SingleInstanceChecker.init();
-            // AppRightsChecker.init();
+            // Updater.init(); // TODO
+            // AppRightsChecker.init(); // TODO
             // setTimeout(() => PluginManager.runAutoUpdate(), Timeouts.AutoUpdatePluginsAfterStart);
         }
     };
