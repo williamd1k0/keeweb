@@ -4,7 +4,6 @@ import buildReducer from '../util/build-reducer';
 import env from './env';
 import locale from './locale';
 import files from './files';
-import runtime from './runtime';
 import settings from './settings';
 import ui from './ui';
 import uiOpen from './ui-open';
@@ -13,7 +12,6 @@ const reducers = {
     env,
     files,
     locale,
-    runtime,
     settings,
     ui,
     uiOpen,

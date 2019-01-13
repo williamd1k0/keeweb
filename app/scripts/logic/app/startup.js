@@ -6,7 +6,6 @@ import KeyHandler from '../comp/key-handler';
 import showAlert from '../ui/show-alert';
 import settingsLoadRemoteConfig from '../settings/load-remote-config';
 import loadSettings from '../settings/load-settings';
-import loadRuntime from '../runtime/load-runtime';
 import loadFileInfo from '../files/load-file-info';
 import uiSetView from '../../store/ui/set-view';
 
@@ -35,7 +34,6 @@ export default function startup() {
         function loadConfigs() {
             return Promise.all([
                 dispatch(loadSettings()),
-                dispatch(loadRuntime()),
                 dispatch(loadFileInfo()),
                 // UpdateModel.instance.load(),
             ]);

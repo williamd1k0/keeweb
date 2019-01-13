@@ -1,7 +1,6 @@
 import Logger from '../util/logger';
 import Links from '../const/links';
 import updateSettings from '../logic/settings/update-settings';
-import updateRuntime from '../logic/runtime/update-runtime';
 import store from '../store';
 
 const MaxRequestRetries = 3;
@@ -135,7 +134,7 @@ class StorageBase {
             return callback();
         }
         const opts = this._getOAuthConfig();
-        const oldToken = this._state.runtime[this.name + 'OAuthToken'];
+        const oldToken = this._state.settings[this.name + 'OAuthToken'];
         if (this._tokenIsValid(oldToken)) {
             this._oauthToken = oldToken;
             return callback();
@@ -186,7 +185,7 @@ class StorageBase {
         const token = this._oauthMsgToToken(message);
         if (token && !token.error) {
             this._oauthToken = token;
-            this._updateRuntime({ [this.name + 'OAuthToken']: token });
+            this._updateSettings({ [this.name + 'OAuthToken']: token });
             this.logger.debug('OAuth token received');
         }
         return token;
@@ -213,12 +212,12 @@ class StorageBase {
 
     _oauthRefreshToken(callback) {
         this._oauthToken.expired = true;
-        this._updateRuntime({ [this.name + 'OAuthToken']: this._oauthToken });
+        this._updateSettings({ [this.name + 'OAuthToken']: this._oauthToken });
         this._oauthAuthorize(callback);
     }
 
     _oauthRevokeToken(url) {
-        const token = this._state.runtime[this.name + 'OAuthToken'];
+        const token = this._state.settings[this.name + 'OAuthToken'];
         if (token) {
             if (url) {
                 this._xhr({
@@ -226,7 +225,7 @@ class StorageBase {
                     statuses: [200, 401],
                 });
             }
-            this._updateRuntime({ [this.name + 'OAuthToken']: undefined });
+            this._updateSettings({ [this.name + 'OAuthToken']: undefined });
             this._oauthToken = null;
         }
     }
@@ -247,10 +246,6 @@ class StorageBase {
 
     _updateSettings(values) {
         return store.dispatch(updateSettings(values));
-    }
-
-    _updateRuntime(values) {
-        return store.dispatch(updateRuntime(values));
     }
 }
 

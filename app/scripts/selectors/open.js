@@ -2,7 +2,6 @@ import Storage from '../storage';
 import { createSelector } from 'reselect';
 
 const getSettings = state => state.settings;
-const getRuntime = state => state.runtime;
 
 export const getStorageProviders = createSelector(
     [getSettings],
@@ -15,8 +14,8 @@ export const getStorageProviders = createSelector(
 );
 
 export const getOpenRows = createSelector(
-    [getSettings, getRuntime, getStorageProviders],
-    (settings, runtime, storageProviders) => {
+    [getSettings, getStorageProviders],
+    (settings, storageProviders) => {
         const firstRow = [];
         const secondRow = [];
 
@@ -26,7 +25,7 @@ export const getOpenRows = createSelector(
         if (settings.canCreate) {
             firstRow.push({ id: 'new', icon: 'plus', res: 'openNew' });
         }
-        if (settings.canOpenDemo && !runtime.demoOpened) {
+        if (settings.canOpenDemo && !settings.demoOpened) {
             firstRow.push({ id: 'demo', icon: 'magic', res: 'openDemo' });
         }
         if (!firstRow.length && !secondRow.length) {
@@ -46,7 +45,7 @@ export const getOpenRows = createSelector(
         if (settings.canImportXml) {
             secondRow.push({ id: 'import-xml', icon: 'code', res: 'openXml' });
         }
-        if (settings.canOpenDemo && runtime.demoOpened) {
+        if (settings.canOpenDemo && settings.demoOpened) {
             secondRow.push({ id: 'demo', icon: 'magic', res: 'openDemo' });
         }
         if (settings.canOpenSettings) {
