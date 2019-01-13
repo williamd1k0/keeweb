@@ -19,12 +19,13 @@ const PopupNotifier = {
                 if (win) {
                     PopupNotifier.deferCheckClosed(win);
                 } else {
-                    if (!Alerts.alertDisplayed) {
-                        Alerts.error({
-                            header: Locale.authPopupRequired,
-                            body: Locale.authPopupRequiredBody,
-                        });
-                    }
+                    // TODO
+                    // if (!Alerts.alertDisplayed) {
+                    //     Alerts.error({
+                    //         header: Locale.authPopupRequired,
+                    //         body: Locale.authPopupRequiredBody,
+                    //     });
+                    // }
                 }
                 return win;
             };

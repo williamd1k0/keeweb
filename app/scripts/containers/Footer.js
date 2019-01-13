@@ -1,11 +1,11 @@
 import { connect } from 'react-redux';
 import Footer from 'components/Footer';
 
-const mapStateToProps = state => {
+const mapStateToProps = () => {
     return {};
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = () => {
     return {};
 };
 
