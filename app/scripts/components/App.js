@@ -5,8 +5,11 @@ import Footer from 'containers/Footer';
 import Open from 'containers/Open';
 import Alert from 'containers/Alert';
 
-const App = ({ view, isBeta, alert, theme }) => (
-    <div className={`app th-${theme}`}>
+const App = ({ view, isBeta, alert, theme, fontSize }) => (
+    <div
+        className={`app th-${theme}`}
+        style={{ fontSize: fontSize ? 12 + fontSize * 2 + 'px' : null }}
+    >
         {!!isBeta && <BetaWarning />}
         <div className="app__body">
             {view === 'open' && <Open />}
@@ -21,6 +24,7 @@ App.propTypes = {
     view: PropTypes.string.isRequired,
     isBeta: PropTypes.bool.isRequired,
     theme: PropTypes.string.isRequired,
+    fontSize: PropTypes.number.isRequired,
     alert: PropTypes.bool.isRequired,
 };
 

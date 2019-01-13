@@ -7,6 +7,7 @@ const mapStateToProps = state => {
         view: state.ui.view,
         isBeta: state.env.isBeta,
         theme: state.settings.theme,
+        fontSize: state.settings.fontSize,
     };
 };
 

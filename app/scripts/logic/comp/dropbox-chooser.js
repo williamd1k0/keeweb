@@ -1,4 +1,4 @@
-const AppSettingsModel = require('../models/app-settings-model');
+import store from 'store';
 
 const ChooserAppKey = 'qp7ctun6qt5n9d6';
 
@@ -26,9 +26,10 @@ DropboxChooser.prototype.choose = function() {
 };
 
 DropboxChooser.prototype.buildUrl = function() {
+    /* eslint-disable camelcase */
     const urlParams = {
         origin: encodeURIComponent(window.location.protocol + '//' + window.location.host),
-        app_key: AppSettingsModel.instance.get('dropboxAppKey') || ChooserAppKey,
+        app_key: store.getState().settings.dropboxAppKey || ChooserAppKey,
         link_type: 'direct',
         trigger: 'js',
         multiselect: 'false',
@@ -104,4 +105,4 @@ DropboxChooser.prototype.readFile = function(url) {
     xhr.send();
 };
 
-module.exports = DropboxChooser;
+export default DropboxChooser;

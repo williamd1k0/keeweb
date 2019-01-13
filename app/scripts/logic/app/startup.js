@@ -7,12 +7,12 @@ import AuthReceiver from 'logic/comp/auth-receiver';
 import PopupNotifier from 'logic/comp/popup-notifier';
 import KdbxwebInit from 'util/kdbxweb/kdbxweb-init';
 import showAlert from 'logic/ui/show-alert';
-import settingsLoadRemoteConfig from 'logic/settings/load-remote-config';
+import loadRemoteConfig from 'logic/settings/load-remote-config';
 import loadSettings from 'logic/settings/load-settings';
 import loadFileInfo from 'logic/files/load-file-info';
+import initStorage from 'logic/storage/init-storage';
 import uiSetView from 'store/ui/set-view';
 import SingleInstanceChecker from 'logic/comp/single-instance-checker';
-import { init as initStorage } from 'storage';
 
 export default function startup() {
     return (dispatch, getState) => {
@@ -29,7 +29,7 @@ export default function startup() {
         Promise.resolve()
             .then(loadConfigs)
             .then(initModules)
-            .then(loadRemoteConfig)
+            .then(configureWithRemoteConfig)
             .then(ensureCanRun)
             .then(showApp)
             .then(postInit)
@@ -51,12 +51,14 @@ export default function startup() {
             KeyHandler.init();
             KdbxwebInit.init();
             PopupNotifier.init();
-            initStorage(dispatch, getState);
-            // return PluginManager.init();  // TODO
+            return Promise.all([
+                dispatch(initStorage()),
+                // PluginManager.init()  // TODO
+            ]);
         }
 
-        function loadRemoteConfig() {
-            return dispatch(settingsLoadRemoteConfig()).catch(e => {
+        function configureWithRemoteConfig() {
+            return dispatch(loadRemoteConfig()).catch(e => {
                 dispatch(
                     showAlert({
                         preset: 'fatalError',

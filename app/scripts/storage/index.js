@@ -24,7 +24,7 @@ if (!Launcher || Launcher.thirdPartyStoragesSupported) {
     Object.assign(Storage, ThirdPartyStorage);
 }
 
-export function init(dispatch, getState) {
+export function initAllStorageProviders(dispatch, getState) {
     for (const storage of Object.values(Storage)) {
         storage.init(dispatch, getState);
     }
