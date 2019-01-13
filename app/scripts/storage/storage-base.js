@@ -152,7 +152,7 @@ class StorageBase {
         }
         this._popupOpened(popupWindow);
         const popupClosed = () => {
-            Backbone.off('popup-closed', popupClosed);
+            window.removeEventListener('kw-popup-closed', popupClosed);
             window.removeEventListener('message', windowMessage);
             this.logger.error('OAuth error', 'popup closed');
             callback('OAuth: popup closed');
@@ -163,7 +163,7 @@ class StorageBase {
             }
             const token = this._oauthProcessReturn(e.data);
             if (token) {
-                Backbone.off('popup-closed', popupClosed);
+                window.removeEventListener('kw-popup-closed', popupClosed);
                 window.removeEventListener('message', windowMessage);
                 if (token.error) {
                     this.logger.error('OAuth error', token.error, token.errorDescription);
@@ -175,7 +175,7 @@ class StorageBase {
                 this.logger.debug('Skipped OAuth message', e.data);
             }
         };
-        Backbone.on('popup-closed', popupClosed);
+        window.addEventListener('kw-popup-closed', popupClosed);
         window.addEventListener('message', windowMessage);
     }
 

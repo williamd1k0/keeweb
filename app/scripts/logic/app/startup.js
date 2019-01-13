@@ -3,6 +3,8 @@ import FeatureTester from '../comp/feature-tester';
 import ExportApi from '../comp/export-api';
 import IdleTracker from '../comp/idle-tracker';
 import KeyHandler from '../comp/key-handler';
+import AuthReceiver from '../comp/auth-receiver';
+import PopupNotifier from '../comp/popup-notifier';
 import KdbxwebInit from '../../util/kdbxweb-init';
 import showAlert from '../ui/show-alert';
 import settingsLoadRemoteConfig from '../settings/load-remote-config';
@@ -17,7 +19,8 @@ export default function startup() {
         const state = getState();
 
         const { env } = state;
-        if (env.isFrame) {
+
+        if ((env.isPopup && AuthReceiver.receive()) || env.isFrame) {
             return;
         }
 
@@ -45,7 +48,7 @@ export default function startup() {
             IdleTracker.init();
             KeyHandler.init();
             KdbxwebInit.init();
-            // PopupNotifier.init();
+            PopupNotifier.init();
             // return PluginManager.init();
         }
 

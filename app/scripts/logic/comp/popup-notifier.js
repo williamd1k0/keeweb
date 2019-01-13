@@ -1,11 +1,8 @@
-const Backbone = require('backbone');
-const Alerts = require('./alerts');
-const Launcher = require('./launcher');
-const AuthReceiver = require('./auth-receiver');
-const Links = require('../const/links');
-const Timeouts = require('../const/timeouts');
-const Locale = require('../util/locale');
-const Logger = require('../util/logger');
+import Launcher from './launcher';
+import AuthReceiver from './auth-receiver';
+import Links from '../../const/links';
+import Timeouts from '../../const/timeouts';
+import Logger from '../../util/logger';
 
 const PopupNotifier = {
     logger: null,
@@ -21,7 +18,6 @@ const PopupNotifier = {
                 const win = windowOpen.apply(window, arguments);
                 if (win) {
                     PopupNotifier.deferCheckClosed(win);
-                    Backbone.trigger('popup-opened', win);
                 } else {
                     if (!Alerts.alertDisplayed) {
                         Alerts.error({
@@ -117,7 +113,6 @@ const PopupNotifier = {
             win = null;
         });
         win.loadURL(url);
-        Backbone.trigger('popup-opened', win);
         return win;
     },
 
@@ -153,8 +148,10 @@ const PopupNotifier = {
     },
 
     triggerClosed: function(win) {
-        Backbone.trigger('popup-closed', win);
+        const event = new Event('kw-popup-closed');
+        event.target = win;
+        window.dispatchEvent(event);
     },
 };
 
-module.exports = PopupNotifier;
+export default PopupNotifier;

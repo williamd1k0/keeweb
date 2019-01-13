@@ -1,5 +1,5 @@
-const FeatureDetector = require('../util/feature-detector');
-const Storage = require('../storage');
+import Storage from '../../storage';
+import store from '../../store';
 
 const AuthReceiver = {
     receive: function() {
@@ -9,7 +9,7 @@ const AuthReceiver = {
         if (!hasKeys) {
             return false;
         }
-        if (FeatureDetector.isStandalone) {
+        if (store.getState().env.isStandalone) {
             Storage[sessionStorage.authStorage].handleOAuthReturnMessage(message);
             return false;
         } else {
@@ -31,4 +31,4 @@ const AuthReceiver = {
     },
 };
 
-module.exports = AuthReceiver;
+export default AuthReceiver;
