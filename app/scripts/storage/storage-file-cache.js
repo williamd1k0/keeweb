@@ -1,18 +1,18 @@
-const StorageBase = require('./storage-base');
-const Launcher = require('../comp/launcher');
+import StorageBase from './storage-base';
+import Launcher from '../logic/comp/launcher';
 
-const StorageFileCache = StorageBase.extend({
-    name: 'cache',
-    enabled: !!Launcher,
-    system: true,
+class StorageFileCache extends StorageBase {
+    name = 'cache';
+    enabled = !!Launcher;
+    system = true;
 
-    path: null,
+    path = null;
 
-    getPath: function(id) {
+    getPath(id) {
         return Launcher.joinPath(this.path, id);
-    },
+    }
 
-    initFs: function(callback) {
+    initFs(callback) {
         if (this.path) {
             return callback && callback();
         }
@@ -34,9 +34,9 @@ const StorageFileCache = StorageBase.extend({
                 Launcher.mkdir(path, setPath);
             }
         });
-    },
+    }
 
-    save: function(id, opts, data, callback) {
+    save(id, opts, data, callback) {
         this.logger.debug('Save', id);
         this.initFs(err => {
             if (err) {
@@ -54,9 +54,9 @@ const StorageFileCache = StorageBase.extend({
                 }
             });
         });
-    },
+    }
 
-    load: function(id, opts, callback) {
+    load(id, opts, callback) {
         this.logger.debug('Load', id);
         this.initFs(err => {
             if (err) {
@@ -74,9 +74,9 @@ const StorageFileCache = StorageBase.extend({
                 return callback && callback(null, data.buffer);
             });
         });
-    },
+    }
 
-    remove: function(id, opts, callback) {
+    remove(id, opts, callback) {
         this.logger.debug('Remove', id);
         this.initFs(err => {
             if (err) {
@@ -101,7 +101,7 @@ const StorageFileCache = StorageBase.extend({
                 }
             });
         });
-    },
-});
+    }
+}
 
-module.exports = new StorageFileCache();
+export default new StorageFileCache();

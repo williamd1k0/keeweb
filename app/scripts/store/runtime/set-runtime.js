@@ -5,5 +5,11 @@ export default function(values) {
 }
 
 export function reducer(state, action) {
-    return Object.assign({}, state, action.values);
+    state = Object.assign({}, state, action.values);
+    for (const [key, value] of Object.entries(action.values)) {
+        if (value === undefined) {
+            delete state[key];
+        }
+    }
+    return state;
 }

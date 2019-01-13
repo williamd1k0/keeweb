@@ -1,12 +1,12 @@
 const idb = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
 
-const IoBrowserCache = function(config) {
-    this.db = null;
-    this.cacheName = config.cacheName;
-    this.logger = config.logger;
-};
+class IoBrowserCache {
+    constructor(config) {
+        this.db = null;
+        this.cacheName = config.cacheName;
+        this.logger = config.logger;
+    }
 
-_.extend(IoBrowserCache.prototype, {
     initDb(callback) {
         if (this.db) {
             return callback && callback();
@@ -35,7 +35,7 @@ _.extend(IoBrowserCache.prototype, {
                 callback(e);
             }
         }
-    },
+    }
 
     save(id, data, callback) {
         this.logger.debug('Save', id);
@@ -68,7 +68,7 @@ _.extend(IoBrowserCache.prototype, {
                 }
             }
         });
-    },
+    }
 
     load(id, callback) {
         this.logger.debug('Load', id);
@@ -101,7 +101,7 @@ _.extend(IoBrowserCache.prototype, {
                 }
             }
         });
-    },
+    }
 
     remove(id, callback) {
         this.logger.debug('Remove', id);
@@ -134,7 +134,7 @@ _.extend(IoBrowserCache.prototype, {
                 }
             }
         });
-    },
-});
+    }
+}
 
-module.exports = IoBrowserCache;
+export default IoBrowserCache;

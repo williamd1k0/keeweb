@@ -1,16 +1,12 @@
 {
+  "plugins": ["prettier"],
   "extends": [
     "eslint:recommended",
-    "plugin:react/recommended"
+    "plugin:react/recommended",
+    "plugin:prettier/recommended",
+    "prettier/react"
   ],
   "rules": {
-    "indent": [
-      "error",
-      4,
-      {
-        "SwitchCase": 1
-      }
-    ],
     "semi": [
       "error",
       "always"
@@ -41,7 +37,8 @@
     "prefer-promise-reject-errors": "off",
     "standard/no-callback-literal": "off",
     "import/no-webpack-loader-syntax": "off",
-    "object-curly-spacing": "off"
+    "object-curly-spacing": "off",
+    "prettier/prettier": "error"
   },
   "parserOptions": {
     "sourceType": "module",

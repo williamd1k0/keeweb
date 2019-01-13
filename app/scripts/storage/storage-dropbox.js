@@ -1,6 +1,5 @@
-const StorageBase = require('./storage-base');
-const UrlUtil = require('../util/url-util');
-const FeatureDetector = require('../util/feature-detector');
+import StorageBase from './storage-base';
+import UrlUtil from '../util/url';
 
 const DropboxKeys = {
     AppFolder: 'qp7ctun6qt5n9d6',
@@ -11,23 +10,23 @@ const DropboxCustomErrors = {
     BadKey: 'bad-key',
 };
 
-const StorageDropbox = StorageBase.extend({
-    name: 'dropbox',
-    icon: 'dropbox',
-    enabled: true,
-    uipos: 20,
-    backup: true,
+class StorageDropbox extends StorageBase {
+    name = 'dropbox';
+    icon = 'dropbox';
+    enabled = true;
+    uipos = 20;
+    backup = true;
 
-    _toFullPath: function(path) {
-        const rootFolder = this.appSettings.get('dropboxFolder');
+    _toFullPath(path) {
+        const rootFolder = this._state.settings.dropboxFolder;
         if (rootFolder) {
             path = UrlUtil.fixSlashes('/' + rootFolder + '/' + path);
         }
         return path;
-    },
+    }
 
-    _toRelPath: function(path) {
-        const rootFolder = this.appSettings.get('dropboxFolder');
+    _toRelPath(path) {
+        const rootFolder = this._state.settings.dropboxFolder;
         if (rootFolder) {
             const ix = path.toLowerCase().indexOf(rootFolder.toLowerCase());
             if (ix === 0) {
@@ -38,31 +37,31 @@ const StorageDropbox = StorageBase.extend({
             path = UrlUtil.fixSlashes('/' + path);
         }
         return path;
-    },
+    }
 
-    _fixConfigFolder: function(folder) {
+    _fixConfigFolder(folder) {
         folder = folder.replace(/\\/g, '/').trim();
         if (folder[0] === '/') {
             folder = folder.substr(1);
         }
         return folder;
-    },
+    }
 
-    _getKey: function() {
-        return this.appSettings.get('dropboxAppKey') || DropboxKeys.AppFolder;
-    },
+    _getKey() {
+        return this._state.settings.dropboxAppKey || DropboxKeys.AppFolder;
+    }
 
-    _isValidKey: function() {
+    _isValidKey() {
         const key = this._getKey();
         const isBuiltIn = key === DropboxKeys.AppFolder || key === DropboxKeys.FullDropbox;
         return key && key.indexOf(' ') < 0 && (!isBuiltIn || this._canUseBuiltInKeys());
-    },
+    }
 
-    _canUseBuiltInKeys: function() {
-        return !FeatureDetector.isSelfHosted;
-    },
+    _canUseBuiltInKeys() {
+        return !this._state.env.isSelfHosted;
+    }
 
-    _getOAuthConfig: function() {
+    _getOAuthConfig() {
         return {
             scope: '',
             url: 'https://www.dropbox.com/oauth2/authorize',
@@ -70,13 +69,13 @@ const StorageDropbox = StorageBase.extend({
             width: 600,
             height: 400,
         };
-    },
+    }
 
-    needShowOpenConfig: function() {
+    needShowOpenConfig() {
         return !this._isValidKey();
-    },
+    }
 
-    getOpenConfig: function() {
+    getOpenConfig() {
         return {
             desc: 'dropboxSetupDesc',
             fields: [
@@ -97,9 +96,9 @@ const StorageDropbox = StorageBase.extend({
                 },
             ],
         };
-    },
+    }
 
-    getSettingsConfig: function() {
+    getSettingsConfig() {
         const fields = [];
         const appKey = this._getKey();
         const linkField = {
@@ -127,7 +126,7 @@ const StorageDropbox = StorageBase.extend({
             title: 'dropboxFolder',
             desc: 'dropboxFolderSettingsDesc',
             type: 'text',
-            value: this.appSettings.get('dropboxFolder') || '',
+            value: this._state.settings.dropboxFolder || '',
         };
         const canUseBuiltInKeys = this._canUseBuiltInKeys();
         if (canUseBuiltInKeys) {
@@ -146,9 +145,9 @@ const StorageDropbox = StorageBase.extend({
             fields.push(folderField);
         }
         return { fields: fields };
-    },
+    }
 
-    applyConfig: function(config, callback) {
+    applyConfig(config, callback) {
         if (config.key === DropboxKeys.AppFolder || config.key === DropboxKeys.FullDropbox) {
             return callback(DropboxCustomErrors.BadKey);
         }
@@ -156,14 +155,14 @@ const StorageDropbox = StorageBase.extend({
         if (config.folder) {
             config.folder = this._fixConfigFolder(config.folder);
         }
-        this.appSettings.set({
+        this._updateSettings({
             dropboxAppKey: config.key,
             dropboxFolder: config.folder,
         });
         callback();
-    },
+    }
 
-    applySetting: function(key, value) {
+    applySetting(key, value) {
         switch (key) {
             case 'link':
                 key = 'dropboxAppKey';
@@ -193,21 +192,21 @@ const StorageDropbox = StorageBase.extend({
             default:
                 return;
         }
-        this.appSettings.set(key, value);
-    },
+        this._updateSettings({ [key]: value });
+    }
 
-    getPathForName: function(fileName) {
+    getPathForName(fileName) {
         return '/' + fileName + '.kdbx';
-    },
+    }
 
     _encodeJsonHttpHeader(json) {
         return json.replace(
             /[\u007f-\uffff]/g,
             c => '\\u' + ('000' + c.charCodeAt(0).toString(16)).slice(-4)
         );
-    },
+    }
 
-    _apiCall: function(args) {
+    _apiCall(args) {
         this._oauthAuthorize(err => {
             if (err) {
                 return args.error(err);
@@ -250,9 +249,9 @@ const StorageDropbox = StorageBase.extend({
                 },
             });
         });
-    },
+    }
 
-    load: function(path, opts, callback) {
+    load(path, opts, callback) {
         this.logger.debug('Load', path);
         const ts = this.logger.ts();
         path = this._toFullPath(path);
@@ -268,9 +267,9 @@ const StorageDropbox = StorageBase.extend({
             },
             error: callback,
         });
-    },
+    }
 
-    stat: function(path, opts, callback) {
+    stat(path, opts, callback) {
         this.logger.debug('Stat', path);
         const ts = this.logger.ts();
         path = this._toFullPath(path);
@@ -295,9 +294,9 @@ const StorageDropbox = StorageBase.extend({
             },
             error: callback,
         });
-    },
+    }
 
-    save: function(path, opts, data, callback, rev) {
+    save(path, opts, data, callback, rev) {
         this.logger.debug('Save', path, rev);
         const ts = this.logger.ts();
         path = this._toFullPath(path);
@@ -317,9 +316,9 @@ const StorageDropbox = StorageBase.extend({
             },
             error: callback,
         });
-    },
+    }
 
-    list: function(dir, callback) {
+    list(dir, callback) {
         this.logger.debug('List');
         const ts = this.logger.ts();
         this._apiCall({
@@ -340,9 +339,9 @@ const StorageDropbox = StorageBase.extend({
             },
             error: callback,
         });
-    },
+    }
 
-    remove: function(path, callback) {
+    remove(path, callback) {
         this.logger.debug('Remove', path);
         const ts = this.logger.ts();
         path = this._toFullPath(path);
@@ -355,9 +354,9 @@ const StorageDropbox = StorageBase.extend({
             },
             error: callback,
         });
-    },
+    }
 
-    mkdir: function(path, callback) {
+    mkdir(path, callback) {
         this.logger.debug('Make dir', path);
         const ts = this.logger.ts();
         path = this._toFullPath(path);
@@ -370,14 +369,14 @@ const StorageDropbox = StorageBase.extend({
             },
             error: callback,
         });
-    },
+    }
 
-    setEnabled: function(enabled) {
+    setEnabled(enabled) {
         if (!enabled) {
             this._oauthRevokeToken();
         }
-        StorageBase.prototype.setEnabled.call(this, enabled);
-    },
-});
+        super.setEnabled(enabled);
+    }
+}
 
-module.exports = new StorageDropbox();
+export default new StorageDropbox();

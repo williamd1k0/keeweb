@@ -1,16 +1,16 @@
-const StorageBase = require('./storage-base');
-const Launcher = require('../comp/launcher');
+import StorageBase from './storage-base';
+import Launcher from '../logic/comp/launcher';
 
 const fileWatchers = {};
 
-const StorageFile = StorageBase.extend({
-    name: 'file',
-    icon: 'hdd-o',
-    enabled: !!Launcher,
-    system: true,
-    backup: true,
+class StorageFile extends StorageBase {
+    name = 'file';
+    icon = 'hdd-o';
+    enabled = !!Launcher;
+    system = true;
+    backup = true;
 
-    load: function(path, opts, callback) {
+    load(path, opts, callback) {
         this.logger.debug('Load', path);
         const ts = this.logger.ts();
 
@@ -36,9 +36,9 @@ const StorageFile = StorageBase.extend({
                 }
             });
         });
-    },
+    }
 
-    stat: function(path, opts, callback) {
+    stat(path, opts, callback) {
         this.logger.debug('Stat', path);
         const ts = this.logger.ts();
 
@@ -56,9 +56,9 @@ const StorageFile = StorageBase.extend({
                 callback(null, { rev: fileRev });
             }
         });
-    },
+    }
 
-    save: function(path, opts, data, callback, rev) {
+    save(path, opts, data, callback, rev) {
         this.logger.debug('Save', path, rev);
         const ts = this.logger.ts();
 
@@ -105,9 +105,9 @@ const StorageFile = StorageBase.extend({
         } else {
             write();
         }
-    },
+    }
 
-    mkdir: function(path, callback) {
+    mkdir(path, callback) {
         this.logger.debug('Make dir', path);
         const ts = this.logger.ts();
 
@@ -124,9 +124,9 @@ const StorageFile = StorageBase.extend({
                 }
             }
         });
-    },
+    }
 
-    watch: function(path, callback) {
+    watch(path, callback) {
         const names = Launcher.parsePath(path);
         if (!fileWatchers[names.dir]) {
             this.logger.debug('Watch dir', names.dir);
@@ -147,9 +147,9 @@ const StorageFile = StorageBase.extend({
                 callback: callback,
             });
         }
-    },
+    }
 
-    unwatch: function(path) {
+    unwatch(path) {
         const names = Launcher.parsePath(path);
         const watcher = fileWatchers[names.dir];
         if (watcher) {
@@ -163,9 +163,9 @@ const StorageFile = StorageBase.extend({
                 delete fileWatchers[names.dir];
             }
         }
-    },
+    }
 
-    fsWatcherChange: function(dirname, evt, fileName) {
+    fsWatcherChange(dirname, evt, fileName) {
         const watcher = fileWatchers[dirname];
         if (watcher) {
             watcher.callbacks.forEach(cb => {
@@ -175,7 +175,7 @@ const StorageFile = StorageBase.extend({
                 }
             });
         }
-    },
-});
+    }
+}
 
-module.exports = new StorageFile();
+export default new StorageFile();

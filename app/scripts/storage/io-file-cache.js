@@ -1,12 +1,12 @@
-const Launcher = require('../comp/launcher');
+import Launcher from '../logic/comp/launcher';
 
-const IoFileCache = function(config) {
-    this.basePath = null;
-    this.cacheName = config.cacheName;
-    this.logger = config.logger;
-};
+class IoFileCache {
+    constructor(config) {
+        this.basePath = null;
+        this.cacheName = config.cacheName;
+        this.logger = config.logger;
+    }
 
-_.extend(IoFileCache.prototype, {
     initFs(callback) {
         if (this.basePath) {
             return callback();
@@ -20,11 +20,11 @@ _.extend(IoFileCache.prototype, {
             }
             callback(err);
         });
-    },
+    }
 
     resolvePath(path) {
         return Launcher.joinPath(this.basePath, path);
-    },
+    }
 
     save(id, data, callback) {
         this.initFs(err => {
@@ -48,7 +48,7 @@ _.extend(IoFileCache.prototype, {
                 }
             });
         });
-    },
+    }
 
     load(id, callback) {
         this.initFs(err => {
@@ -72,7 +72,7 @@ _.extend(IoFileCache.prototype, {
                 }
             });
         });
-    },
+    }
 
     remove(id, callback) {
         this.initFs(err => {
@@ -96,7 +96,7 @@ _.extend(IoFileCache.prototype, {
                 }
             });
         });
-    },
-});
+    }
+}
 
-module.exports = IoFileCache;
+export default IoFileCache;

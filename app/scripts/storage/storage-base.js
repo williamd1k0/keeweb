@@ -1,35 +1,24 @@
-const Backbone = require('backbone');
-const Logger = require('../util/logger');
-const AppSettingsModel = require('../models/app-settings-model');
-const RuntimeDataModel = require('../models/runtime-data-model');
-const Links = require('../const/links');
-const FeatureDetector = require('../util/feature-detector');
+import Logger from '../util/logger';
+import Links from '../const/links';
+import updateSettings from '../logic/settings/update-settings';
+import updateRuntime from '../logic/runtime/update-runtime';
+import store from '../store';
 
 const MaxRequestRetries = 3;
 
-const StorageBase = function() {};
+class StorageBase {
+    name = null;
+    icon = null;
+    iconSvg = null;
+    system = false;
+    enabled = true;
+    uipos = null;
 
-_.extend(StorageBase.prototype, {
-    name: null,
-    icon: null,
-    iconSvg: null,
-    enabled: false,
-    system: false,
-    uipos: null,
+    logger = null;
 
-    logger: null,
-    appSettings: AppSettingsModel.instance,
-    runtimeData: RuntimeDataModel.instance,
-
-    init: function() {
+    init() {
         if (!this.name) {
             throw 'Failed to init provider: no name';
-        }
-        if (!this.system) {
-            const enabled = this.appSettings.get(this.name);
-            if (typeof enabled === 'boolean') {
-                this.enabled = enabled;
-            }
         }
         this.logger = new Logger('storage-' + this.name);
         if (this._oauthReturnMessage) {
@@ -39,17 +28,15 @@ _.extend(StorageBase.prototype, {
             delete sessionStorage.authStorage;
         }
         return this;
-    },
+    }
 
-    setEnabled: function(enabled) {
-        this.enabled = enabled;
-    },
+    setEnabled() {}
 
     handleOAuthReturnMessage(message) {
         this._oauthReturnMessage = message;
-    },
+    }
 
-    _xhr: function(config) {
+    _xhr(config) {
         const xhr = new XMLHttpRequest();
         if (config.responseType) {
             xhr.responseType = config.responseType;
@@ -90,13 +77,13 @@ _.extend(StorageBase.prototype, {
         if (this._oauthToken && !config.skipAuth) {
             xhr.setRequestHeader('Authorization', 'Bearer ' + this._oauthToken.accessToken);
         }
-        _.forEach(config.headers, (value, key) => {
+        for (const [key, value] of Object.entries(config.headers)) {
             xhr.setRequestHeader(key, value);
-        });
+        }
         xhr.send(config.data);
-    },
+    }
 
-    _openPopup: function(url, title, width, height) {
+    _openPopup(url, title, width, height) {
         const dualScreenLeft = window.screenLeft !== undefined ? window.screenLeft : screen.left;
         const dualScreenTop = window.screenTop !== undefined ? window.screenTop : screen.top;
 
@@ -127,28 +114,28 @@ _.extend(StorageBase.prototype, {
         settings = Object.keys(settings)
             .map(key => key + '=' + settings[key])
             .join(',');
-        if (FeatureDetector.isStandalone) {
+        if (this._state.env.isStandalone) {
             sessionStorage.authStorage = this.name;
         }
 
         return window.open(url, title, settings);
-    },
+    }
 
-    _getOauthRedirectUrl: function() {
+    _getOauthRedirectUrl() {
         let redirectUrl = window.location.href;
         if (redirectUrl.lastIndexOf('file:', 0) === 0) {
             redirectUrl = Links.WebApp;
         }
         redirectUrl = redirectUrl.split('?')[0];
         return redirectUrl;
-    },
+    }
 
-    _oauthAuthorize: function(callback) {
+    _oauthAuthorize(callback) {
         if (this._tokenIsValid(this._oauthToken)) {
             return callback();
         }
         const opts = this._getOAuthConfig();
-        const oldToken = this.runtimeData.get(this.name + 'OAuthToken');
+        const oldToken = this._state.runtime[this.name + 'OAuthToken'];
         if (this._tokenIsValid(oldToken)) {
             this._oauthToken = oldToken;
             return callback();
@@ -191,21 +178,21 @@ _.extend(StorageBase.prototype, {
         };
         Backbone.on('popup-closed', popupClosed);
         window.addEventListener('message', windowMessage);
-    },
+    }
 
-    _popupOpened(popupWindow) {},
+    _popupOpened() {}
 
-    _oauthProcessReturn: function(message) {
+    _oauthProcessReturn(message) {
         const token = this._oauthMsgToToken(message);
         if (token && !token.error) {
             this._oauthToken = token;
-            this.runtimeData.set(this.name + 'OAuthToken', token);
+            this._updateRuntime({ [this.name + 'OAuthToken']: token });
             this.logger.debug('OAuth token received');
         }
         return token;
-    },
+    }
 
-    _oauthMsgToToken: function(data) {
+    _oauthMsgToToken(data) {
         if (!data.token_type) {
             if (data.error) {
                 return { error: data.error, errorDescription: data.error_description };
@@ -222,16 +209,16 @@ _.extend(StorageBase.prototype, {
             scope: data.scope,
             userId: data.user_id,
         };
-    },
+    }
 
-    _oauthRefreshToken: function(callback) {
+    _oauthRefreshToken(callback) {
         this._oauthToken.expired = true;
-        this.runtimeData.set(this.name + 'OAuthToken', this._oauthToken);
+        this._updateRuntime({ [this.name + 'OAuthToken']: this._oauthToken });
         this._oauthAuthorize(callback);
-    },
+    }
 
-    _oauthRevokeToken: function(url) {
-        const token = this.runtimeData.get(this.name + 'OAuthToken');
+    _oauthRevokeToken(url) {
+        const token = this._state.runtime[this.name + 'OAuthToken'];
         if (token) {
             if (url) {
                 this._xhr({
@@ -239,10 +226,10 @@ _.extend(StorageBase.prototype, {
                     statuses: [200, 401],
                 });
             }
-            this.runtimeData.unset(this.name + 'OAuthToken');
+            this._updateRuntime({ [this.name + 'OAuthToken']: undefined });
             this._oauthToken = null;
         }
-    },
+    }
 
     _tokenIsValid(token) {
         if (!token || token.expired) {
@@ -252,9 +239,19 @@ _.extend(StorageBase.prototype, {
             return false;
         }
         return true;
-    },
-});
+    }
 
-StorageBase.extend = Backbone.Model.extend;
+    get _state() {
+        return store.getState();
+    }
 
-module.exports = StorageBase;
+    _updateSettings(values) {
+        return store.dispatch(updateSettings(values));
+    }
+
+    _updateRuntime(values) {
+        return store.dispatch(updateRuntime(values));
+    }
+}
+
+export default StorageBase;

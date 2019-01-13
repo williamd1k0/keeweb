@@ -1,5 +1,5 @@
-const StorageBase = require('./storage-base');
-const Locale = require('../util/locale');
+import StorageBase from './storage-base';
+import IconGDrive from './icons/gdrive.svg';
 
 const GDriveClientId = {
     Local: '783608538594-36tkdh8iscrq8t8dq87gghubnhivhjp5.apps.googleusercontent.com',
@@ -7,23 +7,20 @@ const GDriveClientId = {
 };
 const NewFileIdPrefix = 'NewFile:';
 
-const StorageGDrive = StorageBase.extend({
-    name: 'gdrive',
-    enabled: true,
-    uipos: 30,
-    iconSvg:
-        '<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128"><path d="M86.657536,76.246208 L47.768064,9 L89.111168,' +
-        '9 L128,76.246208 L86.657536,76.246208 Z M25.010048,119.08 L102.690048,119.08 L123.36256,83.24 L45.68064,83.24 L25.010048,119.08 L25.010048,' +
-        '119.08 Z M38.793088,9.003712 L0,76.30496 L20.671872,112.110016 L59.464704,44.808128 L38.793088,9.003712 Z"></path></svg>',
+class StorageGDrive extends StorageBase {
+    name = 'gdrive';
+    enabled = true;
+    uipos = 30;
+    iconSvg = IconGDrive;
 
-    _baseUrl: 'https://www.googleapis.com/drive/v3',
-    _baseUrlUpload: 'https://www.googleapis.com/upload/drive/v3',
+    _baseUrl = 'https://www.googleapis.com/drive/v3';
+    _baseUrlUpload = 'https://www.googleapis.com/upload/drive/v3';
 
-    getPathForName: function(fileName) {
+    getPathForName(fileName) {
         return NewFileIdPrefix + fileName;
-    },
+    }
 
-    load: function(path, opts, callback) {
+    load(path, opts, callback) {
         this.stat(path, opts, (err, stat) => {
             if (err) {
                 return callback && callback(err);
@@ -48,9 +45,9 @@ const StorageGDrive = StorageBase.extend({
                 },
             });
         });
-    },
+    }
 
-    stat: function(path, opts, callback) {
+    stat(path, opts, callback) {
         if (path.lastIndexOf(NewFileIdPrefix, 0) === 0) {
             return callback && callback({ notFound: true });
         }
@@ -75,9 +72,9 @@ const StorageGDrive = StorageBase.extend({
                 },
             });
         });
-    },
+    }
 
-    save: function(path, opts, data, callback, rev) {
+    save(path, opts, data, callback, rev) {
         this._oauthAuthorize(err => {
             if (err) {
                 return callback && callback(err);
@@ -153,9 +150,9 @@ const StorageGDrive = StorageBase.extend({
                 });
             });
         });
-    },
+    }
 
-    list: function(dir, callback) {
+    list(dir, callback) {
         this._oauthAuthorize(err => {
             if (err) {
                 return callback && callback(err);
@@ -194,7 +191,7 @@ const StorageGDrive = StorageBase.extend({
                     }));
                     if (!dir) {
                         fileList.unshift({
-                            name: Locale.gdriveSharedWithMe,
+                            name: this._state.locale.gdriveSharedWithMe,
                             path: 'shared',
                             rev: undefined,
                             dir: true,
@@ -208,9 +205,9 @@ const StorageGDrive = StorageBase.extend({
                 },
             });
         });
-    },
+    }
 
-    remove: function(path, callback) {
+    remove(path, callback) {
         this.logger.debug('Remove', path);
         const ts = this.logger.ts();
         const url = this._baseUrl + '/files/{id}'.replace('{id}', path);
@@ -228,17 +225,17 @@ const StorageGDrive = StorageBase.extend({
                 return callback && callback(err);
             },
         });
-    },
+    }
 
-    setEnabled: function(enabled) {
+    setEnabled(enabled) {
         if (!enabled) {
             this._oauthRevokeToken('https://accounts.google.com/o/oauth2/revoke?token={token}');
         }
-        StorageBase.prototype.setEnabled.call(this, enabled);
-    },
+        super.setEnabled(enabled);
+    }
 
-    _getOAuthConfig: function() {
-        let clientId = this.appSettings.get('gdriveClientId');
+    _getOAuthConfig() {
+        let clientId = this._state.settings.gdriveClientId;
         if (!clientId) {
             clientId =
                 location.origin.indexOf('localhost') >= 0
@@ -252,7 +249,7 @@ const StorageGDrive = StorageBase.extend({
             width: 600,
             height: 400,
         };
-    },
-});
+    }
+}
 
-module.exports = new StorageGDrive();
+export default new StorageGDrive();

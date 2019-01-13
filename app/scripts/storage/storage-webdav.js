@@ -1,16 +1,16 @@
-const StorageBase = require('./storage-base');
+import StorageBase from './storage-base';
 
-const StorageWebDav = StorageBase.extend({
-    name: 'webdav',
-    icon: 'server',
-    enabled: true,
-    uipos: 10,
+class StorageWebDav extends StorageBase {
+    name = 'webdav';
+    icon = 'server';
+    enabled = true;
+    uipos = 10;
 
-    needShowOpenConfig: function() {
+    needShowOpenConfig() {
         return true;
-    },
+    }
 
-    getOpenConfig: function() {
+    getOpenConfig() {
         return {
             fields: [
                 { id: 'path', title: 'openUrl', desc: 'openUrlDesc', type: 'text', required: true },
@@ -30,27 +30,27 @@ const StorageWebDav = StorageBase.extend({
                 },
             ],
         };
-    },
+    }
 
-    getSettingsConfig: function() {
+    getSettingsConfig() {
         return {
             fields: [
                 {
                     id: 'webdavSaveMethod',
                     title: 'webdavSaveMethod',
                     type: 'select',
-                    value: this.appSettings.get('webdavSaveMethod') || 'default',
+                    value: this._state.settings.webdavSaveMethod || 'default',
                     options: { default: 'webdavSaveMove', put: 'webdavSavePut' },
                 },
             ],
         };
-    },
+    }
 
-    applySetting: function(key, value) {
-        this.appSettings.set(key, value);
-    },
+    applySetting(key, value) {
+        this._updateSettings({ [key]: value });
+    }
 
-    load: function(path, opts, callback) {
+    load(path, opts, callback) {
         this._request(
             {
                 op: 'Load',
@@ -65,9 +65,9 @@ const StorageWebDav = StorageBase.extend({
                   }
                 : null
         );
-    },
+    }
 
-    stat: function(path, opts, callback) {
+    stat(path, opts, callback) {
         this._request(
             {
                 op: 'Stat',
@@ -82,9 +82,9 @@ const StorageWebDav = StorageBase.extend({
                   }
                 : null
         );
-    },
+    }
 
-    save: function(path, opts, data, callback, rev) {
+    save(path, opts, data, callback, rev) {
         const cb = function(err, xhr, stat) {
             if (callback) {
                 callback(err, stat);
@@ -99,7 +99,7 @@ const StorageWebDav = StorageBase.extend({
         };
         const that = this;
         this._request(
-            _.defaults(
+            Object.assign(
                 {
                     op: 'Save:stat',
                     method: 'HEAD',
@@ -107,7 +107,7 @@ const StorageWebDav = StorageBase.extend({
                 saveOpts
             ),
             (err, xhr, stat) => {
-                let useTmpPath = this.appSettings.get('webdavSaveMethod') !== 'put';
+                let useTmpPath = this._state.settings.webdavSaveMethod !== 'put';
                 if (err) {
                     if (!err.notFound) {
                         return cb(err);
@@ -121,7 +121,7 @@ const StorageWebDav = StorageBase.extend({
                 }
                 if (useTmpPath) {
                     that._request(
-                        _.defaults(
+                        Object.assign(
                             {
                                 op: 'Save:put',
                                 method: 'PUT',
@@ -136,7 +136,7 @@ const StorageWebDav = StorageBase.extend({
                                 return cb(err);
                             }
                             that._request(
-                                _.defaults(
+                                Object.assign(
                                     {
                                         op: 'Save:stat',
                                         method: 'HEAD',
@@ -146,7 +146,7 @@ const StorageWebDav = StorageBase.extend({
                                 (err, xhr, stat) => {
                                     if (err) {
                                         that._request(
-                                            _.defaults(
+                                            Object.assign(
                                                 {
                                                     op: 'Save:delete',
                                                     method: 'DELETE',
@@ -166,7 +166,7 @@ const StorageWebDav = StorageBase.extend({
                                             rev
                                         );
                                         that._request(
-                                            _.defaults(
+                                            Object.assign(
                                                 {
                                                     op: 'Save:delete',
                                                     method: 'DELETE',
@@ -189,7 +189,7 @@ const StorageWebDav = StorageBase.extend({
                                         }
                                     }
                                     that._request(
-                                        _.defaults(
+                                        Object.assign(
                                             {
                                                 op: 'Save:move',
                                                 method: 'MOVE',
@@ -204,7 +204,7 @@ const StorageWebDav = StorageBase.extend({
                                                 return cb(err);
                                             }
                                             that._request(
-                                                _.defaults(
+                                                Object.assign(
                                                     {
                                                         op: 'Save:stat',
                                                         method: 'HEAD',
@@ -223,7 +223,7 @@ const StorageWebDav = StorageBase.extend({
                     );
                 } else {
                     that._request(
-                        _.defaults(
+                        Object.assign(
                             {
                                 op: 'Save:put',
                                 method: 'PUT',
@@ -237,7 +237,7 @@ const StorageWebDav = StorageBase.extend({
                                 return cb(err);
                             }
                             that._request(
-                                _.defaults(
+                                Object.assign(
                                     {
                                         op: 'Save:stat',
                                         method: 'HEAD',
@@ -253,9 +253,9 @@ const StorageWebDav = StorageBase.extend({
                 }
             }
         );
-    },
+    }
 
-    fileOptsToStoreOpts: function(opts, file) {
+    fileOptsToStoreOpts(opts, file) {
         const result = { user: opts.user, encpass: opts.encpass };
         if (opts.password) {
             const fileId = file.get('uuid');
@@ -269,9 +269,9 @@ const StorageWebDav = StorageBase.extend({
             result.encpass = btoa(encpass);
         }
         return result;
-    },
+    }
 
-    storeOptsToFileOpts: function(opts, file) {
+    storeOptsToFileOpts(opts, file) {
         const result = { user: opts.user, password: opts.password };
         if (opts.encpass) {
             const fileId = file.get('uuid');
@@ -285,9 +285,9 @@ const StorageWebDav = StorageBase.extend({
             result.password = password;
         }
         return result;
-    },
+    }
 
-    _request: function(config, callback) {
+    _request(config, callback) {
         const that = this;
         if (config.rev) {
             that.logger.debug(config.op, config.path, config.rev);
@@ -367,9 +367,9 @@ const StorageWebDav = StorageBase.extend({
             );
         }
         if (config.headers) {
-            _.forEach(config.headers, (value, header) => {
+            for (const [header, value] of Object.entries(config.headers)) {
                 xhr.setRequestHeader(header, value);
-            });
+            }
         }
         if (['GET', 'HEAD'].indexOf(config.method) >= 0) {
             xhr.setRequestHeader('Cache-Control', 'no-cache');
@@ -380,7 +380,7 @@ const StorageWebDav = StorageBase.extend({
         } else {
             xhr.send();
         }
-    },
-});
+    }
+}
 
-module.exports = new StorageWebDav();
+export default new StorageWebDav();
