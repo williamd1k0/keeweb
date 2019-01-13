@@ -1,5 +1,6 @@
-const Launcher = require('./launcher');
-const Logger = require('../util/logger');
+import Launcher from 'launcher';
+import Logger from 'util/logger';
+import noop from 'lodash/noop';
 
 const logger = new Logger('transport');
 
@@ -18,7 +19,7 @@ const Transport = {
                         fs.unlinkSync(tmpFile);
                     }
                 } catch (e) {
-                    fs.unlink(tmpFile, _.noop);
+                    fs.unlink(tmpFile, noop);
                 }
             }
         }
@@ -81,7 +82,7 @@ const Transport = {
                 .on('error', e => {
                     logger.error('Cannot GET ' + config.url, e);
                     if (tmpFile) {
-                        fs.unlink(tmpFile, _.noop);
+                        fs.unlink(tmpFile, noop);
                     }
                     config.error(e);
                 });
@@ -89,4 +90,4 @@ const Transport = {
     },
 };
 
-module.exports = Transport;
+export default Transport;
