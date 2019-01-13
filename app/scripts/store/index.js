@@ -1,6 +1,6 @@
 import { createStore, applyMiddleware, combineReducers, compose } from 'redux';
 import thunkMiddleware from 'redux-thunk';
-import buildReducer from '../util/build-reducer';
+import buildReducer from '../util/redux/build-reducer';
 import env from './env';
 import locale from './locale';
 import files from './files';

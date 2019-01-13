@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { capFirst } from '../../util/format';
+import { capFirst } from '../../util/text/format';
 
 const Res = ({ id, locale, capitalize }) => {
     const translation = locale[id];

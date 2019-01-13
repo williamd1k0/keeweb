@@ -76,6 +76,7 @@ const AlertPresets = {
 
 export default function showAlert(config) {
     return dispatch => {
+        // TODO: alert stack
         if (config.preset) {
             const preset = AlertPresets[config.preset];
             if (preset) {

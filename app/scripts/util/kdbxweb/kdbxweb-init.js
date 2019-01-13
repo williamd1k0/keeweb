@@ -1,13 +1,15 @@
 import kdbxweb from 'kdbxweb';
+import ProtectedValueEx from './protected-value-ex';
 import argon2LoaderCode from 'argon2';
 import wasmBinaryBase64 from 'argon2-wasm';
-import Logger from './logger';
+import Logger from '../logger';
 
 const logger = new Logger('argon2');
 
 const KdbxwebInit = {
     init() {
         kdbxweb.CryptoEngine.argon2 = (...args) => this.argon2(...args);
+        ProtectedValueEx.init();
     },
 
     argon2(password, salt, memory, iterations, length, parallelism, type, version) {

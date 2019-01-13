@@ -5,7 +5,7 @@ import IdleTracker from '../comp/idle-tracker';
 import KeyHandler from '../comp/key-handler';
 import AuthReceiver from '../comp/auth-receiver';
 import PopupNotifier from '../comp/popup-notifier';
-import KdbxwebInit from '../../util/kdbxweb-init';
+import KdbxwebInit from '../../util/kdbxweb/kdbxweb-init';
 import showAlert from '../ui/show-alert';
 import settingsLoadRemoteConfig from '../settings/load-remote-config';
 import loadSettings from '../settings/load-settings';
