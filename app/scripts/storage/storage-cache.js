@@ -1,6 +1,6 @@
 import StorageBase from 'storage/storage-base';
 import IoBrowserCache from 'storage/io-browser-cache';
-import Launcher from 'logic/comp/launcher';
+import Launcher from 'launcher';
 
 class StorageCache extends StorageBase {
     name = 'cache';

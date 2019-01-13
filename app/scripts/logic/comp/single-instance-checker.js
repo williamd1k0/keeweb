@@ -1,4 +1,4 @@
-import Launcher from 'logic/comp/launcher';
+import Launcher from 'launcher';
 import store from 'store';
 import showAlert from 'logic/ui/show-alert';
 

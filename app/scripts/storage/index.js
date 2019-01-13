@@ -1,4 +1,4 @@
-import Launcher from 'logic/comp/launcher';
+import Launcher from 'launcher';
 import file from 'storage/storage-file';
 import fileCache from 'storage/storage-file-cache';
 import cache from 'storage/storage-cache';

@@ -1,4 +1,4 @@
-import Launcher from 'logic/comp/launcher';
+import Launcher from 'launcher';
 import Logger from 'util/logger';
 import camelCase from 'lodash/camelCase';
 

@@ -1,4 +1,4 @@
-import Launcher from 'logic/comp/launcher';
+import Launcher from 'launcher';
 
 class IoFileCache {
     constructor(config) {

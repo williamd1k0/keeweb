@@ -1,4 +1,4 @@
-import Launcher from 'logic/comp/launcher';
+import Launcher from 'launcher';
 import AuthReceiver from 'logic/comp/auth-receiver';
 import Links from 'const/links';
 import Timeouts from 'const/timeouts';
