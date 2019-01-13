@@ -1,5 +1,6 @@
 import Logger from 'util/logger';
 import updateSettings from 'logic/settings/update-settings';
+import setLastFiles from 'store/files/set-last-files';
 
 export default function settingsLoadRemoteConfig() {
     return (dispatch, getState) => {
@@ -84,6 +85,10 @@ export default function settingsLoadRemoteConfig() {
 
         function applyConfig(config) {
             dispatch(updateSettings(config.settings));
+            if (config.files) {
+                const removeExisting = !!config.showOnlyFilesFromConfig;
+                dispatch(setLastFiles(config.files, removeExisting));
+            }
         }
     };
 }
