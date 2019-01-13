@@ -10,7 +10,7 @@ const IdleTracker = {
         const idleMinutes = (Date.now() - this.actionTime) / 1000 / 60;
         const maxIdleMinutes = store.getState().settings.idleMinutes;
         if (maxIdleMinutes && idleMinutes > maxIdleMinutes) {
-            // Backbone.trigger('user-idle');
+            // Backbone.trigger('user-idle'); // TODO
         }
     },
     regUserAction: function() {

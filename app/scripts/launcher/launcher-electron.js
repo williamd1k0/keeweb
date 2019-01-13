@@ -283,6 +283,7 @@ if (global.process && global.process.versions && global.process.versions.electro
         },
     };
 
+    // TODO
     // Backbone.on('launcher-exit-request', () => {
     //     setTimeout(() => Launcher.exit(), 0);
     // });
