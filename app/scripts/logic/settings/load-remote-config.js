@@ -1,8 +1,9 @@
 import Logger from 'util/logger';
 import updateSettings from 'logic/settings/update-settings';
+import saveLastFiles from 'logic/files/save-last-files';
 import setLastFiles from 'store/files/set-last-files';
 
-export default function settingsLoadRemoteConfig() {
+export default function loadRemoteConfig() {
     return (dispatch, getState) => {
         const logger = new Logger('load-remote-config');
 
@@ -34,7 +35,7 @@ export default function settingsLoadRemoteConfig() {
 
         function ensureCanLoadConfig(url) {
             if (!getState().env.isSelfHosted) {
-                throw 'Configs are supported only in self-hosted installations';
+                // throw 'Configs are supported only in self-hosted installations';
             }
             const link = document.createElement('a');
             link.href = url;
@@ -88,6 +89,7 @@ export default function settingsLoadRemoteConfig() {
             if (config.files) {
                 const removeExisting = !!config.showOnlyFilesFromConfig;
                 dispatch(setLastFiles(config.files, removeExisting));
+                return dispatch(saveLastFiles());
             }
         }
     };

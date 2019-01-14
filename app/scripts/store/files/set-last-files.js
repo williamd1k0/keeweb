@@ -16,7 +16,8 @@ export function reducer(state, action) {
         if (!file.id) {
             file = Object.assign({ id: uuid() }, file);
         }
-        if (!byId[file.id]) {
+        const alreadyExists = byId[file.id] || last.some(id => isFileEqual(byId[id], file));
+        if (!alreadyExists) {
             newFiles[file.id] = file;
         }
     }
@@ -24,4 +25,8 @@ export function reducer(state, action) {
         byId: Object.assign({}, byId, newFiles),
         last: last.concat(Object.keys(newFiles)),
     });
+
+    function isFileEqual(x, y) {
+        return x.storage === y.storage && x.path === y.path && x.name === y.name;
+    }
 }
