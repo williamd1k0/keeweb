@@ -5,7 +5,7 @@ const path = require('path');
 const webpack = require('webpack');
 
 const StringReplacePlugin = require('string-replace-webpack-plugin');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const pkg = require('./package.json');
@@ -86,7 +86,6 @@ function config(grunt) {
                     test: /baron(\.min)?\.js$/,
                     loader: 'exports-loader?baron; delete window.baron;',
                 },
-                { test: /pikaday\.js$/, loader: 'uglify-loader' },
                 {
                     test: /\.js$/,
                     exclude: /(node_modules)/,
@@ -121,11 +120,17 @@ function config(grunt) {
                 },
             },
             minimizer: [
-                // TODO: uglify
-                // new UglifyJsPlugin({
-                //     cache: true,
-                //     parallel: true,
-                // }),
+                new TerserPlugin({
+                    cache: true,
+                    parallel: true,
+                    terserOptions: {
+                        ie8: false,
+                        safari10: false,
+                        mangle: true,
+                        module: false,
+                        output: null,
+                    },
+                }),
                 new BundleAnalyzerPlugin({
                     openAnalyzer: false,
                     analyzerMode: 'static',

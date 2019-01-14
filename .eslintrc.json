@@ -50,6 +50,7 @@
   "globals": {
     "global": true,
     "require": true,
+    "module": true,
     "Promise": true,
     "Uint8Array": true,
     "DataView": true
