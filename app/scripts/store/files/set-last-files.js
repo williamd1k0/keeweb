@@ -1,5 +1,6 @@
 import { uuid } from 'util/generators/id-generator';
-export const type = 'files/set-files';
+
+export const type = 'files/set-last-files';
 
 export default function(files, removeExisting) {
     return { type, files, removeExisting };

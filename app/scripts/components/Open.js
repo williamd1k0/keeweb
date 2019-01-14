@@ -16,6 +16,7 @@ class Open extends React.Component {
         onClick: PropTypes.func.isRequired,
         onFileInputChange: PropTypes.func.isRequired,
         onFileClick: PropTypes.func.isRequired,
+        onFileDeleteClick: PropTypes.func.isRequired,
     };
     onButtonClick = e => {
         const id = e.target.closest('[data-id]').dataset.id;
@@ -32,6 +33,10 @@ class Open extends React.Component {
     onFileClick = e => {
         const id = e.target.closest('[data-id]').dataset.id;
         this.props.onFileClick({ id });
+    };
+    onFileDeleteClick = e => {
+        const id = e.target.closest('[data-id]').dataset.id;
+        this.props.onFileDeleteClick({ id });
     };
     passInputClick = e => {
         if (e.target.readOnly) {
@@ -153,7 +158,10 @@ class Open extends React.Component {
                                 )}
                                 <span className="open__last-item-text">{file.name}</span>
                                 {!!canRemoveLatest && (
-                                    <i className="fa fa-times open__last-item-icon-del" />
+                                    <i
+                                        className="fa fa-times open__last-item-icon-del"
+                                        onClick={this.onFileDeleteClick}
+                                    />
                                 )}
                             </div>
                         ))}
