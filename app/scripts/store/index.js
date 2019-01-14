@@ -1,21 +1,22 @@
 import { createStore, applyMiddleware, combineReducers, compose } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import buildReducer from 'util/redux/build-reducer';
-import env from 'store/env';
-import locale from 'store/locale';
-import files from 'store/files';
-import settings from 'store/settings';
-import ui from 'store/ui';
-import uiOpen from 'store/ui-open';
+import camelCase from 'lodash/camelCase';
 
-const reducers = {
-    env,
-    files,
-    locale,
-    settings,
-    ui,
-    uiOpen,
-};
+const reducers = {};
+
+const reducerFiles = require.context('store/', true, /^\.\/[\w\-]+\/.*\.js$/).keys();
+
+for (const reducerFile of reducerFiles) {
+    const [, folder, path] = reducerFile.match(/^\.\/([\w\-]+)\/(.*)\.js$/);
+    const reducerGroupName = camelCase(folder);
+    let reducerGroup = reducers[reducerGroupName];
+    if (!reducerGroup) {
+        reducerGroup = {};
+        reducers[reducerGroupName] = reducerGroup;
+    }
+    reducerGroup[path] = require(`store/${folder}/${path}`);
+}
 
 for (const key of Object.keys(reducers)) {
     reducers[key] = buildReducer(key, reducers[key]);

@@ -49,6 +49,7 @@
   "parser": "babel-eslint",
   "globals": {
     "global": true,
+    "require": true,
     "Promise": true,
     "Uint8Array": true,
     "DataView": true

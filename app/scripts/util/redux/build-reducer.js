@@ -1,10 +1,17 @@
 export default function buildReducer(name, modules) {
     const reducers = {};
     for (const [moduleName, module] of Object.entries(modules)) {
-        if (moduleName !== 'init' && !module.type) {
-            throw new Error(`Type not defined for ${name}/${moduleName}`);
+        let reducerName = module.type;
+        if (!module.type) {
+            if (moduleName === 'init') {
+                reducerName = 'init';
+            } else {
+                throw new Error(`Type not defined for ${name}/${moduleName}`);
+            }
         }
-        const reducerName = module.type || moduleName;
+        if (!module.reducer) {
+            throw new Error(`Reducer not defined for ${name}/${moduleName}`);
+        }
         reducers[reducerName] = module.reducer;
     }
     return function reducer(state, action) {
