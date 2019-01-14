@@ -10,12 +10,12 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 
 const pkg = require('./package.json');
 
-function config(grunt) {
+function config(grunt, mode = 'production') {
     const date = grunt.config.get('date');
     const dt = date.toISOString().replace(/T.*/, '');
     const year = date.getFullYear();
     return {
-        mode: 'production',
+        mode: mode,
         entry: {
             app: 'index',
             vendor: [
@@ -90,7 +90,10 @@ function config(grunt) {
                     test: /\.js$/,
                     exclude: /(node_modules)/,
                     loader: 'babel-loader',
-                    query: { cacheDirectory: true },
+                    query: {
+                        cacheDirectory: true,
+                        envName: mode,
+                    },
                 },
                 {
                     test: /argon2\.wasm/,
@@ -175,9 +178,8 @@ function config(grunt) {
 }
 
 function devServerConfig(grunt) {
-    const devServerConfig = config(grunt);
+    const devServerConfig = config(grunt, 'development');
     Object.assign(devServerConfig, {
-        mode: 'development',
         devtool: 'source-map',
     });
     Object.assign(devServerConfig.resolve.alias, {

@@ -9,7 +9,7 @@ const Res = ({ id, locale, capitalize }) => {
     return translation;
 };
 
-Res.propTypes = {
+Res.propTypes /* remove-proptypes */ = {
     id: PropTypes.string.isRequired,
     locale: PropTypes.object.isRequired,
     capitalize: PropTypes.bool,

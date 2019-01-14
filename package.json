@@ -100,6 +100,7 @@
   "license": "MIT",
   "readme": "README.md",
   "devDependencies": {
+    "babel-plugin-transform-react-remove-prop-types": "^0.4.21",
     "eslint-plugin-react": "^7.12.3"
   }
 }
