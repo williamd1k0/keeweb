@@ -11,74 +11,76 @@ const MaxLogsToSave = 100;
 
 const lastLogs = [];
 
-const Logger = function(name, id) {
-    this.prefix = name ? name + (id ? ':' + id : '') : 'default';
-    this.level = Level.All;
-};
+class Logger {
+    static Level = Level;
 
-Logger.prototype.ts = function(ts) {
-    if (ts) {
-        return Math.round(performance.now() - ts) + 'ms';
-    } else {
-        return performance.now();
+    constructor(name, id) {
+        this.prefix = name ? name + (id ? ':' + id : '') : 'default';
+        this.level = Level.All;
     }
-};
 
-Logger.prototype.getPrefix = function() {
-    return new Date().toISOString() + ' [' + this.prefix + '] ';
-};
-
-Logger.prototype.debug = function() {
-    arguments[0] = this.getPrefix() + arguments[0];
-    if (this.level >= Level.Debug) {
-        Logger.saveLast('debug', arguments);
-        console.log.apply(console, arguments); // eslint-disable-line no-console
+    ts(ts) {
+        if (ts) {
+            return Math.round(performance.now() - ts) + 'ms';
+        } else {
+            return performance.now();
+        }
     }
-};
 
-Logger.prototype.info = function() {
-    arguments[0] = this.getPrefix() + arguments[0];
-    if (this.level >= Level.Info) {
-        Logger.saveLast('info', arguments);
-        console.info.apply(console, arguments); // eslint-disable-line no-console
+    getPrefix() {
+        return new Date().toISOString() + ' [' + this.prefix + '] ';
     }
-};
 
-Logger.prototype.warn = function() {
-    arguments[0] = this.getPrefix() + arguments[0];
-    if (this.level >= Level.Warn) {
-        Logger.saveLast('warn', arguments);
-        console.warn.apply(console, arguments); // eslint-disable-line no-console
+    debug() {
+        arguments[0] = this.getPrefix() + arguments[0];
+        if (this.level >= Level.Debug) {
+            Logger.saveLast('debug', arguments);
+            console.log.apply(console, arguments); // eslint-disable-line no-console
+        }
     }
-};
 
-Logger.prototype.error = function() {
-    arguments[0] = this.getPrefix() + arguments[0];
-    if (this.level >= Level.Error) {
-        Logger.saveLast('error', arguments);
-        console.error.apply(console, arguments); // eslint-disable-line no-console
+    info() {
+        arguments[0] = this.getPrefix() + arguments[0];
+        if (this.level >= Level.Info) {
+            Logger.saveLast('info', arguments);
+            console.info.apply(console, arguments); // eslint-disable-line no-console
+        }
     }
-};
 
-Logger.prototype.setLevel = function(level) {
-    this.level = level;
-};
-
-Logger.prototype.getLevel = function() {
-    return this.level;
-};
-
-Logger.saveLast = function(level, args) {
-    lastLogs.push({ level: level, args: Array.prototype.slice.call(args) });
-    if (lastLogs.length > MaxLogsToSave) {
-        lastLogs.shift();
+    warn() {
+        arguments[0] = this.getPrefix() + arguments[0];
+        if (this.level >= Level.Warn) {
+            Logger.saveLast('warn', arguments);
+            console.warn.apply(console, arguments); // eslint-disable-line no-console
+        }
     }
-};
 
-Logger.getLast = function() {
-    return lastLogs;
-};
+    error() {
+        arguments[0] = this.getPrefix() + arguments[0];
+        if (this.level >= Level.Error) {
+            Logger.saveLast('error', arguments);
+            console.error.apply(console, arguments); // eslint-disable-line no-console
+        }
+    }
 
-Logger.Level = Level;
+    setLevel(level) {
+        this.level = level;
+    }
+
+    getLevel() {
+        return this.level;
+    }
+
+    static saveLast(level, args) {
+        lastLogs.push({ level: level, args: Array.prototype.slice.call(args) });
+        if (lastLogs.length > MaxLogsToSave) {
+            lastLogs.shift();
+        }
+    }
+
+    static getLast() {
+        return lastLogs;
+    }
+}
 
 export default Logger;
