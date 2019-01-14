@@ -35,7 +35,7 @@ class Logger {
         arguments[0] = this.getPrefix() + arguments[0];
         if (this.level >= Level.Debug) {
             Logger.saveLast('debug', arguments);
-            console.log.apply(console, arguments); // eslint-disable-line no-console
+            console.log(...arguments); // eslint-disable-line no-console
         }
     }
 
@@ -43,7 +43,7 @@ class Logger {
         arguments[0] = this.getPrefix() + arguments[0];
         if (this.level >= Level.Info) {
             Logger.saveLast('info', arguments);
-            console.info.apply(console, arguments); // eslint-disable-line no-console
+            console.info(...arguments); // eslint-disable-line no-console
         }
     }
 
@@ -51,7 +51,7 @@ class Logger {
         arguments[0] = this.getPrefix() + arguments[0];
         if (this.level >= Level.Warn) {
             Logger.saveLast('warn', arguments);
-            console.warn.apply(console, arguments); // eslint-disable-line no-console
+            console.warn(...arguments); // eslint-disable-line no-console
         }
     }
 
@@ -59,7 +59,7 @@ class Logger {
         arguments[0] = this.getPrefix() + arguments[0];
         if (this.level >= Level.Error) {
             Logger.saveLast('error', arguments);
-            console.error.apply(console, arguments); // eslint-disable-line no-console
+            console.error(...arguments); // eslint-disable-line no-console
         }
     }
 
