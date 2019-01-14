@@ -37,6 +37,9 @@ const KeyHandler = {
             modal: modal,
             noPrevent: noPrevent,
         });
+        return () => {
+            KeyHandler.offKey(key, handler, thisArg);
+        };
     },
     offKey: function(key, handler, thisArg) {
         if (this.shortcuts[key]) {
@@ -53,6 +56,9 @@ const KeyHandler = {
     },
     setModal: function(modal) {
         this.modalStack.push(modal);
+        return () => {
+            this.resetModal();
+        };
     },
     resetModal: function() {
         this.modalStack.pop();

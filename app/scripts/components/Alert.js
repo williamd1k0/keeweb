@@ -24,26 +24,35 @@ class Alert extends React.Component {
             this.setState({ visible: true });
         }, 0);
 
-        KeyHandler.setModal('alert');
+        this.subscriptions = [];
+        const offModal = KeyHandler.setModal('alert');
+        this.subscriptions.push(offModal);
         if (typeof this.props.enter === 'string') {
-            KeyHandler.onKey(Keys.DOM_VK_RETURN, this.onEnterPressed, this, undefined, 'alert');
+            const off = KeyHandler.onKey(
+                Keys.DOM_VK_RETURN,
+                this.onEnterPressed,
+                this,
+                undefined,
+                'alert'
+            );
+            this.subscriptions.push(off);
         }
         if (typeof this.props.esc === 'string') {
-            KeyHandler.onKey(Keys.DOM_VK_ESCAPE, this.onEscPressed, this, undefined, 'alert');
+            const off = KeyHandler.onKey(
+                Keys.DOM_VK_ESCAPE,
+                this.onEscPressed,
+                this,
+                undefined,
+                'alert'
+            );
+            this.subscriptions.push(off);
         }
     }
     componentWillUnmount() {
         this.setState({ visible: false });
     }
     hide() {
-        KeyHandler.resetModal();
-        if (typeof this.props.esc === 'string') {
-            KeyHandler.offKey(Keys.DOM_VK_ESCAPE, this.onEscPressed, this);
-        }
-        if (typeof this.props.enter === 'string') {
-            KeyHandler.offKey(Keys.DOM_VK_RETURN, this.onEnterPressed, this);
-        }
-
+        this.subscriptions.forEach(s => s());
         this.setState({ visible: false });
         this.props.onHide();
     }
