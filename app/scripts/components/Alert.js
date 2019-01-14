@@ -50,9 +50,9 @@ class Alert extends React.Component {
     }
     componentWillUnmount() {
         this.setState({ visible: false });
+        this.subscriptions.forEach(s => s());
     }
     hide() {
-        this.subscriptions.forEach(s => s());
         this.setState({ visible: false });
         this.props.onHide();
     }
