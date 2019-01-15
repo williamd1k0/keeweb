@@ -5,10 +5,10 @@ import camelCase from 'lodash/camelCase';
 
 const reducers = {};
 
-const reducerFiles = require.context('store/', true).keys();
+const context = require.context('store/', true, /\.js$/);
 
 const modulePartsRegex = /^\.\/([\w\-]+)\/(.*)\.js$/;
-for (const reducerFile of reducerFiles) {
+for (const reducerFile of context.keys()) {
     const match = reducerFile.match(modulePartsRegex);
     if (!match) {
         continue;
@@ -20,8 +20,7 @@ for (const reducerFile of reducerFiles) {
         reducerGroup = {};
         reducers[reducerGroupName] = reducerGroup;
     }
-    const modulePath = `${folder}/${path}`;
-    reducerGroup[path] = require(`store/${modulePath}`);
+    reducerGroup[path] = context(reducerFile);
 }
 
 for (const key of Object.keys(reducers)) {
