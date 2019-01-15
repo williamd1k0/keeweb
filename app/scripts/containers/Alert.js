@@ -1,11 +1,11 @@
 import { connect } from 'react-redux';
 import Alert from 'components/Alert';
 import timeouts from 'const/timeouts';
-import removeAlert from 'store/ui/alerts/remove-alert';
+import removeAlert from 'store/ui/alert/remove-alert';
 
 const mapStateToProps = state => {
     const { locale } = state;
-    const alert = state.ui.alert;
+    const alert = state.uiAlert;
     let body = alert.body;
     if (typeof body === 'string') {
         body = [body];

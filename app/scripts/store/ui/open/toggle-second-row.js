@@ -1,4 +1,4 @@
-export const type = 'ui-open/toggle-second-row';
+export const type = 'ui/open/toggle-second-row';
 
 export default function() {
     return { type };

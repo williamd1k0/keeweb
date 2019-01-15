@@ -6,7 +6,7 @@ import KeyHandler from 'logic/comp/key-handler';
 import AuthReceiver from 'logic/comp/auth-receiver';
 import PopupNotifier from 'logic/comp/popup-notifier';
 import KdbxwebInit from 'util/kdbxweb/kdbxweb-init';
-import showAlert from 'logic/ui/show-alert';
+import showAlert from 'logic/ui/alert/show-alert';
 import loadRemoteConfig from 'logic/settings/load-remote-config';
 import loadSettings from 'logic/settings/load-settings';
 import loadLastFiles from 'logic/files/load-last-files';

@@ -3,7 +3,7 @@ import { getOpenRows } from 'selectors/open';
 import { getLastFiles } from 'selectors/files';
 import Open from 'components/Open';
 import uiSetView from 'store/ui/set-view';
-import toggleSecondRow from 'store/ui-open/toggle-second-row';
+import toggleSecondRow from 'store/ui/open/toggle-second-row';
 import saveLastFiles from 'logic/files/save-last-files';
 import removeLastFile from 'store/files/remove-last-file';
 

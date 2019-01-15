@@ -7,7 +7,7 @@ const reducers = {};
 
 const context = require.context('store/', true, /\.js$/);
 
-const modulePartsRegex = /^\.\/([\w\-]+)\/(.*)\.js$/;
+const modulePartsRegex = /^\.\/([\w\-\/]+)\/([\w\-]+)\.js$/;
 for (const reducerFile of context.keys()) {
     const match = reducerFile.match(modulePartsRegex);
     if (!match) {
@@ -20,7 +20,12 @@ for (const reducerFile of context.keys()) {
         reducerGroup = {};
         reducers[reducerGroupName] = reducerGroup;
     }
-    reducerGroup[path] = context(reducerFile);
+    const reducerModule = context(reducerFile);
+    reducerGroup[path] = reducerModule;
+    const expectedType = `${folder}/${path}`;
+    if (reducerModule.type && reducerModule.type !== expectedType) {
+        throw new Error(`Bad reducer type: expected ${expectedType}, found ${reducerModule.type}`);
+    }
 }
 
 for (const key of Object.keys(reducers)) {

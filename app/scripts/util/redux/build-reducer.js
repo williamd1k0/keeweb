@@ -15,7 +15,7 @@ export default function buildReducer(name, modules) {
         reducers[reducerName] = module.reducer;
     }
     return function reducer(state, action) {
-        if (!state) {
+        if (state === undefined) {
             return reducers.init();
         }
         const reducer = reducers[action.type];

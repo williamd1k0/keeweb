@@ -1,4 +1,7 @@
-import setAlert from 'store/ui/alerts/set-alert';
+import setAlert from 'store/ui/alert/set-alert';
+import Logger from 'util/logger';
+
+const logger = new Logger('alerts');
 
 const DefaultButtons = {
     ok: {
@@ -75,8 +78,13 @@ const AlertPresets = {
 };
 
 export default function showAlert(config) {
-    return dispatch => {
-        // TODO: alert stack
+    return (dispatch, getState) => {
+        // TODO: alert stack?
+        const state = getState();
+        if (state.uiAlert) {
+            logger.error('Cannot display alert: another alert is displayed', config);
+            throw new Error('Error displaying alert');
+        }
         if (config.preset) {
             const preset = AlertPresets[config.preset];
             if (preset) {
