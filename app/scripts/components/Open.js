@@ -8,16 +8,18 @@ class Open extends React.Component {
         locale: PropTypes.object.isRequired,
         lastFiles: PropTypes.array.isRequired,
         file: PropTypes.object.isRequired,
+        keyFile: PropTypes.object.isRequired,
         rows: PropTypes.object.isRequired,
         secondRowVisible: PropTypes.bool,
         canOpen: PropTypes.bool,
         canOpenKeyFromDropbox: PropTypes.bool,
         canRemoveLatest: PropTypes.bool,
         onClick: PropTypes.func.isRequired,
-        onFileSelected: PropTypes.func.isRequired,
+        onFileSelect: PropTypes.func.isRequired,
         onFileClick: PropTypes.func.isRequired,
         onFileDeleteClick: PropTypes.func.isRequired,
         onDropboxKeyFileClick: PropTypes.func.isRequired,
+        onKeyFileDeselect: PropTypes.func.isRequired,
     };
     onButtonClick = e => {
         const id = e.target.closest('[data-id]').dataset.id;
@@ -49,12 +51,14 @@ class Open extends React.Component {
         const file = e.target.files[0];
         const button = this.fileInput.button;
         this.fileInput.value = null;
-        this.props.onFileSelected({ button, file });
+        this.props.onFileSelect({ button, file });
     };
     onKeyFileClick = e => {
         const isDropbox = !!e.target.closest('[data-dropbox]');
         if (isDropbox) {
             this.props.onDropboxKeyFileClick();
+        } else if (this.props.keyFile) {
+            this.props.onKeyFileDeselect();
         } else {
             this.fileInput.button = 'keyfile';
             this.fileInput.click();
@@ -71,6 +75,7 @@ class Open extends React.Component {
             lastFiles,
             rows,
             file,
+            keyFile,
             canOpen,
             canRemoveLatest,
             canOpenKeyFromDropbox,
@@ -156,7 +161,7 @@ class Open extends React.Component {
                                 <i className="fa fa-key open__settings-key-file-icon" />
                                 <span className="open__settings-key-file-name">
                                     {' '}
-                                    <Res id="openKeyFile" />
+                                    {keyFile ? keyFile.name : <Res id="openKeyFile" />}
                                 </span>
                                 {!!canOpenKeyFromDropbox && (
                                     <span className="open__settings-key-file-dropbox" data-dropbox>
@@ -173,7 +178,7 @@ class Open extends React.Component {
                                 className="open__last-item"
                                 key={file.id}
                                 data-id={file.id}
-                                title={file.path}
+                                title={file.displayedPath}
                                 tabIndex={++ix}
                                 onClick={this.onFileClick}
                             >

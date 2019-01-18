@@ -150,7 +150,7 @@ const PopupNotifier = {
 
     triggerClosed: function(win) {
         const event = new Event('kw-popup-closed');
-        event.target = win;
+        event.popup = win;
         window.dispatchEvent(event);
     },
 };

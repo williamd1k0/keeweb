@@ -29,6 +29,9 @@ export const getLastFiles = createSelector(
                 } else {
                     file.icon = 'file-text';
                 }
+                if (file.storage && ['file', 'webdav'].includes(file.storage)) {
+                    file.displayedPath = file.path;
+                }
                 return file;
             })
             .filter(file => file);

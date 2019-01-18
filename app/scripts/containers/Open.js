@@ -5,13 +5,17 @@ import { Open } from 'components/Open';
 import { setView } from 'store/ui/set-view';
 import { toggleSecondRow } from 'store/ui/open/toggle-second-row';
 import { saveLastFiles } from 'logic/files/save-last-files';
-import { loadFileContent, loadKeyFileContent } from 'logic/ui/open/load-file-content';
+import { loadFileContent, loadKeyFileContent } from 'logic/ui/open/load-files';
+import { loadKeyFileFromDropbox } from 'logic/ui/open/load-key-file-from-dropbox';
 import { removeLastFile } from 'store/files/remove-last-file';
+import { resetKeyFile } from 'store/ui/open/reset-key-file';
+import { displayLastFile } from 'logic/ui/open/display-last-file';
 
 const mapStateToProps = state => {
     return {
         secondRowVisible: state.uiOpen.secondRowVisible,
         file: state.uiOpen.file,
+        keyFile: state.uiOpen.keyFile,
         locale: state.locale,
         canOpen: state.settings.canOpen,
         canRemoveLatest: state.settings.canRemoveLatest,
@@ -23,29 +27,34 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onClick(e) {
-            switch (e.button) {
+        onClick({ button }) {
+            switch (button) {
                 case 'more':
                     return dispatch(toggleSecondRow());
                 case 'settings':
                     return dispatch(setView('settings'));
             }
         },
-        onFileClick() {},
-        onFileSelected(e) {
-            switch (e.button) {
+        onFileClick({ id }) {
+            dispatch(displayLastFile(id));
+        },
+        onFileSelect({ button, file }) {
+            switch (button) {
                 case 'open':
-                    dispatch(loadFileContent(e.file));
+                    dispatch(loadFileContent(file));
                     break;
                 case 'keyfile':
-                    dispatch(loadKeyFileContent(e.file));
+                    dispatch(loadKeyFileContent(file));
                     break;
                 default:
-                    throw new Error(`Unexpected button: ${e.button}`);
+                    throw new Error(`Unexpected button: ${button}`);
             }
         },
         onDropboxKeyFileClick() {
-            throw new Error('dropbox');
+            dispatch(loadKeyFileFromDropbox());
+        },
+        onKeyFileDeselect() {
+            dispatch(resetKeyFile());
         },
         onFileDeleteClick({ id }) {
             // TODO: question about in-memory files

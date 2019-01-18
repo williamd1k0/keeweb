@@ -1,6 +1,8 @@
 import kdbxweb from 'kdbxweb';
 import { showAlert } from 'logic/ui/alert/show-alert';
 import { displayFile } from 'store/ui/open/display-file';
+import { displayKeyFile } from 'store/ui/open/display-key-file';
+import { uuid } from 'util/generators/id-generator';
 
 export function loadFileContent(file) {
     return dispatch => {
@@ -11,9 +13,11 @@ export function loadFileContent(file) {
                     return;
                 }
                 const fileInfo = {
+                    id: uuid(),
                     name: file.name.replace(/(.+)\.\w+$/i, '$1'),
                     path: file.path || null,
                     storage: file.path ? 'file' : null,
+                    data: data,
                     rev: null,
                 };
                 return dispatch(displayFile(fileInfo));
@@ -44,8 +48,13 @@ export function loadFileContent(file) {
 export function loadKeyFileContent(file) {
     return dispatch => {
         return loadFile(file)
-            .then(file => {
-                console.log('load', file);
+            .then(data => {
+                const keyFileInfo = {
+                    id: uuid(),
+                    name: file.name,
+                    data: data,
+                };
+                return dispatch(displayKeyFile(keyFileInfo));
             })
             .catch(() => {
                 dispatch(showAlert({ header: 'openFailedRead' }));
