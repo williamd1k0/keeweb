@@ -1,4 +1,4 @@
-export const type = 'ui/open/display-loaded-file';
+export const type = 'ui/open/display-file';
 
 export default function(file) {
     return { type, file };

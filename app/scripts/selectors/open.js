@@ -1,12 +1,12 @@
 import Storage from 'storage';
 import { createSelector } from 'reselect';
-import { getStorageProviders } from 'selectors/storage';
+import { getStorageProviderNames } from 'selectors/storage';
 
 const getSettings = state => state.settings;
 
 export const getOpenRows = createSelector(
-    [getSettings, getStorageProviders],
-    (settings, storageProviders) => {
+    [getSettings, getStorageProviderNames],
+    (settings, storageProviderNames) => {
         const first = [];
         const second = [];
 
@@ -23,7 +23,7 @@ export const getOpenRows = createSelector(
             first.push({ id: 'icon', icon: 'key', text: 'KeeWeb' });
         }
 
-        for (const provider of storageProviders) {
+        for (const provider of storageProviderNames) {
             const storage = Storage[provider];
             second.push({
                 id: provider,

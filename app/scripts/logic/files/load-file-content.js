@@ -1,6 +1,6 @@
 import kdbxweb from 'kdbxweb';
 import showAlert from 'logic/ui/alert/show-alert';
-import displayLoadedFile from 'store/ui/open/display-loaded-file';
+import displayFile from 'store/ui/open/display-file';
 
 export default function loadFileContent(file) {
     return dispatch => {
@@ -27,7 +27,7 @@ export default function loadFileContent(file) {
             reader.readAsArrayBuffer(file);
         }).then(fileInfo => {
             if (fileInfo) {
-                return dispatch(displayLoadedFile(fileInfo));
+                return dispatch(displayFile(fileInfo));
             }
         });
 

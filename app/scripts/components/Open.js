@@ -166,7 +166,7 @@ class Open extends React.Component {
                                 )}
                                 {!!file.iconSvg && (
                                     <div className="open__last-item-icon open__last-item-icon--svg">
-                                        {file.iconSvg}
+                                        <file.iconSvg />
                                     </div>
                                 )}
                                 <span className="open__last-item-text">{file.name}</span>

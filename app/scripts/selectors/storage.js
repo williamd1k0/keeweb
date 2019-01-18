@@ -3,7 +3,7 @@ import Storage from 'storage';
 
 const getSettings = state => state.settings;
 
-export const getStorageProviders = createSelector(
+export const getStorageProviderNames = createSelector(
     [getSettings],
     settings => {
         return Object.values(Storage)
