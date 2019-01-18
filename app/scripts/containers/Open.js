@@ -58,6 +58,7 @@ const mapDispatchToProps = dispatch => {
         },
         onFileDeleteClick({ id }) {
             // TODO: question about in-memory files
+            // TODO: question about modified storage files
             dispatch(removeLastFile(id));
         },
     };
