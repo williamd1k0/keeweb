@@ -153,7 +153,7 @@ class Open extends React.Component {
                     ref={node => (this.fileInput = node)}
                     onChange={this.onFileInputChange}
                 />
-                <div className="open__icons">
+                <div className="open__icons" key="first-row">
                     {rows.first.map(btn => (
                         <OpenButton
                             key={btn.id}
@@ -164,7 +164,7 @@ class Open extends React.Component {
                     ))}
                 </div>
                 {!!secondRowVisible && (
-                    <div className="open__icons open__icons--lower">
+                    <div className="open__icons open__icons--lower" key="second-row">
                         {rows.second.map(btn => (
                             <OpenButton
                                 key={btn.id}
@@ -175,7 +175,7 @@ class Open extends React.Component {
                         ))}
                     </div>
                 )}
-                <div className="open__pass-area">
+                <div className="open__pass-area" key="pass-area">
                     <div className="hide">
                         {/* we need these inputs to screw browsers passwords autocompletion */}
                         <input type="text" style="display:none" name="username" />
