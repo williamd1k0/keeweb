@@ -4,7 +4,7 @@ import { getLastFiles } from 'selectors/files';
 import { Open } from 'components/Open';
 import { setView } from 'store/ui/set-view';
 import { toggleSecondRow } from 'store/ui/open/toggle-second-row';
-import { saveLastFiles } from 'logic/files/save-last-files';
+import { moveFileSelection } from 'logic/ui/open/move-file-selection';
 import { loadFileContent, loadKeyFileContent } from 'logic/ui/open/load-files';
 import { loadKeyFileFromDropbox } from 'logic/ui/open/load-key-file-from-dropbox';
 import { removeLastFile } from 'logic/ui/open/remove-last-file';
@@ -58,6 +58,12 @@ const mapDispatchToProps = dispatch => {
         },
         onFileDeleteClick({ id }) {
             dispatch(removeLastFile(id));
+        },
+        onPreviousFileSelect() {
+            dispatch(moveFileSelection(-1));
+        },
+        onNextFileSelect() {
+            dispatch(moveFileSelection(1));
         },
     };
 };

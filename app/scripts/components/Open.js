@@ -22,6 +22,8 @@ class Open extends React.Component {
         onFileDeleteClick: PropTypes.func.isRequired,
         onDropboxKeyFileClick: PropTypes.func.isRequired,
         onKeyFileDeselect: PropTypes.func.isRequired,
+        onPreviousFileSelect: PropTypes.func.isRequired,
+        onNextFileSelect: PropTypes.func.isRequired,
     };
     componentDidMount() {
         this.subscriptions = [
@@ -29,6 +31,8 @@ class Open extends React.Component {
             KeyHandler.onKey(Keys.DOM_VK_ENTER, this.onEnterKeyPress, this),
             KeyHandler.onKey(Keys.DOM_VK_RETURN, this.onEnterKeyPress, this),
             KeyHandler.onKey(Keys.DOM_VK_Z, this.onUndoKeyPress, this, KeyHandler.SHORTCUT_ACTION),
+            KeyHandler.onKey(Keys.DOM_VK_UP, this.onUpKeyPress, this),
+            KeyHandler.onKey(Keys.DOM_VK_DOWN, this.onDownKeyPress, this),
         ];
     }
     componentWillUnmount() {
@@ -52,6 +56,12 @@ class Open extends React.Component {
     }
     onUndoKeyPress(e) {
         e.preventDefault();
+    }
+    onUpKeyPress() {
+        this.props.onPreviousFileSelect();
+    }
+    onDownKeyPress() {
+        this.props.onNextFileSelect();
     }
     onButtonClick = e => {
         const id = e.target.closest('[data-id]').dataset.id;
