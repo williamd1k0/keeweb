@@ -15,7 +15,7 @@ const mapStateToProps = state => {
         canRemoveLatest: state.settings.canRemoveLatest,
         canOpenKeyFromDropbox: false,
         lastFiles: getLastFiles(state),
-        ...getOpenRows(state),
+        rows: getOpenRows(state),
     };
 };
 

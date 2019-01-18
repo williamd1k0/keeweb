@@ -7,25 +7,25 @@ const getSettings = state => state.settings;
 export const getOpenRows = createSelector(
     [getSettings, getStorageProviders],
     (settings, storageProviders) => {
-        const firstRow = [];
-        const secondRow = [];
+        const first = [];
+        const second = [];
 
         if (settings.canOpen) {
-            firstRow.push({ id: 'open', icon: 'lock', res: 'openOpen' });
+            first.push({ id: 'open', icon: 'lock', res: 'openOpen' });
         }
         if (settings.canCreate) {
-            firstRow.push({ id: 'new', icon: 'plus', res: 'openNew' });
+            first.push({ id: 'new', icon: 'plus', res: 'openNew' });
         }
         if (settings.canOpenDemo && !settings.demoOpened) {
-            firstRow.push({ id: 'demo', icon: 'magic', res: 'openDemo' });
+            first.push({ id: 'demo', icon: 'magic', res: 'openDemo' });
         }
-        if (!firstRow.length && !secondRow.length) {
-            firstRow.push({ id: 'icon', icon: 'key', text: 'KeeWeb' });
+        if (!first.length && !second.length) {
+            first.push({ id: 'icon', icon: 'key', text: 'KeeWeb' });
         }
 
         for (const provider of storageProviders) {
             const storage = Storage[provider];
-            secondRow.push({
+            second.push({
                 id: provider,
                 icon: storage.icon,
                 iconSvg: storage.iconSvg,
@@ -34,27 +34,27 @@ export const getOpenRows = createSelector(
         }
 
         if (settings.canImportXml) {
-            secondRow.push({ id: 'import-xml', icon: 'code', res: 'openXml' });
+            second.push({ id: 'import-xml', icon: 'code', res: 'openXml' });
         }
         if (settings.canOpenDemo && settings.demoOpened) {
-            secondRow.push({ id: 'demo', icon: 'magic', res: 'openDemo' });
+            second.push({ id: 'demo', icon: 'magic', res: 'openDemo' });
         }
         if (settings.canOpenSettings) {
-            secondRow.push({ id: 'settings', icon: 'cog', res: 'settings' });
+            second.push({ id: 'settings', icon: 'cog', res: 'settings' });
         }
 
-        if (secondRow.length) {
-            if (secondRow.length === 1) {
-                firstRow.push(...secondRow);
-                secondRow.length = 0;
+        if (second.length) {
+            if (second.length === 1) {
+                first.push(...second);
+                second.length = 0;
             } else {
-                firstRow.push({ id: 'more', icon: 'ellipsis-h', res: 'openMore' });
+                first.push({ id: 'more', icon: 'ellipsis-h', res: 'openMore' });
             }
         }
 
         return {
-            firstRow,
-            secondRow,
+            first,
+            second,
         };
     }
 );

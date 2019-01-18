@@ -7,8 +7,7 @@ class Open extends React.Component {
     propTypes = {
         locale: PropTypes.object.isRequired,
         lastFiles: PropTypes.array.isRequired,
-        firstRow: PropTypes.array.isRequired,
-        secondRow: PropTypes.array.isRequired,
+        rows: PropTypes.object.isRequired,
         secondRowVisible: PropTypes.bool,
         canOpen: PropTypes.bool,
         canOpenKeyFromDropbox: PropTypes.bool,
@@ -54,8 +53,7 @@ class Open extends React.Component {
         const {
             locale,
             lastFiles,
-            firstRow,
-            secondRow,
+            rows,
             canOpen,
             canRemoveLatest,
             canOpenKeyFromDropbox,
@@ -71,7 +69,7 @@ class Open extends React.Component {
                     onChange={this.fileInputChange}
                 />
                 <div className="open__icons">
-                    {firstRow.map(btn => (
+                    {rows.first.map(btn => (
                         <OpenButton
                             key={btn.id}
                             button={btn}
@@ -82,7 +80,7 @@ class Open extends React.Component {
                 </div>
                 {!!secondRowVisible && (
                     <div className="open__icons open__icons--lower">
-                        {secondRow.map(btn => (
+                        {rows.second.map(btn => (
                             <OpenButton
                                 key={btn.id}
                                 button={btn}
