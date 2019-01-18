@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Res } from 'containers/util/Res';
 import { OpenButton } from 'components/OpenButton';
+import { KeyHandler } from 'logic/comp/key-handler';
+import { Keys } from '../const/keys';
 
 class Open extends React.Component {
     propTypes = {
@@ -21,6 +23,36 @@ class Open extends React.Component {
         onDropboxKeyFileClick: PropTypes.func.isRequired,
         onKeyFileDeselect: PropTypes.func.isRequired,
     };
+    componentDidMount() {
+        this.subscriptions = [
+            KeyHandler.onKey(Keys.DOM_VK_TAB, this.onTabKeyPress, this),
+            KeyHandler.onKey(Keys.DOM_VK_ENTER, this.onEnterKeyPress, this),
+            KeyHandler.onKey(Keys.DOM_VK_RETURN, this.onEnterKeyPress, this),
+            KeyHandler.onKey(Keys.DOM_VK_Z, this.onUndoKeyPress, this, KeyHandler.SHORTCUT_ACTION),
+        ];
+    }
+    componentWillUnmount() {
+        this.subscriptions.forEach(s => s());
+    }
+    componentDidUpdate() {
+        if (this.props.file && this.passwordInput) {
+            this.passwordInput.focus();
+        }
+    }
+    onTabKeyPress() {
+        if (!this.state.showFocus) {
+            this.setState({ showFocus: true });
+        }
+    }
+    onEnterKeyPress() {
+        const el = document.querySelector('[tabindex]:focus');
+        if (el) {
+            el.click();
+        }
+    }
+    onUndoKeyPress(e) {
+        e.preventDefault();
+    }
     onButtonClick = e => {
         const id = e.target.closest('[data-id]').dataset.id;
         switch (id) {
@@ -82,11 +114,6 @@ class Open extends React.Component {
         e.stopPropagation();
         this.props.onDropboxKeyFileClick();
     };
-    componentDidUpdate() {
-        if (this.props.file && this.passwordInput) {
-            this.passwordInput.focus();
-        }
-    }
     render() {
         const {
             locale,
@@ -99,16 +126,17 @@ class Open extends React.Component {
             canOpenKeyFromDropbox,
             secondRowVisible,
         } = this.props;
-        const { isCapsLockOn } = this.state;
+        const { showFocus, isCapsLockOn } = this.state;
         let passwordInputPlaceholder = '';
         if (file) {
             passwordInputPlaceholder = `${locale.openPassFor} ${file.name}`;
         } else if (canOpen) {
             passwordInputPlaceholder = locale.openClickToOpen;
         }
+        const cls = `open ${showFocus ? 'open--show-focus' : ''} ${file ? 'open--file' : ''}`;
         let ix = 0;
         return (
-            <div className={`open ${file ? 'open--file' : ''}`}>
+            <div className={cls}>
                 <input
                     type="file"
                     className="open__file-ctrl hide-by-pos"
