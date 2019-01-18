@@ -5,11 +5,13 @@ import Open from 'components/Open';
 import uiSetView from 'store/ui/set-view';
 import toggleSecondRow from 'store/ui/open/toggle-second-row';
 import saveLastFiles from 'logic/files/save-last-files';
+import loadFileContent from 'logic/files/load-file-content';
 import removeLastFile from 'store/files/remove-last-file';
 
 const mapStateToProps = state => {
     return {
         secondRowVisible: state.uiOpen.secondRowVisible,
+        file: state.uiOpen.file,
         locale: state.locale,
         canOpen: state.settings.canOpen,
         canRemoveLatest: state.settings.canRemoveLatest,
@@ -33,7 +35,7 @@ const mapDispatchToProps = dispatch => {
         onFileInputChange(e) {
             switch (e.button) {
                 case 'open':
-                    // dispatch(openFile(e.file));
+                    dispatch(loadFileContent(e.file));
                     break;
             }
         },

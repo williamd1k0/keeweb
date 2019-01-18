@@ -7,6 +7,7 @@ class Open extends React.Component {
     propTypes = {
         locale: PropTypes.object.isRequired,
         lastFiles: PropTypes.array.isRequired,
+        file: PropTypes.object.isRequired,
         rows: PropTypes.object.isRequired,
         secondRowVisible: PropTypes.bool,
         canOpen: PropTypes.bool,
@@ -22,7 +23,7 @@ class Open extends React.Component {
         switch (id) {
             case 'open':
             case 'import-xml':
-                this.setState({ button: id });
+                this.fileInput.button = id;
                 this.fileInput.click();
                 return;
             default:
@@ -37,28 +38,40 @@ class Open extends React.Component {
         const id = e.target.closest('[data-id]').dataset.id;
         this.props.onFileDeleteClick({ id });
     };
-    passInputClick = e => {
-        if (e.target.readOnly) {
-            this.setState({ button: 'open' });
+    passwordInputClick = () => {
+        if (!this.props.file) {
+            this.fileInput.button = 'open';
             this.fileInput.click();
         }
     };
     fileInputChange = e => {
         const file = e.target.files[0];
-        const button = this.state.button;
+        const button = this.fileInput.button;
         this.fileInput.value = null;
         this.props.onFileInputChange({ button, file });
     };
+    componentDidUpdate() {
+        if (this.props.file && this.passwordInput) {
+            this.passwordInput.focus();
+        }
+    }
     render() {
         const {
             locale,
             lastFiles,
             rows,
+            file,
             canOpen,
             canRemoveLatest,
             canOpenKeyFromDropbox,
             secondRowVisible,
         } = this.props;
+        let passwordInputPlaceholder = '';
+        if (file) {
+            passwordInputPlaceholder = `${locale.openPassFor} ${file.name}`;
+        } else if (canOpen) {
+            passwordInputPlaceholder = locale.openClickToOpen;
+        }
         let ix = 0;
         return (
             <div className="open">
@@ -108,11 +121,13 @@ class Open extends React.Component {
                             type="password"
                             size="30"
                             autoComplete="new-password"
+                            autoFocus={!!file}
                             maxLength="1024"
-                            placeholder={canOpen ? locale.openClickToOpen : ''}
-                            onClick={this.passInputClick}
-                            readOnly
+                            placeholder={passwordInputPlaceholder}
+                            onClick={file ? undefined : this.passwordInputClick}
+                            readOnly={!file}
                             tabIndex={++ix}
+                            ref={node => (this.passwordInput = node)}
                         />
                         <div className="open__pass-enter-btn" tabIndex={++ix}>
                             <i className="fa fa-level-down fa-rotate-90" />

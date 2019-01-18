@@ -85,11 +85,9 @@ export default function showAlert(config) {
             logger.error('Cannot display alert: another alert is displayed', config);
             throw new Error('Error displaying alert');
         }
-        if (config.preset) {
-            const preset = AlertPresets[config.preset];
-            if (preset) {
-                config = Object.assign({}, preset, config);
-            }
+        const preset = AlertPresets[config.preset] || AlertPresets.error;
+        if (preset) {
+            config = Object.assign({}, preset, config);
         }
         return new Promise(resolve => {
             config = Object.assign({}, config, { resolve });
