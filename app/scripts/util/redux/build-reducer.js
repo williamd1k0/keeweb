@@ -1,4 +1,4 @@
-export default function buildReducer(name, modules) {
+export function buildReducer(name, modules) {
     const reducers = {};
     for (const [moduleName, module] of Object.entries(modules)) {
         let reducerName = module.type;

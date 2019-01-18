@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
-import Alert from 'components/Alert';
-import timeouts from 'const/timeouts';
+import { Alert } from 'components/Alert';
+import { Timeouts } from 'const/timeouts';
 import { removeAlert } from 'store/ui/alert/remove-alert';
 
 const mapStateToProps = state => {
@@ -38,12 +38,14 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         onHide() {
-            setTimeout(() => dispatch(removeAlert()), timeouts.AlertHide);
+            setTimeout(() => dispatch(removeAlert()), Timeouts.AlertHide);
         },
     };
 };
 
-export default connect(
+const AlertContainer = connect(
     mapStateToProps,
     mapDispatchToProps
 )(Alert);
+
+export { AlertContainer as Alert };

@@ -1,20 +1,20 @@
-import Logger from 'util/logger';
-import FeatureTester from 'logic/comp/feature-tester';
-import ExportApi from 'logic/comp/export-api';
-import IdleTracker from 'logic/comp/idle-tracker';
-import KeyHandler from 'logic/comp/key-handler';
-import AuthReceiver from 'logic/comp/auth-receiver';
-import PopupNotifier from 'logic/comp/popup-notifier';
-import KdbxwebInit from 'util/kdbxweb/kdbxweb-init';
-import showAlert from 'logic/ui/alert/show-alert';
-import loadRemoteConfig from 'logic/settings/load-remote-config';
-import loadSettings from 'logic/settings/load-settings';
-import loadLastFiles from 'logic/files/load-last-files';
-import initStorage from 'logic/storage/init-storage';
+import { Logger } from 'util/logger';
+import { FeatureTester } from 'logic/comp/feature-tester';
+import { ExportApi } from 'logic/comp/export-api';
+import { IdleTracker } from 'logic/comp/idle-tracker';
+import { KeyHandler } from 'logic/comp/key-handler';
+import { AuthReceiver } from 'logic/comp/auth-receiver';
+import { PopupNotifier } from 'logic/comp/popup-notifier';
+import { KdbxwebInit } from 'util/kdbxweb/kdbxweb-init';
+import { showAlert } from 'logic/ui/alert/show-alert';
+import { loadRemoteConfig } from 'logic/settings/load-remote-config';
+import { loadSettings } from 'logic/settings/load-settings';
+import { loadLastFiles } from 'logic/files/load-last-files';
+import { initStorage } from 'logic/storage/init-storage';
 import { setView } from 'store/ui/set-view';
-import SingleInstanceChecker from 'logic/comp/single-instance-checker';
+import { SingleInstanceChecker } from 'logic/comp/single-instance-checker';
 
-export default function startup() {
+export function startup() {
     return (dispatch, getState) => {
         const logger = new Logger('app');
 

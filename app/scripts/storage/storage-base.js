@@ -1,6 +1,6 @@
-import Logger from 'util/logger';
-import Links from 'const/links';
-import updateSettings from 'logic/settings/update-settings';
+import { Logger } from 'util/logger';
+import { Links } from 'const/links';
+import { updateSettings } from 'logic/settings/update-settings';
 
 const MaxRequestRetries = 3;
 
@@ -252,4 +252,4 @@ class StorageBase {
     }
 }
 
-export default StorageBase;
+export { StorageBase };

@@ -1,6 +1,6 @@
 import { setSettings } from 'store/settings/set-settings';
 import { setLocale } from 'store/locale/set-locale';
-import SettingsStore from 'logic/comp/settings-store';
+import { SettingsStore } from 'logic/comp/settings-store';
 
 import base from 'locales/base.json';
 import localeFR from 'locales/fr-FR';
@@ -16,7 +16,7 @@ const Locales = {
 
 const BaseLocaleName = 'en';
 
-export default function updateSettings(values, options = {}) {
+export function updateSettings(values, options = {}) {
     return (dispatch, getState) => {
         const oldState = getState();
 

@@ -1,6 +1,6 @@
-import StorageBase from 'storage/storage-base';
-import IoBrowserCache from 'storage/io-browser-cache';
-import Launcher from 'launcher';
+import { StorageBase } from 'storage/storage-base';
+import { IoBrowserCache } from 'storage/io-browser-cache';
+import { Launcher } from 'launcher';
 
 class StorageCache extends StorageBase {
     name = 'cache';
@@ -30,4 +30,4 @@ class StorageCache extends StorageBase {
     }
 }
 
-export default new StorageCache();
+export { StorageCache };

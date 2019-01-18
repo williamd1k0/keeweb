@@ -1,4 +1,4 @@
-import timeouts from 'const/timeouts';
+import { Timeouts } from 'const/timeouts';
 
 export function saveAs(blob, name) {
     const link = document.createElement('a');
@@ -14,5 +14,5 @@ export function saveAs(blob, name) {
 
     setTimeout(() => {
         URL.revokeObjectURL(link.href);
-    }, timeouts.LinkDownloadRevoke);
+    }, Timeouts.LinkDownloadRevoke);
 }

@@ -1,5 +1,5 @@
-import Keys from 'const/keys';
-import IdleTracker from 'logic/comp/idle-tracker';
+import { Keys } from 'const/keys';
+import { IdleTracker } from 'logic/comp/idle-tracker';
 
 const shortcutKeyProp = navigator.platform.indexOf('Mac') >= 0 ? 'metaKey' : 'ctrlKey';
 
@@ -143,4 +143,4 @@ const KeyHandler = {
     },
 };
 
-export default KeyHandler;
+export { KeyHandler };

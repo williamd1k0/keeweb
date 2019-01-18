@@ -1,4 +1,4 @@
-import StorageBase from 'storage/storage-base';
+import { StorageBase } from 'storage/storage-base';
 import IconGDrive from 'resources/icons/gdrive.svg';
 
 const GDriveClientId = {
@@ -252,4 +252,4 @@ class StorageGDrive extends StorageBase {
     }
 }
 
-export default new StorageGDrive();
+export { StorageGDrive };

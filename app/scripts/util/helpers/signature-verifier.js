@@ -1,6 +1,6 @@
 import kdbxweb from 'kdbxweb';
 import publicKey from 'raw-loader!../../../resources/public-key.pem';
-import Logger from 'util/logger';
+import { Logger } from 'util/logger';
 
 const SignatureVerifier = {
     logger: new Logger('signature-verifier'),
@@ -62,4 +62,4 @@ const SignatureVerifier = {
     },
 };
 
-export default SignatureVerifier;
+export { SignatureVerifier };

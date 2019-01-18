@@ -1,6 +1,6 @@
-import Launcher from 'launcher';
-import store from 'store';
-import showAlert from 'logic/ui/alert/show-alert';
+import { Launcher } from 'launcher';
+import { store } from 'store';
+import { showAlert } from 'logic/ui/alert/show-alert';
 
 const LocalStorageKeyName = 'instanceCheck';
 const LocalStorageResponseKeyName = 'instanceMaster';
@@ -57,4 +57,4 @@ const SingleInstanceChecker = {
     },
 };
 
-export default SingleInstanceChecker;
+export { SingleInstanceChecker };

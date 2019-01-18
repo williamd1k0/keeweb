@@ -1,5 +1,5 @@
-import Storage from 'storage';
-import store from 'store';
+import { Storage } from 'storage';
+import { store } from 'store';
 
 const AuthReceiver = {
     receive: function() {
@@ -31,4 +31,4 @@ const AuthReceiver = {
     },
 };
 
-export default AuthReceiver;
+export { AuthReceiver };

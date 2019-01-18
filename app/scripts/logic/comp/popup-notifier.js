@@ -1,8 +1,8 @@
-import Launcher from 'launcher';
-import AuthReceiver from 'logic/comp/auth-receiver';
-import Links from 'const/links';
-import Timeouts from 'const/timeouts';
-import Logger from 'util/logger';
+import { Launcher } from 'launcher';
+import { AuthReceiver } from 'logic/comp/auth-receiver';
+import { Links } from 'const/links';
+import { Timeouts } from 'const/timeouts';
+import { Logger } from 'util/logger';
 
 const PopupNotifier = {
     logger: null,
@@ -155,4 +155,4 @@ const PopupNotifier = {
     },
 };
 
-export default PopupNotifier;
+export { PopupNotifier };

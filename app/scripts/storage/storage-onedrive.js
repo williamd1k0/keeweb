@@ -1,4 +1,4 @@
-import StorageBase from 'storage/storage-base';
+import { StorageBase } from 'storage/storage-base';
 import IconOneDrive from 'resources/icons/onedrive.svg';
 
 const OneDriveClientId = {
@@ -267,4 +267,4 @@ if (document.querySelectorAll(selector).length === 1) document.querySelector(sel
     }
 }
 
-export default new StorageOneDrive();
+export { StorageOneDrive };

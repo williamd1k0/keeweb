@@ -1,14 +1,14 @@
 /* eslint-env node */
 
-import Logger from 'util/logger';
+import { Logger } from 'util/logger';
 import noop from 'lodash/noop';
 
-let Launcher = undefined;
+let LauncherElectron = undefined;
 
 if (global.process && global.process.versions && global.process.versions.electron) {
     const logger = new Logger('launcher');
 
-    Launcher = {
+    LauncherElectron = {
         name: 'electron',
         version: global.process.versions.electron,
         autoTypeSupported: true,
@@ -297,4 +297,4 @@ if (global.process && global.process.versions && global.process.versions.electro
     // Backbone.on('app-ready', () => setTimeout(() => Launcher.checkOpenFiles(), 0));
 }
 
-export default Launcher;
+export { LauncherElectron };

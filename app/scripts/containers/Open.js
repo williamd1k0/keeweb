@@ -1,11 +1,11 @@
 import { connect } from 'react-redux';
 import { getOpenRows } from 'selectors/open';
 import { getLastFiles } from 'selectors/files';
-import Open from 'components/Open';
+import { Open } from 'components/Open';
 import { setView } from 'store/ui/set-view';
 import { toggleSecondRow } from 'store/ui/open/toggle-second-row';
-import saveLastFiles from 'logic/files/save-last-files';
-import loadFileContent from 'logic/files/load-file-content';
+import { saveLastFiles } from 'logic/files/save-last-files';
+import { loadFileContent } from 'logic/files/load-file-content';
 import { removeLastFile } from 'store/files/remove-last-file';
 
 const mapStateToProps = state => {
@@ -47,7 +47,9 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(
+const OpenContainer = connect(
     mapStateToProps,
     mapDispatchToProps
 )(Open);
+
+export { OpenContainer as Open };

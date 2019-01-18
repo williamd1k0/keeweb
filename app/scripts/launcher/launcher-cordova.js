@@ -1,9 +1,9 @@
 /* global FingerprintAuth */
 
-let Launcher = undefined;
+let LauncherCordova = undefined;
 
 if (global.cordova) {
-    Launcher = {
+    LauncherCordova = {
         name: 'cordova',
         version: '6.0.0',
         autoTypeSupported: false,
@@ -290,4 +290,4 @@ if (global.cordova) {
     };
 }
 
-export default Launcher;
+export { LauncherCordova };

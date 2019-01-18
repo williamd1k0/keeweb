@@ -1,4 +1,4 @@
-import store from 'store';
+import { store } from 'store';
 
 const ChooserAppKey = 'qp7ctun6qt5n9d6';
 
@@ -105,4 +105,4 @@ DropboxChooser.prototype.readFile = function(url) {
     xhr.send();
 };
 
-export default DropboxChooser;
+export { DropboxChooser };

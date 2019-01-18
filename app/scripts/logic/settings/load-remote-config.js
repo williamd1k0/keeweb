@@ -1,9 +1,9 @@
-import Logger from 'util/logger';
-import updateSettings from 'logic/settings/update-settings';
-import saveLastFiles from 'logic/files/save-last-files';
+import { Logger } from 'util/logger';
+import { updateSettings } from 'logic/settings/update-settings';
+import { saveLastFiles } from 'logic/files/save-last-files';
 import { setLastFiles } from 'store/files/set-last-files';
 
-export default function loadRemoteConfig() {
+export function loadRemoteConfig() {
     return (dispatch, getState) => {
         const logger = new Logger('load-remote-config');
 

@@ -1,5 +1,5 @@
-import StorageBase from 'storage/storage-base';
-import Launcher from 'launcher';
+import { StorageBase } from 'storage/storage-base';
+import { Launcher } from 'launcher';
 
 class StorageFileCache extends StorageBase {
     name = 'cache';
@@ -104,4 +104,4 @@ class StorageFileCache extends StorageBase {
     }
 }
 
-export default new StorageFileCache();
+export { StorageFileCache };

@@ -1,4 +1,4 @@
-import StorageBase from 'storage/storage-base';
+import { StorageBase } from 'storage/storage-base';
 import { fixSlashes } from 'util/text/url';
 
 const DropboxKeys = {
@@ -379,4 +379,4 @@ class StorageDropbox extends StorageBase {
     }
 }
 
-export default new StorageDropbox();
+export { StorageDropbox };

@@ -1,4 +1,6 @@
-import LauncherElectron from 'launcher/launcher-electron';
-import LauncherCordova from 'launcher/launcher-cordova';
+import { LauncherElectron } from 'launcher/launcher-electron';
+import { LauncherCordova } from 'launcher/launcher-cordova';
 
-export default LauncherElectron || LauncherCordova || undefined;
+const Launcher = LauncherElectron || LauncherCordova || undefined;
+
+export { Launcher };

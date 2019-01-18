@@ -1,9 +1,9 @@
 import React from 'react';
-import BetaWarning from 'components/BetaWarning';
+import { BetaWarning } from 'components/BetaWarning';
 import PropTypes from 'prop-types';
-import Footer from 'containers/Footer';
-import Open from 'containers/Open';
-import Alert from 'containers/Alert';
+import { Footer } from 'containers/Footer';
+import { Open } from 'containers/Open';
+import { Alert } from 'containers/Alert';
 
 const App = ({ view, isBeta, alert, theme, fontSize }) => (
     <div
@@ -28,4 +28,4 @@ App.propTypes = {
     alert: PropTypes.bool.isRequired,
 };
 
-export default App;
+export { App };

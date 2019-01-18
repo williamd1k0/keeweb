@@ -1,10 +1,10 @@
-import timeouts from 'const/timeouts';
-import store from 'store';
+import { Timeouts } from 'const/timeouts';
+import { store } from 'store';
 
 const IdleTracker = {
     actionTime: Date.now(),
     init: function() {
-        setInterval(this.checkIdle.bind(this), timeouts.IdleCheck);
+        setInterval(this.checkIdle.bind(this), Timeouts.IdleCheck);
     },
     checkIdle: function() {
         const idleMinutes = (Date.now() - this.actionTime) / 1000 / 60;
@@ -20,4 +20,4 @@ const IdleTracker = {
 
 // Backbone.on('power-monitor-resume', IdleTracker.checkIdle, IdleTracker);
 
-export default IdleTracker;
+export { IdleTracker };

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Res from 'containers/util/Res';
+import { Res } from 'containers/util/Res';
 
 const OpenButton = ({ button, tabIndex, onClick }) => (
     <div
@@ -25,4 +25,4 @@ OpenButton.propTypes = {
     onClick: PropTypes.func.isRequired,
 };
 
-export default OpenButton;
+export { OpenButton };

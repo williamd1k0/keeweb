@@ -1,8 +1,8 @@
 import kdbxweb from 'kdbxweb';
-import showAlert from 'logic/ui/alert/show-alert';
+import { showAlert } from 'logic/ui/alert/show-alert';
 import { displayFile } from 'store/ui/open/display-file';
 
-export default function loadFileContent(file) {
+export function loadFileContent(file) {
     return dispatch => {
         return new Promise(resolve => {
             const reader = new FileReader();

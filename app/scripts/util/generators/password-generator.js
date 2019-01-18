@@ -1,5 +1,5 @@
 import kdbxweb from 'kdbxweb';
-import phoneticGenerate from 'util/generators/phonetic';
+import { generate as phoneticGenerate } from 'util/generators/phonetic';
 import shuffle from 'lodash/shuffle';
 
 const PasswordGenerator = {
@@ -119,4 +119,4 @@ const PasswordGenerator = {
     },
 };
 
-export default PasswordGenerator;
+export { PasswordGenerator };

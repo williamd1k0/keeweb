@@ -4,4 +4,4 @@ const AutoTypeSequenceType = {
     PASSWORD: 2,
 };
 
-export default AutoTypeSequenceType;
+export { AutoTypeSequenceType };

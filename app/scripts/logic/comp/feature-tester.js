@@ -1,5 +1,5 @@
 import kdbxweb from 'kdbxweb';
-import Launcher from 'launcher';
+import { Launcher } from 'launcher';
 
 const FeatureTester = {
     test() {
@@ -63,4 +63,4 @@ const FeatureTester = {
     },
 };
 
-export default FeatureTester;
+export { FeatureTester };

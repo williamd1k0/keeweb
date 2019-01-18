@@ -16,4 +16,4 @@ const Links = {
     PluginDevelopStart: 'https://github.com/keeweb/keeweb/wiki/Plugins',
 };
 
-export default Links;
+export { Links };

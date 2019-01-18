@@ -1,4 +1,4 @@
-import StorageBase from 'storage/storage-base';
+import { StorageBase } from 'storage/storage-base';
 
 class StorageWebDav extends StorageBase {
     name = 'webdav';
@@ -383,4 +383,4 @@ class StorageWebDav extends StorageBase {
     }
 }
 
-export default new StorageWebDav();
+export { StorageWebDav };

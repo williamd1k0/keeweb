@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import Res from 'components/util/Res';
+import { Res } from 'components/util/Res';
 
 const mapStateToProps = state => {
     return {
@@ -7,4 +7,6 @@ const mapStateToProps = state => {
     };
 };
 
-export default connect(mapStateToProps)(Res);
+const ResContainer = connect(mapStateToProps)(Res);
+
+export { ResContainer as Res };

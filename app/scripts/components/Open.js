@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Res from 'containers/util/Res';
-import OpenButton from 'components/OpenButton';
+import { Res } from 'containers/util/Res';
+import { OpenButton } from 'components/OpenButton';
 
 class Open extends React.Component {
     propTypes = {
@@ -185,4 +185,4 @@ class Open extends React.Component {
     }
 }
 
-export default Open;
+export { Open };

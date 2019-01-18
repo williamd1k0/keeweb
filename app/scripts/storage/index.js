@@ -1,22 +1,22 @@
-import Launcher from 'launcher';
-import file from 'storage/storage-file';
-import fileCache from 'storage/storage-file-cache';
-import cache from 'storage/storage-cache';
-import dropbox from 'storage/storage-dropbox';
-import webdav from 'storage/storage-webdav';
-import gdrive from 'storage/storage-gdrive';
-import onedrive from 'storage/storage-onedrive';
+import { Launcher } from 'launcher';
+import { StorageFile } from 'storage/storage-file';
+import { StorageFileCache } from 'storage/storage-file-cache';
+import { StorageCache } from 'storage/storage-cache';
+import { StorageDropbox } from 'storage/storage-dropbox';
+import { StorageWebDav } from 'storage/storage-webdav';
+import { StorageGDrive } from 'storage/storage-gdrive';
+import { StorageOneDrive } from 'storage/storage-onedrive';
 
 const BuiltInStorage = {
-    file,
-    cache: Launcher ? fileCache : cache,
+    file: new StorageFile(),
+    cache: Launcher ? new StorageFileCache() : new StorageCache(),
 };
 
 const ThirdPartyStorage = {
-    dropbox,
-    webdav,
-    gdrive,
-    onedrive,
+    dropbox: new StorageDropbox(),
+    webdav: new StorageWebDav(),
+    gdrive: new StorageGDrive(),
+    onedrive: new StorageOneDrive(),
 };
 
 const Storage = BuiltInStorage;
@@ -30,4 +30,4 @@ export function initAllStorageProviders(dispatch, getState) {
     }
 }
 
-export default Storage;
+export { Storage };

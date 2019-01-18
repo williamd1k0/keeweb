@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-import Storage from 'storage';
+import { Storage } from 'storage';
 
 const getSettings = state => state.settings;
 

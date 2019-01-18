@@ -1,5 +1,5 @@
-import Launcher from 'launcher';
-import Logger from 'util/logger';
+import { Launcher } from 'launcher';
+import { Logger } from 'util/logger';
 import camelCase from 'lodash/camelCase';
 
 const logger = new Logger('settings');
@@ -61,4 +61,4 @@ const SettingsStore = {
     },
 };
 
-export default SettingsStore;
+export { SettingsStore };

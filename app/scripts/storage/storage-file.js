@@ -1,5 +1,5 @@
-import StorageBase from 'storage/storage-base';
-import Launcher from 'launcher';
+import { StorageBase } from 'storage/storage-base';
+import { Launcher } from 'launcher';
 
 const fileWatchers = {};
 
@@ -178,4 +178,4 @@ class StorageFile extends StorageBase {
     }
 }
 
-export default new StorageFile();
+export { StorageFile };

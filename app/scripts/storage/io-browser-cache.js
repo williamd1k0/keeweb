@@ -137,4 +137,4 @@ class IoBrowserCache {
     }
 }
 
-export default IoBrowserCache;
+export { IoBrowserCache };

@@ -139,4 +139,4 @@ kdbxweb.ProtectedValue.prototype.isFieldReference = function() {
 
 kdbxweb.ProtectedValue.init = function() {};
 
-export default kdbxweb.ProtectedValue;
+export const ProtectedValueEx = kdbxweb.ProtectedValue;

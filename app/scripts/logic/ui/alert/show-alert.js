@@ -1,5 +1,5 @@
 import { setAlert } from 'store/ui/alert/set-alert';
-import Logger from 'util/logger';
+import { Logger } from 'util/logger';
 
 const logger = new Logger('alerts');
 
@@ -77,7 +77,7 @@ const AlertPresets = {
     },
 };
 
-export default function showAlert(config) {
+export function showAlert(config) {
     return (dispatch, getState) => {
         // TODO: alert stack?
         const state = getState();

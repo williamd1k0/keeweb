@@ -1,6 +1,6 @@
 import { createStore, applyMiddleware, combineReducers, compose } from 'redux';
 import thunkMiddleware from 'redux-thunk';
-import buildReducer from 'util/redux/build-reducer';
+import { buildReducer } from 'util/redux/build-reducer';
 import camelCase from 'lodash/camelCase';
 
 const reducers = {};
@@ -38,4 +38,4 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunkMiddleware)));
 
-export default store;
+export { store };

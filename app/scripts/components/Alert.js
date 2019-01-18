@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import KeyHandler from 'logic/comp/key-handler';
-import Keys from 'const/keys';
+import { KeyHandler } from 'logic/comp/key-handler';
+import { Keys } from 'const/keys';
 
 class Alert extends React.Component {
     propTypes = {
@@ -115,4 +115,4 @@ class Alert extends React.Component {
     }
 }
 
-export default Alert;
+export { Alert };

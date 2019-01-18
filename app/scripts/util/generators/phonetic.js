@@ -303,7 +303,7 @@ function postProcess(wordObj) {
  * @param {*} [options] A collection of options to control the word generator.
  * @returns {string} A generated word.
  */
-export default function generate(options) {
+export function generate(options) {
     options = getOptions(options);
     const length = options.length;
     const wordObj = {

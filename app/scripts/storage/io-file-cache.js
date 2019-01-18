@@ -1,4 +1,4 @@
-import Launcher from 'launcher';
+import { Launcher } from 'launcher';
 
 class IoFileCache {
     constructor(config) {
@@ -99,4 +99,4 @@ class IoFileCache {
     }
 }
 
-export default IoFileCache;
+export { IoFileCache };

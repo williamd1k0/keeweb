@@ -15,4 +15,4 @@ Res.propTypes /* remove-proptypes */ = {
     capitalize: PropTypes.bool,
 };
 
-export default Res;
+export { Res };

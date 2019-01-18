@@ -1,5 +1,5 @@
-import Launcher from 'launcher';
-import Logger from 'util/logger';
+import { Launcher } from 'launcher';
+import { Logger } from 'util/logger';
 import noop from 'lodash/noop';
 
 const logger = new Logger('transport');
@@ -90,4 +90,4 @@ const Transport = {
     },
 };
 
-export default Transport;
+export { Transport };
