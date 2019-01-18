@@ -48,6 +48,22 @@ class Open extends React.Component {
             this.fileInput.click();
         }
     };
+    onPasswordInputKeyDown = e => {
+        const ch = e.key;
+        const lower = ch.toLowerCase();
+        const upper = ch.toUpperCase();
+        if (ch.length === 1 && lower !== upper && !e.shiftKey) {
+            const isCapsLockOn = ch !== lower;
+            if (isCapsLockOn !== this.state.isCapsLockOn) {
+                this.setState({ isCapsLockOn });
+            }
+        }
+    };
+    onPasswordInputKeyUp = e => {
+        if (e.key === 'CapsLock') {
+            this.setState({ isCapsLockOn: false });
+        }
+    };
     onFileInputChange = e => {
         const file = e.target.files[0];
         const button = this.fileInput.button;
@@ -83,6 +99,7 @@ class Open extends React.Component {
             canOpenKeyFromDropbox,
             secondRowVisible,
         } = this.props;
+        const { isCapsLockOn } = this.state;
         let passwordInputPlaceholder = '';
         if (file) {
             passwordInputPlaceholder = `${locale.openPassFor} ${file.name}`;
@@ -127,7 +144,11 @@ class Open extends React.Component {
                         <input type="password" style="display:none" name="password" />
                     </div>
                     <div className="open__pass-warn-wrap">
-                        <div className="open__pass-warning muted-color invisible">
+                        <div
+                            className={`open__pass-warning muted-color ${
+                                isCapsLockOn ? '' : 'invisible'
+                            }`}
+                        >
                             <i className="fa fa-exclamation-triangle" /> <Res id="openCaps" />
                         </div>
                     </div>
@@ -142,6 +163,8 @@ class Open extends React.Component {
                             maxLength="1024"
                             placeholder={passwordInputPlaceholder}
                             onClick={file ? undefined : this.onPasswordInputClick}
+                            onKeyDown={this.onPasswordInputKeyDown}
+                            onKeyUp={this.onPasswordInputKeyUp}
                             readOnly={!file}
                             tabIndex={++ix}
                             ref={node => (this.passwordInput = node)}
