@@ -116,7 +116,7 @@ class Open extends React.Component {
                     </div>
                     <div className="open__pass-field-wrap">
                         <input
-                            className="open__pass-input"
+                            className={`open__pass-input`}
                             name="password"
                             type="password"
                             size="30"
