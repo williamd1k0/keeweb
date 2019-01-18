@@ -5,7 +5,7 @@ import { Open } from 'components/Open';
 import { setView } from 'store/ui/set-view';
 import { toggleSecondRow } from 'store/ui/open/toggle-second-row';
 import { saveLastFiles } from 'logic/files/save-last-files';
-import { loadFileContent } from 'logic/files/load-file-content';
+import { loadFileContent, loadKeyFileContent } from 'logic/ui/open/load-file-content';
 import { removeLastFile } from 'store/files/remove-last-file';
 
 const mapStateToProps = state => {
@@ -15,7 +15,7 @@ const mapStateToProps = state => {
         locale: state.locale,
         canOpen: state.settings.canOpen,
         canRemoveLatest: state.settings.canRemoveLatest,
-        canOpenKeyFromDropbox: false,
+        canOpenKeyFromDropbox: !!state.settings.dropbox,
         lastFiles: getLastFiles(state),
         rows: getOpenRows(state),
     };
@@ -32,12 +32,20 @@ const mapDispatchToProps = dispatch => {
             }
         },
         onFileClick() {},
-        onFileInputChange(e) {
+        onFileSelected(e) {
             switch (e.button) {
                 case 'open':
                     dispatch(loadFileContent(e.file));
                     break;
+                case 'keyfile':
+                    dispatch(loadKeyFileContent(e.file));
+                    break;
+                default:
+                    throw new Error(`Unexpected button: ${e.button}`);
             }
+        },
+        onDropboxKeyFileClick() {
+            throw new Error('dropbox');
         },
         onFileDeleteClick({ id }) {
             // TODO: question about in-memory files

@@ -4,10 +4,8 @@ import { displayFile } from 'store/ui/open/display-file';
 
 export function loadFileContent(file) {
     return dispatch => {
-        return new Promise(resolve => {
-            const reader = new FileReader();
-            reader.onload = e => {
-                const data = e.target.result;
+        loadFile(file)
+            .then(data => {
                 const isValid = checkFileFormat(data);
                 if (!isValid) {
                     return;
@@ -18,18 +16,11 @@ export function loadFileContent(file) {
                     storage: file.path ? 'file' : null,
                     rev: null,
                 };
-                resolve(fileInfo);
-            };
-            reader.onerror = () => {
-                dispatch(showAlert({ header: 'openFailedRead' }));
-                resolve();
-            };
-            reader.readAsArrayBuffer(file);
-        }).then(fileInfo => {
-            if (fileInfo) {
                 return dispatch(displayFile(fileInfo));
-            }
-        });
+            })
+            .catch(() => {
+                dispatch(showAlert({ header: 'openFailedRead' }));
+            });
 
         function checkFileFormat(fileData) {
             const fileSig = fileData.byteLength < 8 ? null : new Uint32Array(fileData, 0, 2);
@@ -48,4 +39,30 @@ export function loadFileContent(file) {
             return true;
         }
     };
+}
+
+export function loadKeyFileContent(file) {
+    return dispatch => {
+        return loadFile(file)
+            .then(file => {
+                console.log('load', file);
+            })
+            .catch(() => {
+                dispatch(showAlert({ header: 'openFailedRead' }));
+            });
+    };
+}
+
+function loadFile(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = e => {
+            const data = e.target.result;
+            resolve(data);
+        };
+        reader.onerror = () => {
+            reject();
+        };
+        reader.readAsArrayBuffer(file);
+    });
 }

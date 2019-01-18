@@ -14,9 +14,10 @@ class Open extends React.Component {
         canOpenKeyFromDropbox: PropTypes.bool,
         canRemoveLatest: PropTypes.bool,
         onClick: PropTypes.func.isRequired,
-        onFileInputChange: PropTypes.func.isRequired,
+        onFileSelected: PropTypes.func.isRequired,
         onFileClick: PropTypes.func.isRequired,
         onFileDeleteClick: PropTypes.func.isRequired,
+        onDropboxKeyFileClick: PropTypes.func.isRequired,
     };
     onButtonClick = e => {
         const id = e.target.closest('[data-id]').dataset.id;
@@ -38,17 +39,26 @@ class Open extends React.Component {
         const id = e.target.closest('[data-id]').dataset.id;
         this.props.onFileDeleteClick({ id });
     };
-    passwordInputClick = () => {
+    onPasswordInputClick = () => {
         if (!this.props.file) {
             this.fileInput.button = 'open';
             this.fileInput.click();
         }
     };
-    fileInputChange = e => {
+    onFileInputChange = e => {
         const file = e.target.files[0];
         const button = this.fileInput.button;
         this.fileInput.value = null;
-        this.props.onFileInputChange({ button, file });
+        this.props.onFileSelected({ button, file });
+    };
+    onKeyFileClick = e => {
+        const isDropbox = !!e.target.closest('[data-dropbox]');
+        if (isDropbox) {
+            this.props.onDropboxKeyFileClick();
+        } else {
+            this.fileInput.button = 'keyfile';
+            this.fileInput.click();
+        }
     };
     componentDidUpdate() {
         if (this.props.file && this.passwordInput) {
@@ -74,12 +84,12 @@ class Open extends React.Component {
         }
         let ix = 0;
         return (
-            <div className="open">
+            <div className={`open ${file ? 'open--file' : ''}`}>
                 <input
                     type="file"
                     className="open__file-ctrl hide-by-pos"
                     ref={node => (this.fileInput = node)}
-                    onChange={this.fileInputChange}
+                    onChange={this.onFileInputChange}
                 />
                 <div className="open__icons">
                     {rows.first.map(btn => (
@@ -124,7 +134,7 @@ class Open extends React.Component {
                             autoFocus={!!file}
                             maxLength="1024"
                             placeholder={passwordInputPlaceholder}
-                            onClick={file ? undefined : this.passwordInputClick}
+                            onClick={file ? undefined : this.onPasswordInputClick}
                             readOnly={!file}
                             tabIndex={++ix}
                             ref={node => (this.passwordInput = node)}
@@ -136,21 +146,27 @@ class Open extends React.Component {
                             <i className="fa fa-spinner fa-spin" />
                         </div>
                     </div>
-                    <div className="open__settings">
-                        <div className="open__settings-key-file hide" tabIndex={++ix}>
-                            <i className="fa fa-key open__settings-key-file-icon" />
-                            <span className="open__settings-key-file-name">
-                                {' '}
-                                <Res id="openKeyFile" />
-                            </span>
-                            {!!canOpenKeyFromDropbox && (
-                                <span className="open__settings-key-file-dropbox">
+                    {!!file && (
+                        <div className="open__settings">
+                            <div
+                                className="open__settings-key-file"
+                                tabIndex={++ix}
+                                onClick={this.onKeyFileClick}
+                            >
+                                <i className="fa fa-key open__settings-key-file-icon" />
+                                <span className="open__settings-key-file-name">
                                     {' '}
-                                    <Res id="openKeyFileDropbox" />
+                                    <Res id="openKeyFile" />
                                 </span>
-                            )}
+                                {!!canOpenKeyFromDropbox && (
+                                    <span className="open__settings-key-file-dropbox" data-dropbox>
+                                        {' '}
+                                        <Res id="openKeyFileDropbox" />
+                                    </span>
+                                )}
+                            </div>
                         </div>
-                    </div>
+                    )}
                     <div className="open__last">
                         {lastFiles.map(file => (
                             <div
