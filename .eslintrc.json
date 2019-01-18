@@ -38,7 +38,14 @@
     "standard/no-callback-literal": "off",
     "import/no-webpack-loader-syntax": "off",
     "object-curly-spacing": "off",
-    "prettier/prettier": "error"
+    "prettier/prettier": "error",
+    "no-restricted-syntax": [
+      "error",
+      {
+        "selector": "ExportDefaultDeclaration",
+        "message": "Prefer named exports"
+      }
+    ]
   },
   "parserOptions": {
     "sourceType": "module",
