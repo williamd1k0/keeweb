@@ -20,6 +20,7 @@ export function loadFileContent(file) {
                     data: data,
                     rev: null,
                 };
+                // TODO: showLocalFileAlert
                 return dispatch(displayFile(fileInfo));
             })
             .catch(() => {
