@@ -1,11 +1,11 @@
-import { reducer as getDefaultLocale } from 'store/locale/init';
+import getDefaultLocale from 'store/locale/init';
 
 export const type = 'locale/set-locale';
 
-export default function(name, values) {
+export function setLocale(name, values) {
     return { type, name, values };
 }
 
-export function reducer(state, action) {
+export default function reducer(state, action) {
     return Object.assign({}, getDefaultLocale(), { localeName: action.name }, action.values);
 }

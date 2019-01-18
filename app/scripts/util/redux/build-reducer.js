@@ -9,10 +9,10 @@ export default function buildReducer(name, modules) {
                 throw new Error(`Type not defined for ${name}/${moduleName}`);
             }
         }
-        if (!module.reducer) {
+        if (!module.default) {
             throw new Error(`Reducer not defined for ${name}/${moduleName}`);
         }
-        reducers[reducerName] = module.reducer;
+        reducers[reducerName] = module.default;
     }
     return function reducer(state, action) {
         if (state === undefined) {

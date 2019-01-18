@@ -1,9 +1,9 @@
 export const type = 'ui/open/toggle-second-row';
 
-export default function() {
+export function toggleSecondRow() {
     return { type };
 }
 
-export function reducer(state) {
+export default function reducer(state) {
     return Object.assign({}, state, { secondRowVisible: !state.secondRowVisible });
 }

@@ -2,6 +2,6 @@ const state = {
     secondRowVisible: false,
 };
 
-export function reducer() {
+export default function reducer() {
     return state;
 }

@@ -1,6 +1,6 @@
 import kdbxweb from 'kdbxweb';
 import showAlert from 'logic/ui/alert/show-alert';
-import displayFile from 'store/ui/open/display-file';
+import { displayFile } from 'store/ui/open/display-file';
 
 export default function loadFileContent(file) {
     return dispatch => {

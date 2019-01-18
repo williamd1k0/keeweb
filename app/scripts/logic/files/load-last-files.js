@@ -1,6 +1,6 @@
 import SettingsStore from 'logic/comp/settings-store';
-import setLastFiles from 'store/files/set-last-files';
-import displayFile from 'store/ui/open/display-file';
+import { setLastFiles } from 'store/files/set-last-files';
+import { displayFile } from 'store/ui/open/display-file';
 
 export default function loadLastFiles() {
     return dispatch => {

@@ -1,12 +1,12 @@
-import { reducer as getDefaultSettings } from 'store/settings/init';
+import getDefaultSettings from 'store/settings/init';
 
 export const type = 'settings/set-settings';
 
-export default function(values) {
+export function setSettings(values) {
     return { type, values };
 }
 
-export function reducer(state, action) {
+export default function reducer(state, action) {
     state = Object.assign({}, state, action.values);
     for (const [key, value] of Object.entries(action.values)) {
         if (value === undefined) {

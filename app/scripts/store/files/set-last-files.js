@@ -2,11 +2,11 @@ import { uuid } from 'util/generators/id-generator';
 
 export const type = 'files/set-last-files';
 
-export default function(files, removeExisting) {
+export function setLastFiles(files, removeExisting) {
     return { type, files, removeExisting };
 }
 
-export function reducer(state, action) {
+export default function reducer(state, action) {
     const newFiles = {};
     let { last, byId } = state;
     if (action.removeExisting) {

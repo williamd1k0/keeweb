@@ -1,10 +1,10 @@
 export const type = 'files/remove-last-file';
 
-export default function(id) {
+export function removeLastFile(id) {
     return { type, id };
 }
 
-export function reducer(state, action) {
+export default function reducer(state, action) {
     let { last, byId } = state;
     byId = Object.assign({}, byId);
     delete byId[action.id];

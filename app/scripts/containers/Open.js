@@ -2,11 +2,11 @@ import { connect } from 'react-redux';
 import { getOpenRows } from 'selectors/open';
 import { getLastFiles } from 'selectors/files';
 import Open from 'components/Open';
-import uiSetView from 'store/ui/set-view';
-import toggleSecondRow from 'store/ui/open/toggle-second-row';
+import { setView } from 'store/ui/set-view';
+import { toggleSecondRow } from 'store/ui/open/toggle-second-row';
 import saveLastFiles from 'logic/files/save-last-files';
 import loadFileContent from 'logic/files/load-file-content';
-import removeLastFile from 'store/files/remove-last-file';
+import { removeLastFile } from 'store/files/remove-last-file';
 
 const mapStateToProps = state => {
     return {
@@ -28,7 +28,7 @@ const mapDispatchToProps = dispatch => {
                 case 'more':
                     return dispatch(toggleSecondRow());
                 case 'settings':
-                    return dispatch(uiSetView('settings'));
+                    return dispatch(setView('settings'));
             }
         },
         onFileClick() {},

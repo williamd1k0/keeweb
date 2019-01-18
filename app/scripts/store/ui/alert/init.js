@@ -1,5 +1,5 @@
 const state = null;
 
-export function reducer() {
+export default function reducer() {
     return state;
 }

@@ -3,6 +3,6 @@ const state = {
     byId: {},
 };
 
-export function reducer() {
+export default function reducer() {
     return state;
 }

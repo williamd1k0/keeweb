@@ -1,9 +1,9 @@
 export const type = 'ui/set-view';
 
-export default function(view) {
+export function setView(view) {
     return { type, view };
 }
 
-export function reducer(state, action) {
+export default function reducer(state, action) {
     return Object.assign({}, state, { view: action.view });
 }

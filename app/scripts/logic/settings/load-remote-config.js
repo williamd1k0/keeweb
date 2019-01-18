@@ -1,7 +1,7 @@
 import Logger from 'util/logger';
 import updateSettings from 'logic/settings/update-settings';
 import saveLastFiles from 'logic/files/save-last-files';
-import setLastFiles from 'store/files/set-last-files';
+import { setLastFiles } from 'store/files/set-last-files';
 
 export default function loadRemoteConfig() {
     return (dispatch, getState) => {

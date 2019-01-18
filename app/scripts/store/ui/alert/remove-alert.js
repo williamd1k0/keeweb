@@ -1,9 +1,9 @@
 export const type = 'ui/alert/remove-alert';
 
-export default function() {
+export function removeAlert() {
     return { type };
 }
 
-export function reducer() {
+export default function reducer() {
     return null;
 }

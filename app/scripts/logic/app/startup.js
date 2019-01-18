@@ -11,7 +11,7 @@ import loadRemoteConfig from 'logic/settings/load-remote-config';
 import loadSettings from 'logic/settings/load-settings';
 import loadLastFiles from 'logic/files/load-last-files';
 import initStorage from 'logic/storage/init-storage';
-import uiSetView from 'store/ui/set-view';
+import { setView } from 'store/ui/set-view';
 import SingleInstanceChecker from 'logic/comp/single-instance-checker';
 
 export default function startup() {
@@ -108,7 +108,7 @@ export default function startup() {
         }
 
         function showView() {
-            dispatch(uiSetView('open'));
+            dispatch(setView('open'));
             logStartupTime();
         }
 

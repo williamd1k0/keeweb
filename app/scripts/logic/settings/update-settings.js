@@ -1,5 +1,5 @@
-import setSettings from 'store/settings/set-settings';
-import setLocale from 'store/locale/set-locale';
+import { setSettings } from 'store/settings/set-settings';
+import { setLocale } from 'store/locale/set-locale';
 import SettingsStore from 'logic/comp/settings-store';
 
 import base from 'locales/base.json';

@@ -26,6 +26,6 @@ const state = {
     isBeta: /^http(s?):\/\/(beta\.keeweb\.info)/.test(location.href),
 };
 
-export function reducer() {
+export default function reducer() {
     return state;
 }

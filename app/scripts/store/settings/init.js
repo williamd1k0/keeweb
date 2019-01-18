@@ -43,6 +43,6 @@ const state = {
     onedrive: true,
 };
 
-export function reducer() {
+export default function reducer() {
     return state;
 }

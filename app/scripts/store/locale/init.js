@@ -1,5 +1,5 @@
 import base from 'locales/base.json';
 
-export function reducer() {
+export default function reducer() {
     return base;
 }
