@@ -57,5 +57,10 @@
   },
   "env": {
     "browser": true
+  },
+  "settings": {
+    "react": {
+      "version": "16.3"
+    }
   }
 }
