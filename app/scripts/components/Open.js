@@ -38,6 +38,7 @@ class Open extends React.Component {
         this.props.onFileClick({ id });
     };
     onFileDeleteClick = e => {
+        e.stopPropagation();
         const id = e.target.closest('[data-id]').dataset.id;
         this.props.onFileDeleteClick({ id });
     };
@@ -53,16 +54,17 @@ class Open extends React.Component {
         this.fileInput.value = null;
         this.props.onFileSelect({ button, file });
     };
-    onKeyFileClick = e => {
-        const isDropbox = !!e.target.closest('[data-dropbox]');
-        if (isDropbox) {
-            this.props.onDropboxKeyFileClick();
-        } else if (this.props.keyFile) {
+    onKeyFileClick = () => {
+        if (this.props.keyFile) {
             this.props.onKeyFileDeselect();
         } else {
             this.fileInput.button = 'keyfile';
             this.fileInput.click();
         }
+    };
+    onDropboxKeyFileClick = e => {
+        e.stopPropagation();
+        this.props.onDropboxKeyFileClick();
     };
     componentDidUpdate() {
         if (this.props.file && this.passwordInput) {
@@ -164,7 +166,10 @@ class Open extends React.Component {
                                     {keyFile ? keyFile.name : <Res id="openKeyFile" />}
                                 </span>
                                 {!!canOpenKeyFromDropbox && (
-                                    <span className="open__settings-key-file-dropbox" data-dropbox>
+                                    <span
+                                        className="open__settings-key-file-dropbox"
+                                        onClick={this.onDropboxKeyFileClick}
+                                    >
                                         {' '}
                                         <Res id="openKeyFileDropbox" />
                                     </span>

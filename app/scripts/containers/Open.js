@@ -7,7 +7,7 @@ import { toggleSecondRow } from 'store/ui/open/toggle-second-row';
 import { saveLastFiles } from 'logic/files/save-last-files';
 import { loadFileContent, loadKeyFileContent } from 'logic/ui/open/load-files';
 import { loadKeyFileFromDropbox } from 'logic/ui/open/load-key-file-from-dropbox';
-import { removeLastFile } from 'store/files/remove-last-file';
+import { removeLastFile } from 'logic/ui/open/remove-last-file';
 import { resetKeyFile } from 'store/ui/open/reset-key-file';
 import { displayLastFile } from 'logic/ui/open/display-last-file';
 
@@ -59,7 +59,6 @@ const mapDispatchToProps = dispatch => {
         onFileDeleteClick({ id }) {
             // TODO: question about in-memory files
             dispatch(removeLastFile(id));
-            dispatch(saveLastFiles());
         },
     };
 };

@@ -5,5 +5,5 @@ export function displayFile(file) {
 }
 
 export default function reducer(state, action) {
-    return Object.assign({}, state, { file: action.file });
+    return Object.assign({}, state, { file: action.file, keyFile: undefined });
 }
