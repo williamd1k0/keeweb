@@ -6,6 +6,7 @@ export function displayLastFile(id) {
         const file = state.files.byId[id];
         if (file) {
             dispatch(displayFile(file));
+            // TODO: keyfile
         }
     };
 }
