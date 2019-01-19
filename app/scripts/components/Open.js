@@ -342,7 +342,6 @@ class Open extends React.Component {
                             >
                                 <i className="fa fa-key open__settings-key-file-icon" />
                                 <span className="open__settings-key-file-name">
-                                    {' '}
                                     {keyFile ? keyFile.name : <Res id="openKeyFile" />}
                                 </span>
                                 {!!canOpenKeyFromDropbox && (
