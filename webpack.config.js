@@ -186,6 +186,8 @@ function devServerConfig(grunt) {
         baron: 'baron/baron.js',
         qrcode: 'jsqrcode/dist/qrcode.js',
         argon2: 'argon2-browser/dist/argon2.js',
+        react: 'preact-compat',
+        'react-dom': 'preact-compat',
     });
     return devServerConfig;
 }

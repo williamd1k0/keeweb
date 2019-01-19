@@ -9,8 +9,8 @@ class Open extends React.Component {
     propTypes = {
         locale: PropTypes.object.isRequired,
         lastFiles: PropTypes.array.isRequired,
-        file: PropTypes.object.isRequired,
-        keyFile: PropTypes.object.isRequired,
+        file: PropTypes.object,
+        keyFile: PropTypes.object,
         rows: PropTypes.object.isRequired,
         secondRowVisible: PropTypes.bool,
         canOpen: PropTypes.bool,

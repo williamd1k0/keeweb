@@ -59,6 +59,7 @@
     "pikaday": "1.8.0",
     "pkcs15-smartcard-sign": "^1.0.0",
     "preact": "^8.4.2",
+    "preact-compat": "^3.18.4",
     "preact-redux": "^2.0.3",
     "prettier": "^1.15.3",
     "prop-types": "^15.6.2",
