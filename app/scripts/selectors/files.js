@@ -46,6 +46,13 @@ export const getOpenFiles = createSelector(
     }
 );
 
+export const hasOpenFiles = createSelector(
+    [getOpenFileIds],
+    openFileIds => {
+        return openFileIds.length;
+    }
+);
+
 function getMatchParams(state, props) {
     return {
         id: props.id,

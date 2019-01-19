@@ -8,7 +8,7 @@ import { Menu } from 'components/Menu';
 import { MenuDrag } from 'components/MenuDrag';
 import { MainSection } from 'components/MainSection';
 
-const App = ({ view, isBeta, alert, theme, fontSize }) => (
+const App = ({ view, isBeta, alert, theme, fontSize, hasOpenFiles }) => (
     <div
         className={`app th-${theme}`}
         style={{ fontSize: fontSize ? 12 + fontSize * 2 + 'px' : null }}
@@ -23,7 +23,7 @@ const App = ({ view, isBeta, alert, theme, fontSize }) => (
             ]}
             {view === 'settings' && 'Settings...'}
         </div>
-        {view && view !== 'open' && <Footer />}
+        {hasOpenFiles && <Footer />}
         {!!alert && <Alert />}
     </div>
 );
@@ -34,6 +34,7 @@ App.propTypes = {
     theme: PropTypes.string.isRequired,
     fontSize: PropTypes.number.isRequired,
     alert: PropTypes.bool.isRequired,
+    hasOpenFiles: PropTypes.bool.isRequired,
 };
 
 export { App };

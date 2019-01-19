@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 import { Footer } from 'components/Footer';
 import { getOpenFiles } from 'selectors/files';
+import { toggleView } from 'store/ui/toggle-view';
 
 const mapStateToProps = state => {
     return {
@@ -10,8 +11,12 @@ const mapStateToProps = state => {
     };
 };
 
-const mapDispatchToProps = () => {
-    return {};
+const mapDispatchToProps = dispatch => {
+    return {
+        onOpenClick() {
+            dispatch(toggleView('open', 'list'));
+        },
+    };
 };
 
 const FooterContainer = connect(

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Res } from 'containers/util/Res';
 
-const Footer = ({ locale, files, updateAvailable }) => (
+const Footer = ({ locale, files, updateAvailable, onOpenClick }) => (
     <div className="app__footer">
         <div className="footer">
             {files.map(file => (
@@ -28,7 +28,10 @@ const Footer = ({ locale, files, updateAvailable }) => (
                     )}
                 </div>
             ))}
-            <div className="footer__db footer__db--dimmed footer__db--expanded footer__db-open">
+            <div
+                className="footer__db footer__db--dimmed footer__db--expanded footer__db-open"
+                onClick={onOpenClick}
+            >
                 <i className="fa fa-plus" />
                 <span className="footer__db-text">
                     {' '}
@@ -68,6 +71,7 @@ const Footer = ({ locale, files, updateAvailable }) => (
 );
 
 Footer.propTypes = {
+    onOpenClick: PropTypes.func.isRequired,
     files: PropTypes.array.isRequired,
     updateAvailable: PropTypes.bool,
     locale: PropTypes.object.isRequired,
