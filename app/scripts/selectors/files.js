@@ -3,7 +3,7 @@ import { createSelector } from 'reselect';
 import { getStorageProviderNames } from 'selectors/storage';
 
 const getLastFileIds = state => state.files.last;
-const getOpenFileIds = state => state.files.open;
+const getActiveFileIds = state => state.files.active;
 const getFilesById = state => state.files.byId;
 
 export const getLastFiles = createSelector(
@@ -39,17 +39,17 @@ export const getLastFiles = createSelector(
     }
 );
 
-export const getOpenFiles = createSelector(
-    [getOpenFileIds, getFilesById],
+export const getActiveFiles = createSelector(
+    [getActiveFileIds, getFilesById],
     (openFileIds, filesById) => {
         return openFileIds.map(id => filesById[id]).filter(file => file);
     }
 );
 
-export const hasOpenFiles = createSelector(
-    [getOpenFileIds],
+export const hasActiveFiles = createSelector(
+    [getActiveFileIds],
     openFileIds => {
-        return openFileIds.length;
+        return openFileIds.length > 0;
     }
 );
 

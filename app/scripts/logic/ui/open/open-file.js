@@ -10,7 +10,7 @@ import { Storage } from 'storage';
 import { showAlert } from 'logic/ui/alert/show-alert';
 import { setFileData } from 'store/files/set-file-data';
 import { addLastFile } from 'store/files/add-last-file';
-import { addOpenFile } from 'store/files/add-open-file';
+import { addActiveFile } from 'store/files/add-active-file';
 import { saveLastFiles } from 'logic/files/save-last-files';
 import { setView } from 'store/ui/set-view';
 
@@ -46,7 +46,7 @@ export function openFile(password) {
                 dispatch(setFileData(file.id, file));
                 dispatch(addLastFile(file.id));
                 dispatch(saveLastFiles());
-                dispatch(addOpenFile(file.id));
+                dispatch(addActiveFile(file.id));
                 dispatch(setView('list'));
             })
             .catch(err => {

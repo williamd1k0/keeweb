@@ -16,11 +16,8 @@ const App = ({ view, isBeta, alert, theme, fontSize, hasOpenFiles }) => (
         {!!isBeta && <BetaWarning />}
         <div className="app__body">
             {view === 'open' && <Open />}
-            {view === 'list' && [
-                <Menu key="menu" />,
-                <MenuDrag key="md" />,
-                <MainSection key="main" />,
-            ]}
+            {view && view !== 'open' && [<Menu key="menu" />, <MenuDrag key="md" />]}
+            {view === 'list' && <MainSection />}
             {view === 'settings' && 'Settings...'}
         </div>
         {hasOpenFiles && <Footer />}

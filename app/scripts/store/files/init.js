@@ -1,6 +1,6 @@
 const state = {
     last: [],
-    open: [],
+    active: [],
     byId: {},
 };
 

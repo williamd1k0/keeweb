@@ -1,12 +1,12 @@
 import { connect } from 'react-redux';
 import { Footer } from 'components/Footer';
-import { getOpenFiles } from 'selectors/files';
+import { getActiveFiles } from 'selectors/files';
 import { toggleView } from 'store/ui/toggle-view';
 
 const mapStateToProps = state => {
     return {
         locale: state.locale,
-        files: getOpenFiles(state),
+        files: getActiveFiles(state),
         updateAvailable: false, // TODO
     };
 };
