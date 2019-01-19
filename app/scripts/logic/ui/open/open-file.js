@@ -1,4 +1,5 @@
 import { FileRepository } from 'logic/comp/file-repository';
+import { setLoading } from 'store/ui/open/set-loading';
 
 export function openFile(password) {
     return (dispatch, getState) => {
@@ -10,6 +11,7 @@ export function openFile(password) {
         if (!file) {
             return;
         }
+        dispatch(setLoading('file'));
         // TODO: open file
         console.log(file, keyFile, password);
     };

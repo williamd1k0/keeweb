@@ -17,6 +17,7 @@ class Open extends React.Component {
         canOpenKeyFromDropbox: PropTypes.bool,
         canRemoveLatest: PropTypes.bool,
         busy: PropTypes.bool.isRequired,
+        loading: PropTypes.string,
         onClick: PropTypes.func.isRequired,
         onFileSelect: PropTypes.func.isRequired,
         onFileClick: PropTypes.func.isRequired,
@@ -132,9 +133,9 @@ class Open extends React.Component {
         const lower = ch.toLowerCase();
         const upper = ch.toUpperCase();
         if (ch.length === 1 && lower !== upper && !e.shiftKey) {
-            const isCapsLockOn = ch !== lower;
-            if (isCapsLockOn !== this.state.isCapsLockOn) {
-                this.setState({ isCapsLockOn });
+            const capsLockOn = ch !== lower;
+            if (capsLockOn !== this.state.capsLockOn) {
+                this.setState({ capsLockOn });
             }
         }
     };
@@ -143,7 +144,7 @@ class Open extends React.Component {
             return;
         }
         if (e.key === 'CapsLock') {
-            this.setState({ isCapsLockOn: false });
+            this.setState({ capsLockOn: false });
         }
     };
     onFileInputChange = e => {
@@ -227,12 +228,14 @@ class Open extends React.Component {
             rows,
             file,
             keyFile,
+            busy,
+            loading,
             canOpen,
             canRemoveLatest,
             canOpenKeyFromDropbox,
             secondRowVisible,
         } = this.props;
-        const { dragging, showFocus, isCapsLockOn } = this.state;
+        const { dragging, showFocus, capsLockOn } = this.state;
         let passwordInputPlaceholder = '';
         if (file) {
             passwordInputPlaceholder = `${locale.openPassFor} ${file.name}`;
@@ -243,7 +246,8 @@ class Open extends React.Component {
             'open' +
             (showFocus ? ' open--show-focus' : '') +
             (file ? '  open--file' : '') +
-            (dragging ? ' open--drag' : '');
+            (dragging ? ' open--drag' : '') +
+            (loading === 'file' ? ' open--opening' : '');
         let ix = 0;
         return (
             <div
@@ -289,7 +293,7 @@ class Open extends React.Component {
                     <div className="open__pass-warn-wrap" key="pass-warn">
                         <div
                             className={`open__pass-warning muted-color ${
-                                isCapsLockOn ? '' : 'invisible'
+                                capsLockOn ? '' : 'invisible'
                             }`}
                         >
                             <i className="fa fa-exclamation-triangle" /> <Res id="openCaps" />
@@ -308,7 +312,7 @@ class Open extends React.Component {
                             onClick={file ? undefined : this.onPasswordInputClick}
                             onKeyDown={this.onPasswordInputKeyDown}
                             onKeyUp={this.onPasswordInputKeyUp}
-                            readOnly={!file}
+                            readOnly={busy || !file}
                             tabIndex={++ix}
                             ref={node => (this.passwordInput = node)}
                         />

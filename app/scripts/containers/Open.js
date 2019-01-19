@@ -19,6 +19,7 @@ const mapStateToProps = state => {
         file: state.uiOpen.file,
         keyFile: state.uiOpen.keyFile,
         busy: state.uiOpen.busy,
+        loading: state.uiOpen.loading,
         locale: state.locale,
         canOpen: state.settings.canOpen,
         canRemoveLatest: state.settings.canRemoveLatest,
