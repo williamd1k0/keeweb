@@ -18,6 +18,7 @@ class Open extends React.Component {
         canRemoveLatest: PropTypes.bool,
         busy: PropTypes.bool.isRequired,
         loading: PropTypes.string,
+        error: PropTypes.string,
         onClick: PropTypes.func.isRequired,
         onFileSelect: PropTypes.func.isRequired,
         onFileClick: PropTypes.func.isRequired,
@@ -48,6 +49,9 @@ class Open extends React.Component {
         }
         if (this.props.file && this.passwordInput) {
             this.passwordInput.focus();
+        }
+        if (this.props.error && this.passwordInput) {
+            this.passwordInput.select();
         }
     }
     onTabKeyPress() {
@@ -230,6 +234,7 @@ class Open extends React.Component {
             keyFile,
             busy,
             loading,
+            error,
             canOpen,
             canRemoveLatest,
             canOpenKeyFromDropbox,
@@ -248,6 +253,7 @@ class Open extends React.Component {
             (file ? '  open--file' : '') +
             (dragging ? ' open--drag' : '') +
             (loading === 'file' ? ' open--opening' : '');
+        const inputCls = 'open__pass-input' + (error ? ' input--error' : '');
         let ix = 0;
         return (
             <div
@@ -301,7 +307,7 @@ class Open extends React.Component {
                     </div>
                     <div className="open__pass-field-wrap" key="pass-field">
                         <input
-                            className={`open__pass-input`}
+                            className={inputCls}
                             name="password"
                             type="password"
                             size="30"

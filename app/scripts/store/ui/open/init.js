@@ -4,6 +4,7 @@ const state = {
     loading: undefined,
     file: undefined,
     keyFile: undefined,
+    error: undefined,
 };
 
 export default function reducer() {

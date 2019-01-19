@@ -14,6 +14,7 @@ const Timeouts = {
     LinkDownloadRevoke: 10 * 1000 * 60,
     AlertHide: 100,
     IdleCheck: 1000 * 60,
+    InputShake: 1000,
 };
 
 export { Timeouts };

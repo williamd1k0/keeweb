@@ -20,6 +20,7 @@ const mapStateToProps = state => {
         keyFile: state.uiOpen.keyFile,
         busy: state.uiOpen.busy,
         loading: state.uiOpen.loading,
+        error: state.uiOpen.error,
         locale: state.locale,
         canOpen: state.settings.canOpen,
         canRemoveLatest: state.settings.canRemoveLatest,
