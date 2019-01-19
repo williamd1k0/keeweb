@@ -3,7 +3,7 @@ import { displayLastFile } from 'logic/ui/open/display-last-file';
 export function moveFileSelection(offset) {
     return (dispatch, getState) => {
         const state = getState();
-        if (!state.uiOpen.file) {
+        if (!state.uiOpen.file || state.uiOpen.busy) {
             return;
         }
         const lastFiles = state.files.last;

@@ -5,6 +5,10 @@ import { showAlert } from 'logic/ui/alert/show-alert';
 
 export function removeLastFile(id) {
     return (dispatch, getState) => {
+        const state = getState();
+        if (state.uiOpen.busy) {
+            return Promise.resolve();
+        }
         return Promise.resolve()
             .then(() => {
                 const state = getState();

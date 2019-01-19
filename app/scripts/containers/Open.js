@@ -18,6 +18,7 @@ const mapStateToProps = state => {
         secondRowVisible: state.uiOpen.secondRowVisible,
         file: state.uiOpen.file,
         keyFile: state.uiOpen.keyFile,
+        busy: state.uiOpen.busy,
         locale: state.locale,
         canOpen: state.settings.canOpen,
         canRemoveLatest: state.settings.canRemoveLatest,

@@ -3,7 +3,11 @@ import { displayKeyFile } from 'store/ui/open/display-key-file';
 import { uuid } from 'util/generators/id-generator';
 
 export function loadKeyFileFromDropbox() {
-    return dispatch => {
+    return (dispatch, getState) => {
+        const state = getState();
+        if (state.uiOpen.busy) {
+            return Promise.resolve();
+        }
         new DropboxChooser((err, res) => {
             if (err) {
                 return;

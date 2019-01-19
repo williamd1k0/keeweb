@@ -16,6 +16,7 @@ class Open extends React.Component {
         canOpen: PropTypes.bool,
         canOpenKeyFromDropbox: PropTypes.bool,
         canRemoveLatest: PropTypes.bool,
+        busy: PropTypes.bool.isRequired,
         onClick: PropTypes.func.isRequired,
         onFileSelect: PropTypes.func.isRequired,
         onFileClick: PropTypes.func.isRequired,
@@ -41,16 +42,25 @@ class Open extends React.Component {
         this.subscriptions.forEach(s => s());
     }
     componentDidUpdate() {
+        if (this.props.busy) {
+            return;
+        }
         if (this.props.file && this.passwordInput) {
             this.passwordInput.focus();
         }
     }
     onTabKeyPress() {
+        if (this.props.busy) {
+            return;
+        }
         if (!this.state.showFocus) {
             this.setState({ showFocus: true });
         }
     }
     onEnterKeyPress() {
+        if (this.props.busy) {
+            return;
+        }
         const el = document.querySelector('[tabindex]:focus');
         if (el) {
             if (el === this.passwordInput) {
@@ -64,12 +74,21 @@ class Open extends React.Component {
         e.preventDefault();
     }
     onUpKeyPress() {
+        if (this.props.busy) {
+            return;
+        }
         this.props.onPreviousFileSelect();
     }
     onDownKeyPress() {
+        if (this.props.busy) {
+            return;
+        }
         this.props.onNextFileSelect();
     }
     onButtonClick = e => {
+        if (this.props.busy) {
+            return;
+        }
         const id = e.target.closest('[data-id]').dataset.id;
         switch (id) {
             case 'open':
@@ -82,21 +101,33 @@ class Open extends React.Component {
         }
     };
     onFileClick = e => {
+        if (this.props.busy) {
+            return;
+        }
         const id = e.target.closest('[data-id]').dataset.id;
         this.props.onFileClick({ id });
     };
     onFileDeleteClick = e => {
         e.stopPropagation();
+        if (this.props.busy) {
+            return;
+        }
         const id = e.target.closest('[data-id]').dataset.id;
         this.props.onFileDeleteClick({ id });
     };
     onPasswordInputClick = () => {
+        if (this.props.busy) {
+            return;
+        }
         if (!this.props.file) {
             this.fileInput.button = 'open';
             this.fileInput.click();
         }
     };
     onPasswordInputKeyDown = e => {
+        if (this.props.busy) {
+            return;
+        }
         const ch = e.key;
         const lower = ch.toLowerCase();
         const upper = ch.toUpperCase();
@@ -108,17 +139,26 @@ class Open extends React.Component {
         }
     };
     onPasswordInputKeyUp = e => {
+        if (this.props.busy) {
+            return;
+        }
         if (e.key === 'CapsLock') {
             this.setState({ isCapsLockOn: false });
         }
     };
     onFileInputChange = e => {
+        if (this.props.busy) {
+            return;
+        }
         const file = e.target.files[0];
         const button = this.fileInput.button;
         this.fileInput.value = null;
         this.props.onFileSelect({ button, file });
     };
     onKeyFileClick = () => {
+        if (this.props.busy) {
+            return;
+        }
         if (this.props.keyFile) {
             this.props.onKeyFileDeselect();
         } else {
@@ -128,14 +168,20 @@ class Open extends React.Component {
     };
     onDropboxKeyFileClick = e => {
         e.stopPropagation();
+        if (this.props.busy) {
+            return;
+        }
         this.props.onDropboxKeyFileClick();
     };
     onOpenRequest = () => {
+        if (this.props.busy) {
+            return;
+        }
         const password = this.passwordInput.value;
         this.props.onOpenRequest({ password });
     };
     onDragOver = e => {
-        if (!this.props.canOpen) {
+        if (!this.props.canOpen || this.props.busy) {
             return;
         }
         e.preventDefault();
@@ -152,7 +198,7 @@ class Open extends React.Component {
         this.setState({ dragging: true });
     };
     onDragLeave = e => {
-        if (!this.props.canOpen) {
+        if (!this.props.canOpen || this.props.busy) {
             return;
         }
         if (e.target === this.dropZone) {
@@ -160,7 +206,7 @@ class Open extends React.Component {
         }
     };
     onDrop = e => {
-        if (!this.props.canOpen) {
+        if (!this.props.canOpen || this.props.busy) {
             return;
         }
         e.preventDefault();
@@ -169,6 +215,9 @@ class Open extends React.Component {
         this.props.onDrop({ files });
     };
     resetDraggingState = () => {
+        if (this.props.busy) {
+            return;
+        }
         this.setState({ dragging: false });
     };
     render() {

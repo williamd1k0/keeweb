@@ -1,5 +1,6 @@
 const state = {
     secondRowVisible: false,
+    busy: false,
     file: undefined,
     keyFile: undefined,
 };

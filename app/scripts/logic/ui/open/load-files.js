@@ -5,7 +5,11 @@ import { displayKeyFile } from 'store/ui/open/display-key-file';
 import { uuid } from 'util/generators/id-generator';
 
 export function loadFileContent(file) {
-    return dispatch => {
+    return (dispatch, getState) => {
+        const state = getState();
+        if (state.uiOpen.busy) {
+            return Promise.resolve();
+        }
         return loadFile(file)
             .then(data => {
                 const isValid = checkFileFormat(data);
@@ -47,7 +51,11 @@ export function loadFileContent(file) {
 }
 
 export function loadKeyFileContent(file) {
-    return dispatch => {
+    return (dispatch, getState) => {
+        const state = getState();
+        if (state.uiOpen.busy) {
+            return Promise.resolve();
+        }
         return loadFile(file)
             .then(data => {
                 const keyFileInfo = {
