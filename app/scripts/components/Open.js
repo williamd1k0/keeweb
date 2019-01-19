@@ -242,7 +242,7 @@ class Open extends React.Component {
             canOpenKeyFromDropbox,
             secondRowVisible,
         } = this.props;
-        const { dragging, visualError, showFocus, capsLockOn } = this.state;
+        const { dragging, visualError, showFocus, capsLockOn, password } = this.state;
         let passwordInputPlaceholder = '';
         if (file) {
             passwordInputPlaceholder = `${locale.openPassFor} ${file.name}`;
@@ -325,6 +325,8 @@ class Open extends React.Component {
                             onKeyUp={this.onPasswordInputKeyUp}
                             readOnly={busy || !file}
                             tabIndex={++ix}
+                            value={password}
+                            onChange={e => this.setState({ password: e.target.value })}
                             ref={node => (this.passwordInput = node)}
                         />
                         <div
