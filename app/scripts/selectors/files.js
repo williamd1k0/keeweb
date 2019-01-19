@@ -3,6 +3,7 @@ import { createSelector } from 'reselect';
 import { getStorageProviderNames } from 'selectors/storage';
 
 const getLastFileIds = state => state.files.last;
+const getOpenFileIds = state => state.files.open;
 const getFilesById = state => state.files.byId;
 
 export const getLastFiles = createSelector(
@@ -35,6 +36,13 @@ export const getLastFiles = createSelector(
                 return file;
             })
             .filter(file => file);
+    }
+);
+
+export const getOpenFiles = createSelector(
+    [getOpenFileIds, getFilesById],
+    (openFileIds, filesById) => {
+        return openFileIds.map(id => filesById[id]).filter(file => file);
     }
 );
 

@@ -1,5 +1,6 @@
 const state = {
     last: [],
+    open: [],
     byId: {},
 };
 

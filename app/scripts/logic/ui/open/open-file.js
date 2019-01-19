@@ -5,12 +5,14 @@ import { setLoading } from 'store/ui/open/set-loading';
 import { setOpenError } from 'store/ui/open/set-open-error';
 import { resetOpenView } from 'store/ui/open/reset-open-view';
 import { getFile } from 'selectors/files';
-import { KdbxRepository } from 'logic/comp/kdbx-repository';
+import { KdbxRepository } from 'api/kdbx-repository';
 import { Storage } from 'storage';
 import { showAlert } from 'logic/ui/alert/show-alert';
 import { setFileData } from 'store/files/set-file-data';
 import { addLastFile } from 'store/files/add-last-file';
+import { addOpenFile } from 'store/files/add-open-file';
 import { saveLastFiles } from 'logic/files/save-last-files';
+import { setView } from 'store/ui/set-view';
 
 export function openFile(password) {
     return (dispatch, getState) => {
@@ -44,6 +46,8 @@ export function openFile(password) {
                 dispatch(setFileData(file.id, file));
                 dispatch(addLastFile(file.id));
                 dispatch(saveLastFiles());
+                dispatch(addOpenFile(file.id));
+                dispatch(setView('list'));
             })
             .catch(err => {
                 dispatch(setLoading(undefined));
@@ -210,10 +214,11 @@ function openFileWithData(params, callback, file, data, updateCacheOnSuccess) {
             logger.info('Save loaded file to cache');
             Storage.cache.save(params.id, null, data);
         }
-        const rev = params.rev || (file && file.rev);
         let result = Object.assign({}, params, file, {
             uuid,
-            rev,
+            rev: params.rev || (file && file.rev),
+            open: true,
+            version: 1,
         });
         const storage = params.storage;
         if (Storage[storage] && Storage[storage].storeOptsToFileOpts && params.opts) {
