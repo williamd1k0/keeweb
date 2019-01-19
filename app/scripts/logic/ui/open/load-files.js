@@ -6,7 +6,7 @@ import { uuid } from 'util/generators/id-generator';
 
 export function loadFileContent(file) {
     return dispatch => {
-        loadFile(file)
+        return loadFile(file)
             .then(data => {
                 const isValid = checkFileFormat(data);
                 if (!isValid) {

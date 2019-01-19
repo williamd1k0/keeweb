@@ -11,6 +11,7 @@ import { removeLastFile } from 'logic/ui/open/remove-last-file';
 import { resetKeyFile } from 'store/ui/open/reset-key-file';
 import { displayLastFile } from 'logic/ui/open/display-last-file';
 import { openFile } from 'logic/ui/open/open-file';
+import { loadDroppedFiles } from 'logic/ui/open/load-dropped-files';
 
 const mapStateToProps = state => {
     return {
@@ -68,6 +69,9 @@ const mapDispatchToProps = dispatch => {
         },
         onOpenRequest({ password }) {
             dispatch(openFile(password));
+        },
+        onDrop({ files }) {
+            dispatch(loadDroppedFiles(files));
         },
     };
 };

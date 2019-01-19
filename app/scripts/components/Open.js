@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Res } from 'containers/util/Res';
 import { OpenButton } from 'components/OpenButton';
 import { KeyHandler } from 'logic/comp/key-handler';
-import { Keys } from '../const/keys';
+import { Keys } from 'const/keys';
 
 // TODO: drag-drop
 
@@ -27,6 +27,7 @@ class Open extends React.Component {
         onPreviousFileSelect: PropTypes.func.isRequired,
         onNextFileSelect: PropTypes.func.isRequired,
         onOpenRequest: PropTypes.func.isRequired,
+        onDrop: PropTypes.func.isRequired,
     };
     componentDidMount() {
         this.subscriptions = [
@@ -135,6 +136,43 @@ class Open extends React.Component {
         const password = this.passwordInput.value;
         this.props.onOpenRequest({ password });
     };
+    onDragOver = e => {
+        if (!this.props.canOpen) {
+            return;
+        }
+        e.preventDefault();
+        e.stopPropagation();
+        const dt = e.dataTransfer;
+        if (
+            !dt.types ||
+            (dt.types.indexOf ? dt.types.indexOf('Files') === -1 : !dt.types.contains('Files'))
+        ) {
+            dt.dropEffect = 'none';
+            return;
+        }
+        dt.dropEffect = 'copy';
+        this.setState({ dragging: true });
+    };
+    onDragLeave = e => {
+        if (!this.props.canOpen) {
+            return;
+        }
+        if (e.target === this.dropZone) {
+            this.resetDraggingState();
+        }
+    };
+    onDrop = e => {
+        if (!this.props.canOpen) {
+            return;
+        }
+        e.preventDefault();
+        this.resetDraggingState();
+        const files = [...e.dataTransfer.files];
+        this.props.onDrop({ files });
+    };
+    resetDraggingState = () => {
+        this.setState({ dragging: false });
+    };
     render() {
         const {
             locale,
@@ -147,17 +185,26 @@ class Open extends React.Component {
             canOpenKeyFromDropbox,
             secondRowVisible,
         } = this.props;
-        const { showFocus, isCapsLockOn } = this.state;
+        const { dragging, showFocus, isCapsLockOn } = this.state;
         let passwordInputPlaceholder = '';
         if (file) {
             passwordInputPlaceholder = `${locale.openPassFor} ${file.name}`;
         } else if (canOpen) {
             passwordInputPlaceholder = locale.openClickToOpen;
         }
-        const cls = `open ${showFocus ? 'open--show-focus' : ''} ${file ? 'open--file' : ''}`;
+        const cls =
+            'open' +
+            (showFocus ? ' open--show-focus' : '') +
+            (file ? '  open--file' : '') +
+            (dragging ? ' open--drag' : '');
         let ix = 0;
         return (
-            <div className={cls}>
+            <div
+                className={cls}
+                onDragOver={this.onDragOver}
+                onDragLeave={this.onDragLeave}
+                onDrop={this.onDrop}
+            >
                 <input
                     type="file"
                     className="open__file-ctrl hide-by-pos"
@@ -187,12 +234,12 @@ class Open extends React.Component {
                     </div>
                 )}
                 <div className="open__pass-area" key="pass-area">
-                    <div className="hide">
+                    <div className="hide" key="hidden-pass">
                         {/* we need these inputs to screw browsers passwords autocompletion */}
                         <input type="text" style="display:none" name="username" />
                         <input type="password" style="display:none" name="password" />
                     </div>
-                    <div className="open__pass-warn-wrap">
+                    <div className="open__pass-warn-wrap" key="pass-warn">
                         <div
                             className={`open__pass-warning muted-color ${
                                 isCapsLockOn ? '' : 'invisible'
@@ -201,7 +248,7 @@ class Open extends React.Component {
                             <i className="fa fa-exclamation-triangle" /> <Res id="openCaps" />
                         </div>
                     </div>
-                    <div className="open__pass-field-wrap">
+                    <div className="open__pass-field-wrap" key="pass-field">
                         <input
                             className={`open__pass-input`}
                             name="password"
@@ -230,7 +277,7 @@ class Open extends React.Component {
                         </div>
                     </div>
                     {!!file && (
-                        <div className="open__settings">
+                        <div className="open__settings" key="settings">
                             <div
                                 className="open__settings-key-file"
                                 tabIndex={++ix}
@@ -253,7 +300,7 @@ class Open extends React.Component {
                             </div>
                         </div>
                     )}
-                    <div className="open__last">
+                    <div className="open__last" key="last">
                         {lastFiles.map(file => (
                             <div
                                 className="open__last-item"
@@ -281,6 +328,12 @@ class Open extends React.Component {
                             </div>
                         ))}
                     </div>
+                </div>
+                <div className="open__dropzone" key="dropzone" ref={node => (this.dropZone = node)}>
+                    <i className="fa fa-lock muted-color open__dropzone-icon" />
+                    <h1 className="muted-color open__dropzone-header">
+                        <Res id="openDropHere" />
+                    </h1>
                 </div>
             </div>
         );

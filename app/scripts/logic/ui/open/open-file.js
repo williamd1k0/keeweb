@@ -5,6 +5,7 @@ export function openFile(password) {
         if (!file) {
             return;
         }
+        // TODO: open file
         console.log(file, keyFile, password);
     };
 }
