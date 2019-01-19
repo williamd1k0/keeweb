@@ -5,8 +5,6 @@ import { OpenButton } from 'components/OpenButton';
 import { KeyHandler } from 'logic/comp/key-handler';
 import { Keys } from 'const/keys';
 
-// TODO: drag-drop
-
 class Open extends React.Component {
     propTypes = {
         locale: PropTypes.object.isRequired,
