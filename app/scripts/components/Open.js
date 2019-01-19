@@ -4,6 +4,7 @@ import { Res } from 'containers/util/Res';
 import { OpenButton } from 'components/OpenButton';
 import { KeyHandler } from 'logic/comp/key-handler';
 import { Keys } from 'const/keys';
+import { Timeouts } from 'const/timeouts';
 
 class Open extends React.Component {
     propTypes = {
@@ -50,9 +51,9 @@ class Open extends React.Component {
         if (this.props.file && this.passwordInput) {
             this.passwordInput.focus();
         }
-        if (this.props.error && this.passwordInput) {
-            // TODO: don't select always
-            // TODO: shake
+        if (this.props.error && this.state.canSetVisualError) {
+            this.setState({ visualError: true, canSetVisualError: false });
+            setTimeout(() => this.setState({ visualError: false }), Timeouts.InputShake);
             this.passwordInput.select();
         }
     }
@@ -185,6 +186,7 @@ class Open extends React.Component {
             return;
         }
         const password = this.passwordInput.value;
+        this.setState({ visualError: false, canSetVisualError: true });
         this.props.onOpenRequest({ password });
     };
     onDragOver = e => {
@@ -242,7 +244,7 @@ class Open extends React.Component {
             canOpenKeyFromDropbox,
             secondRowVisible,
         } = this.props;
-        const { dragging, showFocus, capsLockOn } = this.state;
+        const { dragging, visualError, showFocus, capsLockOn } = this.state;
         let passwordInputPlaceholder = '';
         if (file) {
             passwordInputPlaceholder = `${locale.openPassFor} ${file.name}`;
@@ -255,7 +257,10 @@ class Open extends React.Component {
             (file ? '  open--file' : '') +
             (dragging ? ' open--drag' : '') +
             (loading === 'file' ? ' open--opening' : '');
-        const inputCls = 'open__pass-input' + (error ? ' input--error' : '');
+        const inputCls =
+            'open__pass-input' +
+            (error ? ' input--error' : '') +
+            (error && visualError ? ' input-shake' : '');
         let ix = 0;
         return (
             <div
