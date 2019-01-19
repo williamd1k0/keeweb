@@ -2,10 +2,12 @@ import kdbxweb from 'kdbxweb';
 import { Logger } from 'util/logger';
 import { setLoading } from 'store/ui/open/set-loading';
 import { setOpenError } from 'store/ui/open/set-open-error';
+import { resetOpenView } from 'store/ui/open/reset-open-view';
 import { getFile } from 'selectors/files';
 import { KdbxRepository } from 'logic/comp/kdbx-repository';
 import { Storage } from 'storage';
 import { showAlert } from 'logic/ui/alert/show-alert';
+import { fileOpened } from 'logic/files/file-opened';
 
 export function openFile(password) {
     return (dispatch, getState) => {
@@ -26,18 +28,17 @@ export function openFile(password) {
         );
         dispatch(setLoading('file'));
         return new Promise((resolve, reject) => {
-            openFileInternal(params, state, err => {
+            openFileInternal(params, state, (err, res) => {
                 if (err) {
                     reject(err);
                 } else {
-                    resolve();
+                    resolve(res);
                 }
             });
         })
-            .then(() => {
-                dispatch(setOpenError(undefined));
-                dispatch(setLoading(undefined));
-                // TODO: file loaded
+            .then(({ openData }) => {
+                dispatch(resetOpenView());
+                dispatch(fileOpened(openData));
             })
             .catch(err => {
                 dispatch(setLoading(undefined));
@@ -191,6 +192,7 @@ function openFileWithData(params, callback, file, data, updateCacheOnSuccess) {
     }
     const openComplete = (kdbx, err) => {
         if (err) {
+            logger.error('Error opening file', err);
             return callback(err);
         }
         const uuid = kdbx.getDefaultGroup().uuid.toString();
@@ -203,13 +205,17 @@ function openFileWithData(params, callback, file, data, updateCacheOnSuccess) {
             logger.info('Save loaded file to cache');
             Storage.cache.save(params.id, null, data);
         }
-        // TODO: this stuff
-        // const rev = params.rev || (file && file.rev);
-        // setFileOpts(file, params.opts);
-        // addToLastOpenFiles(file, rev);
-        // addFile(file);
-        callback(null, file);
-        // fileOpened(file, data, params);
+        const openData = {
+            uuid,
+            rev: params.rev || (file && file.rev),
+        };
+        const storage = params.storage;
+        if (Storage[storage] && Storage[storage].storeOptsToFileOpts && params.opts) {
+            openData.opts = Storage[storage].storeOptsToFileOpts(params.opts, file);
+        }
+        callback(null, { openData });
+        // fileOpened(file, data, params); // TODO
+        logger.info('File open complete');
     };
     const open = password => {
         const credentials = new kdbxweb.Credentials(password, params.keyFileData);
