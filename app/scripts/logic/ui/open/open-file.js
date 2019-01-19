@@ -3,7 +3,7 @@ import { Logger } from 'util/logger';
 import { setLoading } from 'store/ui/open/set-loading';
 import { setOpenError } from 'store/ui/open/set-open-error';
 import { getFile } from 'selectors/files';
-import { FileRepository } from 'logic/comp/file-repository';
+import { KdbxRepository } from 'logic/comp/kdbx-repository';
 import { Storage } from 'storage';
 import { showAlert } from 'logic/ui/alert/show-alert';
 
@@ -36,6 +36,7 @@ export function openFile(password) {
         })
             .then(() => {
                 dispatch(setOpenError(undefined));
+                dispatch(setLoading(undefined));
                 // TODO: file loaded
             })
             .catch(err => {
@@ -192,9 +193,8 @@ function openFileWithData(params, callback, file, data, updateCacheOnSuccess) {
         if (err) {
             return callback(err);
         }
-        if (FileRepository.get(params.id)) {
-            return callback('Duplicate file id');
-        }
+        const uuid = kdbx.getDefaultGroup().uuid.toString();
+        KdbxRepository.add(uuid, kdbx);
         if (file && file.modified && file.editState) {
             logger.info('Loaded local edit state');
             kdbx.setLocalEditState(file.editState);
