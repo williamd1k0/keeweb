@@ -51,6 +51,8 @@ class Open extends React.Component {
             this.passwordInput.focus();
         }
         if (this.props.error && this.passwordInput) {
+            // TODO: don't select always
+            // TODO: shake
             this.passwordInput.select();
         }
     }
