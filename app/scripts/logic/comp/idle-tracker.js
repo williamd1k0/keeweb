@@ -18,6 +18,6 @@ const IdleTracker = {
     },
 };
 
-// Backbone.on('power-monitor-resume', IdleTracker.checkIdle, IdleTracker);
+// Backbone.on('power-monitor-resume', IdleTracker.checkIdle, IdleTracker); // TODO
 
 export { IdleTracker };

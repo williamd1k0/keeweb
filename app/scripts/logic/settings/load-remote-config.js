@@ -35,7 +35,7 @@ export function loadRemoteConfig() {
 
         function ensureCanLoadConfig(url) {
             if (!getState().env.isSelfHosted) {
-                // throw 'Configs are supported only in self-hosted installations';
+                throw 'Configs are supported only in self-hosted installations';
             }
             const link = document.createElement('a');
             link.href = url;
