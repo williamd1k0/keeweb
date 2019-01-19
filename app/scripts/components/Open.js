@@ -26,6 +26,7 @@ class Open extends React.Component {
         onKeyFileDeselect: PropTypes.func.isRequired,
         onPreviousFileSelect: PropTypes.func.isRequired,
         onNextFileSelect: PropTypes.func.isRequired,
+        onOpenRequest: PropTypes.func.isRequired,
     };
     componentDidMount() {
         this.subscriptions = [
@@ -53,7 +54,11 @@ class Open extends React.Component {
     onEnterKeyPress() {
         const el = document.querySelector('[tabindex]:focus');
         if (el) {
-            el.click();
+            if (el === this.passwordInput) {
+                this.onOpenRequest();
+            } else {
+                el.click();
+            }
         }
     }
     onUndoKeyPress(e) {
@@ -125,6 +130,10 @@ class Open extends React.Component {
     onDropboxKeyFileClick = e => {
         e.stopPropagation();
         this.props.onDropboxKeyFileClick();
+    };
+    onOpenRequest = () => {
+        const password = this.passwordInput.value;
+        this.props.onOpenRequest({ password });
     };
     render() {
         const {
@@ -209,7 +218,11 @@ class Open extends React.Component {
                             tabIndex={++ix}
                             ref={node => (this.passwordInput = node)}
                         />
-                        <div className="open__pass-enter-btn" tabIndex={++ix}>
+                        <div
+                            className="open__pass-enter-btn"
+                            tabIndex={++ix}
+                            onClick={this.onOpenRequest}
+                        >
                             <i className="fa fa-level-down fa-rotate-90" />
                         </div>
                         <div className="open__pass-opening-icon">

@@ -10,6 +10,7 @@ import { loadKeyFileFromDropbox } from 'logic/ui/open/load-key-file-from-dropbox
 import { removeLastFile } from 'logic/ui/open/remove-last-file';
 import { resetKeyFile } from 'store/ui/open/reset-key-file';
 import { displayLastFile } from 'logic/ui/open/display-last-file';
+import { openFile } from 'logic/ui/open/open-file';
 
 const mapStateToProps = state => {
     return {
@@ -64,6 +65,9 @@ const mapDispatchToProps = dispatch => {
         },
         onNextFileSelect() {
             dispatch(moveFileSelection(1));
+        },
+        onOpenRequest({ password }) {
+            dispatch(openFile(password));
         },
     };
 };
