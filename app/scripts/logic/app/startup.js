@@ -94,7 +94,7 @@ export function startup() {
                 if (protocolIsInsecure && hostIsInsecure && !skipHttpsWarning) {
                     return dispatch(
                         showAlert({
-                            preset: 'fatal-error',
+                            preset: 'fatalError',
                             header: 'appSecWarn',
                             icon: 'user-secret',
                             body: ['appSecWarnBody1', 'appSecWarnBody2'],

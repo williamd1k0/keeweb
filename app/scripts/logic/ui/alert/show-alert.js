@@ -78,20 +78,14 @@ const AlertPresets = {
 };
 
 export function showAlert(config) {
-    return (dispatch, getState) => {
-        // TODO: alert stack?
-        const state = getState();
-        if (state.uiAlert) {
-            logger.error('Cannot display alert: another alert is displayed', config);
-            throw new Error('Error displaying alert');
-        }
+    return dispatch => {
         const preset = AlertPresets[config.preset] || AlertPresets.error;
         if (preset) {
             config = Object.assign({}, preset, config);
         }
         return new Promise(resolve => {
             config = Object.assign({}, config, { resolve });
-            dispatch(setAlert(config));
+            return dispatch(setAlert(config));
         });
     };
 }

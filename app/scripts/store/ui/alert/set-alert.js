@@ -5,5 +5,13 @@ export function setAlert(config) {
 }
 
 export default function reducer(state, action) {
-    return action.config;
+    return setAlertInState(state, action.config);
+}
+
+function setAlertInState(state, config) {
+    if (state) {
+        return Object.assign({}, state, { next: setAlertInState(state.next, config) });
+    } else {
+        return config;
+    }
 }
