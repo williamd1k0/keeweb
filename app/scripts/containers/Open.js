@@ -1,3 +1,4 @@
+import kdbxweb from 'kdbxweb';
 import { connect } from 'react-redux';
 import { getOpenRows } from 'selectors/open';
 import { getLastFiles } from 'selectors/files';
@@ -17,7 +18,6 @@ const mapStateToProps = state => {
     return {
         secondRowVisible: state.uiOpen.secondRowVisible,
         file: state.uiOpen.file,
-        keyFile: state.uiOpen.keyFile,
         busy: state.uiOpen.busy,
         loading: state.uiOpen.loading,
         error: state.uiOpen.error,
@@ -71,6 +71,7 @@ const mapDispatchToProps = dispatch => {
             dispatch(moveFileSelection(1));
         },
         onOpenRequest({ password }) {
+            password = kdbxweb.ProtectedValue.fromString(password);
             dispatch(openFile(password));
         },
         onDrop({ files }) {

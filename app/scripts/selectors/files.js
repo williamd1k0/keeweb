@@ -37,3 +37,27 @@ export const getLastFiles = createSelector(
             .filter(file => file);
     }
 );
+
+function getMatchParams(state, props) {
+    return {
+        id: props.id,
+        storage: props.storage,
+        path: props.path,
+        name: props.name,
+    };
+}
+
+export const getFile = createSelector(
+    [getFilesById, getMatchParams],
+    (filesById, matchParams) => {
+        if (matchParams.id && filesById[matchParams.id]) {
+            return filesById[matchParams.id];
+        }
+        return Object.values(filesById).find(
+            file =>
+                file.storage === matchParams.storage &&
+                file.path === matchParams.path &&
+                file.name === matchParams.name
+        );
+    }
+);

@@ -1,6 +1,5 @@
 import { DropboxChooser } from 'logic/comp/dropbox-chooser';
 import { displayKeyFile } from 'store/ui/open/display-key-file';
-import { uuid } from 'util/generators/id-generator';
 
 export function loadKeyFileFromDropbox() {
     return (dispatch, getState) => {
@@ -13,7 +12,6 @@ export function loadKeyFileFromDropbox() {
                 return;
             }
             const keyFileInfo = {
-                id: uuid(),
                 name: res.name,
                 data: res.data,
             };

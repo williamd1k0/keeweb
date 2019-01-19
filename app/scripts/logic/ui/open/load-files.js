@@ -61,6 +61,7 @@ export function loadKeyFileContent(file) {
                 const keyFileInfo = {
                     id: uuid(),
                     name: file.name,
+                    path: file.path,
                     data: data,
                 };
                 return dispatch(displayKeyFile(keyFileInfo));

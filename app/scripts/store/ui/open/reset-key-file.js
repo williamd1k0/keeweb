@@ -1,3 +1,7 @@
+import omit from 'lodash/omit';
+
+const keyFileProps = ['keyFileName', 'keyFileData', 'keyFilePath', 'keyFileHash'];
+
 export const type = 'ui/open/reset-key-file';
 
 export function resetKeyFile() {
@@ -5,5 +9,8 @@ export function resetKeyFile() {
 }
 
 export default function reducer(state) {
-    return Object.assign({}, state, { keyFile: undefined });
+    if (!state || !state.file) {
+        return state;
+    }
+    return Object.assign({}, state, { file: omit(state.file, keyFileProps) });
 }

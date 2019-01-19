@@ -1,5 +1,11 @@
+import kdbxweb from 'kdbxweb';
+import { Logger } from 'util/logger';
 import { setLoading } from 'store/ui/open/set-loading';
 import { setOpenError } from 'store/ui/open/set-open-error';
+import { getFile } from 'selectors/files';
+import { FileRepository } from 'logic/comp/file-repository';
+import { Storage } from 'storage';
+import { showAlert } from 'logic/ui/alert/show-alert';
 
 export function openFile(password) {
     return (dispatch, getState) => {
@@ -7,15 +13,269 @@ export function openFile(password) {
         if (state.uiOpen.busy) {
             return Promise.resolve();
         }
-        const { file, keyFile } = state.uiOpen;
+        const { file } = state.uiOpen;
         if (!file) {
             return;
         }
+        const params = Object.assign(
+            {
+                rememberKeyFiles: state.settings.rememberKeyFiles,
+                password,
+            },
+            file
+        );
         dispatch(setLoading('file'));
-        console.log(file, keyFile, password); // TODO
-        setTimeout(() => {
-            dispatch(setLoading(undefined));
-            dispatch(setOpenError('wrong-password'));
-        }, 1000);
+        return new Promise((resolve, reject) => {
+            openFileInternal(params, state, err => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve();
+                }
+            });
+        })
+            .then(() => {
+                dispatch(setOpenError(undefined));
+                // TODO: file loaded
+            })
+            .catch(err => {
+                dispatch(setLoading(undefined));
+                if (err && err.code === kdbxweb.Consts.ErrorCodes.InvalidKey) {
+                    dispatch(setOpenError('wrong-password'));
+                } else {
+                    const errorText = err.notFound ? 'openErrorFileNotFound' : err.toString();
+                    dispatch(
+                        showAlert({
+                            header: 'openError',
+                            body: 'openErrorDescription',
+                            error: errorText,
+                        })
+                    );
+                }
+            });
     };
+}
+
+function openFileInternal(params, state, callback) {
+    const logger = new Logger('open', params.name);
+    logger.info('File open request');
+    const file = getFile(state, {
+        id: params.id,
+        storage: params.storage,
+        name: params.name,
+        path: params.path,
+    });
+    if (!params.opts && file && file.opts) {
+        params.opts = file.opts;
+    }
+    if (file && file.modified) {
+        logger.info('Open file from cache because it is modified');
+        openFileFromCache(
+            params,
+            (err, file) => {
+                if (!err && file) {
+                    logger.info('Sync just opened modified file');
+                    setTimeout(() => syncFile(file), 0);
+                }
+                callback(err);
+            },
+            file
+        );
+    } else if (params.data) {
+        logger.info('Open file from supplied content');
+        const needSaveToCache = params.storage !== 'file';
+        openFileWithData(params, callback, file, params.data, needSaveToCache);
+    } else if (!params.storage) {
+        logger.info('Open file from cache as main storage');
+        openFileFromCache(params, callback, file);
+    } else if (file && file.openDate && file.rev === params.rev && file.storage !== 'file') {
+        logger.info('Open file from cache because it is latest');
+        openFileFromCache(params, callback, file);
+    } else if (!file || !file.openDate || params.storage === 'file') {
+        logger.info('Open file from storage', params.storage);
+        const storage = Storage[params.storage];
+        const storageLoad = () => {
+            logger.info('Load from storage');
+            storage.load(params.path, params.opts, (err, data, stat) => {
+                if (err) {
+                    if (file && file.openDate) {
+                        logger.info('Open file from cache because of storage load error', err);
+                        openFileFromCache(params, callback, file);
+                    } else {
+                        logger.info('Storage load error', err);
+                        callback(err);
+                    }
+                } else {
+                    logger.info('Open file from content loaded from storage');
+                    params.data = data;
+                    params.rev = (stat && stat.rev) || null;
+                    const needSaveToCache = storage.name !== 'file';
+                    openFileWithData(params, callback, file, data, needSaveToCache);
+                }
+            });
+        };
+        const cacheRev = (file && file.rev) || null;
+        if (cacheRev && storage.stat) {
+            logger.info('Stat file');
+            storage.stat(params.path, params.opts, (err, stat) => {
+                if (file && storage.name !== 'file' && (err || (stat && stat.rev === cacheRev))) {
+                    logger.info(
+                        'Open file from cache because ' + (err ? 'stat error' : 'it is latest'),
+                        err
+                    );
+                    openFileFromCache(params, callback, file);
+                } else if (stat) {
+                    logger.info(
+                        'Open file from storage (' + stat.rev + ', local ' + cacheRev + ')'
+                    );
+                    storageLoad();
+                } else {
+                    logger.info('Stat error', err);
+                    callback(err);
+                }
+            });
+        } else {
+            storageLoad();
+        }
+    } else {
+        logger.info('Open file from cache, will sync after load', params.storage);
+        openFileFromCache(
+            params,
+            (err, file) => {
+                if (!err && file) {
+                    logger.info('Sync just opened file');
+                    setTimeout(() => syncFile(file), 0);
+                }
+                callback(err);
+            },
+            file
+        );
+    }
+}
+
+function openFileFromCache(params, callback, file) {
+    Storage.cache.load(params.id, null, (err, data) => {
+        const logger = new Logger('open', params.name);
+        if (!data) {
+            err = 'File not found in cache';
+        }
+        if (err) {
+            logger.error('Error loading file from cache', err);
+        } else {
+            logger.info('Loaded file from cache');
+        }
+        if (err) {
+            callback(err);
+        } else {
+            openFileWithData(params, callback, file, data);
+        }
+    });
+}
+
+function openFileWithData(params, callback, file, data, updateCacheOnSuccess) {
+    const logger = new Logger('open', params.name);
+    let needLoadKeyFile = false;
+    if (!params.keyFileData && file && file.keyFileName) {
+        params.keyFileName = file.keyFileName;
+        if (params.rememberKeyFiles === 'data') {
+            params.keyFileData = kdbxweb.Credentials.createKeyFileWithHash(file.keyFileHash);
+        } else if (params.rememberKeyFiles === 'path' && file.keyFilePath) {
+            params.keyFilePath = file.get('keyFilePath');
+            if (Storage.file.enabled) {
+                needLoadKeyFile = true;
+            }
+        }
+    } else if (params.keyFilePath && !params.keyFileData && !file) {
+        needLoadKeyFile = true;
+    }
+    const openComplete = (kdbx, err) => {
+        if (err) {
+            return callback(err);
+        }
+        if (FileRepository.get(params.id)) {
+            return callback('Duplicate file id');
+        }
+        if (file && file.modified && file.editState) {
+            logger.info('Loaded local edit state');
+            kdbx.setLocalEditState(file.editState);
+        }
+        if (updateCacheOnSuccess) {
+            logger.info('Save loaded file to cache');
+            Storage.cache.save(params.id, null, data);
+        }
+        // TODO: this stuff
+        // const rev = params.rev || (file && file.rev);
+        // setFileOpts(file, params.opts);
+        // addToLastOpenFiles(file, rev);
+        // addFile(file);
+        callback(null, file);
+        // fileOpened(file, data, params);
+    };
+    const open = password => {
+        const credentials = new kdbxweb.Credentials(password, params.keyFileData);
+        const ts = logger.ts();
+        kdbxweb.Kdbx.load(data, credentials)
+            .then(kdbx => {
+                if (params.keyFileData) {
+                    kdbxweb.ByteUtils.zeroBuffer(params.keyFileData);
+                }
+                const lengthKb = Math.round(data.byteLength / 1024);
+                const kdfStr = kdfArgsToString(kdbx.header);
+                logger.info(
+                    `Opened file ${params.name}: ${logger.ts(ts)}, ${kdfStr}, ${lengthKb}kB`
+                );
+                openComplete(kdbx);
+            })
+            .catch(err => {
+                if (
+                    err.code === kdbxweb.Consts.ErrorCodes.InvalidKey &&
+                    password &&
+                    !password.byteLength
+                ) {
+                    logger.info(
+                        'Error opening file with empty password, try to open with null password'
+                    );
+                    return open(null);
+                }
+                logger.error('Error opening file', err.code, err.message, err);
+                openComplete(null, err);
+            });
+    };
+    if (needLoadKeyFile) {
+        Storage.file.load(params.keyFilePath, {}, (err, data) => {
+            if (err) {
+                logger.info('Storage load error', err);
+                callback(err);
+            } else {
+                params.keyFileData = data;
+                open(params.password);
+            }
+        });
+    } else {
+        open(params.password);
+    }
+}
+
+function kdfArgsToString(header) {
+    if (header.kdfParameters) {
+        return header.kdfParameters
+            .keys()
+            .map(key => {
+                const val = header.kdfParameters.get(key);
+                if (val instanceof ArrayBuffer) {
+                    return;
+                }
+                return key + '=' + val;
+            })
+            .filter(p => p)
+            .join('&');
+    } else if (header.keyEncryptionRounds) {
+        return header.keyEncryptionRounds + ' rounds';
+    } else {
+        return '?';
+    }
+}
+
+function syncFile() {
+    // TODO: sync
 }

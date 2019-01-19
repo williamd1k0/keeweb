@@ -11,7 +11,6 @@ class Open extends React.Component {
         locale: PropTypes.object.isRequired,
         lastFiles: PropTypes.array.isRequired,
         file: PropTypes.object,
-        keyFile: PropTypes.object,
         rows: PropTypes.object.isRequired,
         secondRowVisible: PropTypes.bool,
         canOpen: PropTypes.bool,
@@ -167,7 +166,7 @@ class Open extends React.Component {
         if (this.props.busy) {
             return;
         }
-        if (this.props.keyFile) {
+        if (this.props.file && this.props.file.keyFileName) {
             this.props.onKeyFileDeselect();
         } else {
             this.fileInput.button = 'keyfile';
@@ -235,7 +234,6 @@ class Open extends React.Component {
             lastFiles,
             rows,
             file,
-            keyFile,
             busy,
             loading,
             error,
@@ -349,7 +347,7 @@ class Open extends React.Component {
                             >
                                 <i className="fa fa-key open__settings-key-file-icon" />
                                 <span className="open__settings-key-file-name">
-                                    {keyFile ? keyFile.name : <Res id="openKeyFile" />}
+                                    {file.keyFileName ? file.keyFileName : <Res id="openKeyFile" />}
                                 </span>
                                 {!!canOpenKeyFromDropbox && (
                                     <span

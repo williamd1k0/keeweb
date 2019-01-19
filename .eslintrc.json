@@ -61,7 +61,8 @@
     "Promise": true,
     "Uint8Array": true,
     "Uint32Array": true,
-    "DataView": true
+    "DataView": true,
+    "ArrayBuffer": true
   },
   "env": {
     "browser": true
