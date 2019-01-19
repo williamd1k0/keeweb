@@ -1,4 +1,5 @@
 import kdbxweb from 'kdbxweb';
+import omit from 'lodash/omit';
 import { Logger } from 'util/logger';
 import { setLoading } from 'store/ui/open/set-loading';
 import { setOpenError } from 'store/ui/open/set-open-error';
@@ -7,7 +8,9 @@ import { getFile } from 'selectors/files';
 import { KdbxRepository } from 'logic/comp/kdbx-repository';
 import { Storage } from 'storage';
 import { showAlert } from 'logic/ui/alert/show-alert';
-import { fileOpened } from 'logic/files/file-opened';
+import { setFileData } from 'store/files/set-file-data';
+import { addLastFile } from 'store/files/add-last-file';
+import { saveLastFiles } from 'logic/files/save-last-files';
 
 export function openFile(password) {
     return (dispatch, getState) => {
@@ -21,7 +24,7 @@ export function openFile(password) {
         }
         const params = Object.assign(
             {
-                rememberKeyFiles: state.settings.rememberKeyFiles,
+                settings: { rememberKeyFiles: state.settings.rememberKeyFiles },
                 password,
             },
             file
@@ -36,9 +39,11 @@ export function openFile(password) {
                 }
             });
         })
-            .then(({ openData }) => {
+            .then(({ file }) => {
                 dispatch(resetOpenView());
-                dispatch(fileOpened(openData));
+                dispatch(setFileData(file.id, file));
+                dispatch(addLastFile(file.id));
+                dispatch(saveLastFiles());
             })
             .catch(err => {
                 dispatch(setLoading(undefined));
@@ -205,15 +210,17 @@ function openFileWithData(params, callback, file, data, updateCacheOnSuccess) {
             logger.info('Save loaded file to cache');
             Storage.cache.save(params.id, null, data);
         }
-        const openData = {
+        const rev = params.rev || (file && file.rev);
+        let result = Object.assign({}, params, file, {
             uuid,
-            rev: params.rev || (file && file.rev),
-        };
+            rev,
+        });
         const storage = params.storage;
         if (Storage[storage] && Storage[storage].storeOptsToFileOpts && params.opts) {
-            openData.opts = Storage[storage].storeOptsToFileOpts(params.opts, file);
+            result.fileOpts = Storage[storage].storeOptsToFileOpts(params.opts, file);
         }
-        callback(null, { openData });
+        result = omit(result, ['settings', 'password', 'data', 'keyFileData']);
+        callback(null, { file: result });
         // fileOpened(file, data, params); // TODO
         logger.info('File open complete');
     };

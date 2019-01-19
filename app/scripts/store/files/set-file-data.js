@@ -5,10 +5,7 @@ export function setFileData(id, data) {
 }
 
 export default function reducer(state, action) {
-    const file = state.byId[action.id];
-    if (!file) {
-        return state;
-    }
+    const file = state.byId[action.id] || {};
     const newFile = Object.assign({}, file);
     for (const [key, value] of Object.entries(action.data)) {
         if (value === undefined) {
