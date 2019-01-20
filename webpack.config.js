@@ -61,6 +61,7 @@ function config(grunt, mode = 'production') {
                 'argon2-wasm': 'argon2-browser/dist/argon2.wasm',
                 resources: path.join(__dirname, 'app/resources'),
                 locales: path.join(__dirname, 'app/locales'),
+                'babel-helpers': path.join(__dirname, 'app/lib/babel-helpers'),
             },
         },
         module: {
@@ -106,7 +107,7 @@ function config(grunt, mode = 'production') {
                     test: /\.svg$/,
                     use: [
                         { loader: 'babel-loader', options: { presets: ['@babel/preset-react'] } },
-                        { loader: 'react-svg-loader', options: { jsx: false } },
+                        { loader: 'react-svg-loader', options: { jsx: true } },
                     ],
                 },
             ],
