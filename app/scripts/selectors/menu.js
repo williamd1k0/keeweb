@@ -36,7 +36,8 @@ export const ItemSelectors = {
                     id: defaultGroup.id,
                     title: file.name,
                     titleIsText: true,
-                    group: true,
+                    group: defaultGroup,
+                    file: file,
                 };
             });
         }

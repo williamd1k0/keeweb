@@ -33,7 +33,8 @@ class MenuItem extends React.Component {
         e.stopPropagation();
         this.setState({ hover: false });
     };
-    onClick = () => {
+    onClick = e => {
+        e.stopPropagation();
         this.props.onClick();
     };
     render() {
@@ -112,12 +113,10 @@ class MenuItem extends React.Component {
                             tip-placement="right"
                         />
                     )}
-                    {!!items &&
-                        items.length > 0 &&
-                        items.map(item => (
-                            <MenuItemContainer item={item} key={item.id} menu={menu} />
-                        ))}
                 </div>
+                {!!items &&
+                    items.length > 0 &&
+                    items.map(item => <MenuItemContainer item={item} key={item.id} menu={menu} />)}
             </div>
         );
     }
