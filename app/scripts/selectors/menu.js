@@ -39,6 +39,8 @@ export const ItemSelectors = {
                 title: file.name,
                 titleIsText: true,
                 icon: 'lock',
+                settingsPage: 'file',
+                fileId: file.id,
             }))
     ),
 };
