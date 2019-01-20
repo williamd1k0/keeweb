@@ -28,8 +28,15 @@ export const ItemSelectors = {
         ]
     ),
     groups: createSelector(
-        [],
-        () => []
+        [getActiveFiles],
+        activeFiles => {
+            // TODO
+            return activeFiles.map(file => ({
+                id: file.id,
+                title: file.name,
+                titleIsText: true,
+            }));
+        }
     ),
     files: createSelector(
         [getActiveFiles],

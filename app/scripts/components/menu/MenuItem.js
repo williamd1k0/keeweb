@@ -1,9 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Res } from 'containers/util/Res';
+import { MenuItem as MenuItemContainer } from 'containers/menu/MenuItem';
 
 class MenuItem extends React.Component {
     propTypes = {
+        menu: PropTypes.object.isRequired,
         locale: PropTypes.object.isRequired,
         title: PropTypes.string.isRequired,
         titleIsText: PropTypes.bool,
@@ -18,6 +20,7 @@ class MenuItem extends React.Component {
         options: PropTypes.array,
         editable: PropTypes.bool,
         button: PropTypes.object,
+        items: PropTypes.array,
         onClick: PropTypes.func.isRequired,
     };
     onMouseOver = e => {
@@ -49,6 +52,8 @@ class MenuItem extends React.Component {
             options,
             editable,
             button,
+            items,
+            menu,
         } = this.props;
         const { hover } = this.state;
         return (
@@ -107,6 +112,11 @@ class MenuItem extends React.Component {
                             tip-placement="right"
                         />
                     )}
+                    {!!items &&
+                        items.length > 0 &&
+                        items.map(item => (
+                            <MenuItemContainer item={item} key={item.id} menu={menu} />
+                        ))}
                 </div>
             </div>
         );

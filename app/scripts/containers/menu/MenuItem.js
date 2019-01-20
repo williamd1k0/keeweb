@@ -6,6 +6,7 @@ import { setActiveItem } from 'store/menu/set-active-item';
 const mapStateToProps = (state, props) => {
     const { item, menu } = props;
     return {
+        menu: menu,
         locale: state.locale,
         title: item.title,
         titleIsText: item.titleIsText,

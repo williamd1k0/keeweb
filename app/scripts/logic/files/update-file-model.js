@@ -85,6 +85,7 @@ function getSubId(fileId, entityId) {
 }
 
 function setGroupsAndEntries(kdbx, oldFile, updatedFile) {
+    updatedFile.groups = kdbx.groups.map(gr => gr.uuid.id);
     for (const kdbxGroup of kdbx.groups) {
         processGroup(kdbx, kdbxGroup, oldFile, updatedFile, null);
     }

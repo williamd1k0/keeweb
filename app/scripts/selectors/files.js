@@ -48,8 +48,8 @@ export const getActiveFiles = createSelector(
 
 export const hasActiveFiles = createSelector(
     [getActiveFileIds],
-    openFileIds => {
-        return openFileIds.length > 0;
+    activeFileIds => {
+        return activeFileIds.length > 0;
     }
 );
 
