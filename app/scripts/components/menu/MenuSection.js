@@ -14,6 +14,11 @@ const MenuSection = ({ menu, grow, drag, scrollable, items }) => (
                 <MenuItem item={item} key={item.id} menu={menu} />
             ))}
         </Scrollable>
+        {!!drag && (
+            <div className="menu__drag-section">
+                <div className="drag-handle__inner" />
+            </div>
+        )}
     </div>
 );
 

@@ -33,7 +33,9 @@ export const ItemSelectors = {
                 id: `tag#${tag}`,
                 title: tag,
                 titleIsText: true,
-                icon: 'tags',
+                icon: 'tag',
+                filterKey: 'tag',
+                filterValue: tag,
             }));
         }
     ),
