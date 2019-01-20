@@ -15,6 +15,8 @@ const Timeouts = {
     AlertHide: 100,
     IdleCheck: 1000 * 60,
     InputShake: 1000,
+    TooltipShow: 200,
+    TooltipHide: 500,
 };
 
 export { Timeouts };
