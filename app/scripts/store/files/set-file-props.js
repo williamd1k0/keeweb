@@ -15,8 +15,15 @@ export default function reducer(state, action) {
         }
     }
     return Object.assign({}, state, {
-        byId: Object.assign({}, state.byId, {
-            [action.id]: newFile,
-        }),
+        byId: Object.assign(
+            {},
+            state.byId,
+            {
+                [action.id]: newFile,
+            },
+            {
+                version: (file.version || 0) + 1,
+            }
+        ),
     });
 }

@@ -5,5 +5,22 @@ export function setFileModel(data) {
 }
 
 export default function reducer(state, action) {
-    return state;
+    const fileId = action.file && action.file.id;
+    if (!fileId) {
+        return state;
+    }
+    const file = state.byId[fileId];
+    if (!file) {
+        return state;
+    }
+    return Object.assign({}, state, {
+        byId: Object.assign(
+            {},
+            state.byId,
+            {
+                [fileId]: Object.assign({}, file, action.file),
+            },
+            { version: (file.version || 0) + 1 }
+        ),
+    });
 }
