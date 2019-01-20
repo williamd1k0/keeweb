@@ -47,6 +47,7 @@ function buildFileUpdate(kdbx, oldFile) {
     return {
         id: oldFile.id,
         name: oldFile.name,
+        uuid: kdbx.getDefaultGroup().uuid.id,
         defaultUser: kdbx.meta.defaultUser,
         recycleBinEnabled: kdbx.meta.recycleBinEnabled,
         historyMaxItems: kdbx.meta.historyMaxItems,

@@ -1,7 +1,7 @@
 export const type = 'files/set-file-model';
 
-export function setFileModel(data) {
-    return { type, data };
+export function setFileModel(file) {
+    return { type, file };
 }
 
 export default function reducer(state, action) {

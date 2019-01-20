@@ -21,6 +21,7 @@ const mapStateToProps = (state, props) => {
         disabled: false, // TODO
         options: item.options,
         editable: false, // TODO
+        items: [],
     };
 };
 

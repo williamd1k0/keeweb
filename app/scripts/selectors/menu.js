@@ -30,12 +30,15 @@ export const ItemSelectors = {
     groups: createSelector(
         [getActiveFiles],
         activeFiles => {
-            // TODO
-            return activeFiles.map(file => ({
-                id: file.id,
-                title: file.name,
-                titleIsText: true,
-            }));
+            return activeFiles.map(file => {
+                const defaultGroup = file.groups[file.uuid];
+                return {
+                    id: defaultGroup.id,
+                    title: file.name,
+                    titleIsText: true,
+                    group: true,
+                };
+            });
         }
     ),
     files: createSelector(
