@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { MenuItem } from 'containers/menu/MenuItem';
-import { ScrollableIf } from 'components/util/ScrollableIf';
+import { Scrollable } from 'components/util/Scrollable';
 
 const MenuSection = ({ menu, grow, drag, scrollable, items }) => (
     <div
@@ -9,11 +9,11 @@ const MenuSection = ({ menu, grow, drag, scrollable, items }) => (
             drag ? 'menu__section--drag' : ''
         } ${scrollable ? 'menu__section--scrollable' : ''}`}
     >
-        <ScrollableIf scrollable={scrollable}>
+        <Scrollable scrollable={scrollable}>
             {items.map(item => (
                 <MenuItem item={item} key={item.id} menu={menu} />
             ))}
-        </ScrollableIf>
+        </Scrollable>
     </div>
 );
 
