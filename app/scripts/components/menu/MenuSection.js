@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Baron from 'react-baron/dist/es5';
 import { MenuItem } from 'containers/menu/MenuItem';
 
 // TODO: scrollable
@@ -9,9 +10,11 @@ const MenuSection = ({ menu, grow, drag, scrollable, items }) => (
             drag ? 'menu__section--drag' : ''
         } ${scrollable ? 'menu__section--scrollable' : ''}`}
     >
-        {items.map(item => (
-            <MenuItem item={item} key={item.id} menu={menu} />
-        ))}
+        <Baron trackCls="scroller__bar-wrapper" barCls="scroller__bar">
+            {items.map(item => (
+                <MenuItem item={item} key={item.id} menu={menu} />
+            ))}
+        </Baron>
     </div>
 );
 
