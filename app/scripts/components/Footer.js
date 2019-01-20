@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Res } from 'containers/util/Res';
 
-const Footer = ({ locale, files, updateAvailable, onOpenClick }) => (
+const Footer = ({ locale, files, updateAvailable, onOpenClick, onSettingsClick }) => (
     <div className="app__footer">
         <div className="footer">
             {files.map(file => (
@@ -45,6 +45,7 @@ const Footer = ({ locale, files, updateAvailable, onOpenClick }) => (
                 className="footer__btn footer__btn-settings"
                 title={locale.settings}
                 tip-placement="top"
+                onClick={onSettingsClick}
             >
                 {updateAvailable ? (
                     <i className="fa fa-bell footer__update-icon" />

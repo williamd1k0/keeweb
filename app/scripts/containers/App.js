@@ -10,6 +10,7 @@ const mapStateToProps = state => {
         theme: state.settings.theme,
         fontSize: state.settings.fontSize,
         hasOpenFiles: hasActiveFiles(state),
+        menu: state.menu[state.ui.view],
     };
 };
 

@@ -16,6 +16,9 @@ const mapDispatchToProps = dispatch => {
         onOpenClick() {
             dispatch(toggleView('open', 'list'));
         },
+        onSettingsClick() {
+            dispatch(toggleView('settings', 'list'));
+        },
     };
 };
 

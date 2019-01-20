@@ -4,11 +4,11 @@ import { BetaWarning } from 'components/BetaWarning';
 import { Footer } from 'containers/Footer';
 import { Open } from 'containers/Open';
 import { Alert } from 'containers/Alert';
-import { Menu } from 'components/Menu';
+import { Menu } from 'containers/menu/Menu';
 import { MenuDrag } from 'components/MenuDrag';
 import { MainSection } from 'components/MainSection';
 
-const App = ({ view, isBeta, alert, theme, fontSize, hasOpenFiles }) => (
+const App = ({ view, isBeta, alert, menu, theme, fontSize, hasOpenFiles }) => (
     <div
         className={`app th-${theme}`}
         style={{ fontSize: fontSize ? 12 + fontSize * 2 + 'px' : null }}
@@ -16,7 +16,7 @@ const App = ({ view, isBeta, alert, theme, fontSize, hasOpenFiles }) => (
         {!!isBeta && <BetaWarning />}
         <div className="app__body">
             {view === 'open' && <Open />}
-            {view && view !== 'open' && [<Menu key="menu" />, <MenuDrag key="md" />]}
+            {menu && [<Menu key="menu" menu={menu} />, <MenuDrag key="md" />]}
             {view === 'list' && <MainSection />}
             {view === 'settings' && 'Settings...'}
         </div>
@@ -32,6 +32,7 @@ App.propTypes = {
     fontSize: PropTypes.number.isRequired,
     alert: PropTypes.bool.isRequired,
     hasOpenFiles: PropTypes.bool.isRequired,
+    menu: PropTypes.array,
 };
 
 export { App };
