@@ -6,6 +6,7 @@ class MenuItem extends React.Component {
     propTypes = {
         locale: PropTypes.object.isRequired,
         title: PropTypes.string.isRequired,
+        titleIsText: PropTypes.bool,
         icon: PropTypes.string,
         customIcon: PropTypes.string,
         cls: PropTypes.string,
@@ -32,6 +33,7 @@ class MenuItem extends React.Component {
         const {
             locale,
             title,
+            titleIsText,
             icon,
             customIcon,
             cls,
@@ -51,7 +53,7 @@ class MenuItem extends React.Component {
                     disabled ? 'menu__item--disabled' : ''
                 } ${options && options.length ? 'menu__item--with-options' : ''} ${
                     hover ? 'menu__item--hover' : ''
-                } ${cls || ''}"`}
+                } ${cls || ''}`}
                 onMouseOver={this.onMouseOver}
                 onMouseOut={this.onMouseOut}
             >
@@ -73,7 +75,11 @@ class MenuItem extends React.Component {
                         />
                     )}
                     <span className="menu__item-title">
-                        <Res id={title || 'noTitle'} capitalize={capitalize} />
+                        {titleIsText ? (
+                            title
+                        ) : (
+                            <Res id={title || 'noTitle'} capitalize={capitalize} />
+                        )}
                     </span>
                     {!!options && options.length > 0 && (
                         <div className="menu__item-options">

@@ -6,7 +6,7 @@ const Menu = ({ menu, sections }) => (
     <div className="app__menu">
         <div className="menu">
             {sections.map(section => (
-                <MenuSection sectionId={section} key={section} menu={menu} />
+                <MenuSection section={section} key={section.id} menu={menu} />
             ))}
         </div>
     </div>

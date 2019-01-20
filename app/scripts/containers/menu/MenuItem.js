@@ -1,14 +1,12 @@
 import { connect } from 'preact-redux';
 import { MenuItem } from 'components/menu/MenuItem';
-import { getItem } from 'selectors/menu';
 
 const mapStateToProps = (state, props) => {
-    const item = getItem(state, props);
-    const menu = props.menu;
-    const itemId = props.itemId;
+    const { item, menu } = props;
     return {
         locale: state.locale,
         title: item.title,
+        titleIsText: item.titleIsText,
         icon: item.icon,
         cls: item.cls,
         capitalize: item.capitalize,
@@ -16,9 +14,9 @@ const mapStateToProps = (state, props) => {
         customIcon: undefined, // TODO
         drag: false, // TODO
         collapsible: false, // TODO
-        active: menu.active === itemId,
+        active: menu.active === item.id,
         disabled: false, // TODO
-        options: undefined, // TODO
+        options: item.options,
         editable: false, // TODO
     };
 };

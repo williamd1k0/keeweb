@@ -1,3 +1,5 @@
+import { Colors } from 'const/colors';
+
 const state = {
     list: {
         id: 'list',
@@ -52,28 +54,26 @@ const state = {
     },
     items: {
         all: {
+            id: 'all',
             title: 'menuAllItems',
             icon: 'th-large',
             filterKey: '*',
         },
         colors: {
+            id: 'colors',
             title: 'menuColors',
             icon: 'bookmark',
             cls: 'menu__item-colors',
             filterKey: 'color',
             filterValue: true,
-        },
-        noTags: {
-            title: 'tags',
-            capitalize: true,
-            icon: 'tags',
-            alert: {
-                header: 'menuAlertNoTags',
-                body: 'menuAlertNoTagsBody',
-                icon: 'tags',
-            },
+            options: Colors.AllColors.map(color => ({
+                cls: 'fa ' + color + '-color',
+                value: color,
+                filterValue: color,
+            })),
         },
         trash: {
+            id: 'trash',
             title: 'menuTrash',
             icon: 'trash',
             filterKey: 'trash',
@@ -84,26 +84,31 @@ const state = {
             },
         },
         general: {
+            id: 'general',
             title: 'menuSetGeneral',
             icon: 'cog',
             settingsView: 'general',
         },
         shortcuts: {
+            id: 'shortcuts',
             title: 'shortcuts',
             icon: 'keyboard-o',
             settingsPage: 'shortcuts',
         },
         plugins: {
+            id: 'plugins',
             title: 'plugins',
             icon: 'puzzle-piece',
             settingsPage: 'plugins',
         },
         about: {
+            id: 'about',
             title: 'menuSetAbout',
             icon: 'info',
             settingsPage: 'about',
         },
         help: {
+            id: 'help',
             title: 'help',
             icon: 'question',
             settingsPage: 'help',

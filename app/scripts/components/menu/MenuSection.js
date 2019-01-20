@@ -10,17 +10,17 @@ const MenuSection = ({ menu, grow, drag, scrollable, items }) => (
         } ${scrollable ? 'menu__section--scrollable' : ''}`}
     >
         {items.map(item => (
-            <MenuItem itemId={item} key={item} menu={menu} />
+            <MenuItem item={item} key={item.id} menu={menu} />
         ))}
     </div>
 );
 
 MenuSection.propTypes = {
     menu: PropTypes.object.isRequired,
+    items: PropTypes.array.isRequired,
     grow: PropTypes.bool,
     drag: PropTypes.bool,
     scrollable: PropTypes.bool,
-    items: PropTypes.array,
 };
 
 export { MenuSection };

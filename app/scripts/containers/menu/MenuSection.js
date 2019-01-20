@@ -1,15 +1,15 @@
 import { connect } from 'preact-redux';
 import { MenuSection } from 'components/menu/MenuSection';
-import { ItemSelectors, getSection } from 'selectors/menu';
+import { ItemSelectors } from 'selectors/menu';
 
 const mapStateToProps = (state, props) => {
-    const section = getSection(state, props);
-    const items = section.items || ItemSelectors[section.itemSelector](state);
+    const { section } = props;
+    const itemSelector = ItemSelectors[section.itemSelector || 'self'];
     return {
         grow: section.grow,
         drag: section.drag,
         scrollable: section.scrollable,
-        items,
+        items: itemSelector(state, props),
     };
 };
 

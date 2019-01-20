@@ -1,11 +1,12 @@
 import { connect } from 'preact-redux';
 import { Menu } from 'components/menu/Menu';
+import { getMenuSections } from 'selectors/menu';
 
 const mapStateToProps = (state, props) => {
     const { menu } = props;
     return {
         menu,
-        sections: menu.sections,
+        sections: getMenuSections(state, props),
     };
 };
 
