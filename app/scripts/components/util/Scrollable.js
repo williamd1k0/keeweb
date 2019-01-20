@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 class Scrollable extends React.Component {
     propTypes = {
         scrollable: PropTypes.bool,
-        children: PropTypes.node.isRequired,
+        children: PropTypes.node,
     };
 
     state = {

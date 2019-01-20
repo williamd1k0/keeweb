@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect';
-import { getActiveFiles } from 'selectors/files';
+import { getActiveFiles, getAllTags } from 'selectors/files';
 
 const getSections = state => state.menu.sections;
 const getItems = state => state.menu.items;
@@ -12,20 +12,30 @@ export const ItemSelectors = {
         (ids, items) => ids.map(id => items[id])
     ),
     tags: createSelector(
-        [],
-        () => [
-            {
-                id: 'noTags',
-                title: 'tags',
-                capitalize: true,
+        [getAllTags],
+        tags => {
+            if (!tags.length) {
+                return [
+                    {
+                        id: 'noTags',
+                        title: 'tags',
+                        capitalize: true,
+                        icon: 'tags',
+                        alert: {
+                            header: 'menuAlertNoTags',
+                            body: 'menuAlertNoTagsBody',
+                            icon: 'tags',
+                        },
+                    },
+                ];
+            }
+            return tags.map(tag => ({
+                id: `tag#${tag}`,
+                title: tag,
+                titleIsText: true,
                 icon: 'tags',
-                alert: {
-                    header: 'menuAlertNoTags',
-                    body: 'menuAlertNoTagsBody',
-                    icon: 'tags',
-                },
-            },
-        ]
+            }));
+        }
     ),
     groups: createSelector(
         [getActiveFiles],

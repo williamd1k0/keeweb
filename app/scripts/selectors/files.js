@@ -76,3 +76,16 @@ export const getFile = createSelector(
         );
     }
 );
+
+export const getAllTags = createSelector(
+    [getActiveFiles],
+    activeFiles => {
+        const tags = {};
+        for (const file of activeFiles) {
+            for (const tag of file.tags) {
+                tags[tag.toLowerCase()] = tag;
+            }
+        }
+        return Object.values(tags);
+    }
+);

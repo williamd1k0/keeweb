@@ -58,6 +58,7 @@ function buildFileUpdate(kdbx, oldFile) {
         groups: {},
         entries: {},
         customIcons: {},
+        tags: {},
     };
 }
 
@@ -90,6 +91,7 @@ function setGroupsAndEntries(kdbx, oldFile, updatedFile) {
     for (const kdbxGroup of kdbx.groups) {
         processGroup(kdbx, kdbxGroup, oldFile, updatedFile, null);
     }
+    finalize(updatedFile);
 }
 
 function processGroup(kdbx, kdbxGroup, oldFile, updatedFile, parentUuid) {
@@ -99,6 +101,12 @@ function processGroup(kdbx, kdbxGroup, oldFile, updatedFile, parentUuid) {
     for (const kdbxEntry of kdbxGroup.entries) {
         const entryModel = entryToModel(kdbx, kdbxEntry, updatedFile, groupModel.uuid);
         updatedFile.entries[entryModel.uuid] = entryModel;
+        for (const tag of kdbxEntry.tags) {
+            const tagLower = tag.toLowerCase();
+            if (!updatedFile.tags[tagLower]) {
+                updatedFile.tags[tagLower] = tag;
+            }
+        }
     }
     for (const childGroup of kdbxGroup.groups) {
         processGroup(kdbx, childGroup, updatedFile, updatedFile, groupModel.uuid);
@@ -164,4 +172,8 @@ function colorToModel(color) {
 
 function dateToModel(dt) {
     return dt ? dt.getTime() : undefined;
+}
+
+function finalize(updatedFile) {
+    updatedFile.tags = Object.values(updatedFile.tags);
 }
