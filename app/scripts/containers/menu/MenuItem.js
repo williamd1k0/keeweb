@@ -4,6 +4,8 @@ import { getItem } from 'selectors/menu';
 
 const mapStateToProps = (state, props) => {
     const item = getItem(state, props);
+    const menu = props.menu;
+    const itemId = props.itemId;
     return {
         locale: state.locale,
         title: item.title,
@@ -14,7 +16,7 @@ const mapStateToProps = (state, props) => {
         customIcon: undefined, // TODO
         drag: false, // TODO
         collapsible: false, // TODO
-        active: false, // TODO
+        active: menu.active === itemId,
         disabled: false, // TODO
         options: undefined, // TODO
         editable: false, // TODO

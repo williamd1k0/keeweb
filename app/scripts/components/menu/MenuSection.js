@@ -3,19 +3,20 @@ import PropTypes from 'prop-types';
 import { MenuItem } from 'containers/menu/MenuItem';
 
 // TODO: scrollable
-const MenuSection = ({ grow, drag, scrollable, items }) => (
+const MenuSection = ({ menu, grow, drag, scrollable, items }) => (
     <div
         className={`menu__section ${grow ? 'menu__section--grow' : ''} ${
             drag ? 'menu__section--drag' : ''
         } ${scrollable ? 'menu__section--scrollable' : ''}`}
     >
         {items.map(item => (
-            <MenuItem item={item} key={item} />
+            <MenuItem itemId={item} key={item} menu={menu} />
         ))}
     </div>
 );
 
 MenuSection.propTypes = {
+    menu: PropTypes.object.isRequired,
     grow: PropTypes.bool,
     drag: PropTypes.bool,
     scrollable: PropTypes.bool,

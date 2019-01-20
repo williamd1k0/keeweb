@@ -4,6 +4,7 @@ import { Menu } from 'components/menu/Menu';
 const mapStateToProps = (state, props) => {
     const { menu } = props;
     return {
+        menu,
         sections: menu.sections,
     };
 };

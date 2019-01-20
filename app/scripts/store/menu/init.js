@@ -1,9 +1,11 @@
 const state = {
     list: {
         sections: ['all', 'colors', 'tags', 'groups', 'trash'],
+        active: 'all',
     },
     settings: {
         sections: ['general', 'shortcuts', 'plugins', 'about', 'help', 'files'],
+        active: 'general',
     },
     sections: {
         all: {

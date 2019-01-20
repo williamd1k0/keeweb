@@ -18,14 +18,14 @@ export const ItemSelectors = {
     ),
 };
 
-const getSectionNameFromProps = (state, props) => props.section;
+const getSectionNameFromProps = (state, props) => props.sectionId;
 
 export const getSection = createSelector(
     [getSections, getSectionNameFromProps],
     (sections, sectionName) => sections[sectionName]
 );
 
-const getItemNameFromProps = (state, props) => props.item;
+const getItemNameFromProps = (state, props) => props.itemId;
 
 export const getItem = createSelector(
     [getItems, getItemNameFromProps],
