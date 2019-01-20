@@ -2,6 +2,8 @@ import React from 'react';
 import Baron from 'react-baron/dist/es5';
 import PropTypes from 'prop-types';
 
+// TODO: disable on mobile
+
 class Scrollable extends React.Component {
     propTypes = {
         scrollable: PropTypes.bool,
