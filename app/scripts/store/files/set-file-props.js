@@ -1,6 +1,6 @@
-export const type = 'files/set-file-data';
+export const type = 'files/set-file-props';
 
-export function setFileData(id, data) {
+export function setFileProps(id, data) {
     return { type, id, data };
 }
 

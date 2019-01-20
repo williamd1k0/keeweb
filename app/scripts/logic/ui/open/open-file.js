@@ -8,10 +8,11 @@ import { getFile } from 'selectors/files';
 import { KdbxRepository } from 'api/kdbx-repository';
 import { Storage } from 'storage';
 import { showAlert } from 'logic/ui/alert/show-alert';
-import { setFileData } from 'store/files/set-file-data';
+import { setFileProps } from 'store/files/set-file-props';
 import { addLastFile } from 'store/files/add-last-file';
 import { addActiveFile } from 'store/files/add-active-file';
 import { saveLastFiles } from 'logic/files/save-last-files';
+import { updateFileModel } from 'logic/files/update-file-model';
 import { setView } from 'store/ui/set-view';
 
 export function openFile(password) {
@@ -43,10 +44,11 @@ export function openFile(password) {
         })
             .then(({ file }) => {
                 dispatch(resetOpenView());
-                dispatch(setFileData(file.id, file));
+                dispatch(setFileProps(file.id, file));
                 dispatch(addLastFile(file.id));
                 dispatch(saveLastFiles());
                 dispatch(addActiveFile(file.id));
+                dispatch(updateFileModel(file.id));
                 dispatch(setView('list'));
             })
             .catch(err => {
