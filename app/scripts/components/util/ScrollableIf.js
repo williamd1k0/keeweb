@@ -13,7 +13,7 @@ const ScrollableIf = ({ scrollable, children }) =>
 
 ScrollableIf.propTypes = {
     scrollable: PropTypes.bool,
-    children: PropTypes.array,
+    children: PropTypes.node,
 };
 
 export { ScrollableIf };
