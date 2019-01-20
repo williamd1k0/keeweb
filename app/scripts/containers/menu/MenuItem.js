@@ -1,5 +1,6 @@
 import { connect } from 'preact-redux';
 import { MenuItem } from 'components/menu/MenuItem';
+import { showAlert } from 'logic/ui/alert/show-alert';
 
 const mapStateToProps = (state, props) => {
     const { item, menu } = props;
@@ -22,12 +23,30 @@ const mapStateToProps = (state, props) => {
 };
 
 const mapDispatchToProps = dispatch => {
-    return {};
+    return {
+        showAlert(alert) {
+            dispatch(showAlert(alert));
+        },
+    };
+};
+
+const mergeProps = (stateProps, dispatchProps, ownProps) => {
+    return {
+        ...stateProps,
+        ...dispatchProps,
+        onClick() {
+            const { item } = ownProps;
+            if (item.alert) {
+                dispatchProps.showAlert(item.alert);
+            }
+        },
+    };
 };
 
 const MenuItemContainer = connect(
     mapStateToProps,
-    mapDispatchToProps
+    mapDispatchToProps,
+    mergeProps
 )(MenuItem);
 
 export { MenuItemContainer as MenuItem };

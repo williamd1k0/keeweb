@@ -18,6 +18,7 @@ class MenuItem extends React.Component {
         options: PropTypes.array,
         editable: PropTypes.bool,
         button: PropTypes.object,
+        onClick: PropTypes.func.isRequired,
     };
     onMouseOver = e => {
         if (!e.button) {
@@ -28,6 +29,9 @@ class MenuItem extends React.Component {
     onMouseOut = e => {
         e.stopPropagation();
         this.setState({ hover: false });
+    };
+    onClick = () => {
+        this.props.onClick();
     };
     render() {
         const {
@@ -56,6 +60,7 @@ class MenuItem extends React.Component {
                 } ${cls || ''}`}
                 onMouseOver={this.onMouseOver}
                 onMouseOut={this.onMouseOut}
+                onClick={this.onClick}
             >
                 {!!collapsible && (
                     <i
