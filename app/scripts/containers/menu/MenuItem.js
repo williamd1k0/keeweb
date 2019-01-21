@@ -1,4 +1,4 @@
-import { connect } from 'preact-redux';
+import { connect } from 'react-redux';
 import { MenuItem } from 'components/menu/MenuItem';
 import { showAlert } from 'logic/ui/alert/show-alert';
 import { setActiveItem } from 'store/menu/set-active-item';

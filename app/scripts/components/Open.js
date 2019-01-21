@@ -7,7 +7,7 @@ import { Keys } from 'const/keys';
 import { Timeouts } from 'const/timeouts';
 
 class Open extends React.Component {
-    propTypes = {
+    static propTypes = {
         locale: PropTypes.object.isRequired,
         lastFiles: PropTypes.array.isRequired,
         file: PropTypes.object,
@@ -30,6 +30,7 @@ class Open extends React.Component {
         onOpenRequest: PropTypes.func.isRequired,
         onDrop: PropTypes.func.isRequired,
     };
+    state = {};
     componentDidMount() {
         this.subscriptions = [
             KeyHandler.onKey(Keys.DOM_VK_TAB, this.onTabKeyPress, this),
@@ -298,8 +299,8 @@ class Open extends React.Component {
                 <div className="open__pass-area" key="pass-area">
                     <div className="hide" key="hidden-pass">
                         {/* we need these inputs to screw browsers passwords autocompletion */}
-                        <input type="text" style="display:none" name="username" />
-                        <input type="password" style="display:none" name="password" />
+                        <input type="text" style={{ display: 'none' }} name="username" />
+                        <input type="password" style={{ display: 'none' }} name="password" />
                     </div>
                     <div className="open__pass-warn-wrap" key="pass-warn">
                         <div

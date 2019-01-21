@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 // TODO: disable on mobile
 
 class Scrollable extends React.Component {
-    propTypes = {
+    static propTypes = {
         scrollable: PropTypes.bool,
         children: PropTypes.node,
     };

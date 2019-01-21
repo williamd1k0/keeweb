@@ -13,40 +13,51 @@ const state = {
     },
     sections: {
         all: {
+            id: 'all',
             items: ['all'],
         },
         colors: {
+            id: 'colors',
             items: ['colors'],
         },
         tags: {
+            id: 'tags',
             itemSelector: 'tags',
             drag: true,
             scrollable: true,
         },
         groups: {
+            id: 'groups',
             itemSelector: 'groups',
             grow: true,
             scrollable: true,
         },
         trash: {
+            id: 'trash',
             items: ['trash'],
         },
         general: {
+            id: 'general',
             items: ['general'],
         },
         shortcuts: {
+            id: 'shortcuts',
             items: ['shortcuts'],
         },
         plugins: {
+            id: 'plugins',
             items: ['plugins'],
         },
         about: {
+            id: 'about',
             items: ['about'],
         },
         help: {
+            id: 'help',
             items: ['help'],
         },
         files: {
+            id: 'files',
             itemSelector: 'files',
             grow: true,
             scrollable: true,

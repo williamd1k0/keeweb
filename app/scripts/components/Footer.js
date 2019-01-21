@@ -73,6 +73,7 @@ const Footer = ({ locale, files, updateAvailable, onOpenClick, onSettingsClick }
 
 Footer.propTypes = {
     onOpenClick: PropTypes.func.isRequired,
+    onSettingsClick: PropTypes.func.isRequired,
     files: PropTypes.array.isRequired,
     updateAvailable: PropTypes.bool,
     locale: PropTypes.object.isRequired,

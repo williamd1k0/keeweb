@@ -4,7 +4,7 @@ import { Res } from 'containers/util/Res';
 import { MenuItem as MenuItemContainer } from 'containers/menu/MenuItem';
 
 class MenuItem extends React.Component {
-    propTypes = {
+    static propTypes = {
         menu: PropTypes.object.isRequired,
         locale: PropTypes.object.isRequired,
         title: PropTypes.string.isRequired,
@@ -23,6 +23,13 @@ class MenuItem extends React.Component {
         items: PropTypes.array,
         onClick: PropTypes.func.isRequired,
     };
+    state = {};
+    componentDidMount() {
+        // console.log('mount');
+    }
+    // shouldComponentUpdate(nextProps, nextState, nextContext) {
+    //     return this.props.active !== nextProps.active;
+    // }
     onMouseOver = e => {
         if (!e.button) {
             e.stopPropagation();

@@ -11,6 +11,7 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 const pkg = require('./package.json');
 
 function config(grunt, mode = 'production') {
+    const useReact = grunt.option('react');
     const date = grunt.config.get('date');
     const dt = date.toISOString().replace(/T.*/, '');
     const year = date.getFullYear();
@@ -22,8 +23,8 @@ function config(grunt, mode = 'production') {
                 'redux',
                 'redux-thunk',
                 'reselect',
-                'preact',
-                'preact-redux',
+                'react',
+                'react-redux',
                 'kdbxweb',
                 'baron',
                 'pikaday',
@@ -50,9 +51,9 @@ function config(grunt, mode = 'production') {
         resolve: {
             modules: [path.join(__dirname, 'app/scripts'), path.join(__dirname, 'node_modules')],
             alias: {
-                react: 'preact',
-                'react-dom': 'preact',
-                'react-redux': 'preact-redux',
+                react: useReact ? 'react' : 'preact',
+                'react-dom': useReact ? 'react-dom' : 'preact',
+                'react-redux': useReact ? 'react-redux' : 'preact-redux',
                 kdbxweb: 'kdbxweb/dist/kdbxweb.js',
                 baron: 'baron/baron.min.js',
                 pikaday: 'pikaday/pikaday.js',
@@ -179,6 +180,7 @@ function config(grunt, mode = 'production') {
 }
 
 function devServerConfig(grunt) {
+    const useReact = grunt.option('react');
     const devServerConfig = config(grunt, 'development');
     Object.assign(devServerConfig, {
         devtool: 'source-map',
@@ -187,8 +189,8 @@ function devServerConfig(grunt) {
         baron: 'baron/baron.js',
         qrcode: 'jsqrcode/dist/qrcode.js',
         argon2: 'argon2-browser/dist/argon2.js',
-        react: 'preact-compat',
-        'react-dom': 'preact-compat',
+        react: useReact ? 'react' : 'preact-compat',
+        'react-dom': useReact ? 'react-dom' : 'preact-compat',
     });
     return devServerConfig;
 }

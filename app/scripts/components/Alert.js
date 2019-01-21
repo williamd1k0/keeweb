@@ -4,7 +4,7 @@ import { KeyHandler } from 'logic/comp/key-handler';
 import { Keys } from 'const/keys';
 
 class Alert extends React.Component {
-    propTypes = {
+    static propTypes = {
         header: PropTypes.string.isRequired,
         body: PropTypes.array.isRequired,
         icon: PropTypes.string.isRequired,

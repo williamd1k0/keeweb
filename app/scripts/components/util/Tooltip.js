@@ -5,7 +5,7 @@ import { Timeouts } from 'const/timeouts';
 // TODO
 
 class Tooltip extends React.Component {
-    propTypes = {
+    static propTypes = {
         children: PropTypes.node,
         onMouseEnter: PropTypes.func,
         onMouseLeave: PropTypes.func,

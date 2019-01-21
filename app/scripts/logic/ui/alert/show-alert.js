@@ -1,7 +1,4 @@
 import { setAlert } from 'store/ui/alert/set-alert';
-import { Logger } from 'util/logger';
-
-const logger = new Logger('alerts');
 
 const DefaultButtons = {
     ok: {

@@ -1,4 +1,4 @@
-import { connect } from 'preact-redux';
+import { connect } from 'react-redux';
 import { MenuSection } from 'components/menu/MenuSection';
 import { ItemSelectors } from 'selectors/menu';
 
@@ -13,7 +13,7 @@ const mapStateToProps = (state, props) => {
     };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = () => {
     return {};
 };
 

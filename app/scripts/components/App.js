@@ -16,7 +16,8 @@ const App = ({ view, isBeta, alert, menu, theme, fontSize, hasOpenFiles }) => (
         {!!isBeta && <BetaWarning />}
         <div className="app__body">
             {view === 'open' && <Open />}
-            {menu && [<Menu key="menu" menu={menu} />, <MenuDrag key="md" />]}
+            {menu && <Menu menu={menu} />}
+            {menu && <MenuDrag />}
             {view === 'list' && <MainSection />}
             {view === 'settings' && 'Settings...'}
         </div>
@@ -32,7 +33,7 @@ App.propTypes = {
     fontSize: PropTypes.number.isRequired,
     alert: PropTypes.bool.isRequired,
     hasOpenFiles: PropTypes.bool.isRequired,
-    menu: PropTypes.array,
+    menu: PropTypes.object,
 };
 
 export { App };
