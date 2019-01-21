@@ -24,12 +24,6 @@ class MenuItem extends React.Component {
         onClick: PropTypes.func.isRequired,
     };
     state = {};
-    componentDidMount() {
-        // console.log('mount');
-    }
-    // shouldComponentUpdate(nextProps, nextState, nextContext) {
-    //     return this.props.active !== nextProps.active;
-    // }
     onMouseOver = e => {
         if (!e.button) {
             e.stopPropagation();
