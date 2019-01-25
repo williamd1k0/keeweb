@@ -19,6 +19,9 @@ class Alert extends React.Component {
         onEnterPressed: PropTypes.func.isRequired,
         onHide: PropTypes.func.isRequired,
     };
+    state = {
+        visible: false,
+    };
     componentDidMount() {
         setTimeout(() => {
             this.setState({ visible: true });

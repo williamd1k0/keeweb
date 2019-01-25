@@ -46,7 +46,7 @@ export const ItemSelectors = {
             let groups = [];
             for (const file of activeFiles) {
                 const kdbx = KdbxRepository.get(file.uuid);
-                groups = groups.concat(kdbx.groups);
+                groups = groups.concat(kdbx.allGroups);
             }
             return groups;
         }

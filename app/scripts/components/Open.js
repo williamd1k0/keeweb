@@ -30,7 +30,9 @@ class Open extends React.Component {
         onOpenRequest: PropTypes.func.isRequired,
         onDrop: PropTypes.func.isRequired,
     };
-    state = {};
+    state = {
+        password: ''
+    };
     componentDidMount() {
         this.subscriptions = [
             KeyHandler.onKey(Keys.DOM_VK_TAB, this.onTabKeyPress, this),

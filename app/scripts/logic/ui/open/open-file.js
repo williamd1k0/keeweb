@@ -6,7 +6,7 @@ import { setOpenError } from 'store/ui/open/set-open-error';
 import { resetOpenView } from 'store/ui/open/reset-open-view';
 import { getFile } from 'selectors/files';
 import { KdbxRepository } from 'api/kdbx-repository';
-import { Kdbx } from 'api/kdbx';
+import { Db } from 'api/db';
 import { Storage } from 'storage';
 import { showAlert } from 'logic/ui/alert/show-alert';
 import { setFileProps } from 'store/files/set-file-props';
@@ -224,7 +224,10 @@ function openFileWithData(params, callback, file, data, updateCacheOnSuccess) {
         if (Storage[storage] && Storage[storage].storeOptsToFileOpts && params.opts) {
             result.fileOpts = Storage[storage].storeOptsToFileOpts(params.opts, file);
         }
-        KdbxRepository.add(new Kdbx(kdbx));
+        const ts = logger.ts();
+        const kdbxModel = new Db(kdbx, params.id, params.name);
+        KdbxRepository.add(kdbxModel);
+        logger.info(`Read file model in ${logger.ts(ts)}`);
         result = omit(result, ['settings', 'password', 'data', 'keyFileData']);
         callback(null, { file: result });
         // fileOpened(file, data, params); // TODO

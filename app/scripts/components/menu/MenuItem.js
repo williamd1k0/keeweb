@@ -1,11 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Res } from 'containers/util/Res';
-import { MenuItem as MenuItemContainer } from 'containers/menu/MenuItem';
 
 class MenuItem extends React.Component {
     static propTypes = {
-        menu: PropTypes.object.isRequired,
         locale: PropTypes.object.isRequired,
         title: PropTypes.string.isRequired,
         titleIsText: PropTypes.bool,
@@ -23,6 +21,9 @@ class MenuItem extends React.Component {
         onClick: PropTypes.func.isRequired,
     };
     state = {};
+    componentDidMount() {
+        // console.log('mount');
+    }
     onMouseOver = e => {
         if (!e.button) {
             e.stopPropagation();
@@ -38,6 +39,7 @@ class MenuItem extends React.Component {
         this.props.onClick();
     };
     render() {
+        // console.log('render');
         const {
             locale,
             title,
@@ -53,7 +55,6 @@ class MenuItem extends React.Component {
             options,
             editable,
             button,
-            menu,
         } = this.props;
         const { hover } = this.state;
         return (
