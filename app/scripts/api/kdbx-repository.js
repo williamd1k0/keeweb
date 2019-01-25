@@ -1,14 +1,14 @@
 const repo = {};
 
 const KdbxRepository = {
-    add(uuid, kdbx) {
-        if (!uuid) {
+    add(kdbx) {
+        if (!kdbx.uuid) {
             throw new Error(`Empty UUID`);
         }
-        if (repo[uuid]) {
-            throw new Error(`Duplicate file with UUID ${uuid}`);
+        if (repo[kdbx.uuid]) {
+            throw new Error(`Duplicate file with UUID ${kdbx.uuid}`);
         }
-        repo[uuid] = kdbx;
+        repo[kdbx.uuid] = kdbx;
     },
     get(uuid) {
         return repo[uuid];

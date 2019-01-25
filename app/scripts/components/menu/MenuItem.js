@@ -20,7 +20,6 @@ class MenuItem extends React.Component {
         options: PropTypes.array,
         editable: PropTypes.bool,
         button: PropTypes.object,
-        items: PropTypes.array,
         onClick: PropTypes.func.isRequired,
     };
     state = {};
@@ -54,7 +53,6 @@ class MenuItem extends React.Component {
             options,
             editable,
             button,
-            items,
             menu,
         } = this.props;
         const { hover } = this.state;
@@ -115,9 +113,6 @@ class MenuItem extends React.Component {
                         />
                     )}
                 </div>
-                {!!items &&
-                    items.length > 0 &&
-                    items.map(item => <MenuItemContainer item={item} key={item.id} menu={menu} />)}
             </div>
         );
     }

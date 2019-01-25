@@ -6,13 +6,13 @@ import { setOpenError } from 'store/ui/open/set-open-error';
 import { resetOpenView } from 'store/ui/open/reset-open-view';
 import { getFile } from 'selectors/files';
 import { KdbxRepository } from 'api/kdbx-repository';
+import { Kdbx } from 'api/kdbx';
 import { Storage } from 'storage';
 import { showAlert } from 'logic/ui/alert/show-alert';
 import { setFileProps } from 'store/files/set-file-props';
 import { addLastFile } from 'store/files/add-last-file';
 import { addActiveFile } from 'store/files/add-active-file';
 import { saveLastFiles } from 'logic/files/save-last-files';
-import { updateFileModel } from 'logic/files/update-file-model';
 import { setView } from 'store/ui/set-view';
 
 export function openFile(password) {
@@ -48,7 +48,6 @@ export function openFile(password) {
                 dispatch(addLastFile(file.id));
                 dispatch(saveLastFiles());
                 dispatch(addActiveFile(file.id));
-                dispatch(updateFileModel(file.id));
                 dispatch(setView('list'));
             })
             .catch(err => {
@@ -207,7 +206,6 @@ function openFileWithData(params, callback, file, data, updateCacheOnSuccess) {
             return callback(err);
         }
         const uuid = kdbx.getDefaultGroup().uuid.toString();
-        KdbxRepository.add(uuid, kdbx);
         if (file && file.modified && file.editState) {
             logger.info('Loaded local edit state');
             kdbx.setLocalEditState(file.editState);
@@ -226,6 +224,7 @@ function openFileWithData(params, callback, file, data, updateCacheOnSuccess) {
         if (Storage[storage] && Storage[storage].storeOptsToFileOpts && params.opts) {
             result.fileOpts = Storage[storage].storeOptsToFileOpts(params.opts, file);
         }
+        KdbxRepository.add(new Kdbx(kdbx));
         result = omit(result, ['settings', 'password', 'data', 'keyFileData']);
         callback(null, { file: result });
         // fileOpened(file, data, params); // TODO

@@ -1,6 +1,7 @@
 import { Storage } from 'storage';
 import { createSelector } from 'reselect';
 import { getStorageProviderNames } from 'selectors/storage';
+import { KdbxRepository } from 'api/kdbx-repository';
 
 const getLastFileIds = state => state.files.last;
 const getActiveFileIds = state => state.files.active;
@@ -82,8 +83,11 @@ export const getAllTags = createSelector(
     activeFiles => {
         const tags = {};
         for (const file of activeFiles) {
-            for (const tag of file.tags) {
-                tags[tag.toLowerCase()] = tag;
+            const kdbx = KdbxRepository.get(file.uuid);
+            if (kdbx) {
+                for (const tag of kdbx.tags) {
+                    tags[tag.toLowerCase()] = tag;
+                }
             }
         }
         return Object.values(tags);

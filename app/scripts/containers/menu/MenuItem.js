@@ -3,23 +3,23 @@ import { MenuItem } from 'components/menu/MenuItem';
 import { showAlert } from 'logic/ui/alert/show-alert';
 import { setActiveItem } from 'store/menu/set-active-item';
 
-function getSubGroupItems(item) {
-    return item.group.groups
-        .map(groupId => {
-            const group = item.file.groups[groupId];
-            if (group.isRecycleBin) {
-                return undefined;
-            }
-            return {
-                id: group.id,
-                title: group.title,
-                titleIsText: true,
-                group: group,
-                file: item.file,
-            };
-        })
-        .filter(item => item);
-}
+// function getSubGroupItems(item) {
+//     return item.group.groups
+//         .map(groupId => {
+//             const group = item.file.groups[groupId];
+//             if (group.isRecycleBin) {
+//                 return undefined;
+//             }
+//             return {
+//                 id: group.id,
+//                 title: group.title,
+//                 titleIsText: true,
+//                 group: group,
+//                 file: item.file,
+//             };
+//         })
+//         .filter(item => item);
+// }
 
 const mapStateToProps = (state, props) => {
     const { item, menu } = props;
@@ -39,7 +39,6 @@ const mapStateToProps = (state, props) => {
         disabled: false, // TODO
         options: item.options,
         editable: false, // TODO
-        items: item.group ? getSubGroupItems(item) : null,
     };
 };
 

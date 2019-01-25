@@ -1,5 +1,6 @@
 import { createSelector } from 'reselect';
 import { getActiveFiles, getAllTags } from 'selectors/files';
+import { KdbxRepository } from 'api/kdbx-repository';
 
 const getSections = state => state.menu.sections;
 const getItems = state => state.menu.items;
@@ -42,16 +43,12 @@ export const ItemSelectors = {
     groups: createSelector(
         [getActiveFiles],
         activeFiles => {
-            return activeFiles.map(file => {
-                const defaultGroup = file.groups[file.uuid];
-                return {
-                    id: defaultGroup.id,
-                    title: file.name,
-                    titleIsText: true,
-                    group: defaultGroup,
-                    file: file,
-                };
-            });
+            let groups = [];
+            for (const file of activeFiles) {
+                const kdbx = KdbxRepository.get(file.uuid);
+                groups = groups.concat(kdbx.groups);
+            }
+            return groups;
         }
     ),
     files: createSelector(
