@@ -83,11 +83,26 @@
         @include area-selected(right);
       }
 
-      .menu__item>.menu__item>& { padding-left: $base-padding-h * 2; };
-      .menu__item>.menu__item>.menu__item>& { padding-left: $base-padding-h * 3; };
-      .menu__item>.menu__item>.menu__item>.menu__item>& { padding-left: $base-padding-h * 4; };
-      .menu__item>.menu__item>.menu__item>.menu__item>.menu__item>& { padding-left: $base-padding-h * 5; };
-      .menu__item>.menu__item>.menu__item>.menu__item>.menu__item>.menu__item>& { padding-left: $base-padding-h * 6; };
+      .menu__item[data-level="1"]>& { padding-left: $base-padding-h * 2; };
+      .menu__item[data-level="2"]>& { padding-left: $base-padding-h * 3; };
+      .menu__item[data-level="3"]>& { padding-left: $base-padding-h * 4; };
+      .menu__item[data-level="4"]>& { padding-left: $base-padding-h * 5; };
+      .menu__item[data-level="5"]>& { padding-left: $base-padding-h * 6; };
+      .menu__item[data-level="6"]>& { padding-left: $base-padding-h * 6; };
+      .menu__item[data-level="7"]>& { padding-left: $base-padding-h * 6; };
+      .menu__item[data-level="8"]>& { padding-left: $base-padding-h * 6; };
+      .menu__item[data-level="9"]>& { padding-left: $base-padding-h * 6; };
+      .menu__item[data-level="10"]>& { padding-left: $base-padding-h * 6; };
+      .menu__item[data-level="11"]>& { padding-left: $base-padding-h * 6; };
+      .menu__item[data-level="12"]>& { padding-left: $base-padding-h * 6; };
+      .menu__item[data-level="13"]>& { padding-left: $base-padding-h * 6; };
+      .menu__item[data-level="14"]>& { padding-left: $base-padding-h * 6; };
+      .menu__item[data-level="15"]>& { padding-left: $base-padding-h * 6; };
+      .menu__item[data-level="16"]>& { padding-left: $base-padding-h * 6; };
+      .menu__item[data-level="17"]>& { padding-left: $base-padding-h * 6; };
+      .menu__item[data-level="18"]>& { padding-left: $base-padding-h * 6; };
+      .menu__item[data-level="19"]>& { padding-left: $base-padding-h * 6; };
+      .menu__item[data-level="20"]>& { padding-left: $base-padding-h * 6; };
     }
 
     &-options {

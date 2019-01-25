@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { MenuItem } from 'containers/menu/MenuItem';
+import { MenuItem } from 'components/menu/MenuItem';
 import { Scrollable } from 'components/util/Scrollable';
 
-const MenuSection = ({ menu, grow, drag, scrollable, items }) => (
+const MenuSection = ({ locale, menu, grow, drag, scrollable, items, onItemClick }) => (
     <div
         className={`menu__section ${grow ? 'menu__section--grow' : ''} ${
             drag ? 'menu__section--drag' : ''
@@ -11,7 +11,14 @@ const MenuSection = ({ menu, grow, drag, scrollable, items }) => (
     >
         <Scrollable scrollable={scrollable}>
             {items.map(item => (
-                <MenuItem item={item} key={item.id} menu={menu} />
+                <MenuItem
+                    item={item}
+                    menuId={menu.id}
+                    key={item.id}
+                    active={menu.active === item.id}
+                    locale={locale}
+                    onClick={onItemClick}
+                />
             ))}
         </Scrollable>
         {!!drag && (
@@ -23,11 +30,13 @@ const MenuSection = ({ menu, grow, drag, scrollable, items }) => (
 );
 
 MenuSection.propTypes = {
+    locale: PropTypes.object.isRequired,
     menu: PropTypes.object.isRequired,
     items: PropTypes.array.isRequired,
     grow: PropTypes.bool,
     drag: PropTypes.bool,
     scrollable: PropTypes.bool,
+    onItemClick: PropTypes.func.isRequired,
 };
 
 export { MenuSection };

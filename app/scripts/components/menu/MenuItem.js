@@ -2,28 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Res } from 'containers/util/Res';
 
-class MenuItem extends React.Component {
+class MenuItem extends React.PureComponent {
     static propTypes = {
         locale: PropTypes.object.isRequired,
-        title: PropTypes.string.isRequired,
-        titleIsText: PropTypes.bool,
-        icon: PropTypes.string,
-        customIcon: PropTypes.string,
-        cls: PropTypes.string,
-        capitalize: PropTypes.bool,
-        drag: PropTypes.bool,
-        collapsible: PropTypes.bool,
+        item: PropTypes.object.isRequired,
         active: PropTypes.bool,
-        disabled: PropTypes.bool,
-        options: PropTypes.array,
-        editable: PropTypes.bool,
-        button: PropTypes.object,
+        menuId: PropTypes.string.isRequired,
         onClick: PropTypes.func.isRequired,
     };
     state = {};
-    componentDidMount() {
-        // console.log('mount');
-    }
     onMouseOver = e => {
         if (!e.button) {
             e.stopPropagation();
@@ -36,12 +23,11 @@ class MenuItem extends React.Component {
     };
     onClick = e => {
         e.stopPropagation();
-        this.props.onClick();
+        this.props.onClick({ menuId: this.props.menuId, item: this.props.item });
     };
     render() {
-        // console.log('render');
+        const { locale, item, active } = this.props;
         const {
-            locale,
             title,
             titleIsText,
             icon,
@@ -50,12 +36,12 @@ class MenuItem extends React.Component {
             capitalize,
             drag,
             collapsible,
-            active,
             disabled,
             options,
             editable,
             button,
-        } = this.props;
+            nestingLevel,
+        } = item;
         const { hover } = this.state;
         return (
             <div
@@ -67,6 +53,7 @@ class MenuItem extends React.Component {
                 onMouseOver={this.onMouseOver}
                 onMouseOut={this.onMouseOut}
                 onClick={this.onClick}
+                data-level={nestingLevel || 0}
             >
                 {!!collapsible && (
                     <i

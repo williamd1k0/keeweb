@@ -1,8 +1,9 @@
 class Group {
-    constructor(kdbxGroup, db, parent) {
+    constructor(kdbxGroup, db, parent, nestingLevel) {
         this.kdbxGroup = kdbxGroup;
         this.db = db;
         this.parent = parent;
+        this.nestingLevel = nestingLevel;
 
         this.uuid = kdbxGroup.uuid.id;
         this.id = db.subId(this.uuid);

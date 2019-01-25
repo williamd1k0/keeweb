@@ -29,19 +29,21 @@ class Db {
         this.tags = [];
         this.allGroups = [];
         for (const kdbxGroup of kdbxFile.groups) {
-            this.readGroup(kdbxGroup);
+            this.readGroup(kdbxGroup, null, 0);
         }
         this.finalizeRead();
     }
 
-    readGroup(kdbxGroup, parentGroup) {
-        const group = new Group(kdbxGroup, this, parentGroup);
-        this.allGroups.push(group);
+    readGroup(kdbxGroup, parentGroup, nestingLevel) {
+        const group = new Group(kdbxGroup, this, parentGroup, nestingLevel);
+        if (!group.isRecycleBin) {
+            this.allGroups.push(group);
+        }
         for (const kdbxEntry of kdbxGroup.entries) {
             this.readEntry(kdbxEntry, group);
         }
         for (const childGroup of kdbxGroup.groups) {
-            this.readGroup(childGroup, group);
+            this.readGroup(childGroup, group, nestingLevel + 1);
         }
     }
 

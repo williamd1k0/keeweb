@@ -31,7 +31,7 @@ class Open extends React.Component {
         onDrop: PropTypes.func.isRequired,
     };
     state = {
-        password: ''
+        password: '',
     };
     componentDidMount() {
         this.subscriptions = [

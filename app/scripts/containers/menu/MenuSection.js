@@ -1,11 +1,14 @@
 import { connect } from 'react-redux';
 import { MenuSection } from 'components/menu/MenuSection';
 import { ItemSelectors } from 'selectors/menu';
+import { showAlert } from 'logic/ui/alert/show-alert';
+import { setActiveItem } from 'store/menu/set-active-item';
 
 const mapStateToProps = (state, props) => {
     const { section } = props;
     const itemSelector = ItemSelectors[section.itemSelector || 'self'];
     return {
+        locale: state.locale,
         grow: section.grow,
         drag: section.drag,
         scrollable: section.scrollable,
@@ -13,8 +16,16 @@ const mapStateToProps = (state, props) => {
     };
 };
 
-const mapDispatchToProps = () => {
-    return {};
+const mapDispatchToProps = dispatch => {
+    return {
+        onItemClick({ menuId, item }) {
+            if (item.alert) {
+                dispatch(showAlert(item.alert));
+            } else {
+                dispatch(setActiveItem(menuId, item.id));
+            }
+        },
+    };
 };
 
 const MenuSectionContainer = connect(
