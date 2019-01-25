@@ -14,16 +14,12 @@ class Db {
         this.readModel();
     }
 
+    subId(id) {
+        return `${this.id}.${id}`;
+    }
+
     readModel() {
         const kdbxFile = this.kdbxFile;
-
-        this.defaultUser = kdbxFile.meta.defaultUser;
-        this.recycleBinEnabled = kdbxFile.meta.recycleBinEnabled;
-        this.historyMaxItems = kdbxFile.meta.historyMaxItems;
-        this.historyMaxSize = kdbxFile.meta.historyMaxSize;
-        this.keyEncryptionRounds = kdbxFile.header.keyEncryptionRounds;
-        this.keyChangeForce = kdbxFile.meta.keyChangeForce;
-        this.kdfParameters = this.readKdfParams();
 
         this.tagMap = {};
         this.tags = [];
@@ -61,7 +57,31 @@ class Db {
         this.tags = Object.values(this.tagMap);
     }
 
-    readKdfParams() {
+    get defaultUser() {
+        return this.kdbxFile.meta.defaultUser;
+    }
+
+    get recycleBinEnabled() {
+        return this.kdbxFile.meta.recycleBinEnabled;
+    }
+
+    get historyMaxItems() {
+        return this.kdbxFile.meta.historyMaxItems;
+    }
+
+    get historyMaxSize() {
+        return this.kdbxFile.meta.historyMaxSize;
+    }
+
+    get keyEncryptionRounds() {
+        return this.kdbxFile.header.keyEncryptionRounds;
+    }
+
+    get keyChangeForce() {
+        return this.kdbxFile.meta.keyChangeForce;
+    }
+
+    get kdfParameters() {
         const kdfParameters = this.kdbxFile.header.kdfParameters;
         if (!kdfParameters) {
             return undefined;
@@ -79,10 +99,6 @@ class Db {
             iterations: kdfParameters.get('I').valueOf(),
             memory: kdfParameters.get('M').valueOf(),
         };
-    }
-
-    subId(id) {
-        return `${this.id}.${id}`;
     }
 }
 
