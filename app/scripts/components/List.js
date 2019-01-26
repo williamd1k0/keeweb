@@ -8,10 +8,12 @@ class List extends React.Component {
     static propTypes = {
         locale: PropTypes.object.isRequired,
         items: PropTypes.array.isRequired,
+        search: PropTypes.string,
         active: PropTypes.string,
         advanced: PropTypes.object,
         advancedEnabled: PropTypes.bool,
         onItemClick: PropTypes.func.isRequired,
+        onSearchChange: PropTypes.func.isRequired,
         onAdvancedSearchClick: PropTypes.func.isRequired,
         onAdvancedOptionChange: PropTypes.func.isRequired,
     };
@@ -23,11 +25,16 @@ class List extends React.Component {
             value,
         });
     };
+    onInputChange = e => {
+        const value = e.target.value;
+        this.props.onSearchChange({ value });
+    };
     render() {
         const {
             locale,
             items,
             active,
+            search,
             advanced,
             advancedEnabled,
             onItemClick,
@@ -46,6 +53,8 @@ class List extends React.Component {
                                     type="text"
                                     className="list__search-field input-padding-right"
                                     autoComplete="off"
+                                    defaultValue={search || ''}
+                                    onChange={this.onInputChange}
                                 />
                                 <div
                                     className="list__search-icon-search"

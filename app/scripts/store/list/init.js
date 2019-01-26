@@ -1,5 +1,7 @@
 const state = {
     active: '',
+    search: '',
+    sort: 'title',
     advancedEnabled: false,
     advanced: {
         user: true,

@@ -4,10 +4,12 @@ import { getListItems } from 'selectors/list';
 import { setActiveListItem } from 'store/list/set-active-list-item';
 import { toggleAdvancedSearch } from 'store/list/toggle-advanced-search';
 import { setAdvancedSearchOption } from 'store/list/set-advanced-search-option';
+import { setListSearch } from 'store/list/set-list-search';
 
 const mapStateToProps = state => {
     return {
         locale: state.locale,
+        search: state.list.search,
         active: state.list.active,
         advanced: state.list.advanced,
         advancedEnabled: state.list.advancedEnabled,
@@ -19,6 +21,9 @@ const mapDispatchToProps = dispatch => {
     return {
         onItemClick({ item }) {
             dispatch(setActiveListItem(item.id));
+        },
+        onSearchChange({ value }) {
+            dispatch(setListSearch(value));
         },
         onAdvancedSearchClick() {
             dispatch(toggleAdvancedSearch());
