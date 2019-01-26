@@ -65,6 +65,26 @@ class List extends React.Component {
         const value = e.target.value;
         this.props.onSearchChange({ value });
     };
+    onInputKeyDown = e => {
+        switch (e.which) {
+            case Keys.DOM_VK_UP:
+            case Keys.DOM_VK_DOWN:
+                break;
+            case Keys.DOM_VK_RETURN:
+                e.target.blur();
+                break;
+            case Keys.DOM_VK_ESCAPE:
+                if (e.target.value) {
+                    e.target.value = '';
+                    this.props.onSearchChange({ value: '' });
+                }
+                e.target.blur();
+                break;
+            default:
+                return;
+        }
+        e.preventDefault();
+    };
     render() {
         const {
             locale,
@@ -91,8 +111,10 @@ class List extends React.Component {
                                     autoComplete="off"
                                     autoCapitalize="off"
                                     autoCorrect="off"
+                                    spellCheck="false"
                                     defaultValue={search || ''}
                                     onChange={this.onInputChange}
+                                    onKeyDown={this.onInputKeyDown}
                                     ref={node => (this.searchInput = node)}
                                 />
                                 <div
