@@ -3,6 +3,8 @@ import omit from 'lodash/omit';
 import { IconMap } from 'const/icon-map';
 import { Color } from 'util/helpers/color';
 
+const urlRegex = /^https?:\/\//i;
+
 const builtInFields = [
     'Title',
     'Password',
@@ -25,6 +27,7 @@ export function entryToModel(kdbx, kdbxEntry, file, parentUuid, now) {
         password: kdbxEntry.fields.Password || kdbxweb.ProtectedValue.fromString(''),
         notes: getFieldString(kdbxEntry, 'Notes'),
         url: getFieldString(kdbxEntry, 'URL'),
+        displayUrl: getDisplayUrl(getFieldString(kdbxEntry, 'URL')),
         user: getFieldString(kdbxEntry, 'UserName'),
         iconId: kdbxEntry.icon,
         icon: IconMap[kdbxEntry.icon],
@@ -52,6 +55,13 @@ function getFieldString(kdbxEntry, fieldName) {
         return val.getText();
     }
     return val.toString();
+}
+
+function getDisplayUrl(url) {
+    if (!url) {
+        return '';
+    }
+    return url.replace(urlRegex, '');
 }
 
 function colorToModel(color) {

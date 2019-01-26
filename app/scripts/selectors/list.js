@@ -1,6 +1,7 @@
 import { createSelector } from 'reselect';
 import { getActiveFiles } from 'selectors/files';
 import { stringComparator, dateComparator } from 'util/text/comparators';
+import { dtStr } from 'util/text/format';
 
 const getSearch = state => state.list.search;
 const getAdvancedSearch = state => (state.list.advancedEnabled ? state.list.advanced : null);
@@ -8,6 +9,7 @@ const getSort = state => state.list.sort;
 const getFilterKey = state => state.menu.list.filterKey;
 const getFilterValue = state => state.menu.list.filterValue;
 const getExpandGroups = state => state.settings.expandGroups;
+const getLocale = state => state.locale;
 
 const comparators = {
     title: stringComparator('title', true),
@@ -21,6 +23,16 @@ const comparators = {
     updated: dateComparator('updated', true),
     '-updated': dateComparator('updated', false),
     '-attachments': (x, y) => attachmentSortVal(x).localeCompare(attachmentSortVal(y)),
+};
+
+const entryDescriptors = {
+    default: entry => entry.user || entry.notes || entry.displayUrl,
+    website: (entry, locale) => entry.displayUrl || `(${locale.listNoWebsite})`,
+    user: (entry, locale) => entry.user || `(${locale.listNoUser})`,
+    created: (entry, locale) => dtStr(entry.created, locale),
+    updated: (entry, locale) => dtStr(entry.updated, locale),
+    attachments: (entry, locale) =>
+        entry.attachments.map(a => a.title).join(', ') || `(${locale.listNoAttachments})`,
 };
 
 function attachmentSortVal(entry) {
@@ -235,8 +247,8 @@ function matchField(entry, field, compare, search) {
 }
 
 export const getListItems = createSelector(
-    [getActiveFiles, getFilter, getSort],
-    (allFiles, filter, sort) => {
+    [getActiveFiles, getFilter, getSort, getLocale],
+    (allFiles, filter, sort, locale) => {
         const entries = [];
         for (const file of allFiles) {
             addFileEntriesByFilter(file, filter, entries);
@@ -245,10 +257,11 @@ export const getListItems = createSelector(
         if (comparator) {
             entries.sort(comparator);
         }
+        const descriptor = entryDescriptors[sort.replace('-', '')] || entryDescriptors.default;
         return entries.map(entry => ({
             entry,
             id: entry.id,
-            description: 'TODO',
+            description: descriptor(entry, locale),
         }));
     }
 );
