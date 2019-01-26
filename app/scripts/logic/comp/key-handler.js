@@ -48,11 +48,16 @@ const KeyHandler = {
             );
         }
     },
-    onKeyPress: function(modal, handler) {
-        this.keyPressHandlers.push({ modal, handler });
+    onKeyPress: function(handler, thisArg, modal) {
+        this.keyPressHandlers.push({ handler, thisArg, modal });
+        return () => {
+            KeyHandler.offKeyPress(handler, thisArg);
+        };
     },
-    offKeyPress: function(modal, handler) {
-        this.keyPressHandlers = this.keyPressHandlers.filter(kp => kp.handler !== handler);
+    offKeyPress: function(handler, thisArg) {
+        this.keyPressHandlers = this.keyPressHandlers.filter(
+            kp => kp.handler !== handler || kp.thisArg !== thisArg
+        );
     },
     setModal: function(modal) {
         this.modalStack.push(modal);
@@ -123,7 +128,7 @@ const KeyHandler = {
                 : null;
             for (const kph of this.keyPressHandlers) {
                 if (!modal || modal === kph.modal) {
-                    kph.handler.call(undefined, e);
+                    kph.handler.call(kph.thisArg, e);
                 }
             }
         }

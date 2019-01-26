@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { Scrollable } from 'components/util/Scrollable';
 import { ListItem } from 'components/ListItem';
 import { Res } from 'containers/util/Res';
+import { KeyHandler } from 'logic/comp/key-handler';
+import { Keys } from 'const/keys';
 
 class List extends React.Component {
     static propTypes = {
@@ -17,6 +19,39 @@ class List extends React.Component {
         onAdvancedSearchClick: PropTypes.func.isRequired,
         onAdvancedOptionChange: PropTypes.func.isRequired,
     };
+    componentDidMount() {
+        this.subscriptions = [
+            KeyHandler.onKey(
+                Keys.DOM_VK_F,
+                this.onFindKeyPressed,
+                this,
+                KeyHandler.SHORTCUT_ACTION
+            ),
+            KeyHandler.onKey(Keys.DOM_VK_DOWN, this.onDownKeyPressed, this),
+            KeyHandler.onKey(Keys.DOM_VK_UP, this.onUpKeyPressed, this),
+            KeyHandler.onKeyPress(this.onDocumentKeyPressed, this),
+        ];
+    }
+    componentWillUnmount() {
+        this.subscriptions.forEach(s => s());
+    }
+    onFindKeyPressed(e) {
+        e.preventDefault();
+        this.searchInput.select().focus();
+    }
+    onDownKeyPressed(e) {
+        e.preventDefault();
+    }
+    onUpKeyPressed(e) {
+        e.preventDefault();
+    }
+    onDocumentKeyPressed(e) {
+        const code = e.charCode;
+        if (!code) {
+            return;
+        }
+        this.searchInput.focus();
+    }
     onAdvancedOptionChange = e => {
         const option = e.target.dataset.id;
         const value = e.target.checked;
@@ -55,6 +90,7 @@ class List extends React.Component {
                                     autoComplete="off"
                                     defaultValue={search || ''}
                                     onChange={this.onInputChange}
+                                    ref={node => (this.searchInput = node)}
                                 />
                                 <div
                                     className="list__search-icon-search"
