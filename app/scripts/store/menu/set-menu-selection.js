@@ -1,7 +1,7 @@
 export const type = 'menu/set-menu-selection';
 
-export function setMenuSelection(menuId, itemId, filterKey, filterValue) {
-    return { type, menuId, itemId, filterKey, filterValue };
+export function setMenuSelection(menuId, itemId, option, filterKey, filterValue) {
+    return { type, menuId, itemId, option, filterKey, filterValue };
 }
 
 export default function reducer(state, action) {
@@ -12,6 +12,7 @@ export default function reducer(state, action) {
     return Object.assign({}, state, {
         [action.menuId]: Object.assign({}, menu, {
             active: action.itemId,
+            activeOption: action.option,
             filterKey: action.filterKey,
             filterValue: action.filterValue,
         }),

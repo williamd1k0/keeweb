@@ -7,6 +7,7 @@ class MenuItem extends React.PureComponent {
         locale: PropTypes.object.isRequired,
         item: PropTypes.object.isRequired,
         active: PropTypes.bool,
+        activeOption: PropTypes.string,
         menuId: PropTypes.string.isRequired,
         onClick: PropTypes.func.isRequired,
     };
@@ -31,7 +32,7 @@ class MenuItem extends React.PureComponent {
         this.props.onClick({ menuId: this.props.menuId, item: this.props.item, option });
     };
     render() {
-        const { locale, item, active } = this.props;
+        const { locale, item, active, activeOption } = this.props;
         const {
             title,
             titleIsLoc,
@@ -54,7 +55,7 @@ class MenuItem extends React.PureComponent {
                     disabled ? 'menu__item--disabled' : ''
                 } ${options && options.length ? 'menu__item--with-options' : ''} ${
                     hover ? 'menu__item--hover' : ''
-                } ${cls || ''}`}
+                } ${options && activeOption ? `${activeOption}-color` : ''} ${cls || ''}`}
                 onMouseOver={this.onMouseOver}
                 onMouseOut={this.onMouseOut}
                 onClick={this.onClick}

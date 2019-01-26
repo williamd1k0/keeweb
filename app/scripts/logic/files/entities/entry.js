@@ -32,7 +32,7 @@ export function entryToModel(kdbx, kdbxEntry, file, parentUuid, now) {
         iconId: kdbxEntry.icon,
         icon: IconMap[kdbxEntry.icon],
         tags: kdbxEntry.tags,
-        tagsLower: kdbxEntry.tags.filter(tag => tag.toLowerCase()),
+        tagsLower: kdbxEntry.tags.map(tag => tag.toLowerCase()),
         color: colorToModel(kdbxEntry.bgColor) || colorToModel(kdbxEntry.fgColor),
         allFields: Object.assign({}, kdbxEntry.fields),
         fields: omit(kdbxEntry.fields, builtInFields),

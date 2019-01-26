@@ -24,7 +24,7 @@ const mapDispatchToProps = dispatch => {
             if (item.alert) {
                 dispatch(showAlert(item.alert));
             } else {
-                dispatch(setMenuSelection(menuId, item.id, filterKey, filterValue));
+                dispatch(setMenuSelection(menuId, item.id, option, filterKey, filterValue));
             }
         },
     };

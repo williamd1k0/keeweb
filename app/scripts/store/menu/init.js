@@ -5,6 +5,7 @@ const state = {
         id: 'list',
         sections: ['all', 'colors', 'tags', 'groups', 'trash'],
         active: 'all',
+        activeOption: undefined,
         filterKey: '*',
         filterValue: undefined,
     },

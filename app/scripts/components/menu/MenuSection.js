@@ -16,6 +16,7 @@ const MenuSection = ({ locale, menu, grow, drag, scrollable, items, onItemClick 
                     menuId={menu.id}
                     key={item.id}
                     active={menu.active === item.id}
+                    activeOption={menu.activeOption}
                     locale={locale}
                     onClick={onItemClick}
                 />
