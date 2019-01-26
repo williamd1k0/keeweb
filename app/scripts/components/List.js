@@ -37,7 +37,8 @@ class List extends React.Component {
     }
     onFindKeyPressed(e) {
         e.preventDefault();
-        this.searchInput.select().focus();
+        this.searchInput.select();
+        this.searchInput.focus();
     }
     onDownKeyPressed(e) {
         e.preventDefault();
