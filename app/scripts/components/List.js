@@ -18,6 +18,7 @@ class List extends React.Component {
         onSearchChange: PropTypes.func.isRequired,
         onAdvancedSearchClick: PropTypes.func.isRequired,
         onAdvancedOptionChange: PropTypes.func.isRequired,
+        onEntrySelectionMoved: PropTypes.func.isRequired,
     };
     componentDidMount() {
         this.subscriptions = [
@@ -42,9 +43,13 @@ class List extends React.Component {
     }
     onDownKeyPressed(e) {
         e.preventDefault();
+        const { items, active } = this.props;
+        this.props.onEntrySelectionMoved({ items, active, diff: 1 });
     }
     onUpKeyPressed(e) {
         e.preventDefault();
+        const { items, active } = this.props;
+        this.props.onEntrySelectionMoved({ items, active, diff: -1 });
     }
     onDocumentKeyPressed(e) {
         const code = e.charCode;

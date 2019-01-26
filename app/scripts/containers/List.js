@@ -31,6 +31,24 @@ const mapDispatchToProps = dispatch => {
         onAdvancedOptionChange({ option, value }) {
             dispatch(setAdvancedSearchOption(option, value));
         },
+        onEntrySelectionMoved({ items, active, diff }) {
+            let activeIx;
+            for (let ix = 0; ix < items.length; ix++) {
+                if (items[ix].id === active) {
+                    activeIx = ix;
+                    break;
+                }
+            }
+            if (activeIx === undefined) {
+                activeIx = diff > 0 ? 0 : items.length - 1;
+            } else {
+                activeIx += diff;
+            }
+            if (activeIx >= 0 && activeIx < items.length) {
+                const activeItem = items[activeIx];
+                dispatch(setActiveListItem(activeItem.id));
+            }
+        },
     };
 };
 
