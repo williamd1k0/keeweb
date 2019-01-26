@@ -25,6 +25,11 @@ class MenuItem extends React.PureComponent {
         e.stopPropagation();
         this.props.onClick({ menuId: this.props.menuId, item: this.props.item });
     };
+    onOptionClick = e => {
+        e.stopPropagation();
+        const option = e.target.dataset.value;
+        this.props.onClick({ menuId: this.props.menuId, item: this.props.item, option });
+    };
     render() {
         const { locale, item, active } = this.props;
         const {
@@ -86,6 +91,7 @@ class MenuItem extends React.PureComponent {
                                     className={`menu__item-option ${option.cls || ''}`}
                                     data-value={`${option.value}`}
                                     key={option.value}
+                                    onClick={this.onOptionClick}
                                 >
                                     {option.title}
                                 </div>

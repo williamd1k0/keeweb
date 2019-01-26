@@ -29,8 +29,11 @@ export function entryToModel(kdbx, kdbxEntry, file, parentUuid, now) {
         iconId: kdbxEntry.icon,
         icon: IconMap[kdbxEntry.icon],
         tags: kdbxEntry.tags,
+        tagsLower: kdbxEntry.tags.filter(tag => tag.toLowerCase()),
         color: colorToModel(kdbxEntry.bgColor) || colorToModel(kdbxEntry.fgColor),
+        allFields: Object.assign({}, kdbxEntry.fields),
         fields: omit(kdbxEntry.fields, builtInFields),
+        searchText: buildSearchText(kdbxEntry),
 
         created: dateToModel(kdbxEntry.times.creationTime),
         updated: dateToModel(kdbxEntry.times.lastModTime),
@@ -57,4 +60,20 @@ function colorToModel(color) {
 
 function dateToModel(dt) {
     return dt ? dt.getTime() : undefined;
+}
+
+function buildSearchText(kdbxEntry) {
+    let text = '';
+    for (const value of Object.values(kdbxEntry.fields)) {
+        if (typeof value === 'string') {
+            text += value.toLowerCase() + '\n';
+        }
+    }
+    for (const tag of kdbxEntry.tags) {
+        text += tag.toLowerCase() + '\n';
+    }
+    for (const attTitle of Object.keys(kdbxEntry.binaries)) {
+        text += attTitle.toLowerCase() + '\n';
+    }
+    return text;
 }

@@ -17,6 +17,10 @@ export function fileToModel(kdbx, oldFile) {
 
         defaultUser: kdbx.meta.defaultUser,
         recycleBinEnabled: kdbx.meta.recycleBinEnabled,
+        recycleBinUuid: kdbx.meta.recycleBinEnabled
+            ? uuidToModel(kdbx.meta.recycleBinUuid)
+            : undefined,
+        entryTemplatesGroup: uuidToModel(kdbx.meta.entryTemplatesGroup),
         historyMaxItems: kdbx.meta.historyMaxItems,
         historyMaxSize: kdbx.meta.historyMaxSize,
         keyEncryptionRounds: kdbx.header.keyEncryptionRounds,
@@ -43,4 +47,8 @@ function readKdfParams(kdbx) {
         iterations: kdfParameters.get('I').valueOf(),
         memory: kdfParameters.get('M').valueOf(),
     };
+}
+
+function uuidToModel(uuid) {
+    return uuid ? uuid.id : undefined;
 }

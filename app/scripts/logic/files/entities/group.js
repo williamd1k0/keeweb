@@ -7,19 +7,24 @@ const ignoredIcons = [KdbxIcons.Folder, KdbxIcons.FolderOpen];
 
 export function groupToModel(kdbx, kdbxGroup, file, parentUuid, nestingLevel) {
     const isRecycleBin = kdbxGroup.uuid.equals(kdbx.meta.recycleBinUuid);
+    const id = `${file.id}.${kdbxGroup.uuid.id}`;
     return {
-        id: `${file.id}.${kdbxGroup.uuid.id}`,
+        id: id,
         uuid: kdbxGroup.uuid.id,
         fileId: file.id,
         parentUuid: parentUuid,
         nestingLevel: nestingLevel,
-        type: 'group',
+        filterKey: 'group',
+        filterValue: id,
 
         groups: kdbxGroup.groups.map(gr => gr.uuid.id),
         entries: kdbxGroup.entries.map(en => en.uuid.id),
 
         expanded: kdbxGroup.expanded !== false,
         isRecycleBin: isRecycleBin,
+        isEntryTemplatesGroup: kdbx.meta.entryTemplatesGroup
+            ? kdbxGroup.uuid.equals(kdbx.meta.entryTemplatesGroup)
+            : false,
         enableSearching: kdbxGroup.enableSearching,
         enableAutoType: kdbxGroup.enableAutoType,
         autoTypeSeq: kdbxGroup.defaultAutoTypeSeq,

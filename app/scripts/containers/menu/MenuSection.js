@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import { MenuSection } from 'components/menu/MenuSection';
 import { ItemSelectors } from 'selectors/menu';
 import { showAlert } from 'logic/ui/alert/show-alert';
-import { setActiveMenuItem } from 'store/menu/set-active-menu-item';
+import { setMenuSelection } from 'store/menu/set-menu-selection';
 
 const mapStateToProps = (state, props) => {
     const { section } = props;
@@ -18,11 +18,13 @@ const mapStateToProps = (state, props) => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onItemClick({ menuId, item }) {
+        onItemClick({ menuId, item, option }) {
+            const filterKey = item.filterKey;
+            const filterValue = option || item.filterValue;
             if (item.alert) {
                 dispatch(showAlert(item.alert));
             } else {
-                dispatch(setActiveMenuItem(menuId, item.id));
+                dispatch(setMenuSelection(menuId, item.id, filterKey, filterValue));
             }
         },
     };
