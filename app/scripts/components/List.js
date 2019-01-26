@@ -89,6 +89,8 @@ class List extends React.Component {
                                     type="text"
                                     className="list__search-field input-padding-right"
                                     autoComplete="off"
+                                    autoCapitalize="off"
+                                    autoCorrect="off"
                                     defaultValue={search || ''}
                                     onChange={this.onInputChange}
                                     ref={node => (this.searchInput = node)}
