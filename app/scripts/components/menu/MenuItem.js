@@ -29,7 +29,7 @@ class MenuItem extends React.PureComponent {
         const { locale, item, active } = this.props;
         const {
             title,
-            titleIsText,
+            titleIsLoc,
             icon,
             customIcon,
             cls,
@@ -73,10 +73,10 @@ class MenuItem extends React.PureComponent {
                         />
                     )}
                     <span className="menu__item-title">
-                        {titleIsText ? (
-                            title
-                        ) : (
+                        {titleIsLoc ? (
                             <Res id={title || 'noTitle'} capitalize={capitalize} />
+                        ) : (
+                            title
                         )}
                     </span>
                     {!!options && options.length > 0 && (

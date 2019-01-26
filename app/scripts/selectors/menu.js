@@ -19,6 +19,7 @@ export const ItemSelectors = {
                     {
                         id: 'noTags',
                         title: 'tags',
+                        titleIsLoc: true,
                         capitalize: true,
                         icon: 'tags',
                         alert: {
@@ -32,7 +33,6 @@ export const ItemSelectors = {
             return tags.map(tag => ({
                 id: `tag#${tag}`,
                 title: tag,
-                titleIsText: true,
                 icon: 'tag',
                 filterKey: 'tag',
                 filterValue: tag,
@@ -55,7 +55,6 @@ export const ItemSelectors = {
             activeFiles.map(file => ({
                 id: file.id,
                 title: file.name,
-                titleIsText: true,
                 icon: 'lock',
                 settingsPage: 'file',
                 fileId: file.id,

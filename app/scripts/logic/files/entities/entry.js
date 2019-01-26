@@ -19,6 +19,7 @@ export function entryToModel(kdbx, kdbxEntry, file, parentUuid) {
         uuid: kdbxEntry.uuid.id,
         fileId: file.id,
         parentUuid: parentUuid,
+
         title: getFieldString(kdbxEntry, 'Title'),
         password: kdbxEntry.fields.Password || kdbxweb.ProtectedValue.fromString(''),
         notes: getFieldString(kdbxEntry, 'Notes'),
@@ -28,6 +29,7 @@ export function entryToModel(kdbx, kdbxEntry, file, parentUuid) {
         tags: kdbxEntry.tags,
         color: colorToModel(kdbxEntry.bgColor) || colorToModel(kdbxEntry.fgColor),
         fields: omit(kdbxEntry.fields, builtInFields),
+
         created: dateToModel(kdbxEntry.times.creationTime),
         updated: dateToModel(kdbxEntry.times.lastModTime),
         expires: kdbxEntry.times.expires ? dateToModel(kdbxEntry.times.expiryTime) : undefined,

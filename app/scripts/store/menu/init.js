@@ -67,12 +67,14 @@ const state = {
         all: {
             id: 'all',
             title: 'menuAllItems',
+            titleIsLoc: true,
             icon: 'th-large',
             filterKey: '*',
         },
         colors: {
             id: 'colors',
             title: 'menuColors',
+            titleIsLoc: true,
             icon: 'bookmark',
             cls: 'menu__item-colors',
             filterKey: 'color',
@@ -86,6 +88,7 @@ const state = {
         trash: {
             id: 'trash',
             title: 'menuTrash',
+            titleIsLoc: true,
             icon: 'trash',
             filterKey: 'trash',
             filterValue: true,
@@ -97,30 +100,35 @@ const state = {
         general: {
             id: 'general',
             title: 'menuSetGeneral',
+            titleIsLoc: true,
             icon: 'cog',
             settingsView: 'general',
         },
         shortcuts: {
             id: 'shortcuts',
             title: 'shortcuts',
+            titleIsLoc: true,
             icon: 'keyboard-o',
             settingsPage: 'shortcuts',
         },
         plugins: {
             id: 'plugins',
             title: 'plugins',
+            titleIsLoc: true,
             icon: 'puzzle-piece',
             settingsPage: 'plugins',
         },
         about: {
             id: 'about',
             title: 'menuSetAbout',
+            titleIsLoc: true,
             icon: 'info',
             settingsPage: 'about',
         },
         help: {
             id: 'help',
             title: 'help',
+            titleIsLoc: true,
             icon: 'question',
             settingsPage: 'help',
         },

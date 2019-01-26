@@ -6,6 +6,7 @@ export function groupToModel(kdbx, kdbxGroup, file, parentUuid, nestingLevel) {
         fileId: file.id,
         parentUuid: parentUuid,
         nestingLevel: nestingLevel,
+        type: 'group',
 
         groups: kdbxGroup.groups.map(gr => gr.uuid.id),
         entries: kdbxGroup.entries.map(en => en.uuid.id),
@@ -16,7 +17,6 @@ export function groupToModel(kdbx, kdbxGroup, file, parentUuid, nestingLevel) {
         enableAutoType: kdbxGroup.enableAutoType,
         autoTypeSeq: kdbxGroup.defaultAutoTypeSeq,
         title: parentUuid ? kdbxGroup.name : file.name,
-        titleIsText: true,
         iconId: kdbxGroup.icon,
         customIconId: kdbxGroup.customIcon ? kdbxGroup.customIcon.toString() : null,
     };

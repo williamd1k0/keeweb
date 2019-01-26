@@ -61,5 +61,5 @@ function processGroup(kdbx, kdbxGroup, oldFile, updatedFile, parentUuid, nesting
 }
 
 function finalize(updatedFile) {
-    console.log(updatedFile);
+    console.log(updatedFile); // eslint-disable-line no-console
 }
