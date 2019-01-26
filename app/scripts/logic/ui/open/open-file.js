@@ -6,13 +6,13 @@ import { setOpenError } from 'store/ui/open/set-open-error';
 import { resetOpenView } from 'store/ui/open/reset-open-view';
 import { getFile } from 'selectors/files';
 import { KdbxRepository } from 'api/kdbx-repository';
-import { Db } from 'api/db';
 import { Storage } from 'storage';
 import { showAlert } from 'logic/ui/alert/show-alert';
 import { setFileProps } from 'store/files/set-file-props';
 import { addLastFile } from 'store/files/add-last-file';
 import { addActiveFile } from 'store/files/add-active-file';
 import { saveLastFiles } from 'logic/files/save-last-files';
+import { updateFileModel } from 'logic/files/update-file-model';
 import { setView } from 'store/ui/set-view';
 
 export function openFile(password) {
@@ -48,6 +48,7 @@ export function openFile(password) {
                 dispatch(addLastFile(file.id));
                 dispatch(saveLastFiles());
                 dispatch(addActiveFile(file.id));
+                dispatch(updateFileModel(file.id));
                 dispatch(setView('list'));
             })
             .catch(err => {
@@ -225,8 +226,7 @@ function openFileWithData(params, callback, file, data, updateCacheOnSuccess) {
             result.fileOpts = Storage[storage].storeOptsToFileOpts(params.opts, file);
         }
         const ts = logger.ts();
-        const kdbxModel = new Db(kdbx, params.id, params.name);
-        KdbxRepository.add(kdbxModel);
+        KdbxRepository.add(uuid, kdbx);
         logger.info(`Read file model in ${logger.ts(ts)}`);
         result = omit(result, ['settings', 'password', 'data', 'keyFileData']);
         callback(null, { file: result });

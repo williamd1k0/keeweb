@@ -1,6 +1,5 @@
 import { createSelector } from 'reselect';
 import { getActiveFiles, getAllTags } from 'selectors/files';
-import { KdbxRepository } from 'api/kdbx-repository';
 
 const getSections = state => state.menu.sections;
 const getItems = state => state.menu.items;
@@ -43,10 +42,9 @@ export const ItemSelectors = {
     groups: createSelector(
         [getActiveFiles],
         activeFiles => {
-            let groups = [];
+            const groups = [];
             for (const file of activeFiles) {
-                const kdbx = KdbxRepository.get(file.uuid);
-                groups = groups.concat(kdbx.allGroups);
+                addFileGroups(groups, file, file.topGroups);
             }
             return groups;
         }
@@ -69,3 +67,13 @@ export const getMenuSections = createSelector(
     [getSectionIdsFromProps, getSections],
     (ids, sections) => ids.map(id => sections[id])
 );
+
+function addFileGroups(result, file, groupIds) {
+    for (const groupUuid of groupIds) {
+        const group = file.groups[groupUuid];
+        if (group && !group.isRecycleBin) {
+            result.push(group);
+            addFileGroups(result, file, group.groups);
+        }
+    }
+}
