@@ -76,7 +76,7 @@ class List extends React.Component {
             case Keys.DOM_VK_ESCAPE:
                 if (e.target.value) {
                     e.target.value = '';
-                    this.props.onSearchChange({ value: '' });
+                    this.onInputChange({ target: e.target });
                 }
                 e.target.blur();
                 break;
