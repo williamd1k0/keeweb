@@ -28,7 +28,7 @@ export function updateFileModel(fileId) {
         // TODO: attachments
 
         dispatch(setFileProps(updatedFile.id, updatedFile));
-        logger.info('Updated in ' + logger.ts(ts), getState());
+        logger.info('Updated in ' + logger.ts(ts));
 
         finalize(updatedFile);
     };
