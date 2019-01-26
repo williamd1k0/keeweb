@@ -9,12 +9,11 @@ class ListItem extends React.Component {
         onClick: PropTypes.func.isRequired,
     };
     shouldComponentUpdate(nextProps) {
-        const { item, active } = this.props;
-        const { item: nextItem, active: nextActive } = nextProps;
-        if (active !== nextActive) {
+        const props = this.props;
+        if (props.active !== nextProps.active) {
             return true;
         }
-        if (item === nextItem || item.entry === nextItem.entry) {
+        if (props.item === nextProps.item || props.item.entry === nextProps.item.entry) {
             return false;
         }
         return true;
