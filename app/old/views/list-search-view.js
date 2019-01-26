@@ -165,7 +165,7 @@ const ListSearchView = Backbone.View.extend({
             searchVal = this.inputEl.val();
         }
         this.renderTemplate({
-            adv: this.advancedSearch,
+            advanced: this.advancedSearch,
             advEnabled: this.advancedSearchEnabled,
         });
         this.inputEl = this.$el.find('.list__search-field');

@@ -6,15 +6,195 @@ import { Res } from 'containers/util/Res';
 
 class List extends React.Component {
     static propTypes = {
+        locale: PropTypes.object.isRequired,
         items: PropTypes.array.isRequired,
         active: PropTypes.string,
+        advanced: PropTypes.object,
+        advancedEnabled: PropTypes.bool,
         onItemClick: PropTypes.func.isRequired,
+        onAdvancedSearchClick: PropTypes.func.isRequired,
+        onAdvancedOptionChange: PropTypes.func.isRequired,
+    };
+    onAdvancedOptionChange = e => {
+        const option = e.target.dataset.id;
+        const value = e.target.checked;
+        this.props.onAdvancedOptionChange({
+            option,
+            value,
+        });
     };
     render() {
-        const { items, active, onItemClick } = this.props;
+        const {
+            locale,
+            items,
+            active,
+            advanced,
+            advancedEnabled,
+            onItemClick,
+            onAdvancedSearchClick,
+        } = this.props;
         return (
             <div className="list">
-                <div className="list__header" />
+                <div className="list__header">
+                    <div className="list__search">
+                        <div className="list__search-header">
+                            <div className="list__search-btn-menu">
+                                <i className="fa fa-bars" />
+                            </div>
+                            <div className="list__search-field-wrap">
+                                <input
+                                    type="text"
+                                    className="list__search-field input-padding-right"
+                                    autoComplete="off"
+                                />
+                                <div
+                                    className="list__search-icon-search"
+                                    title={locale.searchAdvTitle}
+                                    onClick={onAdvancedSearchClick}
+                                >
+                                    <i className="fa fa-search" />
+                                    <i className="fa fa-caret-down" />
+                                </div>
+                            </div>
+                            <div className="list__search-btn-new" title={locale.searchAddNew}>
+                                <i className="fa fa-plus" />
+                            </div>
+                            <div className="list__search-btn-sort" title={locale.searchSort}>
+                                <i className="fa fa-sort-alpha-asc" />
+                            </div>
+                            {!!advancedEnabled && (
+                                <div className="list__search-adv">
+                                    <div className="list__search-adv-text">
+                                        <Res id="searchSearchIn" />:
+                                    </div>
+                                    <div className="list__search-check">
+                                        <input
+                                            type="checkbox"
+                                            id="list__searcn-adv-check-user"
+                                            data-id="user"
+                                            defaultChecked={advanced.user}
+                                            onChange={this.onAdvancedOptionChange}
+                                        />
+                                        <label htmlFor="list__searcn-adv-check-user">
+                                            <Res id="user" capitalize={true} />
+                                        </label>
+                                    </div>
+                                    <div className="list__search-check">
+                                        <input
+                                            type="checkbox"
+                                            id="list__search-adv-check-other"
+                                            data-id="other"
+                                            defaultChecked={advanced.other}
+                                            onChange={this.onAdvancedOptionChange}
+                                        />
+                                        <label htmlFor="list__search-adv-check-other">
+                                            <Res id="searchOther" />
+                                        </label>
+                                    </div>
+                                    <div className="list__search-check">
+                                        <input
+                                            type="checkbox"
+                                            id="list__search-adv-check-website"
+                                            data-id="url"
+                                            defaultChecked={advanced.url}
+                                            onChange={this.onAdvancedOptionChange}
+                                        />
+                                        <label htmlFor="list__search-adv-check-website">
+                                            <Res id="website" capitalize={true} />
+                                        </label>
+                                    </div>
+                                    <div className="list__search-check">
+                                        <input
+                                            type="checkbox"
+                                            id="list__search-adv-check-protect"
+                                            data-id="protect"
+                                            defaultChecked={advanced.protect}
+                                            onChange={this.onAdvancedOptionChange}
+                                        />
+                                        <label htmlFor="list__search-adv-check-protect">
+                                            <Res id="searchProtect" />
+                                        </label>
+                                    </div>
+                                    <div className="list__search-check">
+                                        <input
+                                            type="checkbox"
+                                            id="list__search-adv-check-notes"
+                                            data-id="notes"
+                                            defaultChecked={advanced.notes}
+                                            onChange={this.onAdvancedOptionChange}
+                                        />
+                                        <label htmlFor="list__search-adv-check-notes">
+                                            <Res id="notes" capitalize={true} />
+                                        </label>
+                                    </div>
+                                    <div className="list__search-check">
+                                        <input
+                                            type="checkbox"
+                                            id="list__search-adv-check-pass"
+                                            data-id="pass"
+                                            defaultChecked={advanced.pass}
+                                            onChange={this.onAdvancedOptionChange}
+                                        />
+                                        <label htmlFor="list__search-adv-check-pass">
+                                            <Res id="password" capitalize={true} />
+                                        </label>
+                                    </div>
+                                    <div className="list__search-check">
+                                        <input
+                                            type="checkbox"
+                                            id="list__search-adv-check-title"
+                                            data-id="title"
+                                            defaultChecked={advanced.title}
+                                            onChange={this.onAdvancedOptionChange}
+                                        />
+                                        <label htmlFor="list__search-adv-check-title">
+                                            <Res id="title" capitalize={true} />
+                                        </label>
+                                    </div>
+                                    <div className="list__search-adv-text">
+                                        <Res id="searchOptions" />:
+                                    </div>
+                                    <div className="list__search-check">
+                                        <input
+                                            type="checkbox"
+                                            id="list__search-adv-check-cs"
+                                            data-id="cs"
+                                            defaultChecked={advanced.cs}
+                                            onChange={this.onAdvancedOptionChange}
+                                        />
+                                        <label htmlFor="list__search-adv-check-cs">
+                                            <Res id="searchCase" />
+                                        </label>
+                                    </div>
+                                    <div className="list__search-check">
+                                        <input
+                                            type="checkbox"
+                                            id="list__search-adv-check-regex"
+                                            data-id="regex"
+                                            checked={advanced.regex}
+                                            onChange={this.onAdvancedOptionChange}
+                                        />
+                                        <label htmlFor="list__search-adv-check-regex">
+                                            <Res id="searchRegex" />
+                                        </label>
+                                    </div>
+                                    <div className="list__search-check">
+                                        <input
+                                            type="checkbox"
+                                            id="list__search-adv-check-history"
+                                            data-id="history"
+                                            defaultChecked={advanced.history}
+                                            onChange={this.onAdvancedOptionChange}
+                                        />
+                                        <label htmlFor="list__search-adv-check-history">
+                                            <Res id="history" capitalize={true} />
+                                        </label>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                </div>
                 <div className="list__items">
                     {items.length ? (
                         <Scrollable scrollable={true}>
