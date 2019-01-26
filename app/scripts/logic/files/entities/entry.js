@@ -1,5 +1,6 @@
 import kdbxweb from 'kdbxweb';
 import omit from 'lodash/omit';
+import { IconMap } from 'const/icon-map';
 import { Color } from 'util/helpers/color';
 
 const builtInFields = [
@@ -13,7 +14,7 @@ const builtInFields = [
     '_etm_template_uuid',
 ];
 
-export function entryToModel(kdbx, kdbxEntry, file, parentUuid) {
+export function entryToModel(kdbx, kdbxEntry, file, parentUuid, now) {
     return {
         id: `${file.id}.${kdbxEntry.uuid.id}`,
         uuid: kdbxEntry.uuid.id,
@@ -26,6 +27,7 @@ export function entryToModel(kdbx, kdbxEntry, file, parentUuid) {
         url: getFieldString(kdbxEntry, 'URL'),
         user: getFieldString(kdbxEntry, 'UserName'),
         iconId: kdbxEntry.icon,
+        icon: IconMap[kdbxEntry.icon],
         tags: kdbxEntry.tags,
         color: colorToModel(kdbxEntry.bgColor) || colorToModel(kdbxEntry.fgColor),
         fields: omit(kdbxEntry.fields, builtInFields),
@@ -33,6 +35,7 @@ export function entryToModel(kdbx, kdbxEntry, file, parentUuid) {
         created: dateToModel(kdbxEntry.times.creationTime),
         updated: dateToModel(kdbxEntry.times.lastModTime),
         expires: kdbxEntry.times.expires ? dateToModel(kdbxEntry.times.expiryTime) : undefined,
+        expired: kdbxEntry.times.expires && kdbxEntry.times.expiryTime <= now,
         historyLength: kdbxEntry.history.length,
     };
 }

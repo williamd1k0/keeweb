@@ -1,6 +1,6 @@
-export const type = 'menu/set-active-item';
+export const type = 'menu/set-active-menu-item';
 
-export function setActiveItem(menuId, itemId) {
+export function setActiveMenuItem(menuId, itemId) {
     return { type, menuId, itemId };
 }
 

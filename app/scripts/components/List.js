@@ -7,9 +7,11 @@ import { Res } from 'containers/util/Res';
 class List extends React.Component {
     static propTypes = {
         items: PropTypes.array.isRequired,
+        active: PropTypes.string,
+        onItemClick: PropTypes.func.isRequired,
     };
     render() {
-        const { items } = this.props;
+        const { items, active, onItemClick } = this.props;
         return (
             <div className="list">
                 <div className="list__header" />
@@ -17,7 +19,12 @@ class List extends React.Component {
                     {items.length ? (
                         <Scrollable scrollable={true}>
                             {items.map(item => (
-                                <ListItem key={item.id} item={item} />
+                                <ListItem
+                                    key={item.id}
+                                    item={item}
+                                    active={active === item.id}
+                                    onClick={onItemClick}
+                                />
                             ))}
                         </Scrollable>
                     ) : (

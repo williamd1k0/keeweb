@@ -45,7 +45,13 @@ function processGroup(kdbx, kdbxGroup, oldFile, updatedFile, parentUuid, nesting
     updatedFile.groups[groupModel.uuid] = groupModel;
 
     for (const kdbxEntry of kdbxGroup.entries) {
-        const entryModel = entryToModel(kdbx, kdbxEntry, updatedFile, groupModel.uuid);
+        const entryModel = entryToModel(
+            kdbx,
+            kdbxEntry,
+            updatedFile,
+            groupModel.uuid,
+            updatedFile.modelReadDate
+        );
         updatedFile.entries[entryModel.uuid] = entryModel;
         for (const tag of kdbxEntry.tags) {
             const tagLower = tag.toLowerCase();

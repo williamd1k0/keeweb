@@ -5,6 +5,7 @@ export function fileToModel(kdbx, oldFile) {
         id: oldFile.id,
         name: oldFile.name,
         uuid: kdbx.getDefaultGroup().uuid.id,
+        modelReadDate: Date.now(),
 
         groups: {},
         entries: {},
