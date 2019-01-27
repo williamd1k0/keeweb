@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Res } from 'containers/util/Res';
+import { Tooltip } from 'components/util/Tooltip';
 
 class MenuItem extends React.PureComponent {
     static propTypes = {
@@ -62,9 +63,10 @@ class MenuItem extends React.PureComponent {
                 data-level={nestingLevel || 0}
             >
                 {!!collapsible && (
-                    <i
+                    <Tooltip
                         className="menu__item-collapse fa fa-ellipsis-v muted-color"
                         title={locale.menuItemCollapsed}
+                        tagName="i"
                     />
                 )}
                 <div className="menu__item-body" draggable={!!drag}>
@@ -101,10 +103,11 @@ class MenuItem extends React.PureComponent {
                     )}
                     {!!editable && <i className="menu__item-edit fa fa-cog" />}
                     {!!button && (
-                        <i
+                        <Tooltip
                             className={`fa ${button.cls}`}
                             title={locale[button.title]}
-                            tip-placement="right"
+                            tagName="i"
+                            placement="right"
                         />
                     )}
                 </div>

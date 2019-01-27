@@ -5,6 +5,7 @@ import { ListItem } from 'components/ListItem';
 import { Res } from 'containers/util/Res';
 import { KeyHandler } from 'logic/comp/key-handler';
 import { Keys } from 'const/keys';
+import { Tooltip } from 'components/util/Tooltip';
 
 class List extends React.Component {
     static propTypes = {
@@ -137,21 +138,21 @@ class List extends React.Component {
                                     onKeyDown={this.onInputKeyDown}
                                     ref={node => (this.searchInput = node)}
                                 />
-                                <div
+                                <Tooltip
                                     className="list__search-icon-search"
                                     title={locale.searchAdvTitle}
                                     onClick={onAdvancedSearchClick}
                                 >
                                     <i className="fa fa-search" />
                                     <i className="fa fa-caret-down" />
-                                </div>
+                                </Tooltip>
                             </div>
-                            <div className="list__search-btn-new" title={locale.searchAddNew}>
+                            <Tooltip className="list__search-btn-new" title={locale.searchAddNew}>
                                 <i className="fa fa-plus" />
-                            </div>
-                            <div className="list__search-btn-sort" title={locale.searchSort}>
+                            </Tooltip>
+                            <Tooltip className="list__search-btn-sort" title={locale.searchSort}>
                                 <i className="fa fa-sort-alpha-asc" />
-                            </div>
+                            </Tooltip>
                             {!!advancedEnabled && (
                                 <div className="list__search-adv">
                                     <div className="list__search-adv-text">

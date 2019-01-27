@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Res } from 'containers/util/Res';
+import { Tooltip } from 'components/util/Tooltip';
 
 const Footer = ({ locale, files, updateAvailable, onOpenClick, onSettingsClick }) => (
     <div className="app__footer">
@@ -16,11 +17,12 @@ const Footer = ({ locale, files, updateAvailable, onOpenClick, onSettingsClick }
                     <i className={`fa fa-${file.open ? 'unlock' : 'lock'}`} /> {file.name}
                     {!!file.syncing && <i className="fa fa-refresh fa-spin footer__db-sign" />}
                     {!!(!file.syncing && file.syncError) && (
-                        <i
+                        <Tooltip
                             className={`fa ${
                                 file.modified ? 'fa-circle' : 'fa-circle-thin'
                             } footer__db-sign footer__db-sign--error`}
                             title={`${locale.footerSyncError}: ${file.syncError}`}
+                            tagName="i"
                         />
                     )}
                     {!!(!file.syncing && !file.syncError && file.modified) && (
@@ -38,13 +40,13 @@ const Footer = ({ locale, files, updateAvailable, onOpenClick, onSettingsClick }
                     <Res id="footerOpen" />
                 </span>
             </div>
-            <div className="footer__btn footer__btn-help" title={locale.help} tip-placement="top">
+            <Tooltip className="footer__btn footer__btn-help" title={locale.help} placement="top">
                 <i className="fa fa-question" />
-            </div>
-            <div
+            </Tooltip>
+            <Tooltip
                 className="footer__btn footer__btn-settings"
                 title={locale.settings}
-                tip-placement="top"
+                placement="top"
                 onClick={onSettingsClick}
             >
                 {updateAvailable ? (
@@ -52,21 +54,21 @@ const Footer = ({ locale, files, updateAvailable, onOpenClick, onSettingsClick }
                 ) : (
                     <i className="fa fa-cog" />
                 )}
-            </div>
-            <div
+            </Tooltip>
+            <Tooltip
                 className="footer__btn footer__btn-generate"
                 title={locale.footerTitleGen}
-                tip-placement="top"
+                placement="top"
             >
                 <i className="fa fa-bolt" />
-            </div>
-            <div
+            </Tooltip>
+            <Tooltip
                 className="footer__btn footer__btn-lock"
                 title={locale.footerTitleLock}
-                tip-placement="top-left"
+                placement="top-left"
             >
                 <i className="fa fa-sign-out" />
-            </div>
+            </Tooltip>
         </div>
     </div>
 );

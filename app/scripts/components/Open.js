@@ -5,6 +5,7 @@ import { OpenButton } from 'components/OpenButton';
 import { KeyHandler } from 'logic/comp/key-handler';
 import { Keys } from 'const/keys';
 import { Timeouts } from 'const/timeouts';
+import { Tooltip } from 'components/util/Tooltip';
 
 class Open extends React.Component {
     static propTypes = {
@@ -373,7 +374,7 @@ class Open extends React.Component {
                     )}
                     <div className="open__last" key="last">
                         {lastFiles.map(file => (
-                            <div
+                            <Tooltip
                                 className="open__last-item"
                                 key={file.id}
                                 data-id={file.id}
@@ -396,7 +397,7 @@ class Open extends React.Component {
                                         onClick={this.onFileDeleteClick}
                                     />
                                 )}
-                            </div>
+                            </Tooltip>
                         ))}
                     </div>
                 </div>

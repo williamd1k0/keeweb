@@ -2,18 +2,20 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import { Timeouts } from 'const/timeouts';
+import { omit } from 'util/helpers/fn';
 
-// TODO
+const ownProps = ['title', 'tagName', 'fast', 'placement'];
 
 class Tooltip extends React.Component {
     static propTypes = {
         children: PropTypes.node,
-        title: PropTypes.string.isRequired,
+        title: PropTypes.string,
         placement: PropTypes.string,
         fast: PropTypes.bool,
+        tagName: PropTypes.string,
         onMouseEnter: PropTypes.func,
         onMouseLeave: PropTypes.func,
-        onMouseClick: PropTypes.func,
+        onClick: PropTypes.func,
     };
     state = {
         display: false,
@@ -74,6 +76,9 @@ class Tooltip extends React.Component {
         this.setState({ display: false });
     };
     onMouseEnter = e => {
+        if (!this.props.title) {
+            return;
+        }
         if (this.showTimeout) {
             clearTimeout(this.showTimeout);
         }
@@ -83,6 +88,9 @@ class Tooltip extends React.Component {
         }
     };
     onMouseLeave = e => {
+        if (!this.props.title) {
+            return;
+        }
         this.setState({ hideCls: true });
         if (this.showTimeout) {
             clearTimeout(this.showTimeout);
@@ -96,8 +104,8 @@ class Tooltip extends React.Component {
     };
     onClick = e => {
         this.setState({ display: false });
-        if (this.props.onMouseClick) {
-            this.props.onMouseClick(e);
+        if (this.props.onClick) {
+            this.props.onClick(e);
         }
     };
     getAutoPlacement = (rect, tipRect) => {
@@ -128,15 +136,14 @@ class Tooltip extends React.Component {
     render() {
         const { title, children, fast } = this.props;
         const { display, hideCls, position, placement } = this.state;
+        const TagName = this.props.tagName || 'div';
+        const props = omit(this.props, ownProps);
         return (
-            <div
-                {...this.props}
+            <TagName
+                {...props}
                 onMouseEnter={this.onMouseEnter}
                 onMouseLeave={this.onMouseLeave}
                 onClick={this.onClick}
-                title={undefined}
-                placement={undefined}
-                fast={undefined}
                 ref={node => (this.div = node)}
             >
                 {children}
@@ -153,7 +160,7 @@ class Tooltip extends React.Component {
                         </div>,
                         document.body
                     )}
-            </div>
+            </TagName>
         );
     }
 }
