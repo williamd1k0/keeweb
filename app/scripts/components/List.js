@@ -37,15 +37,17 @@ class List extends React.Component {
         this.subscriptions.forEach(s => s());
     }
     componentDidUpdate() {
-        if (this.props.active) {
+        if (this.props.active && this.scrollable) {
             const itemEl = document.getElementById(this.props.active);
             const scroller = this.scrollable.baron.getScroller();
-            const itemRect = itemEl.getBoundingClientRect();
-            const listRect = scroller.getBoundingClientRect();
-            if (itemRect.top < listRect.top) {
-                scroller.scrollTop += itemRect.top - listRect.top;
-            } else if (itemRect.bottom > listRect.bottom) {
-                scroller.scrollTop += itemRect.bottom - listRect.bottom;
+            if (itemEl && scroller) {
+                const itemRect = itemEl.getBoundingClientRect();
+                const listRect = scroller.getBoundingClientRect();
+                if (itemRect.top < listRect.top) {
+                    scroller.scrollTop += itemRect.top - listRect.top;
+                } else if (itemRect.bottom > listRect.bottom) {
+                    scroller.scrollTop += itemRect.bottom - listRect.bottom;
+                }
             }
         }
     }
