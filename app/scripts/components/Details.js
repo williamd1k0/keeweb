@@ -57,7 +57,7 @@ class Details extends React.Component {
                     )}
                 </div>
                 <div className="details__body">
-                    <Scrollable scrollable={true}>
+                    <Scrollable>
                         <div className="details__body-fields" />
                         <div className="details__body-aside" />
                         <div className="details__body-after" />

@@ -9,7 +9,7 @@ const MenuSection = ({ locale, menu, grow, drag, scrollable, items, onItemClick 
             drag ? 'menu__section--drag' : ''
         } ${scrollable ? 'menu__section--scrollable' : ''}`}
     >
-        <Scrollable scrollable={scrollable}>
+        <Scrollable scrollable={!!scrollable}>
             {items.map(item => (
                 <MenuItem
                     item={item}

@@ -288,7 +288,7 @@ class List extends React.Component {
                 </div>
                 <div className="list__items">
                     {items.length ? (
-                        <Scrollable scrollable={true} ref={node => (this.scrollable = node)}>
+                        <Scrollable ref={node => (this.scrollable = node)}>
                             {items.map(item => (
                                 <ListItem
                                     key={item.id}

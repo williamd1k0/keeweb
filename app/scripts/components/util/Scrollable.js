@@ -43,7 +43,7 @@ class Scrollable extends React.Component {
     render() {
         const { scrollable, children } = this.props;
         const { hasScroll } = this.state;
-        return scrollable ? (
+        return scrollable !== false ? (
             <Baron
                 trackCls={`scroller__bar-wrapper ${hasScroll ? '' : 'invisible'}`}
                 barCls="scroller__bar"
