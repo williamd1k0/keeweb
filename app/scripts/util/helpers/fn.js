@@ -22,6 +22,9 @@ export function pick(obj, props) {
 }
 
 export function omit(obj, props) {
+    if (!obj) {
+        return obj;
+    }
     const result = Object.assign({}, obj);
     for (const prop of props) {
         delete result[prop];
