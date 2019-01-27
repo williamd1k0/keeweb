@@ -5,6 +5,7 @@ import { getActiveEntry } from 'selectors/details';
 const mapStateToProps = state => {
     const entry = getActiveEntry(state);
     return {
+        locale: state.locale,
         entry,
     };
 };
