@@ -2,6 +2,7 @@ import kdbxweb from 'kdbxweb';
 import omit from 'lodash/omit';
 import { IconMap } from 'const/icon-map';
 import { Color } from 'util/helpers/color';
+import { toDataUrl } from '../../../util/text/icon-url';
 
 const urlRegex = /^https?:\/\//i;
 
@@ -37,6 +38,8 @@ export function entryToModel(kdbx, kdbxEntry, file, parentUuid, now) {
         allFields: Object.assign({}, kdbxEntry.fields),
         fields: omit(kdbxEntry.fields, builtInFields),
         searchText: buildSearchText(kdbxEntry),
+        customIconId: kdbxEntry.customIcon ? kdbxEntry.customIcon.toString() : null,
+        customIcon: buildCustomIcon(kdbxEntry.customIcon, kdbx),
 
         created: dateToModel(kdbxEntry.times.creationTime),
         updated: dateToModel(kdbxEntry.times.lastModTime),
@@ -86,4 +89,8 @@ function buildSearchText(kdbxEntry) {
         text += attTitle.toLowerCase() + '\n';
     }
     return text;
+}
+
+function buildCustomIcon(customIcon, kdbx) {
+    return customIcon ? toDataUrl(kdbx.meta.customIcons[customIcon]) : null;
 }
