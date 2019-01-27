@@ -2,7 +2,7 @@ import kdbxweb from 'kdbxweb';
 import omit from 'lodash/omit';
 import { IconMap } from 'const/icon-map';
 import { Color } from 'util/helpers/color';
-import { toDataUrl } from '../../../util/text/icon-url';
+import { toDataUrl } from 'util/text/icon-url';
 
 const urlRegex = /^https?:\/\//i;
 

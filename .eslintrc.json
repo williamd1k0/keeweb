@@ -1,5 +1,5 @@
 {
-  "plugins": ["prettier"],
+  "plugins": ["prettier", "import"],
   "extends": [
     "eslint:recommended",
     "plugin:react/recommended",
@@ -45,7 +45,11 @@
         "selector": "ExportDefaultDeclaration",
         "message": "Prefer named exports"
       }
-    ]
+    ],
+    "import/no-relative-parent-imports":  "error",
+    "import/first":  "error",
+    "import/no-namespace":  "error",
+    "import/no-default-export": "error"
   },
   "parserOptions": {
     "sourceType": "module",
