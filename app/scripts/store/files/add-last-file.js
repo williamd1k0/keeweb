@@ -12,5 +12,5 @@ export default function reducer(state, action) {
     last = last.filter(id => id !== action.id);
     last.unshift(action.id);
 
-    return Object.assign({}, state, { last });
+    return { ...state, last };
 }

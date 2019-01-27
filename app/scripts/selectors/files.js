@@ -11,7 +11,7 @@ export const getLastFiles = createSelector(
     (lastFileIds, filesById, storageProviderNames) => {
         return lastFileIds
             .map(id => {
-                const file = Object.assign({}, filesById[id]);
+                const file = { ...filesById[id] };
                 if (file.storage) {
                     if (!storageProviderNames.includes(file.storage)) {
                         return false;

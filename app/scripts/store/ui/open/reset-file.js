@@ -5,5 +5,5 @@ export function resetFile() {
 }
 
 export default function reducer(state) {
-    return Object.assign({}, state, { file: undefined, keyFile: undefined });
+    return { ...state, file: undefined, keyFile: undefined };
 }

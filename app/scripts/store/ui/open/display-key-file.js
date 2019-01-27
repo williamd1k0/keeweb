@@ -5,10 +5,8 @@ export function displayKeyFile(keyFile) {
 }
 
 export default function reducer(state, action) {
-    return Object.assign({}, state, {
-        file: Object.assign({}, state.file, {
-            keyFileName: action.keyFile.name,
-            keyFileData: action.keyFile.data,
-        }),
-    });
+    return {
+        ...state,
+        file: { ...state.file, keyFileName: action.keyFile.name, keyFileData: action.keyFile.data },
+    };
 }

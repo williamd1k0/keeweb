@@ -12,5 +12,5 @@ export default function reducer(state) {
     if (!state || !state.file) {
         return state;
     }
-    return Object.assign({}, state, { file: omit(state.file, keyFileProps) });
+    return { ...state, file: omit(state.file, keyFileProps) };
 }

@@ -5,8 +5,5 @@ export function setLoading(loading) {
 }
 
 export default function reducer(state, action) {
-    return Object.assign({}, state, {
-        busy: !!action.loading,
-        loading: action.loading,
-    });
+    return { ...state, busy: !!action.loading, loading: action.loading };
 }

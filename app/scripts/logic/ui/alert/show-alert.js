@@ -78,10 +78,10 @@ export function showAlert(config) {
     return dispatch => {
         const preset = AlertPresets[config.preset] || AlertPresets.error;
         if (preset) {
-            config = Object.assign({}, preset, config);
+            config = { ...preset, ...config };
         }
         return new Promise(resolve => {
-            config = Object.assign({}, config, { resolve });
+            config = { ...config, resolve };
             return dispatch(setAlert(config));
         });
     };

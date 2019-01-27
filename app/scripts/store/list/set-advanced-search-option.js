@@ -5,9 +5,8 @@ export function setAdvancedSearchOption(option, value) {
 }
 
 export default function reducer(state, action) {
-    return Object.assign({}, state, {
-        advanced: Object.assign({}, state.advanced, {
-            [action.option]: action.value,
-        }),
-    });
+    return {
+        ...state,
+        advanced: { ...state.advanced, [action.option]: action.value },
+    };
 }

@@ -7,5 +7,5 @@ export function setLocale(name, values) {
 }
 
 export default function reducer(state, action) {
-    return Object.assign({}, getDefaultLocale(), { localeName: action.name }, action.values);
+    return { ...getDefaultLocale(), localeName: action.name, ...action.values };
 }

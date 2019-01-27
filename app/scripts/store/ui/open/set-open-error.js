@@ -5,5 +5,5 @@ export function setOpenError(error) {
 }
 
 export default function reducer(state, action) {
-    return Object.assign({}, state, { error: action.error });
+    return { ...state, error: action.error };
 }

@@ -22,7 +22,7 @@ export function updateSettings(values, options = {}) {
 
         const newLocaleForSettings = setLocaleIfRequired();
         if (newLocaleForSettings) {
-            values = Object.assign({}, values, { locale: newLocaleForSettings });
+            values = { ...values, locale: newLocaleForSettings };
         }
 
         dispatch(setSettings(values));

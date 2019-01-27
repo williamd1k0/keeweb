@@ -5,7 +5,8 @@ export function setListSearch(value) {
 }
 
 export default function reducer(state, action) {
-    return Object.assign({}, state, {
+    return {
+        ...state,
         search: action.value,
-    });
+    };
 }

@@ -15,17 +15,18 @@ export default function reducer(state, action) {
     }
     for (let file of action.files) {
         if (!file.id) {
-            file = Object.assign({ id: uuid() }, file);
+            file = { id: uuid(), ...file };
         }
         const alreadyExists = byId[file.id] || last.some(id => isFileEqual(byId[id], file));
         if (!alreadyExists) {
             newFiles[file.id] = file;
         }
     }
-    return Object.assign({}, state, {
-        byId: Object.assign({}, byId, newFiles),
+    return {
+        ...state,
+        byId: { ...byId, ...newFiles },
         last: last.concat(Object.keys(newFiles)),
-    });
+    };
 
     function isFileEqual(x, y) {
         return x.storage === y.storage && x.path === y.path && x.name === y.name;

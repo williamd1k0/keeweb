@@ -19,7 +19,7 @@ const mapStateToProps = state => {
         header: locale[alert.header] || alert.header,
         body: body,
         buttons: (alert.buttons || []).map(button => {
-            return Object.assign({}, button, { title: locale[button.title] || button.title });
+            return { ...button, title: locale[button.title] || button.title };
         }),
         enter: alert.enter,
         esc: alert.esc,

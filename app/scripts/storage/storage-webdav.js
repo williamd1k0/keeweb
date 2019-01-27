@@ -99,13 +99,11 @@ class StorageWebDav extends StorageBase {
         };
         const that = this;
         this._request(
-            Object.assign(
-                {
-                    op: 'Save:stat',
-                    method: 'HEAD',
-                },
-                saveOpts
-            ),
+            {
+                op: 'Save:stat',
+                method: 'HEAD',
+                ...saveOpts,
+            },
             (err, xhr, stat) => {
                 let useTmpPath = this._state.settings.webdavSaveMethod !== 'put';
                 if (err) {
@@ -121,40 +119,32 @@ class StorageWebDav extends StorageBase {
                 }
                 if (useTmpPath) {
                     that._request(
-                        Object.assign(
-                            {
-                                op: 'Save:put',
-                                method: 'PUT',
-                                path: tmpPath,
-                                data: data,
-                                nostat: true,
-                            },
-                            saveOpts
-                        ),
+                        {
+                            op: 'Save:put',
+                            method: 'PUT',
+                            path: tmpPath,
+                            data: data,
+                            nostat: true,
+                            ...saveOpts,
+                        },
                         err => {
                             if (err) {
                                 return cb(err);
                             }
                             that._request(
-                                Object.assign(
-                                    {
-                                        op: 'Save:stat',
-                                        method: 'HEAD',
-                                    },
-                                    saveOpts
-                                ),
+                                {
+                                    op: 'Save:stat',
+                                    method: 'HEAD',
+                                    ...saveOpts,
+                                },
                                 (err, xhr, stat) => {
                                     if (err) {
-                                        that._request(
-                                            Object.assign(
-                                                {
-                                                    op: 'Save:delete',
-                                                    method: 'DELETE',
-                                                    path: tmpPath,
-                                                },
-                                                saveOpts
-                                            )
-                                        );
+                                        that._request({
+                                            op: 'Save:delete',
+                                            method: 'DELETE',
+                                            path: tmpPath,
+                                            ...saveOpts,
+                                        });
                                         return cb(err, xhr, stat);
                                     }
                                     if (stat.rev !== rev) {
@@ -165,16 +155,12 @@ class StorageWebDav extends StorageBase {
                                             stat.rev,
                                             rev
                                         );
-                                        that._request(
-                                            Object.assign(
-                                                {
-                                                    op: 'Save:delete',
-                                                    method: 'DELETE',
-                                                    path: tmpPath,
-                                                },
-                                                saveOpts
-                                            )
-                                        );
+                                        that._request({
+                                            op: 'Save:delete',
+                                            method: 'DELETE',
+                                            path: tmpPath,
+                                            ...saveOpts,
+                                        });
                                         return cb({ revConflict: true }, xhr, stat);
                                     }
                                     let movePath = path;
@@ -189,28 +175,24 @@ class StorageWebDav extends StorageBase {
                                         }
                                     }
                                     that._request(
-                                        Object.assign(
-                                            {
-                                                op: 'Save:move',
-                                                method: 'MOVE',
-                                                path: tmpPath,
-                                                nostat: true,
-                                                headers: { Destination: movePath, Overwrite: 'T' },
-                                            },
-                                            saveOpts
-                                        ),
+                                        {
+                                            op: 'Save:move',
+                                            method: 'MOVE',
+                                            path: tmpPath,
+                                            nostat: true,
+                                            headers: { Destination: movePath, Overwrite: 'T' },
+                                            ...saveOpts,
+                                        },
                                         err => {
                                             if (err) {
                                                 return cb(err);
                                             }
                                             that._request(
-                                                Object.assign(
-                                                    {
-                                                        op: 'Save:stat',
-                                                        method: 'HEAD',
-                                                    },
-                                                    saveOpts
-                                                ),
+                                                {
+                                                    op: 'Save:stat',
+                                                    method: 'HEAD',
+                                                    ...saveOpts,
+                                                },
                                                 (err, xhr, stat) => {
                                                     cb(err, xhr, stat);
                                                 }
@@ -223,27 +205,23 @@ class StorageWebDav extends StorageBase {
                     );
                 } else {
                     that._request(
-                        Object.assign(
-                            {
-                                op: 'Save:put',
-                                method: 'PUT',
-                                data: data,
-                                nostat: true,
-                            },
-                            saveOpts
-                        ),
+                        {
+                            op: 'Save:put',
+                            method: 'PUT',
+                            data: data,
+                            nostat: true,
+                            ...saveOpts,
+                        },
                         err => {
                             if (err) {
                                 return cb(err);
                             }
                             that._request(
-                                Object.assign(
-                                    {
-                                        op: 'Save:stat',
-                                        method: 'HEAD',
-                                    },
-                                    saveOpts
-                                ),
+                                {
+                                    op: 'Save:stat',
+                                    method: 'HEAD',
+                                    ...saveOpts,
+                                },
                                 (err, xhr, stat) => {
                                     cb(err, xhr, stat);
                                 }

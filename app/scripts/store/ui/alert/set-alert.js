@@ -10,7 +10,7 @@ export default function reducer(state, action) {
 
 function setAlertInState(state, config) {
     if (state) {
-        return Object.assign({}, state, { next: setAlertInState(state.next, config) });
+        return { ...state, next: setAlertInState(state.next, config) };
     } else {
         return config;
     }

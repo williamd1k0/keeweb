@@ -7,7 +7,7 @@ export function setSettings(values) {
 }
 
 export default function reducer(state, action) {
-    state = Object.assign({}, state, action.values);
+    state = { ...state, ...action.values };
     for (const [key, value] of Object.entries(action.values)) {
         if (value === undefined) {
             const defaultValue = getDefaultSettings()[key];

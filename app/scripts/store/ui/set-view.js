@@ -5,5 +5,5 @@ export function setView(view) {
 }
 
 export default function reducer(state, action) {
-    return Object.assign({}, state, { view: action.view });
+    return { ...state, view: action.view };
 }

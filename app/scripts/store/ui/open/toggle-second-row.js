@@ -5,5 +5,5 @@ export function toggleSecondRow() {
 }
 
 export default function reducer(state) {
-    return Object.assign({}, state, { secondRowVisible: !state.secondRowVisible });
+    return { ...state, secondRowVisible: !state.secondRowVisible };
 }

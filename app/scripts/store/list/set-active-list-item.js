@@ -5,7 +5,5 @@ export function setActiveListItem(itemId) {
 }
 
 export default function reducer(state, action) {
-    return Object.assign({}, state, {
-        active: action.itemId,
-    });
+    return { ...state, active: action.itemId };
 }

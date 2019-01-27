@@ -9,12 +9,14 @@ export default function reducer(state, action) {
     if (!menu) {
         return state;
     }
-    return Object.assign({}, state, {
-        [action.menuId]: Object.assign({}, menu, {
+    return {
+        ...state,
+        [action.menuId]: {
+            ...menu,
             active: action.itemId,
             activeOption: action.option,
             filterKey: action.filterKey,
             filterValue: action.filterValue,
-        }),
-    });
+        },
+    };
 }

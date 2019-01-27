@@ -6,5 +6,5 @@ export function toggleView(view, another) {
 
 export default function reducer(state, action) {
     const view = state.view === action.view ? action.another : action.view;
-    return Object.assign({}, state, { view });
+    return { ...state, view };
 }

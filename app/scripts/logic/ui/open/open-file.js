@@ -25,13 +25,11 @@ export function openFile(password) {
         if (!file) {
             return;
         }
-        const params = Object.assign(
-            {
-                settings: { rememberKeyFiles: state.settings.rememberKeyFiles },
-                password,
-            },
-            file
-        );
+        const params = {
+            settings: { rememberKeyFiles: state.settings.rememberKeyFiles },
+            password,
+            ...file,
+        };
         dispatch(setLoading('file'));
         return new Promise((resolve, reject) => {
             openFileInternal(params, state, (err, res) => {
@@ -215,12 +213,14 @@ function openFileWithData(params, callback, file, data, updateCacheOnSuccess) {
             logger.info('Save loaded file to cache');
             Storage.cache.save(params.id, null, data);
         }
-        let result = Object.assign({}, params, file, {
+        let result = {
+            ...params,
+            ...file,
             uuid,
             rev: params.rev || (file && file.rev),
             open: true,
             version: 1,
-        });
+        };
         const storage = params.storage;
         if (Storage[storage] && Storage[storage].storeOptsToFileOpts && params.opts) {
             result.fileOpts = Storage[storage].storeOptsToFileOpts(params.opts, file);

@@ -5,7 +5,5 @@ export function toggleAdvancedSearch() {
 }
 
 export default function reducer(state) {
-    return Object.assign({}, state, {
-        advancedEnabled: !state.advancedEnabled,
-    });
+    return { ...state, advancedEnabled: !state.advancedEnabled };
 }

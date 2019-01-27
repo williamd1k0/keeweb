@@ -25,7 +25,7 @@ export function omit(obj, props) {
     if (!obj) {
         return obj;
     }
-    const result = Object.assign({}, obj);
+    const result = { ...obj };
     for (const prop of props) {
         delete result[prop];
     }

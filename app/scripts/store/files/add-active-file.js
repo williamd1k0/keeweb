@@ -10,5 +10,5 @@ export default function reducer(state, action) {
         return state;
     }
     active = active.concat([action.id]);
-    return Object.assign({}, state, { active });
+    return { ...state, active };
 }
