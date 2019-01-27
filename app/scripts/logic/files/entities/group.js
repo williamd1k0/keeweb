@@ -16,6 +16,8 @@ export function groupToModel(kdbx, kdbxGroup, file, parentUuid, nestingLevel) {
         nestingLevel: nestingLevel,
         filterKey: 'group',
         filterValue: id,
+        drag: !!parentUuid,
+        editable: true,
 
         groups: kdbxGroup.groups.map(gr => gr.uuid.id),
         entries: kdbxGroup.entries.map(en => en.uuid.id),
