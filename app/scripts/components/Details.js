@@ -18,10 +18,8 @@ class Details extends React.Component {
         const { title, customIcon, icon, deleted, attachments, color } = entry;
         return (
             <div className="details">
-                <div className="empty-block muted-color">
-                    <div className="details__back-button">
-                        <i className="fa fa-chevron-left" /> <Res id="detBackToList" />
-                    </div>
+                <div className="details__back-button">
+                    <i className="fa fa-chevron-left" /> <Res id="detBackToList" />
                 </div>
                 <div className="details__header">
                     <Tooltip
