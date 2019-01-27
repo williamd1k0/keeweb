@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import { Timeouts } from 'const/timeouts';
 
@@ -7,9 +8,20 @@ import { Timeouts } from 'const/timeouts';
 class Tooltip extends React.Component {
     static propTypes = {
         children: PropTypes.node,
+        title: PropTypes.string.isRequired,
+        placement: PropTypes.string,
+        fast: PropTypes.bool,
         onMouseEnter: PropTypes.func,
         onMouseLeave: PropTypes.func,
         onMouseClick: PropTypes.func,
+    };
+    state = {
+        display: false,
+        hideCls: false,
+        position: {
+            left: '-100vw',
+            top: '-100vh',
+        },
     };
     componentWillUnmount() {
         if (this.showTimeout) {
@@ -19,13 +31,47 @@ class Tooltip extends React.Component {
             clearTimeout(this.hideTimeout);
         }
     }
+    componentDidUpdate() {
+        if (this.state.wantsReposition) {
+            const rect = this.div.getBoundingClientRect();
+            const tipRect = this.tipNode.getBoundingClientRect();
+            const placement = this.props.placement || this.getAutoPlacement(rect, tipRect);
+            let top, left;
+            const offset = 10;
+            const sideOffset = 10;
+            switch (placement) {
+                case 'top':
+                    top = rect.top - tipRect.height - offset;
+                    left = rect.left + rect.width / 2 - tipRect.width / 2;
+                    break;
+                case 'top-left':
+                    top = rect.top - tipRect.height - offset;
+                    left = rect.left + rect.width / 2 - tipRect.width + sideOffset;
+                    break;
+                case 'bottom':
+                    top = rect.bottom + offset;
+                    left = rect.left + rect.width / 2 - tipRect.width / 2;
+                    break;
+                case 'left':
+                    top = rect.top + rect.height / 2 - tipRect.height / 2;
+                    left = rect.left - tipRect.width - offset;
+                    break;
+                case 'right':
+                    top = rect.top + rect.height / 2 - tipRect.height / 2;
+                    left = rect.right + offset;
+                    break;
+            }
+            const position = { top, left };
+            this.setState({ wantsReposition: false, placement, position });
+        }
+    }
     show = () => {
         this.showTimeout = null;
-        this.setState({ visible: true, hideCls: false });
+        this.setState({ display: true, hideCls: false, wantsReposition: true });
     };
     hide = () => {
         this.hideTimeout = null;
-        this.setState({ visible: false });
+        this.setState({ display: false });
     };
     onMouseEnter = e => {
         if (this.showTimeout) {
@@ -49,7 +95,7 @@ class Tooltip extends React.Component {
         }
     };
     onClick = e => {
-        this.setState({ visible: false });
+        this.setState({ display: false });
         if (this.props.onMouseClick) {
             this.props.onMouseClick(e);
         }
@@ -80,17 +126,33 @@ class Tooltip extends React.Component {
         }
     };
     render() {
+        const { title, children, fast } = this.props;
+        const { display, hideCls, position, placement } = this.state;
         return (
             <div
                 {...this.props}
                 onMouseEnter={this.onMouseEnter}
                 onMouseLeave={this.onMouseLeave}
                 onClick={this.onClick}
+                title={undefined}
+                placement={undefined}
+                fast={undefined}
+                ref={node => (this.div = node)}
             >
-                {this.props.children}
-                {this.state.visible && (
-                    <div className={`tip ${this.state.hideCls ? 'tip--hide' : ''}`}>TIP</div>
-                )}
+                {children}
+                {display &&
+                    ReactDOM.createPortal(
+                        <div
+                            className={`tip ${hideCls ? 'tip--hide' : ''} ${
+                                placement ? `tip--${placement}` : ''
+                            } ${fast ? 'tip--fast' : ''}`}
+                            style={position}
+                            ref={node => (this.tipNode = node)}
+                        >
+                            {title}
+                        </div>,
+                        document.body
+                    )}
             </div>
         );
     }

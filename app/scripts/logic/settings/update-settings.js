@@ -72,12 +72,19 @@ export function updateSettings(values, options = {}) {
             return language;
         }
 
-        function updateThemeMetaTag() {
+        function updateThemeMetaTag(theme) {
             const metaThemeColor = document.head.querySelector('meta[name=theme-color]');
             if (metaThemeColor) {
                 const el = document.querySelector('.app');
                 metaThemeColor.content = window.getComputedStyle(el).backgroundColor;
             }
+            const prefix = 'th-';
+            for (const cls of document.body.classList) {
+                if (cls.startsWith(prefix)) {
+                    document.body.classList.remove(cls);
+                }
+            }
+            document.body.classList.add(`${prefix}${theme}`);
         }
     };
 }
