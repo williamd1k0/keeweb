@@ -10,6 +10,7 @@ const getFilterKey = state => state.menu.list.filterKey;
 const getFilterValue = state => state.menu.list.filterValue;
 const getExpandGroups = state => state.settings.expandGroups;
 const getLocale = state => state.locale;
+const getActiveItemFromState = state => state.list.active;
 
 const comparators = {
     title: stringComparator('title', true),
@@ -264,5 +265,19 @@ export const getListItems = createSelector(
             id: entry.id,
             description: descriptor(entry, locale),
         }));
+    }
+);
+
+export const getActiveItem = createSelector(
+    [getListItems, getActiveItemFromState],
+    (listItems, activeItem) => {
+        if (!listItems.length) {
+            return undefined;
+        }
+        if (listItems.some(item => item.id === activeItem)) {
+            return activeItem;
+        } else {
+            return listItems[0].id;
+        }
     }
 );

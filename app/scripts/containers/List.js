@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { List } from 'components/List';
-import { getListItems } from 'selectors/list';
+import { getListItems, getActiveItem } from 'selectors/list';
 import { setActiveListItem } from 'store/list/set-active-list-item';
 import { toggleAdvancedSearch } from 'store/list/toggle-advanced-search';
 import { setAdvancedSearchOption } from 'store/list/set-advanced-search-option';
@@ -10,7 +10,7 @@ const mapStateToProps = state => {
     return {
         locale: state.locale,
         search: state.list.search,
-        active: state.list.active,
+        active: getActiveItem(state),
         advanced: state.list.advanced,
         advancedEnabled: state.list.advancedEnabled,
         items: getListItems(state),
