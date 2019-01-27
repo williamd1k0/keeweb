@@ -268,7 +268,7 @@ export const getListItems = createSelector(
     }
 );
 
-export const getActiveItem = createSelector(
+export const getActiveItemId = createSelector(
     [getListItems, getActiveItemFromState],
     (listItems, activeItem) => {
         if (!listItems.length) {
