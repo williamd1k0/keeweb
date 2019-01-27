@@ -29,8 +29,6 @@ export function updateFileModel(fileId) {
 
         dispatch(setFileProps(updatedFile.id, updatedFile));
         logger.info('Updated in ' + logger.ts(ts));
-
-        finalize(updatedFile);
     };
 }
 
@@ -64,8 +62,4 @@ function processGroup(kdbx, kdbxGroup, oldFile, updatedFile, parentUuid, nesting
     for (const childGroup of kdbxGroup.groups) {
         processGroup(kdbx, childGroup, updatedFile, updatedFile, groupModel.uuid, nestingLevel + 1);
     }
-}
-
-function finalize(updatedFile) {
-    console.log(updatedFile); // eslint-disable-line no-console
 }
