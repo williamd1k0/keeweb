@@ -1,5 +1,6 @@
 import React from 'react';
 import { List } from 'containers/List';
+import { Details } from 'containers/Details';
 
 const MainSection = () => (
     <div className="app__list-wrap">
@@ -7,7 +8,9 @@ const MainSection = () => (
             <List />
         </div>
         <div className="app__list-drag" />
-        <div className="app__details" />
+        <div className="app__details">
+            <Details />
+        </div>
     </div>
 );
 
