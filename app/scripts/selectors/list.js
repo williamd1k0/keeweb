@@ -180,6 +180,7 @@ function entryMatchesAdvancedFilter(entry, filter) {
     if (matchEntry(entry, adv, match, search)) {
         return true;
     }
+    // TODO: history
     // if (adv.history) {
     //     for (let i = 0, len = this.entry.history.length; i < len; i++) {
     //         if (this.matchEntry(this.entry.history[0], adv, match, search)) {
