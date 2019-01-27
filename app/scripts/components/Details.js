@@ -18,6 +18,11 @@ class Details extends React.Component {
         const { title, customIcon, icon, deleted, attachments, color } = entry;
         return (
             <div className="details">
+                <div className="empty-block muted-color">
+                    <div className="details__back-button">
+                        <i className="fa fa-chevron-left" /> <Res id="detBackToList" />
+                    </div>
+                </div>
                 <div className="details__header">
                     <Tooltip
                         className={`details__header-color fa fa-bookmark-o ${
@@ -115,9 +120,9 @@ class Details extends React.Component {
     renderEmpty() {
         return (
             <div className="empty-block muted-color">
-                <div className="details__back-button">
-                    <i className="fa fa-chevron-left" /> <Res id="detBackToList" />
-                </div>
+                <h1 className="empty-block__title">
+                    <Res id="detEmpty" />
+                </h1>
             </div>
         );
     }
