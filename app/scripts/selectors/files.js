@@ -80,9 +80,9 @@ export const getFile = createSelector(
 export const getAllTags = createSelector(
     [getActiveFiles],
     activeFiles => {
-        const tags = {};
+        let tags = {};
         for (const file of activeFiles) {
-            Object.assign(tags, file.tagMap);
+            tags = { ...tags, ...file.tagMap };
         }
         return Object.values(tags).sort();
     }

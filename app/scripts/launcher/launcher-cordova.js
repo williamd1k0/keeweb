@@ -261,10 +261,11 @@ if (global.cordova) {
                         return;
                     }
 
-                    const encryptConfig = Object.assign({}, this.config, {
+                    const encryptConfig = {
+                        ...this.config,
                         username: fileId,
                         password: password.getText(),
-                    });
+                    };
 
                     FingerprintAuth.encrypt(encryptConfig, result => {
                         callback(result.token);
@@ -277,10 +278,7 @@ if (global.cordova) {
                     return callback();
                 }
 
-                const decryptConfig = Object.assign({}, this.config, {
-                    username: fileId,
-                    token: token,
-                });
+                const decryptConfig = { ...this.config, username: fileId, token: token };
 
                 FingerprintAuth.decrypt(decryptConfig, result => {
                     callback(result.password);

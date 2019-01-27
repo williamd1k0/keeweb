@@ -19,9 +19,11 @@ const ThirdPartyStorage = {
     onedrive: new StorageOneDrive(),
 };
 
-const Storage = BuiltInStorage;
+let Storage;
 if (!Launcher || Launcher.thirdPartyStoragesSupported) {
-    Object.assign(Storage, ThirdPartyStorage);
+    Storage = { ...BuiltInStorage, ...ThirdPartyStorage };
+} else {
+    Storage = BuiltInStorage;
 }
 
 export function initAllStorageProviders(dispatch, getState) {
