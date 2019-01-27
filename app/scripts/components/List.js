@@ -36,6 +36,19 @@ class List extends React.Component {
     componentWillUnmount() {
         this.subscriptions.forEach(s => s());
     }
+    componentDidUpdate() {
+        if (this.props.active) {
+            const itemEl = document.getElementById(this.props.active);
+            const scroller = this.scrollable.baron.getScroller();
+            const itemRect = itemEl.getBoundingClientRect();
+            const listRect = scroller.getBoundingClientRect();
+            if (itemRect.top < listRect.top) {
+                scroller.scrollTop += itemRect.top - listRect.top;
+            } else if (itemRect.bottom > listRect.bottom) {
+                scroller.scrollTop += itemRect.bottom - listRect.bottom;
+            }
+        }
+    }
     onFindKeyPressed(e) {
         e.preventDefault();
         this.searchInput.select();
@@ -272,7 +285,7 @@ class List extends React.Component {
                 </div>
                 <div className="list__items">
                     {items.length ? (
-                        <Scrollable scrollable={true}>
+                        <Scrollable scrollable={true} ref={node => (this.scrollable = node)}>
                             {items.map(item => (
                                 <ListItem
                                     key={item.id}
