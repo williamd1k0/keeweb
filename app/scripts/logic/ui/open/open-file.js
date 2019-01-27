@@ -25,6 +25,10 @@ export function openFile(password) {
         if (!file) {
             return;
         }
+        if (state.files.active.includes(file.id)) {
+            dispatch(setView('list'));
+            return Promise.resolve();
+        }
         const params = {
             settings: { rememberKeyFiles: state.settings.rememberKeyFiles },
             password,
