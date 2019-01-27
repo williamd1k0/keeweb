@@ -1,7 +1,7 @@
 import { createStore, applyMiddleware, combineReducers, compose } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import { buildReducer } from 'util/redux/build-reducer';
-import camelCase from 'lodash/camelCase';
+import { camelCase } from 'util/text/case';
 
 const reducers = {};
 

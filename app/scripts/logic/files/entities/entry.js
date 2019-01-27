@@ -1,5 +1,5 @@
 import kdbxweb from 'kdbxweb';
-import omit from 'lodash/omit';
+import { omit } from 'util/helpers/fn';
 import { IconMap } from 'const/icon-map';
 import { Color } from 'util/helpers/color';
 import { toDataUrl } from 'util/text/icon-url';

@@ -1,7 +1,7 @@
 /* eslint-env node */
 
 import { Logger } from 'util/logger';
-import noop from 'lodash/noop';
+import { noop } from 'util/helpers/fn';
 
 let LauncherElectron = undefined;
 

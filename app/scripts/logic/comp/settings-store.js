@@ -1,6 +1,6 @@
 import { Launcher } from 'launcher';
 import { Logger } from 'util/logger';
-import camelCase from 'lodash/camelCase';
+import { camelCase } from 'util/text/case';
 
 const logger = new Logger('settings');
 

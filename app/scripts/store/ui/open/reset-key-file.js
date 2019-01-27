@@ -1,4 +1,4 @@
-import omit from 'lodash/omit';
+import { omit } from 'util/helpers/fn';
 
 const keyFileProps = ['keyFileName', 'keyFileData', 'keyFilePath', 'keyFileHash'];
 

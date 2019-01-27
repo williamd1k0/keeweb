@@ -1,6 +1,6 @@
 import { Launcher } from 'launcher';
 import { Logger } from 'util/logger';
-import noop from 'lodash/noop';
+import { noop } from 'util/helpers/fn';
 
 const logger = new Logger('transport');
 

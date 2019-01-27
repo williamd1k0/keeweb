@@ -1,6 +1,6 @@
 import { SettingsStore } from 'logic/comp/settings-store';
 import { getLastFiles } from 'selectors/files';
-import pick from 'lodash/pick';
+import { pick } from 'util/helpers/fn';
 
 const props = [
     'id',

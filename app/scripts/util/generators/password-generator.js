@@ -1,6 +1,6 @@
 import kdbxweb from 'kdbxweb';
 import { generate as phoneticGenerate } from 'util/generators/phonetic';
-import shuffle from 'lodash/shuffle';
+import { shuffle } from 'util/helpers/fn';
 
 const PasswordGenerator = {
     charRanges: {

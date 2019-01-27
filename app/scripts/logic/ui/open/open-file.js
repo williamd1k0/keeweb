@@ -1,5 +1,5 @@
 import kdbxweb from 'kdbxweb';
-import omit from 'lodash/omit';
+import { omit } from 'util/helpers/fn';
 import { Logger } from 'util/logger';
 import { setLoading } from 'store/ui/open/set-loading';
 import { setOpenError } from 'store/ui/open/set-open-error';
