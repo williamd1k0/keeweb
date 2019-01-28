@@ -17,3 +17,17 @@ export const getActiveEntry = createSelector(
         return file.entries[entryUuid];
     }
 );
+
+export const getActiveGroup = createSelector(
+    [getFilesById, getActiveEntry],
+    (filesById, activeEntry) => {
+        if (!activeEntry) {
+            return undefined;
+        }
+        const file = filesById[activeEntry.fileId];
+        if (!file || !file.groups) {
+            return undefined;
+        }
+        return file.groups[activeEntry.parentUuid];
+    }
+);

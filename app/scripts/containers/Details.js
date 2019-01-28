@@ -1,12 +1,14 @@
 import { connect } from 'react-redux';
 import { Details } from 'components/Details';
-import { getActiveEntry } from 'selectors/details';
+import { getActiveEntry, getActiveGroup } from 'selectors/details';
 
 const mapStateToProps = state => {
     const entry = getActiveEntry(state);
+    const group = getActiveGroup(state);
     return {
         locale: state.locale,
         entry,
+        group,
     };
 };
 

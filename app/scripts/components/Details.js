@@ -4,14 +4,17 @@ import { Colors } from 'const/colors';
 import { Res } from 'containers/util/Res';
 import { Tooltip } from 'components/util/Tooltip';
 import { Scrollable } from 'components/util/Scrollable';
+import { DetailsFields } from 'components/det/DetailsFields';
+import { DetailsAside } from 'components/det/DetailsAside';
 
 class Details extends React.Component {
     static propTypes = {
         locale: PropTypes.object.isRequired,
         entry: PropTypes.object,
+        group: PropTypes.object,
     };
     render() {
-        const { locale, entry } = this.props;
+        const { locale, entry, group } = this.props;
         if (!entry) {
             return this.renderEmpty();
         }
@@ -58,8 +61,8 @@ class Details extends React.Component {
                 </div>
                 <div className="details__body">
                     <Scrollable>
-                        <div className="details__body-fields" />
-                        <div className="details__body-aside" />
+                        <DetailsFields locale={locale} entry={entry} />
+                        <DetailsAside locale={locale} entry={entry} group={group} />
                         <div className="details__body-after" />
                     </Scrollable>
                     <div className="scroller__bar-wrapper">
