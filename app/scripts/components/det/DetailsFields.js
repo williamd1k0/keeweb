@@ -59,6 +59,16 @@ const DetailsFields = ({ locale, entry }) => (
             editable={true}
             value={dtStr(entry.expires, locale)}
         />
+        {Object.entries(entry.fields).map(([field, value]) => (
+            <DetailsField
+                key={field}
+                field={field}
+                locale={locale}
+                title={field}
+                editable={true}
+                value={value}
+            />
+        ))}
     </div>
 );
 

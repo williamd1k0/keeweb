@@ -31,3 +31,13 @@ export const getActiveGroup = createSelector(
         return file.groups[activeEntry.parentUuid];
     }
 );
+
+export const getActiveFile = createSelector(
+    [getFilesById, getActiveEntry],
+    (filesById, activeEntry) => {
+        if (!activeEntry) {
+            return undefined;
+        }
+        return filesById[activeEntry.fileId];
+    }
+);

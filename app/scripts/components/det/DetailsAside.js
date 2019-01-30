@@ -4,8 +4,16 @@ import { DetailsField } from 'components/det/DetailsField';
 import { dtStr } from 'util/text/format';
 import { plural } from 'util/text/plural';
 
-const DetailsAside = ({ locale, entry, group }) => (
+const DetailsAside = ({ locale, entry, group, file }) => (
     <div className="details__body-aside">
+        <DetailsField
+            field="$File"
+            locale={locale}
+            title="file"
+            titleRes={true}
+            titleCapitalize={true}
+            value={file.name}
+        />
         <DetailsField
             field="$Group"
             locale={locale}
@@ -43,6 +51,7 @@ DetailsAside.propTypes = {
     locale: PropTypes.object.isRequired,
     entry: PropTypes.object.isRequired,
     group: PropTypes.object.isRequired,
+    file: PropTypes.object.isRequired,
 };
 
 export { DetailsAside };

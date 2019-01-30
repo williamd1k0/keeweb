@@ -12,9 +12,10 @@ class Details extends React.Component {
         locale: PropTypes.object.isRequired,
         entry: PropTypes.object,
         group: PropTypes.object,
+        file: PropTypes.object,
     };
     render() {
-        const { locale, entry, group } = this.props;
+        const { locale, entry, group, file } = this.props;
         if (!entry) {
             return this.renderEmpty();
         }
@@ -62,7 +63,7 @@ class Details extends React.Component {
                 <div className="details__body">
                     <Scrollable>
                         <DetailsFields locale={locale} entry={entry} />
-                        <DetailsAside locale={locale} entry={entry} group={group} />
+                        <DetailsAside locale={locale} entry={entry} group={group} file={file} />
                         <div className="details__body-after" />
                     </Scrollable>
                     <div className="scroller__bar-wrapper">
