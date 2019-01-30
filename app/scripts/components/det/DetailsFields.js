@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { DetailsField } from 'components/det/DetailsField';
+import { dtStr } from 'util/text/format';
 
 const DetailsFields = ({ locale, entry }) => (
     <div className="details__body-fields">
@@ -56,7 +57,7 @@ const DetailsFields = ({ locale, entry }) => (
             title="detExpires"
             titleRes={true}
             editable={true}
-            value={entry.expires}
+            value={dtStr(entry.expires, locale)}
         />
     </div>
 );

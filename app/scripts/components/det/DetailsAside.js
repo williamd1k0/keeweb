@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { DetailsField } from 'components/det/DetailsField';
+import { dtStr } from 'util/text/format';
+import { plural } from 'util/text/plural';
 
 const DetailsAside = ({ locale, entry, group }) => (
     <div className="details__body-aside">
@@ -17,14 +19,14 @@ const DetailsAside = ({ locale, entry, group }) => (
             locale={locale}
             title="detCreated"
             titleRes={true}
-            value={entry.created}
+            value={dtStr(entry.created, locale)}
         />
         <DetailsField
             field="Updated"
             locale={locale}
             title="detUpdated"
             titleRes={true}
-            value={entry.updated}
+            value={dtStr(entry.updated, locale)}
         />
         <DetailsField
             field="History"
@@ -32,11 +34,7 @@ const DetailsAside = ({ locale, entry, group }) => (
             title="history"
             titleRes={true}
             titleCapitalize={true}
-            value={
-                entry.historyLength +
-                ' ' +
-                (entry.historyLength === 1 ? locale.detHistoryRec : locale.detHistoryRecs)
-            }
+            value={plural(entry.historyLength, locale.detHistoryRec, locale.detHistoryRecs)}
         />
     </div>
 );
