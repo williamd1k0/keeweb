@@ -102,12 +102,14 @@ class Details extends React.Component {
                                     <i className={`fa fa-${attachment.icon}`} /> {attachment.title}
                                 </div>
                             ))}
-                        <div className="details__attachment-add">
-                            <span className="details__attachment-add-title">
-                                <Res id="detDropAttachments" />
-                            </span>{' '}
-                            <i className="fa fa-paperclip" />
-                        </div>
+                        {(!attachments || !attachments.length) && (
+                            <div className="details__attachment-add">
+                                <span className="details__attachment-add-title">
+                                    <Res id="detDropAttachments" />
+                                </span>{' '}
+                                <i className="fa fa-paperclip" />
+                            </div>
+                        )}
                     </div>
                 </div>
                 <div className="details__dropzone">
