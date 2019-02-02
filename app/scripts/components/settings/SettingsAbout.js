@@ -6,9 +6,10 @@ import { Links } from 'const/links';
 class SettingsAbout extends React.Component {
     static propTypes = {
         version: PropTypes.string.isRequired,
+        isDesktop: PropTypes.bool,
     };
     render() {
-        const { version } = this.props;
+        const { version, isDesktop } = this.props;
         return (
             <div>
                 <h1>
@@ -45,16 +46,6 @@ class SettingsAbout extends React.Component {
                 <h3>Libraries</h3>
                 <ul>
                     <li>
-                        <a
-                            href="https://electron.atom.io/"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                        >
-                            electron
-                        </a>
-                        <span className="muted-color">, cross-platform desktop apps framework</span>
-                    </li>
-                    <li>
                         <a href="https://reactjs.org/" target="_blank" rel="noopener noreferrer">
                             react
                         </a>
@@ -70,6 +61,20 @@ class SettingsAbout extends React.Component {
                             , a predictable state container for JavaScript apps
                         </span>
                     </li>
+                    {!!isDesktop && (
+                        <li>
+                            <a
+                                href="https://electron.atom.io/"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                electron
+                            </a>
+                            <span className="muted-color">
+                                , cross-platform desktop apps framework
+                            </span>
+                        </li>
+                    )}
                 </ul>
 
                 <h3>Core components</h3>
