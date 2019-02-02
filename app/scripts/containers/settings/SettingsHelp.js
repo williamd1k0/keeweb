@@ -4,7 +4,6 @@ import { getCreateIssueLink } from 'selectors/settings';
 import { getAppInfo } from 'selectors/env';
 
 const mapStateToProps = state => {
-    console.log(getAppInfo(state));
     return {
         locale: state.locale,
         appInfo: getAppInfo(state),
