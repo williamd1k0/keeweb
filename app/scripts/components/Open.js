@@ -46,7 +46,9 @@ class Open extends React.Component {
     }
     componentWillUnmount() {
         this.subscriptions.forEach(s => s());
-        this.unmounted = true;
+        if (this.showVieualErrorTimeout) {
+            clearTimeout(this.showVieualErrorTimeout);
+        }
     }
     componentDidUpdate() {
         if (this.props.busy) {
@@ -57,10 +59,9 @@ class Open extends React.Component {
         }
         if (this.props.error && this.state.canSetVisualError) {
             this.setState({ visualError: true, canSetVisualError: false });
-            setTimeout(() => {
-                if (!this.unmounted) {
-                    this.setState({ visualError: false });
-                }
+            this.showVieualErrorTimeout = setTimeout(() => {
+                this.setState({ visualError: false });
+                delete this.showVieualErrorTimeout;
             }, Timeouts.InputShake);
             this.passwordInput.select();
         }

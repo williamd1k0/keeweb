@@ -31,6 +31,7 @@ const mapDispatchToProps = dispatch => {
         onAdvancedOptionChange({ option, value }) {
             dispatch(setAdvancedSearchOption(option, value));
         },
+        onSortClick() {},
         onEntrySelectionMoved({ items, active, diff }) {
             let activeIx;
             for (let ix = 0; ix < items.length; ix++) {

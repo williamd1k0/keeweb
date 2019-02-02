@@ -20,6 +20,7 @@ class List extends React.Component {
         onAdvancedSearchClick: PropTypes.func.isRequired,
         onAdvancedOptionChange: PropTypes.func.isRequired,
         onEntrySelectionMoved: PropTypes.func.isRequired,
+        onSortClick: PropTypes.func.isRequired,
     };
     componentDidMount() {
         this.subscriptions = [
@@ -116,6 +117,7 @@ class List extends React.Component {
             advancedEnabled,
             onItemClick,
             onAdvancedSearchClick,
+            onSortClick,
         } = this.props;
         return (
             <div className="list">
@@ -150,7 +152,11 @@ class List extends React.Component {
                             <Tooltip className="list__search-btn-new" title={locale.searchAddNew}>
                                 <i className="fa fa-plus" />
                             </Tooltip>
-                            <Tooltip className="list__search-btn-sort" title={locale.searchSort}>
+                            <Tooltip
+                                className="list__search-btn-sort"
+                                title={locale.searchSort}
+                                onClick={onSortClick}
+                            >
                                 <i className="fa fa-sort-alpha-asc" />
                             </Tooltip>
                             {!!advancedEnabled && (
