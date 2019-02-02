@@ -34,6 +34,12 @@ class Open extends React.Component {
     state = {
         password: '',
     };
+    constructor(props) {
+        super(props);
+        this.fileInput = React.createRef();
+        this.passwordInput = React.createRef();
+        this.dropZone = React.createRef();
+    }
     componentDidMount() {
         this.subscriptions = [
             KeyHandler.onKey(Keys.DOM_VK_TAB, this.onTabKeyPress, this),
@@ -54,8 +60,8 @@ class Open extends React.Component {
         if (this.props.busy) {
             return;
         }
-        if (this.props.file && this.passwordInput) {
-            this.passwordInput.focus();
+        if (this.props.file && this.passwordInput.current) {
+            this.passwordInput.current.focus();
         }
         if (this.props.error && this.state.canSetVisualError) {
             this.setState({ visualError: true, canSetVisualError: false });
@@ -63,7 +69,7 @@ class Open extends React.Component {
                 this.setState({ visualError: false });
                 delete this.showVieualErrorTimeout;
             }, Timeouts.InputShake);
-            this.passwordInput.select();
+            this.passwordInput.current.select();
         }
     }
     onTabKeyPress() {
@@ -80,7 +86,7 @@ class Open extends React.Component {
         }
         const el = document.querySelector('[tabindex]:focus');
         if (el) {
-            if (el === this.passwordInput) {
+            if (el === this.passwordInput.current) {
                 this.onOpenRequest();
             } else {
                 el.click();
@@ -110,8 +116,8 @@ class Open extends React.Component {
         switch (id) {
             case 'open':
             case 'import-xml':
-                this.fileInput.button = id;
-                this.fileInput.click();
+                this.fileInput.current.button = id;
+                this.fileInput.current.click();
                 return;
             default:
                 this.props.onClick({ button: id });
@@ -137,8 +143,8 @@ class Open extends React.Component {
             return;
         }
         if (!this.props.file) {
-            this.fileInput.button = 'open';
-            this.fileInput.click();
+            this.fileInput.current.button = 'open';
+            this.fileInput.current.click();
         }
     };
     onPasswordInputKeyDown = e => {
@@ -168,8 +174,8 @@ class Open extends React.Component {
             return;
         }
         const file = e.target.files[0];
-        const button = this.fileInput.button;
-        this.fileInput.value = null;
+        const button = this.fileInput.current.button;
+        this.fileInput.current.value = null;
         this.props.onFileSelect({ button, file });
     };
     onKeyFileClick = () => {
@@ -179,8 +185,8 @@ class Open extends React.Component {
         if (this.props.file && this.props.file.keyFileName) {
             this.props.onKeyFileDeselect();
         } else {
-            this.fileInput.button = 'keyfile';
-            this.fileInput.click();
+            this.fileInput.current.button = 'keyfile';
+            this.fileInput.current.click();
         }
     };
     onDropboxKeyFileClick = e => {
@@ -194,7 +200,7 @@ class Open extends React.Component {
         if (this.props.busy) {
             return;
         }
-        const password = this.passwordInput.value;
+        const password = this.passwordInput.current.value;
         this.setState({ visualError: false, canSetVisualError: true });
         this.props.onOpenRequest({ password });
     };
@@ -219,7 +225,7 @@ class Open extends React.Component {
         if (!this.props.canOpen || this.props.busy) {
             return;
         }
-        if (e.target === this.dropZone) {
+        if (e.target === this.dropZone.current) {
             this.resetDraggingState();
         }
     };
@@ -280,7 +286,7 @@ class Open extends React.Component {
                 <input
                     type="file"
                     className="open__file-ctrl hide-by-pos"
-                    ref={node => (this.fileInput = node)}
+                    ref={this.fileInput}
                     onChange={this.onFileInputChange}
                 />
                 <div className="open__icons" key="first-row">
@@ -337,7 +343,7 @@ class Open extends React.Component {
                             tabIndex={++ix}
                             value={password}
                             onChange={e => this.setState({ password: e.target.value })}
-                            ref={node => (this.passwordInput = node)}
+                            ref={this.passwordInput}
                         />
                         <div
                             className="open__pass-enter-btn"
@@ -402,7 +408,7 @@ class Open extends React.Component {
                         ))}
                     </div>
                 </div>
-                <div className="open__dropzone" key="dropzone" ref={node => (this.dropZone = node)}>
+                <div className="open__dropzone" key="dropzone" ref={this.dropZone}>
                     <i className="fa fa-lock muted-color open__dropzone-icon" />
                     <h1 className="muted-color open__dropzone-header">
                         <Res id="openDropHere" />

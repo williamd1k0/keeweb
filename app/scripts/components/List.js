@@ -22,6 +22,11 @@ class List extends React.Component {
         onEntrySelectionMoved: PropTypes.func.isRequired,
         onSortClick: PropTypes.func.isRequired,
     };
+    constructor(props) {
+        super(props);
+        this.searchInput = React.createRef();
+        this.scrollable = React.createRef();
+    }
     componentDidMount() {
         this.subscriptions = [
             KeyHandler.onKey(
@@ -39,9 +44,9 @@ class List extends React.Component {
         this.subscriptions.forEach(s => s());
     }
     componentDidUpdate() {
-        if (this.props.active && this.scrollable) {
+        if (this.props.active && this.scrollable.current) {
             const itemEl = document.getElementById(this.props.active);
-            const scroller = this.scrollable.baron.getScroller();
+            const scroller = this.scrollable.current.baron.getScroller();
             if (itemEl && scroller) {
                 const itemRect = itemEl.getBoundingClientRect();
                 const listRect = scroller.getBoundingClientRect();
@@ -55,8 +60,8 @@ class List extends React.Component {
     }
     onFindKeyPressed(e) {
         e.preventDefault();
-        this.searchInput.select();
-        this.searchInput.focus();
+        this.searchInput.current.select();
+        this.searchInput.current.focus();
     }
     onDownKeyPressed(e) {
         e.preventDefault();
@@ -73,7 +78,7 @@ class List extends React.Component {
         if (!code) {
             return;
         }
-        this.searchInput.focus();
+        this.searchInput.current.focus();
     }
     onAdvancedOptionChange = e => {
         const option = e.target.dataset.id;
@@ -138,7 +143,7 @@ class List extends React.Component {
                                     defaultValue={search || ''}
                                     onChange={this.onInputChange}
                                     onKeyDown={this.onInputKeyDown}
-                                    ref={node => (this.searchInput = node)}
+                                    ref={this.searchInput}
                                 />
                                 <Tooltip
                                     className="list__search-icon-search"
@@ -294,7 +299,7 @@ class List extends React.Component {
                 </div>
                 <div className="list__items">
                     {items.length ? (
-                        <Scrollable ref={node => (this.scrollable = node)}>
+                        <Scrollable ref={this.scrollable}>
                             {items.map(item => (
                                 <ListItem
                                     key={item.id}

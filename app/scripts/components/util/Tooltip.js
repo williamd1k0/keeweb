@@ -25,6 +25,11 @@ class Tooltip extends React.Component {
             top: '-100vh',
         },
     };
+    constructor(props) {
+        super(props);
+        this.div = React.createRef();
+        this.tipNode = React.createRef();
+    }
     componentWillUnmount() {
         if (this.showTimeout) {
             clearTimeout(this.showTimeout);
@@ -35,8 +40,8 @@ class Tooltip extends React.Component {
     }
     componentDidUpdate() {
         if (this.state.wantsReposition) {
-            const rect = this.div.getBoundingClientRect();
-            const tipRect = this.tipNode.getBoundingClientRect();
+            const rect = this.div.current.getBoundingClientRect();
+            const tipRect = this.tipNode.current.getBoundingClientRect();
             const placement = this.props.placement || this.getAutoPlacement(rect, tipRect);
             let top, left;
             const offset = 10;
@@ -144,7 +149,7 @@ class Tooltip extends React.Component {
                 onMouseEnter={this.onMouseEnter}
                 onMouseLeave={this.onMouseLeave}
                 onClick={this.onClick}
-                ref={node => (this.div = node)}
+                ref={this.div}
             >
                 {children}
                 {display &&
@@ -154,7 +159,7 @@ class Tooltip extends React.Component {
                                 placement ? `tip--${placement}` : ''
                             } ${fast ? 'tip--fast' : ''}`}
                             style={position}
-                            ref={node => (this.tipNode = node)}
+                            ref={this.tipNode}
                         >
                             {title}
                         </div>,
