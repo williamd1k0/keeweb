@@ -1,5 +1,6 @@
 import { createSelector } from 'reselect';
 import { getActiveFiles } from 'selectors/files';
+import { getAltShortcutSymbol } from 'selectors/env';
 import { stringComparator, dateComparator } from 'util/text/comparators';
 import { capFirst, dtStr } from 'util/text/format';
 
@@ -10,6 +11,7 @@ const getFilterKey = state => state.menu.list.filterKey;
 const getFilterValue = state => state.menu.list.filterValue;
 const getExpandGroups = state => state.settings.expandGroups;
 const getLocale = state => state.locale;
+const getEnv = state => state.env;
 const getActiveItemFromState = state => state.list.active;
 
 const comparators = {
@@ -352,13 +354,19 @@ export const getSortDropdownOptions = createSelector(
 );
 
 export const getAddDropdownOptions = createSelector(
-    [getLocale],
-    locale => {
+    [getLocale, getEnv, getAltShortcutSymbol],
+    (locale, env, altSymbol) => {
         // TODO: templates
-        // TODO: shortcuts description
+        const entryExtraText = env.isMobile ? '' : `(${locale.searchShiftClickOr} ${altSymbol}N)`;
         return [
-            { value: 'entry', icon: 'key', text: `${capFirst(locale.entry)}` },
+            {
+                value: 'entry',
+                icon: 'key',
+                text: `${capFirst(locale.entry)}`,
+                extraText: entryExtraText,
+            },
             { value: 'group', icon: 'folder', text: `${capFirst(locale.group)}` },
+            { value: 'tmpl', icon: 'sticky-note-o', text: `${capFirst(locale.template)}` },
         ];
     }
 );

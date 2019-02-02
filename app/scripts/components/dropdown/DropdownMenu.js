@@ -24,7 +24,12 @@ class DropdownMenu extends React.Component {
                         onClick={this.onClick}
                     >
                         <i className={`fa fa-${option.icon} dropdown__item-icon`} />
-                        <span className="dropdown__item-text">{option.text}</span>
+                        <span className="dropdown__item-text">
+                            {option.text}
+                            {!!option.extraText && (
+                                <span className="muted-color">&nbsp;{option.extraText}</span>
+                            )}
+                        </span>
                     </div>
                 ))}
             </>
