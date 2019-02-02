@@ -53,7 +53,7 @@ export const ItemSelectors = {
         [getActiveFiles],
         activeFiles =>
             activeFiles.map(file => ({
-                id: file.id,
+                id: `file.${file.id}`,
                 title: file.name,
                 icon: 'lock',
                 settingsPage: 'file',

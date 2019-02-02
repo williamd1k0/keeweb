@@ -6,6 +6,7 @@ import { Open } from 'containers/Open';
 import { Alert } from 'containers/Alert';
 import { Menu } from 'containers/menu/Menu';
 import { Dropdown } from 'containers/dropdown/Dropdown';
+import { Settings } from 'containers/settings/Settings';
 import { MenuDrag } from 'components/MenuDrag';
 import { MainSection } from 'components/MainSection';
 
@@ -20,7 +21,7 @@ const App = ({ view, isBeta, alert, menu, theme, fontSize, hasOpenFiles, dropdow
             {menu && <Menu menu={menu} />}
             {menu && <MenuDrag />}
             {view === 'list' && <MainSection />}
-            {view === 'settings' && 'Settings...'}
+            {view === 'settings' && <Settings />}
         </div>
         {hasOpenFiles && <Footer />}
         {!!alert && <Alert />}
