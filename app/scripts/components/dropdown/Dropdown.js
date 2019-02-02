@@ -30,31 +30,50 @@ class Dropdown extends React.Component {
         window.removeEventListener('click', this.onRemove);
         window.removeEventListener('keydown', this.onRemove);
     }
+    componentWillUpdate(nextProps) {
+        if (nextProps.dropdown.id !== this.props.dropdown.id) {
+            this.setState({
+                wantsReposition: true,
+                position: {
+                    left: '-100vw',
+                    top: '-100vh',
+                },
+            });
+        }
+    }
+    componentDidUpdate() {
+        if (this.state.wantsReposition) {
+            this.reposition();
+        }
+    }
     onRemove = () => {
         this.props.onRemove();
     };
     setEl = el => {
         this.el = el;
         if (el && this.state.wantsReposition) {
-            const referencePosition = this.props.dropdown.position;
-            const rect = el.getBoundingClientRect();
-            const position = {};
-            if (referencePosition.left) {
-                position.left = referencePosition.left;
-            } else if (referencePosition.right) {
-                position.left = referencePosition.right - rect.width;
-            }
-            if (referencePosition.top) {
-                position.top = referencePosition.top;
-            } else if (referencePosition.bottom) {
-                position.top = referencePosition.bottom - rect.height;
-            }
-            this.setState({
-                wantsReposition: false,
-                position,
-            });
+            this.reposition();
         }
     };
+    reposition() {
+        const referencePosition = this.props.dropdown.position;
+        const rect = this.el.getBoundingClientRect();
+        const position = {};
+        if (referencePosition.left) {
+            position.left = referencePosition.left;
+        } else if (referencePosition.right) {
+            position.left = referencePosition.right - rect.width;
+        }
+        if (referencePosition.top) {
+            position.top = referencePosition.top;
+        } else if (referencePosition.bottom) {
+            position.top = referencePosition.bottom - rect.height;
+        }
+        this.setState({
+            wantsReposition: false,
+            position,
+        });
+    }
     render() {
         const { position } = this.state;
         const { dropdown } = this.props;

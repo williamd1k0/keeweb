@@ -115,13 +115,15 @@ class List extends React.Component {
         }
         e.preventDefault();
     };
-    onAddClick = () => {
+    onAddClick = e => {
+        e.stopPropagation();
         const btnRect = this.listSearchBtn.current.getBoundingClientRect();
         const listRect = this.listEl.current.getBoundingClientRect();
         const position = { right: listRect.right, top: btnRect.bottom };
         this.props.onAddClick({ position });
     };
-    onSortClick = () => {
+    onSortClick = e => {
+        e.stopPropagation();
         const btnRect = this.listSearchBtn.current.getBoundingClientRect();
         const listRect = this.listEl.current.getBoundingClientRect();
         const position = { right: listRect.right, top: btnRect.bottom };
