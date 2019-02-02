@@ -1,8 +1,15 @@
 import { connect } from 'react-redux';
 import { SettingsHelp } from 'components/settings/SettingsHelp';
+import { getCreateIssueLink } from 'selectors/settings';
+import { getAppInfo } from 'selectors/env';
 
-const mapStateToProps = () => {
-    return {};
+const mapStateToProps = state => {
+    console.log(getAppInfo(state));
+    return {
+        locale: state.locale,
+        appInfo: getAppInfo(state),
+        createIssueLink: getCreateIssueLink(state),
+    };
 };
 
 const mapDispatchToProps = () => {

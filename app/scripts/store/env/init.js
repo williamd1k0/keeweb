@@ -5,13 +5,13 @@ const meta = {
     version: '@@VERSION',
     buildDate: '@@DATE',
     commit: '@@COMMIT',
-    userAgent: navigator.userAgent,
 };
 
 const isDesktop = !!(global.process && global.process.versions && global.process.versions.electron);
 
 const state = {
     meta,
+    userAgent: navigator.userAgent,
     isDesktop: isDesktop,
     isMac: navigator.platform.indexOf('Mac') >= 0,
     isWindows: navigator.platform.indexOf('Win') >= 0,

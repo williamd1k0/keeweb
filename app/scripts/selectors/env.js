@@ -1,6 +1,18 @@
 import { createSelector } from 'reselect';
+import { Launcher } from 'launcher';
 
 const getEnv = state => state.env;
+
+export const getAppInfo = createSelector(
+    [getEnv],
+    env => {
+        return (
+            `KeeWeb v${env.meta.version} (${env.meta.commit}, ${env.meta.buildDate})\n` +
+            `Environment: ${Launcher ? Launcher.name : 'web'}\n` +
+            `User-Agent: ${env.userAgent}`
+        );
+    }
+);
 
 export const getActionShortcutSymbol = createSelector(
     [getEnv],
