@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { preventDefault } from 'util/helpers/fn';
 import { BetaWarning } from 'components/BetaWarning';
 import { Footer } from 'containers/Footer';
 import { Open } from 'containers/Open';
@@ -14,6 +15,7 @@ const App = ({ view, isBeta, alert, menu, theme, fontSize, hasOpenFiles, dropdow
     <div
         className={`app th-${theme}`}
         style={{ fontSize: fontSize ? 12 + fontSize * 2 + 'px' : null }}
+        onContextMenu={preventDefault}
     >
         {!!isBeta && <BetaWarning />}
         <div className="app__body">

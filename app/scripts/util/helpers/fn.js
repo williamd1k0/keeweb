@@ -31,3 +31,7 @@ export function omit(obj, props) {
     }
     return result;
 }
+
+export function preventDefault(e) {
+    e.preventDefault();
+}
