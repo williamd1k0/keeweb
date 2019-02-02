@@ -17,14 +17,14 @@ export const getAppInfo = createSelector(
 export const getActionShortcutSymbol = createSelector(
     [getEnv],
     env => {
-        return env.isMac ? '⌘' : 'ctrl + ';
+        return env.isMac ? '⌘' : 'ctrl+';
     }
 );
 
 export const getAltShortcutSymbol = createSelector(
     [getEnv],
     env => {
-        return env.isMac ? '⌥' : 'alt + ';
+        return env.isMac ? '⌥' : 'alt+';
     }
 );
 
@@ -32,5 +32,12 @@ export const getGlobalShortcutSymbol = createSelector(
     [getEnv],
     env => {
         return env.isMac ? '⌃⌥' : 'shift+alt+';
+    }
+);
+
+export const globalShortcutTextIsLong = createSelector(
+    [getEnv],
+    env => {
+        return !env.isMac;
     }
 );
