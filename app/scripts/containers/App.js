@@ -6,6 +6,7 @@ const mapStateToProps = state => {
     return {
         alert: !!state.uiAlert,
         view: state.ui.view,
+        dropdown: state.ui.dropdown,
         isBeta: state.env.isBeta,
         theme: state.settings.theme,
         fontSize: state.settings.fontSize,

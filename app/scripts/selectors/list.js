@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
 import { getActiveFiles } from 'selectors/files';
 import { stringComparator, dateComparator } from 'util/text/comparators';
-import { dtStr } from 'util/text/format';
+import { capFirst, dtStr } from 'util/text/format';
 
 const getSearch = state => state.list.search;
 const getAdvancedSearch = state => (state.list.advancedEnabled ? state.list.advanced : null);
@@ -279,5 +279,74 @@ export const getActiveItemId = createSelector(
         } else {
             return listItems[0].id;
         }
+    }
+);
+
+export const getSortDropdownOptions = createSelector(
+    [getSort, getLocale],
+    (sort, locale) => {
+        const arrow = '→';
+        return [
+            {
+                value: 'title',
+                icon: 'sort-alpha-asc',
+                text: `${capFirst(locale.title)} ${locale.searchAZ.replace('{}', arrow)}`,
+            },
+            {
+                value: '-title',
+                icon: 'sort-alpha-desc',
+                text: `${capFirst(locale.title)} ${locale.searchZA.replace('{}', arrow)}`,
+            },
+            {
+                value: 'website',
+                icon: 'sort-alpha-asc',
+                text: `${capFirst(locale.website)} ${locale.searchAZ.replace('{}', arrow)}`,
+            },
+            {
+                value: '-website',
+                icon: 'sort-alpha-desc',
+                text: `${capFirst(locale.website)} ${locale.searchZA.replace('{}', arrow)}`,
+            },
+            {
+                value: 'user',
+                icon: 'sort-alpha-asc',
+                text: `${capFirst(locale.user)} ${locale.searchAZ.replace('{}', arrow)}`,
+            },
+            {
+                value: '-user',
+                icon: 'sort-alpha-desc',
+                text: `${capFirst(locale.user)} ${locale.searchZA.replace('{}', arrow)}`,
+            },
+            {
+                value: 'created',
+                icon: 'sort-numeric-asc',
+                text: `${locale.searchCreated} ${locale.searchON.replace('{}', arrow)}`,
+            },
+            {
+                value: '-created',
+                icon: 'sort-numeric-desc',
+                text: `${locale.searchCreated} ${locale.searchNO.replace('{}', arrow)}`,
+            },
+            {
+                value: 'updated',
+                icon: 'sort-numeric-asc',
+                text: `${locale.searchUpdated} ${locale.searchON.replace('{}', arrow)}`,
+            },
+            {
+                value: '-updated',
+                icon: 'sort-numeric-desc',
+                text: `${locale.searchUpdated} ${locale.searchNO.replace('{}', arrow)}`,
+            },
+            {
+                value: '-attachments',
+                icon: 'sort-amount-desc',
+                text: locale.searchAttachments,
+            },
+        ].map(item => {
+            if (item.value === sort) {
+                item.active = true;
+            }
+            return item;
+        });
     }
 );

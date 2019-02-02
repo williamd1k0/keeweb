@@ -2,6 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Res } from 'containers/util/Res';
 
+function itemsEqual(x, y) {
+    return x === y || (x.entry === y.entry && x.description === y.description);
+}
+
 class ListItem extends React.Component {
     static propTypes = {
         item: PropTypes.object.isRequired,
@@ -13,10 +17,7 @@ class ListItem extends React.Component {
         if (props.active !== nextProps.active) {
             return true;
         }
-        if (props.item === nextProps.item || props.item.entry === nextProps.item.entry) {
-            return false;
-        }
-        return true;
+        return !itemsEqual(props.item, nextProps.item);
     }
     onClick = () => {
         this.props.onClick({ item: this.props.item });

@@ -5,6 +5,7 @@ import { setActiveListItem } from 'store/list/set-active-list-item';
 import { toggleAdvancedSearch } from 'store/list/toggle-advanced-search';
 import { setAdvancedSearchOption } from 'store/list/set-advanced-search-option';
 import { setListSearch } from 'store/list/set-list-search';
+import { toggleDropdown } from 'store/ui/toggle-dropdown';
 
 const mapStateToProps = state => {
     return {
@@ -31,7 +32,9 @@ const mapDispatchToProps = dispatch => {
         onAdvancedOptionChange({ option, value }) {
             dispatch(setAdvancedSearchOption(option, value));
         },
-        onSortClick() {},
+        onSortClick({ position }) {
+            dispatch(toggleDropdown({ id: 'list-sort', position }));
+        },
         onEntrySelectionMoved({ items, active, diff }) {
             let activeIx;
             for (let ix = 0; ix < items.length; ix++) {

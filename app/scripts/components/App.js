@@ -5,10 +5,11 @@ import { Footer } from 'containers/Footer';
 import { Open } from 'containers/Open';
 import { Alert } from 'containers/Alert';
 import { Menu } from 'containers/menu/Menu';
+import { Dropdown } from 'containers/dropdown/Dropdown';
 import { MenuDrag } from 'components/MenuDrag';
 import { MainSection } from 'components/MainSection';
 
-const App = ({ view, isBeta, alert, menu, theme, fontSize, hasOpenFiles }) => (
+const App = ({ view, isBeta, alert, menu, theme, fontSize, hasOpenFiles, dropdown }) => (
     <div
         className={`app th-${theme}`}
         style={{ fontSize: fontSize ? 12 + fontSize * 2 + 'px' : null }}
@@ -23,6 +24,7 @@ const App = ({ view, isBeta, alert, menu, theme, fontSize, hasOpenFiles }) => (
         </div>
         {hasOpenFiles && <Footer />}
         {!!alert && <Alert />}
+        {!!dropdown && <Dropdown />}
     </div>
 );
 
@@ -34,6 +36,7 @@ App.propTypes = {
     alert: PropTypes.bool.isRequired,
     hasOpenFiles: PropTypes.bool.isRequired,
     menu: PropTypes.object,
+    dropdown: PropTypes.object,
 };
 
 export { App };

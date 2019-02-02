@@ -1,6 +1,6 @@
 const state = {
     view: '',
-    shortcuts: {},
+    dropdown: undefined,
 };
 
 export default function reducer() {

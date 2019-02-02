@@ -24,8 +24,10 @@ class List extends React.Component {
     };
     constructor(props) {
         super(props);
+        this.listEl = React.createRef();
         this.searchInput = React.createRef();
         this.scrollable = React.createRef();
+        this.listSearchBtn = React.createRef();
     }
     componentDidMount() {
         this.subscriptions = [
@@ -112,6 +114,12 @@ class List extends React.Component {
         }
         e.preventDefault();
     };
+    onSortClick = () => {
+        const btnRect = this.listSearchBtn.current.getBoundingClientRect();
+        const listRect = this.listEl.current.getBoundingClientRect();
+        const position = { right: listRect.right, top: btnRect.bottom };
+        this.props.onSortClick({ position });
+    };
     render() {
         const {
             locale,
@@ -122,10 +130,9 @@ class List extends React.Component {
             advancedEnabled,
             onItemClick,
             onAdvancedSearchClick,
-            onSortClick,
         } = this.props;
         return (
-            <div className="list">
+            <div className="list" ref={this.listEl}>
                 <div className="list__header">
                     <div className="list__search">
                         <div className="list__search-header">
@@ -160,7 +167,8 @@ class List extends React.Component {
                             <Tooltip
                                 className="list__search-btn-sort"
                                 title={locale.searchSort}
-                                onClick={onSortClick}
+                                elRef={this.listSearchBtn}
+                                onClick={this.onSortClick}
                             >
                                 <i className="fa fa-sort-alpha-asc" />
                             </Tooltip>

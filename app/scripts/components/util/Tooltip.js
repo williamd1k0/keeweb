@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Timeouts } from 'const/timeouts';
 import { omit } from 'util/helpers/fn';
 
-const ownProps = ['title', 'tagName', 'fast', 'placement'];
+const ownProps = ['title', 'tagName', 'fast', 'placement', 'elRef'];
 
 class Tooltip extends React.Component {
     static propTypes = {
@@ -16,6 +16,7 @@ class Tooltip extends React.Component {
         onMouseEnter: PropTypes.func,
         onMouseLeave: PropTypes.func,
         onClick: PropTypes.func,
+        elRef: PropTypes.any,
     };
     state = {
         display: false,
@@ -27,7 +28,7 @@ class Tooltip extends React.Component {
     };
     constructor(props) {
         super(props);
-        this.div = React.createRef();
+        this.el = props.elRef || React.createRef();
         this.tipNode = React.createRef();
     }
     componentWillUnmount() {
@@ -40,7 +41,7 @@ class Tooltip extends React.Component {
     }
     componentDidUpdate() {
         if (this.state.wantsReposition) {
-            const rect = this.div.current.getBoundingClientRect();
+            const rect = this.el.current.getBoundingClientRect();
             const tipRect = this.tipNode.current.getBoundingClientRect();
             const placement = this.props.placement || this.getAutoPlacement(rect, tipRect);
             let top, left;
@@ -149,7 +150,7 @@ class Tooltip extends React.Component {
                 onMouseEnter={this.onMouseEnter}
                 onMouseLeave={this.onMouseLeave}
                 onClick={this.onClick}
-                ref={this.div}
+                ref={this.el}
             >
                 {children}
                 {display &&
