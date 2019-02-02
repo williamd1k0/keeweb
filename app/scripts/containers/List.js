@@ -32,6 +32,9 @@ const mapDispatchToProps = dispatch => {
         onAdvancedOptionChange({ option, value }) {
             dispatch(setAdvancedSearchOption(option, value));
         },
+        onAddClick({ position }) {
+            dispatch(toggleDropdown({ id: 'list-add', position }));
+        },
         onSortClick({ position }) {
             dispatch(toggleDropdown({ id: 'list-sort', position }));
         },

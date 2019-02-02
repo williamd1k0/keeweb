@@ -20,6 +20,7 @@ class List extends React.Component {
         onAdvancedSearchClick: PropTypes.func.isRequired,
         onAdvancedOptionChange: PropTypes.func.isRequired,
         onEntrySelectionMoved: PropTypes.func.isRequired,
+        onAddClick: PropTypes.func.isRequired,
         onSortClick: PropTypes.func.isRequired,
     };
     constructor(props) {
@@ -114,6 +115,12 @@ class List extends React.Component {
         }
         e.preventDefault();
     };
+    onAddClick = () => {
+        const btnRect = this.listSearchBtn.current.getBoundingClientRect();
+        const listRect = this.listEl.current.getBoundingClientRect();
+        const position = { right: listRect.right, top: btnRect.bottom };
+        this.props.onAddClick({ position });
+    };
     onSortClick = () => {
         const btnRect = this.listSearchBtn.current.getBoundingClientRect();
         const listRect = this.listEl.current.getBoundingClientRect();
@@ -161,7 +168,11 @@ class List extends React.Component {
                                     <i className="fa fa-caret-down" />
                                 </Tooltip>
                             </div>
-                            <Tooltip className="list__search-btn-new" title={locale.searchAddNew}>
+                            <Tooltip
+                                className="list__search-btn-new"
+                                title={locale.searchAddNew}
+                                onClick={this.onAddClick}
+                            >
                                 <i className="fa fa-plus" />
                             </Tooltip>
                             <Tooltip

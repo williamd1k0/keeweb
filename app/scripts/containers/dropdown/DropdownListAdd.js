@@ -1,24 +1,25 @@
 import { connect } from 'react-redux';
-import { Dropdown } from 'components/dropdown/Dropdown';
+import { DropdownMenu } from 'components/dropdown/DropdownMenu';
+import { getAddDropdownOptions } from 'selectors/list';
 import { toggleDropdown } from 'store/ui/toggle-dropdown';
 
 const mapStateToProps = state => {
     return {
-        dropdown: state.ui.dropdown,
+        options: getAddDropdownOptions(state),
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        onRemove() {
+        onClick() {
             dispatch(toggleDropdown());
         },
     };
 };
 
-const DropdownContainer = connect(
+const DropdownListAddContainer = connect(
     mapStateToProps,
     mapDispatchToProps
-)(Dropdown);
+)(DropdownMenu);
 
-export { DropdownContainer as Dropdown };
+export { DropdownListAddContainer as DropdownListAdd };

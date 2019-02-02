@@ -1,10 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { DropdownListSort } from 'containers/dropdown/DropdownListSort';
+import { DropdownListAdd } from 'containers/dropdown/DropdownListAdd';
 
 class Dropdown extends React.Component {
     static propTypes = {
         dropdown: PropTypes.object.isRequired,
+        onRemove: PropTypes.func.isRequired,
     };
     state = {
         wantsReposition: true,
@@ -16,6 +18,21 @@ class Dropdown extends React.Component {
     constructor(props) {
         super(props);
     }
+    componentDidMount() {
+        setTimeout(() => {
+            window.addEventListener('blur', this.onRemove);
+            window.addEventListener('keydown', this.onRemove);
+            window.addEventListener('click', this.onRemove);
+        }, 0);
+    }
+    componentWillUnmount() {
+        window.removeEventListener('blur', this.onRemove);
+        window.removeEventListener('click', this.onRemove);
+        window.removeEventListener('keydown', this.onRemove);
+    }
+    onRemove = () => {
+        this.props.onRemove();
+    };
     setEl = el => {
         this.el = el;
         if (el && this.state.wantsReposition) {
@@ -44,6 +61,7 @@ class Dropdown extends React.Component {
         return (
             <div className="dropdown" style={position} ref={this.setEl}>
                 {dropdown.id === 'list-sort' && <DropdownListSort />}
+                {dropdown.id === 'list-add' && <DropdownListAdd />}
             </div>
         );
     }

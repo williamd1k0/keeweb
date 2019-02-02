@@ -350,3 +350,15 @@ export const getSortDropdownOptions = createSelector(
         });
     }
 );
+
+export const getAddDropdownOptions = createSelector(
+    [getLocale],
+    locale => {
+        // TODO: templates
+        // TODO: shortcuts description
+        return [
+            { value: 'entry', icon: 'key', text: `${capFirst(locale.entry)}` },
+            { value: 'group', icon: 'folder', text: `${capFirst(locale.group)}` },
+        ];
+    }
+);
