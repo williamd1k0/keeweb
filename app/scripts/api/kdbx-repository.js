@@ -1,20 +1,20 @@
 const repo = {};
 
 const KdbxRepository = {
-    add(uuid, kdbx) {
-        if (!uuid) {
-            throw new Error(`Empty UUID`);
+    add(id, kdbx) {
+        if (!id) {
+            throw new Error(`Empty ID`);
         }
-        if (repo[uuid]) {
-            throw new Error(`Duplicate file with UUID ${uuid}`);
+        if (repo[id]) {
+            throw new Error(`Duplicate file with ID ${id}`);
         }
-        repo[uuid] = kdbx;
+        repo[id] = kdbx;
     },
-    get(uuid) {
-        return repo[uuid];
+    get(id) {
+        return repo[id];
     },
-    remove(uuid) {
-        delete repo[uuid];
+    remove(id) {
+        delete repo[id];
     },
 };
 

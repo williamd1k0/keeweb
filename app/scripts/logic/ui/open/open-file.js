@@ -266,7 +266,7 @@ function openFileWithData(params, callback, file, data, updateCacheOnSuccess) {
             result.fileOpts = Storage[storage].storeOptsToFileOpts(params.opts, file);
         }
         const ts = logger.ts();
-        KdbxRepository.add(uuid, kdbx);
+        KdbxRepository.add(params.id, kdbx);
         logger.info(`Read file model in ${logger.ts(ts)}`);
         result = omit(result, ['settings', 'password', 'data', 'keyFileData']);
         callback(null, { file: result });

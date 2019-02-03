@@ -12,7 +12,7 @@ export function updateFileModel(fileId) {
         if (!file) {
             return;
         }
-        const kdbx = KdbxRepository.get(file.uuid);
+        const kdbx = KdbxRepository.get(fileId);
         if (!kdbx) {
             return;
         }
