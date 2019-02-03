@@ -32,7 +32,8 @@ export function updateSettings(values, options = {}) {
                 updateThemeMetaTag(values.theme);
             }
             if (!options.skipSave) {
-                return SettingsStore.save('app-settings', values);
+                const state = getState();
+                return SettingsStore.save('app-settings', state.settings);
             }
         });
 
