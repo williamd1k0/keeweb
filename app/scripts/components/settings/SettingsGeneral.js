@@ -11,6 +11,8 @@ class SettingsGeneral extends React.Component {
         themes: PropTypes.array.isRequired,
         activeTheme: PropTypes.string.isRequired,
         setTheme: PropTypes.func.isRequired,
+        fontSize: PropTypes.number.isRequired,
+        setFontSize: PropTypes.func.isRequired,
     };
     setLocale = e => {
         const locale = e.target.value;
@@ -20,13 +22,18 @@ class SettingsGeneral extends React.Component {
         const theme = e.target.value;
         this.props.setTheme({ theme });
     };
+    setFontSize = e => {
+        const fontSize = +e.target.value;
+        this.props.setFontSize({ fontSize });
+    };
     render() {
-        const { locale, locales, activeLocale, themes, activeTheme } = this.props;
+        const { locale, locales, activeLocale, themes, activeTheme, fontSize } = this.props;
         return (
             <div>
                 <h1>
                     <i className="fa fa-cog" /> <Res id="setGenTitle" />
                 </h1>
+                {/*TODO: updater*/}
                 <h2>
                     <Res id="setGenAppearance" />
                 </h2>
@@ -63,6 +70,21 @@ class SettingsGeneral extends React.Component {
                                 {theme.text}
                             </option>
                         ))}
+                    </select>
+                </div>
+                <div>
+                    <label htmlFor="settings__general-font-size">
+                        <Res id="setGenFontSize" />:
+                    </label>
+                    <select
+                        className="settings__general-font-size settings__select input-base"
+                        id="settings__general-font-size"
+                        value={fontSize}
+                        onChange={this.setFontSize}
+                    >
+                        <option value={0}>{locale.setGenFontSizeNormal}</option>
+                        <option value={1}>{locale.setGenFontSizeLarge}</option>
+                        <option value={2}>{locale.setGenFontSizeLargest}</option>
                     </select>
                 </div>
             </div>

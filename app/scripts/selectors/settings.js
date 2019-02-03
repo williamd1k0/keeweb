@@ -72,3 +72,10 @@ export const getActiveTheme = createSelector(
         return settings.theme;
     }
 );
+
+export const getFontSize = createSelector(
+    [getSettings],
+    settings => {
+        return settings.fontSize || 0;
+    }
+);
