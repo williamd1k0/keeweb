@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { DropdownListSort } from 'containers/dropdown/DropdownListSort';
 import { DropdownListAdd } from 'containers/dropdown/DropdownListAdd';
+import { DropdownGenerator } from 'containers/dropdown/DropdownGenerator';
 
 class Dropdown extends React.Component {
     static propTypes = {
@@ -52,6 +53,9 @@ class Dropdown extends React.Component {
             this.reposition();
         }
     };
+    onClick = e => {
+        e.stopPropagation();
+    };
     reposition() {
         const referencePosition = this.props.dropdown.position;
         const rect = this.el.getBoundingClientRect();
@@ -75,9 +79,10 @@ class Dropdown extends React.Component {
         const { position } = this.state;
         const { dropdown } = this.props;
         return (
-            <div className="dropdown" style={position} ref={this.setEl}>
+            <div className="dropdown" style={position} ref={this.setEl} onClick={this.onClick}>
                 {dropdown.id === 'list-sort' && <DropdownListSort />}
                 {dropdown.id === 'list-add' && <DropdownListAdd />}
+                {dropdown.id === 'generator' && <DropdownGenerator />}
             </div>
         );
     }

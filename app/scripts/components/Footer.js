@@ -9,13 +9,23 @@ class Footer extends React.Component {
         onOpenClick: PropTypes.func.isRequired,
         onSettingsClick: PropTypes.func.isRequired,
         onHelpClick: PropTypes.func.isRequired,
+        onGeneratorClick: PropTypes.func.isRequired,
         files: PropTypes.array.isRequired,
         updateAvailable: PropTypes.bool,
         locale: PropTypes.object.isRequired,
     };
+    constructor(props) {
+        super(props);
+        this.generatorBtn = React.createRef();
+    }
     onFileClick = e => {
         const id = e.target.closest('[data-file-id]').dataset.fileId;
         this.props.onFileClick({ id });
+    };
+    onGenerateClick = () => {
+        const rect = this.generatorBtn.current.getBoundingClientRect();
+        const position = { right: rect.right, bottom: rect.top };
+        this.props.onGeneratorClick({ position });
     };
     render() {
         const {
@@ -90,6 +100,8 @@ class Footer extends React.Component {
                         className="footer__btn footer__btn-generate"
                         title={locale.footerTitleGen}
                         placement="top"
+                        onClick={this.onGenerateClick}
+                        elRef={this.generatorBtn}
                     >
                         <i className="fa fa-bolt" />
                     </Tooltip>
