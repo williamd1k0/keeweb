@@ -1,5 +1,5 @@
 import kdbxweb from 'kdbxweb';
-import DemoFileDataBase64 from 'base64-loader!resources/Demo.kdbx';
+import DemoFileDataBase64 from 'resources/Demo.kdbx';
 import { omit } from 'util/helpers/fn';
 import { Logger } from 'util/logger';
 import { setLoading } from 'store/ui/open/set-loading';

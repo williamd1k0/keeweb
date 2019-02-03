@@ -36,7 +36,6 @@
     "no-mixed-operators": "off",
     "prefer-promise-reject-errors": "off",
     "standard/no-callback-literal": "off",
-    "import/no-webpack-loader-syntax": "off",
     "object-curly-spacing": "off",
     "no-new-object": "error",
     "object-shorthand": "error",
@@ -60,6 +59,7 @@
         "message": "Prefer named exports"
       }
     ],
+    "import/no-webpack-loader-syntax": "error",
     "import/no-relative-parent-imports":  "error",
     "import/first":  "error",
     "import/no-namespace":  "error",

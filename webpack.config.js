@@ -12,10 +12,14 @@ const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 const pkg = require('./package.json');
 
+process.noDeprecation = true; // for css loaders
+
 function config(grunt, mode = 'production') {
     const date = grunt.config.get('date');
     const dt = date.toISOString().replace(/T.*/, '');
     const year = date.getFullYear();
+    const devMode = mode === 'development';
+    const jsExt = devMode ? 'min.' : '';
     return {
         mode,
         entry: {
@@ -57,9 +61,9 @@ function config(grunt, mode = 'production') {
             ],
             alias: {
                 kdbxweb: 'kdbxweb/dist/kdbxweb.js',
-                baron: 'baron/baron.min.js',
-                qrcode: 'jsqrcode/dist/qrcode.min.js',
-                argon2: 'argon2-browser/dist/argon2.min.js',
+                baron: `baron/baron.${jsExt}js`,
+                qrcode: `jsqrcode/dist/qrcode.${jsExt}js`,
+                argon2: `argon2-browser/dist/argon2.${jsExt}js`,
                 'argon2-wasm': 'argon2-browser/dist/argon2.wasm',
                 resources: path.join(__dirname, 'app/resources'),
                 locales: path.join(__dirname, 'app/locales'),
@@ -102,7 +106,11 @@ function config(grunt, mode = 'production') {
                 { test: /argon2(\.min)?\.js/, loader: 'raw-loader' },
                 {
                     test: /\.s?css$/,
-                    use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
+                    use: [
+                        MiniCssExtractPlugin.loader,
+                        { loader: 'css-loader', options: { sourceMap: devMode } },
+                        { loader: 'sass-loader', options: { sourceMap: devMode } },
+                    ],
                 },
                 {
                     test: /fonts\/.*\.(woff2|ttf|eot|svg)/,
@@ -116,6 +124,8 @@ function config(grunt, mode = 'production') {
                         { loader: 'react-svg-loader', options: { jsx: true } },
                     ],
                 },
+                { test: /\.kdbx$/, loader: 'base64-loader' },
+                { test: /\.pem$/, loader: 'raw-loader' },
             ],
         },
         optimization: {
@@ -149,9 +159,9 @@ function config(grunt, mode = 'production') {
                 new BundleAnalyzerPlugin({
                     openAnalyzer: false,
                     analyzerMode: 'static',
-                    reportFilename: '../stats/analyzer_report.html',
+                    reportFilename: 'stats/analyzer_report.html',
                     generateStatsFile: true,
-                    statsFilename: '../stats/stats.json',
+                    statsFilename: 'stats/stats.json',
                 }),
             ],
         },
@@ -184,25 +194,8 @@ function config(grunt, mode = 'production') {
             fs: 'null',
             path: 'null',
         },
-    };
-}
-
-function devServerConfig(grunt) {
-    const cfg = config(grunt, 'development');
-    return {
-        ...cfg,
-        devtool: 'source-map',
-        resolve: {
-            ...cfg.resolve,
-            alias: {
-                ...cfg.resolve.alias,
-                baron: 'baron/baron.js',
-                qrcode: 'jsqrcode/dist/qrcode.js',
-                argon2: 'argon2-browser/dist/argon2.js',
-            },
-        },
+        devtool: devMode ? 'source-map' : undefined,
     };
 }
 
 module.exports.config = config;
-module.exports.devServerConfig = devServerConfig;

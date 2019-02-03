@@ -223,7 +223,7 @@ module.exports = function(grunt) {
         },
         'webpack-dev-server': {
             options: {
-                webpack: webpackConfig.devServerConfig(grunt),
+                webpack: webpackConfig.config(grunt, 'development'),
                 publicPath: '/',
                 contentBase: path.resolve(__dirname, 'tmp'),
                 progress: false,
