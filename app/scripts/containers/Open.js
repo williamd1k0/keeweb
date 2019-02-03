@@ -11,7 +11,7 @@ import { loadKeyFileFromDropbox } from 'logic/ui/open/load-key-file-from-dropbox
 import { removeLastFile } from 'logic/ui/open/remove-last-file';
 import { resetKeyFile } from 'store/ui/open/reset-key-file';
 import { displayLastFile } from 'logic/ui/open/display-last-file';
-import { openFile } from 'logic/ui/open/open-file';
+import { openFile, openDemo } from 'logic/ui/open/open-file';
 import { loadDroppedFiles } from 'logic/ui/open/load-dropped-files';
 
 const mapStateToProps = state => {
@@ -38,6 +38,8 @@ const mapDispatchToProps = dispatch => {
                     return dispatch(toggleSecondRow());
                 case 'settings':
                     return dispatch(setView('settings'));
+                case 'demo':
+                    return dispatch(openDemo());
             }
         },
         onFileClick({ id }) {

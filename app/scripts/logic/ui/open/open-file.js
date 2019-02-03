@@ -1,4 +1,5 @@
 import kdbxweb from 'kdbxweb';
+import DemoFileDataBase64 from 'base64-loader!resources/Demo.kdbx';
 import { omit } from 'util/helpers/fn';
 import { Logger } from 'util/logger';
 import { setLoading } from 'store/ui/open/set-loading';
@@ -15,6 +16,8 @@ import { saveLastFiles } from 'logic/files/save-last-files';
 import { updateFileModel } from 'logic/files/update-file-model';
 import { setView } from 'store/ui/set-view';
 
+const DemoFileId = '1c88acf9-197d-459c-8c0f-e74d67f2e0c3';
+
 export function openFile(password) {
     return (dispatch, getState) => {
         const state = getState();
@@ -25,6 +28,33 @@ export function openFile(password) {
         if (!file) {
             return;
         }
+        return dispatch(openFileInternal(file, password));
+    };
+}
+
+export function openDemo() {
+    return (dispatch, getState) => {
+        const state = getState();
+        if (state.uiOpen.busy) {
+            return Promise.resolve();
+        }
+        const data = kdbxweb.ByteUtils.arrayToBuffer(
+            kdbxweb.ByteUtils.base64ToBytes(DemoFileDataBase64)
+        );
+        const file = {
+            id: DemoFileId,
+            name: 'Demo',
+            demo: true,
+            data,
+        };
+        const password = kdbxweb.ProtectedValue.fromString('demo');
+        return dispatch(openFileInternal(file, password));
+    };
+}
+
+function openFileInternal(file, password) {
+    return (dispatch, getState) => {
+        const state = getState();
         if (state.files.active.includes(file.id)) {
             dispatch(setView('list'));
             return Promise.resolve();
@@ -36,7 +66,7 @@ export function openFile(password) {
         };
         dispatch(setLoading('file'));
         return new Promise((resolve, reject) => {
-            openFileInternal(params, state, (err, res) => {
+            openFileWithCallback(params, state, (err, res) => {
                 if (err) {
                     reject(err);
                 } else {
@@ -47,8 +77,10 @@ export function openFile(password) {
             .then(({ file }) => {
                 dispatch(resetOpenView());
                 dispatch(setFileProps(file.id, file));
-                dispatch(addLastFile(file.id));
-                dispatch(saveLastFiles());
+                if (!file.demo) {
+                    dispatch(addLastFile(file.id));
+                    dispatch(saveLastFiles());
+                }
                 dispatch(addActiveFile(file.id));
                 dispatch(updateFileModel(file.id));
                 dispatch(setView('list'));
@@ -71,7 +103,7 @@ export function openFile(password) {
     };
 }
 
-function openFileInternal(params, state, callback) {
+function openFileWithCallback(params, state, callback) {
     const logger = new Logger('open', params.name);
     logger.info('File open request');
     const file = getFile(state, {
@@ -98,7 +130,7 @@ function openFileInternal(params, state, callback) {
         );
     } else if (params.data) {
         logger.info('Open file from supplied content');
-        const needSaveToCache = params.storage !== 'file';
+        const needSaveToCache = params.storage !== 'file' && !params.demo;
         openFileWithData(params, callback, file, params.data, needSaveToCache);
     } else if (!params.storage) {
         logger.info('Open file from cache as main storage');
