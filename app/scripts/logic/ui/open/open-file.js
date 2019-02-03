@@ -78,17 +78,16 @@ function openFileInternal(file, password) {
             .then(({ file }) => {
                 dispatch(resetOpenView());
                 dispatch(setFileProps(file.id, file));
-                if (file.demo) {
-                    if (!state.settings.demoOpened) {
-                        dispatch(updateSettings({ demoOpened: true }));
-                    }
-                } else {
+                if (!file.demo) {
                     dispatch(addLastFile(file.id));
                     dispatch(saveLastFiles());
                 }
                 dispatch(addActiveFile(file.id));
                 dispatch(updateFileModel(file.id));
                 dispatch(setView('list'));
+                if (file.demo && !state.settings.demoOpened) {
+                    dispatch(updateSettings({ demoOpened: true }));
+                }
             })
             .catch(err => {
                 dispatch(setLoading(undefined));
