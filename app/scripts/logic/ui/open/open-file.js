@@ -15,6 +15,7 @@ import { addActiveFile } from 'store/files/add-active-file';
 import { saveLastFiles } from 'logic/files/save-last-files';
 import { updateFileModel } from 'logic/files/update-file-model';
 import { setView } from 'store/ui/set-view';
+import { updateSettings } from 'logic/settings/update-settings';
 
 const DemoFileId = '1c88acf9-197d-459c-8c0f-e74d67f2e0c3';
 
@@ -77,7 +78,11 @@ function openFileInternal(file, password) {
             .then(({ file }) => {
                 dispatch(resetOpenView());
                 dispatch(setFileProps(file.id, file));
-                if (!file.demo) {
+                if (file.demo) {
+                    if (!state.settings.demoOpened) {
+                        dispatch(updateSettings({ demoOpened: true }));
+                    }
+                } else {
                     dispatch(addLastFile(file.id));
                     dispatch(saveLastFiles());
                 }
