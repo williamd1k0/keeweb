@@ -1,12 +1,7 @@
 module.exports = function(grunt) {
     grunt.registerTask('default', 'Default: build web app', ['build-web-app', 'sign-html']);
 
-    grunt.registerTask('dev', 'Build project and start web server and watcher', [
-        'build-web-app',
-        'devsrv',
-    ]);
-
-    grunt.registerTask('devsrv', 'Start the webpack dev server', [
+    grunt.registerTask('dev', 'Start the dev server', [
         'gitinfo',
         'copy:html',
         'copy:favicon',
