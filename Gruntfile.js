@@ -610,7 +610,7 @@ module.exports = function(grunt) {
             options: {
                 logConcurrentOutput: true,
             },
-            'dev-server': ['watch:styles', 'webpack-dev-server'],
+            'dev-server': ['watch:styles', ['gitinfo', 'webpack-dev-server']],
         },
         'sign-dist': {
             dist: {
