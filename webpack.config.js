@@ -11,12 +11,11 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 const pkg = require('./package.json');
 
 function config(grunt, mode = 'production') {
-    const usePReact = grunt.option('preact');
     const date = grunt.config.get('date');
     const dt = date.toISOString().replace(/T.*/, '');
     const year = date.getFullYear();
     return {
-        mode: mode,
+        mode,
         entry: {
             app: 'index',
             vendor: [
@@ -51,9 +50,6 @@ function config(grunt, mode = 'production') {
         resolve: {
             modules: [path.join(__dirname, 'app/scripts'), path.join(__dirname, 'node_modules')],
             alias: {
-                react: usePReact ? 'preact' : 'react',
-                'react-dom': usePReact ? 'preact' : 'react-dom',
-                'react-redux': usePReact ? 'preact-redux' : 'react-redux',
                 kdbxweb: 'kdbxweb/dist/kdbxweb.js',
                 baron: 'baron/baron.min.js',
                 pikaday: 'pikaday/pikaday.js',
@@ -180,19 +176,20 @@ function config(grunt, mode = 'production') {
 }
 
 function devServerConfig(grunt) {
-    const usePReact = grunt.option('preact');
-    const devServerConfig = config(grunt, 'development');
-    Object.assign(devServerConfig, {
+    const config = config(grunt, 'development');
+    return {
+        ...config,
         devtool: 'source-map',
-    });
-    Object.assign(devServerConfig.resolve.alias, {
-        baron: 'baron/baron.js',
-        qrcode: 'jsqrcode/dist/qrcode.js',
-        argon2: 'argon2-browser/dist/argon2.js',
-        react: usePReact ? 'preact-compat' : 'react',
-        'react-dom': usePReact ? 'preact-compat' : 'react-dom',
-    });
-    return devServerConfig;
+        resolve: {
+            ...config.resolve,
+            alias: {
+                ...config.resolve.alias,
+                baron: 'baron/baron.js',
+                qrcode: 'jsqrcode/dist/qrcode.js',
+                argon2: 'argon2-browser/dist/argon2.js',
+            },
+        },
+    };
 }
 
 module.exports.config = config;
