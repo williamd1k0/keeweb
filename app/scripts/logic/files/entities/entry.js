@@ -22,7 +22,7 @@ export function entryToModel(kdbx, kdbxEntry, file, parentUuid, now) {
         id: `${file.id}.${kdbxEntry.uuid.id}`,
         uuid: kdbxEntry.uuid.id,
         fileId: file.id,
-        parentUuid: parentUuid,
+        parentUuid,
 
         title: getFieldString(kdbxEntry, 'Title'),
         password: kdbxEntry.fields.Password || kdbxweb.ProtectedValue.fromString(''),

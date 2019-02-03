@@ -15,9 +15,6 @@ class Dropdown extends React.Component {
             top: '-100vh',
         },
     };
-    constructor(props) {
-        super(props);
-    }
     componentDidMount() {
         setTimeout(() => {
             window.addEventListener('blur', this.onRemove);

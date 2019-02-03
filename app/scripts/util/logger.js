@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+
 const Level = {
     Off: 0,
     Error: 1,
@@ -31,35 +33,35 @@ class Logger {
         return new Date().toISOString() + ' [' + this.prefix + '] ';
     }
 
-    debug() {
-        arguments[0] = this.getPrefix() + arguments[0];
+    debug(...args) {
+        args[0] = this.getPrefix() + args[0];
         if (this.level >= Level.Debug) {
-            Logger.saveLast('debug', arguments);
-            console.log(...arguments); // eslint-disable-line no-console
+            Logger.saveLast('debug', args);
+            console.log(...args);
         }
     }
 
-    info() {
-        arguments[0] = this.getPrefix() + arguments[0];
+    info(...args) {
+        args[0] = this.getPrefix() + args[0];
         if (this.level >= Level.Info) {
-            Logger.saveLast('info', arguments);
-            console.info(...arguments); // eslint-disable-line no-console
+            Logger.saveLast('info', args);
+            console.info(...args);
         }
     }
 
-    warn() {
-        arguments[0] = this.getPrefix() + arguments[0];
+    warn(...args) {
+        args[0] = this.getPrefix() + args[0];
         if (this.level >= Level.Warn) {
-            Logger.saveLast('warn', arguments);
-            console.warn(...arguments); // eslint-disable-line no-console
+            Logger.saveLast('warn', args);
+            console.warn(...args);
         }
     }
 
-    error() {
-        arguments[0] = this.getPrefix() + arguments[0];
+    error(...args) {
+        args[0] = this.getPrefix() + args[0];
         if (this.level >= Level.Error) {
-            Logger.saveLast('error', arguments);
-            console.error(...arguments); // eslint-disable-line no-console
+            Logger.saveLast('error', args);
+            console.error(...args);
         }
     }
 
@@ -72,7 +74,7 @@ class Logger {
     }
 
     static saveLast(level, args) {
-        lastLogs.push({ level: level, args: Array.prototype.slice.call(args) });
+        lastLogs.push({ level, args: Array.prototype.slice.call(args) });
         if (lastLogs.length > MaxLogsToSave) {
             lastLogs.shift();
         }

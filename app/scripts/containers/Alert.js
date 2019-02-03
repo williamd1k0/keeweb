@@ -17,7 +17,7 @@ const mapStateToProps = state => {
     return {
         icon: alert.icon,
         header: locale[alert.header] || alert.header,
-        body: body,
+        body,
         buttons: (alert.buttons || []).map(button => {
             return { ...button, title: locale[button.title] || button.title };
         }),

@@ -32,7 +32,7 @@ class StorageFile extends StorageBase {
                 const rev = stat.mtime.getTime().toString();
                 this.logger.debug('Loaded', path, rev, this.logger.ts(ts));
                 if (callback) {
-                    callback(null, data.buffer, { rev: rev });
+                    callback(null, data.buffer, { rev });
                 }
             });
         });
@@ -134,7 +134,7 @@ class StorageFile extends StorageBase {
             if (fsWatcher) {
                 fsWatcher.on('change', this.fsWatcherChange.bind(this, names.dir));
                 fileWatchers[names.dir] = {
-                    fsWatcher: fsWatcher,
+                    fsWatcher,
                     callbacks: [],
                 };
             }
@@ -144,7 +144,7 @@ class StorageFile extends StorageBase {
         if (fsWatcher) {
             fsWatcher.callbacks.push({
                 file: names.file,
-                callback: callback,
+                callback,
             });
         }
     }

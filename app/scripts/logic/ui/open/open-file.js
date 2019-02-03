@@ -325,7 +325,7 @@ function kdfArgsToString(header) {
             .map(key => {
                 const val = header.kdfParameters.get(key);
                 if (val instanceof ArrayBuffer) {
-                    return;
+                    return undefined;
                 }
                 return key + '=' + val;
             })

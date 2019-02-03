@@ -3,17 +3,17 @@ import { store } from 'store';
 
 const IdleTracker = {
     actionTime: Date.now(),
-    init: function() {
+    init() {
         setInterval(this.checkIdle.bind(this), Timeouts.IdleCheck);
     },
-    checkIdle: function() {
+    checkIdle() {
         const idleMinutes = (Date.now() - this.actionTime) / 1000 / 60;
         const maxIdleMinutes = store.getState().settings.idleMinutes;
         if (maxIdleMinutes && idleMinutes > maxIdleMinutes) {
             // Backbone.trigger('user-idle'); // TODO
         }
     },
-    regUserAction: function() {
+    regUserAction() {
         this.actionTime = Date.now();
     },
 };

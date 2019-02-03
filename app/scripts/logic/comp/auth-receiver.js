@@ -2,7 +2,7 @@ import { Storage } from 'storage';
 import { store } from 'store';
 
 const AuthReceiver = {
-    receive: function() {
+    receive() {
         const opener = window.opener || window.parent;
         const message = this.urlArgsToMessage(window.location.href);
         const hasKeys = Object.keys(message).filter(key => key !== 'config').length > 0;
@@ -19,7 +19,7 @@ const AuthReceiver = {
         }
     },
 
-    urlArgsToMessage: function(url) {
+    urlArgsToMessage(url) {
         const message = {};
         url.split(/[?#&]/g).forEach(part => {
             const parts = part.split('=');

@@ -3,14 +3,14 @@ import { updateSettings } from 'logic/settings/update-settings';
 
 const ExportApi = {
     settings: {
-        get: function(key) {
+        get(key) {
             const settings = store.getState().settings;
             return key ? settings[key] : settings;
         },
-        set: function(key, value) {
+        set(key, value) {
             store.dispatch(updateSettings({ [key]: value }));
         },
-        del: function(key) {
+        del(key) {
             store.dispatch(updateSettings({ [key]: undefined }));
         },
     },

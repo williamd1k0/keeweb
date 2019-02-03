@@ -27,7 +27,7 @@ class StorageOneDrive extends StorageBase {
             const ts = this.logger.ts();
             const url = this._baseUrl + path;
             this._xhr({
-                url: url,
+                url,
                 responseType: 'json',
                 success: response => {
                     const downloadUrl = response['@microsoft.graph.downloadUrl'];
@@ -49,7 +49,7 @@ class StorageOneDrive extends StorageBase {
                         success: (response, xhr) => {
                             rev = xhr.getResponseHeader('ETag') || rev;
                             this.logger.debug('Loaded', path, rev, this.logger.ts(ts));
-                            return callback && callback(null, response, { rev: rev });
+                            return callback && callback(null, response, { rev });
                         },
                         error: err => {
                             this.logger.error('Load error', path, err, this.logger.ts(ts));
@@ -74,7 +74,7 @@ class StorageOneDrive extends StorageBase {
             const ts = this.logger.ts();
             const url = this._baseUrl + path;
             this._xhr({
-                url: url,
+                url,
                 responseType: 'json',
                 success: response => {
                     const rev = response.eTag;
@@ -83,7 +83,7 @@ class StorageOneDrive extends StorageBase {
                         return callback && callback('no eTag');
                     }
                     this.logger.debug('Stated', path, rev, this.logger.ts(ts));
-                    return callback && callback(null, { rev: rev });
+                    return callback && callback(null, { rev });
                 },
                 error: (err, xhr) => {
                     if (xhr.status === 404) {
@@ -106,7 +106,7 @@ class StorageOneDrive extends StorageBase {
             const ts = this.logger.ts();
             const url = this._baseUrl + path + ':/content';
             this._xhr({
-                url: url,
+                url,
                 method: 'PUT',
                 responseType: 'json',
                 headers: rev ? { 'If-Match': rev } : null,
@@ -120,10 +120,10 @@ class StorageOneDrive extends StorageBase {
                     }
                     if (xhr.status === 412) {
                         this.logger.debug('Save conflict', path, rev, this.logger.ts(ts));
-                        return callback && callback({ revConflict: true }, { rev: rev });
+                        return callback && callback({ revConflict: true }, { rev });
                     }
                     this.logger.debug('Saved', path, rev, this.logger.ts(ts));
-                    return callback && callback(null, { rev: rev });
+                    return callback && callback(null, { rev });
                 },
                 error: err => {
                     this.logger.error('Save error', path, err, this.logger.ts(ts));
@@ -142,7 +142,7 @@ class StorageOneDrive extends StorageBase {
             const ts = this.logger.ts();
             const url = this._baseUrl + (dir ? `${dir}:/children` : '/drive/root/children');
             this._xhr({
-                url: url,
+                url,
                 responseType: 'json',
                 success: response => {
                     if (!response || !response.value) {
@@ -173,7 +173,7 @@ class StorageOneDrive extends StorageBase {
         const ts = this.logger.ts();
         const url = this._baseUrl + path;
         this._xhr({
-            url: url,
+            url,
             method: 'DELETE',
             responseType: 'json',
             statuses: [200, 204],
@@ -198,7 +198,7 @@ class StorageOneDrive extends StorageBase {
             const url = this._baseUrl + '/drive/root/children';
             const data = JSON.stringify({ name: path.replace('/drive/root:/', ''), folder: {} });
             this._xhr({
-                url: url,
+                url,
                 method: 'POST',
                 responseType: 'json',
                 statuses: [200, 204],
@@ -242,7 +242,7 @@ class StorageOneDrive extends StorageBase {
         return {
             url: 'https://login.microsoftonline.com/common/oauth2/v2.0/authorize',
             scope: 'files.readwrite',
-            clientId: clientId,
+            clientId,
             width: 600,
             height: 500,
         };

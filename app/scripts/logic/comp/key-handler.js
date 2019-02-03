@@ -11,7 +11,7 @@ const KeyHandler = {
     modalStack: [],
     keyPressHandlers: [],
 
-    init: function() {
+    init() {
         document.addEventListener('keypress', e => this.keypress(e));
         document.addEventListener('keydown', e => this.keydown(e));
 
@@ -25,53 +25,53 @@ const KeyHandler = {
             },
         ];
     },
-    onKey: function(key, handler, thisArg, shortcut, modal, noPrevent) {
+    onKey(key, handler, thisArg, shortcut, modal, noPrevent) {
         let keyShortcuts = this.shortcuts[key];
         if (!keyShortcuts) {
             this.shortcuts[key] = keyShortcuts = [];
         }
         keyShortcuts.push({
-            handler: handler,
-            thisArg: thisArg,
-            shortcut: shortcut,
-            modal: modal,
-            noPrevent: noPrevent,
+            handler,
+            thisArg,
+            shortcut,
+            modal,
+            noPrevent,
         });
         return () => {
             KeyHandler.offKey(key, handler, thisArg);
         };
     },
-    offKey: function(key, handler, thisArg) {
+    offKey(key, handler, thisArg) {
         if (this.shortcuts[key]) {
             this.shortcuts[key] = this.shortcuts[key].filter(
                 sh => sh.handler !== handler || sh.thisArg !== thisArg
             );
         }
     },
-    onKeyPress: function(handler, thisArg, modal) {
+    onKeyPress(handler, thisArg, modal) {
         this.keyPressHandlers.push({ handler, thisArg, modal });
         return () => {
             KeyHandler.offKeyPress(handler, thisArg);
         };
     },
-    offKeyPress: function(handler, thisArg) {
+    offKeyPress(handler, thisArg) {
         this.keyPressHandlers = this.keyPressHandlers.filter(
             kp => kp.handler !== handler || kp.thisArg !== thisArg
         );
     },
-    setModal: function(modal) {
+    setModal(modal) {
         this.modalStack.push(modal);
         return () => {
             this.resetModal();
         };
     },
-    resetModal: function() {
+    resetModal() {
         this.modalStack.pop();
     },
-    isActionKey: function(e) {
+    isActionKey(e) {
         return e[shortcutKeyProp];
     },
-    keydown: function(e) {
+    keydown(e) {
         IdleTracker.regUserAction();
         const code = e.keyCode || e.which;
         const keyShortcuts = this.shortcuts[code];
@@ -114,7 +114,7 @@ const KeyHandler = {
             }
         }
     },
-    keypress: function(e) {
+    keypress(e) {
         if (
             e.charCode !== Keys.DOM_VK_RETURN &&
             e.charCode !== Keys.DOM_VK_ESCAPE &&
@@ -133,10 +133,10 @@ const KeyHandler = {
             }
         }
     },
-    reg: function() {
+    reg() {
         IdleTracker.regUserAction();
     },
-    handleAKey: function(e) {
+    handleAKey(e) {
         if (
             e.target.tagName.toLowerCase() === 'input' &&
             ['password', 'text'].indexOf(e.target.type) >= 0

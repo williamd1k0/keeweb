@@ -5,7 +5,7 @@ import { noop } from 'util/helpers/fn';
 const logger = new Logger('transport');
 
 const Transport = {
-    httpGet: function(config) {
+    httpGet(config) {
         let tmpFile;
         const fs = Launcher.req('fs');
         if (config.file) {

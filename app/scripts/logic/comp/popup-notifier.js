@@ -7,7 +7,7 @@ import { Logger } from 'util/logger';
 const PopupNotifier = {
     logger: null,
 
-    init: function() {
+    init(...args) {
         this.logger = new Logger('popup-notifier');
 
         if (Launcher) {
@@ -15,7 +15,7 @@ const PopupNotifier = {
         } else {
             const windowOpen = window.open;
             window.open = function() {
-                const win = windowOpen.apply(window, arguments);
+                const win = windowOpen.apply(window, args);
                 if (win) {
                     PopupNotifier.deferCheckClosed(win);
                 } else {
@@ -32,7 +32,7 @@ const PopupNotifier = {
         }
     },
 
-    _openLauncherWindow: function(url, title, settings) {
+    _openLauncherWindow(url, title, settings) {
         const opts = {
             show: false,
             webPreferences: {
@@ -124,7 +124,7 @@ const PopupNotifier = {
         );
     },
 
-    processReturnToApp: function(url) {
+    processReturnToApp(url) {
         const returnMessage = AuthReceiver.urlArgsToMessage(url);
         if (Object.keys(returnMessage).length > 0) {
             const evt = new Event('message');
@@ -133,11 +133,11 @@ const PopupNotifier = {
         }
     },
 
-    deferCheckClosed: function(win) {
+    deferCheckClosed(win) {
         setTimeout(PopupNotifier.checkClosed.bind(PopupNotifier, win), Timeouts.CheckWindowClosed);
     },
 
-    checkClosed: function(win) {
+    checkClosed(win) {
         if (win.closed) {
             setTimeout(
                 PopupNotifier.triggerClosed.bind(PopupNotifier, win),
@@ -148,7 +148,7 @@ const PopupNotifier = {
         }
     },
 
-    triggerClosed: function(win) {
+    triggerClosed(win) {
         const event = new Event('kw-popup-closed');
         event.popup = win;
         window.dispatchEvent(event);

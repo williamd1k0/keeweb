@@ -144,7 +144,7 @@ class StorageDropbox extends StorageBase {
             fields.push(keyField);
             fields.push(folderField);
         }
-        return { fields: fields };
+        return { fields };
     }
 
     applyConfig(config, callback) {
@@ -231,8 +231,8 @@ class StorageDropbox extends StorageBase {
                 url: `https://${host}.dropboxapi.com/2/${args.method}`,
                 method: 'POST',
                 responseType: args.responseType || 'json',
-                headers: headers,
-                data: data,
+                headers,
+                data,
                 statuses: args.statuses || undefined,
                 success: args.success,
                 error: (e, xhr) => {
@@ -308,7 +308,7 @@ class StorageDropbox extends StorageBase {
             method: 'files/upload',
             host: 'content',
             apiArg: arg,
-            data: data,
+            data,
             responseType: 'json',
             success: stat => {
                 this.logger.debug('Saved', path, stat.rev, this.logger.ts(ts));

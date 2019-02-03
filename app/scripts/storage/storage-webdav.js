@@ -55,7 +55,7 @@ class StorageWebDav extends StorageBase {
             {
                 op: 'Load',
                 method: 'GET',
-                path: path,
+                path,
                 user: opts ? opts.user : null,
                 password: opts ? opts.password : null,
             },
@@ -72,7 +72,7 @@ class StorageWebDav extends StorageBase {
             {
                 op: 'Stat',
                 method: 'HEAD',
-                path: path,
+                path,
                 user: opts ? opts.user : null,
                 password: opts ? opts.password : null,
             },
@@ -93,7 +93,7 @@ class StorageWebDav extends StorageBase {
         };
         const tmpPath = path.replace(/[^\/]+$/, m => '.' + m) + '.' + Date.now();
         const saveOpts = {
-            path: path,
+            path,
             user: opts ? opts.user : null,
             password: opts ? opts.password : null,
         };
@@ -123,7 +123,7 @@ class StorageWebDav extends StorageBase {
                             op: 'Save:put',
                             method: 'PUT',
                             path: tmpPath,
-                            data: data,
+                            data,
                             nostat: true,
                             ...saveOpts,
                         },
@@ -208,7 +208,7 @@ class StorageWebDav extends StorageBase {
                         {
                             op: 'Save:put',
                             method: 'PUT',
-                            data: data,
+                            data,
                             nostat: true,
                             ...saveOpts,
                         },
@@ -318,7 +318,7 @@ class StorageWebDav extends StorageBase {
                 config.op + (config.op.charAt(config.op.length - 1) === 'e' ? 'd' : 'ed');
             that.logger.debug(completedOpName, config.path, rev, that.logger.ts(ts));
             if (callback) {
-                callback(null, xhr, rev ? { rev: rev } : null);
+                callback(null, xhr, rev ? { rev } : null);
                 callback = null;
             }
         });

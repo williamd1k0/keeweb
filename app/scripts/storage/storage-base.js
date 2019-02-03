@@ -104,10 +104,10 @@ class StorageBase {
         const top = winHeight / 2 - height / 2 + dualScreenTop;
 
         let settings = {
-            width: width,
-            height: height,
-            left: left,
-            top: top,
+            width,
+            height,
+            left,
+            top,
             dialog: 'yes',
             dependent: 'yes',
             scrollbars: 'yes',

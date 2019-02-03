@@ -9,11 +9,11 @@ export function groupToModel(kdbx, kdbxGroup, file, parentUuid, nestingLevel) {
     const isRecycleBin = kdbxGroup.uuid.equals(kdbx.meta.recycleBinUuid);
     const id = `${file.id}.${kdbxGroup.uuid.id}`;
     return {
-        id: id,
+        id,
         uuid: kdbxGroup.uuid.id,
         fileId: file.id,
-        parentUuid: parentUuid,
-        nestingLevel: nestingLevel,
+        parentUuid,
+        nestingLevel,
         filterKey: 'group',
         filterValue: id,
         drag: !!parentUuid,
@@ -23,7 +23,7 @@ export function groupToModel(kdbx, kdbxGroup, file, parentUuid, nestingLevel) {
         entries: kdbxGroup.entries.map(en => en.uuid.id),
 
         expanded: kdbxGroup.expanded !== false,
-        isRecycleBin: isRecycleBin,
+        isRecycleBin,
         isEntryTemplatesGroup: kdbx.meta.entryTemplatesGroup
             ? kdbxGroup.uuid.equals(kdbx.meta.entryTemplatesGroup)
             : false,

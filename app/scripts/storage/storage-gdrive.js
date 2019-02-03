@@ -33,7 +33,7 @@ class StorageGDrive extends StorageBase {
                     .replace('{id}', path)
                     .replace('{rev}', stat.rev);
             this._xhr({
-                url: url,
+                url,
                 responseType: 'arraybuffer',
                 success: response => {
                     this.logger.debug('Loaded', path, stat.rev, this.logger.ts(ts));
@@ -59,12 +59,12 @@ class StorageGDrive extends StorageBase {
             const ts = this.logger.ts();
             const url = this._baseUrl + '/files/{id}?fields=headRevisionId'.replace('{id}', path);
             this._xhr({
-                url: url,
+                url,
                 responseType: 'json',
                 success: response => {
                     const rev = response.headRevisionId;
                     this.logger.debug('Stated', path, rev, this.logger.ts(ts));
-                    return callback && callback(null, { rev: rev });
+                    return callback && callback(null, { rev });
                 },
                 error: err => {
                     this.logger.error('Stat error', this.logger.ts(ts), err);
@@ -128,10 +128,10 @@ class StorageGDrive extends StorageBase {
                     data = new Blob([data], { type: 'application/octet-stream' });
                 }
                 this._xhr({
-                    url: url,
+                    url,
                     method: isNew ? 'POST' : 'PATCH',
                     responseType: 'json',
-                    data: data,
+                    data,
                     success: response => {
                         this.logger.debug('Saved', path, this.logger.ts(ts));
                         const newRev = response.headRevisionId;
@@ -175,7 +175,7 @@ class StorageGDrive extends StorageBase {
                     .replace('{q}', encodeURIComponent(query));
             const ts = this.logger.ts();
             this._xhr({
-                url: url,
+                url,
                 responseType: 'json',
                 success: response => {
                     if (!response) {
@@ -212,7 +212,7 @@ class StorageGDrive extends StorageBase {
         const ts = this.logger.ts();
         const url = this._baseUrl + '/files/{id}'.replace('{id}', path);
         this._xhr({
-            url: url,
+            url,
             method: 'DELETE',
             responseType: 'json',
             statuses: [200, 204],
@@ -245,7 +245,7 @@ class StorageGDrive extends StorageBase {
         return {
             scope: 'https://www.googleapis.com/auth/drive',
             url: 'https://accounts.google.com/o/oauth2/v2/auth',
-            clientId: clientId,
+            clientId,
             width: 600,
             height: 400,
         };

@@ -121,7 +121,9 @@ app.minimizeThenHideIfInTray = function() {
     // This function is called when auto-type has displayed a selection list and a selection was made.
     // To ensure focus returns to the previous window we must minimize first even if we're going to hide.
     mainWindow.minimize();
-    if (appIcon) mainWindow.hide();
+    if (appIcon) {
+        mainWindow.hide();
+    }
 };
 app.getMainWindow = function() {
     return mainWindow;
@@ -496,7 +498,9 @@ function hookRequestHeaders() {
 function coerceMainWindowPositionToConnectedDisplay() {
     const eScreen = electron.screen;
     const displays = eScreen.getAllDisplays();
-    if (!displays || !displays.length) return;
+    if (!displays || !displays.length) {
+        return;
+    }
     const windowBounds = mainWindow.getBounds();
     const contentBounds = mainWindow.getContentBounds();
     const tbLeft = windowBounds.x;
@@ -510,7 +514,9 @@ function coerceMainWindowPositionToConnectedDisplay() {
             Math.min(tbRight, workArea.x + workArea.width) - Math.max(tbLeft, workArea.x);
         const overlapHeight =
             Math.min(tbBottom, workArea.y + workArea.height) - Math.max(tbTop, workArea.y);
-        if (overlapWidth >= 160 && 3 * overlapHeight >= 2 * (tbBottom - tbTop)) return;
+        if (overlapWidth >= 160 && 3 * overlapHeight >= 2 * (tbBottom - tbTop)) {
+            return;
+        }
     }
     // If we get here, no display contains a big enough strip of the title bar
     // that we can be confident the user can drag it into visibility.  Rather than

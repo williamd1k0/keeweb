@@ -9,7 +9,7 @@ if (global.cordova) {
         autoTypeSupported: false,
         thirdPartyStoragesSupported: false,
         clipboardSupported: false,
-        ready: function(callback) {
+        ready(callback) {
             document.addEventListener('deviceready', callback, false);
             document.addEventListener(
                 'pause',
@@ -19,40 +19,40 @@ if (global.cordova) {
                 false
             );
         },
-        platform: function() {
+        platform() {
             return 'cordova';
         },
-        openLink: function(href) {
+        openLink(href) {
             window.open(href, '_system');
         },
         devTools: false,
         // openDevTools: function() { },
-        getSaveFileName: function() {
+        getSaveFileName() {
             /* skip in cordova */
         },
-        getDataPath: function() {
+        getDataPath(...parts) {
             const storagePath = window.cordova.file.externalDataDirectory;
-            return [storagePath].concat(Array.from(arguments)).filter(s => !!s);
+            return [storagePath].concat(parts.filter(s => !!s));
         },
-        getUserDataPath: function(fileName) {
+        getUserDataPath(fileName) {
             return this.getDataPath('userdata', fileName).join('/');
         },
-        getTempPath: function(fileName) {
+        getTempPath(fileName) {
             return this.getDataPath('temp', fileName).join('/');
         },
-        getDocumentsPath: function(fileName) {
+        getDocumentsPath(fileName) {
             return this.getDataPath('documents', fileName).join('/');
         },
-        getAppPath: function(fileName) {
+        getAppPath(fileName) {
             return this.getDataPath(fileName).join('/');
         },
-        getWorkDirPath: function(fileName) {
+        getWorkDirPath(fileName) {
             return this.getDataPath(fileName).join('/');
         },
-        joinPath: function(...parts) {
+        joinPath(...parts) {
             return [...parts].join('/');
         },
-        writeFile: function(path, data, callback) {
+        writeFile(path, data, callback) {
             const createFile = filePath => {
                 window.resolveLocalFileSystemURL(
                     filePath.dir,
@@ -83,7 +83,7 @@ if (global.cordova) {
                 });
             }
         },
-        readFile: function(path, encoding, callback) {
+        readFile(path, encoding, callback) {
             window.resolveLocalFileSystemURL(
                 path,
                 fileEntry => {
@@ -105,10 +105,10 @@ if (global.cordova) {
                 err => callback(undefined, err)
             );
         },
-        fileExists: function(path, callback) {
+        fileExists(path, callback) {
             window.resolveLocalFileSystemURL(path, () => callback(true), () => callback(false));
         },
-        deleteFile: function(path, callback) {
+        deleteFile(path, callback) {
             window.resolveLocalFileSystemURL(
                 path,
                 fileEntry => {
@@ -117,7 +117,7 @@ if (global.cordova) {
                 callback
             );
         },
-        statFile: function(path, callback) {
+        statFile(path, callback) {
             window.resolveLocalFileSystemURL(
                 path,
                 fileEntry => {
@@ -134,7 +134,7 @@ if (global.cordova) {
                 err => callback(undefined, err)
             );
         },
-        mkdir: function(dir, callback) {
+        mkdir(dir, callback) {
             const basePath = this.getDataPath().join('/');
             const createDir = (dirEntry, path, callback) => {
                 const name = path.shift();
@@ -170,7 +170,7 @@ if (global.cordova) {
                 callback();
             }
         },
-        parsePath: function(fileName) {
+        parsePath(fileName) {
             const parts = fileName.split('/');
 
             return {
@@ -179,64 +179,64 @@ if (global.cordova) {
                 dir: parts.join('/'),
             };
         },
-        createFsWatcher: function() {
+        createFsWatcher() {
             return null; // not in android with content provider
         },
         // ensureRunnable: function(path) { },
 
-        preventExit: function(e) {
+        preventExit(e) {
             e.returnValue = false;
             return false;
         },
-        exit: function() {
+        exit() {
             this.hideApp();
         },
 
-        requestExit: function() {
+        requestExit() {
             /* skip in cordova */
         },
-        requestRestart: function() {
+        requestRestart() {
             window.location.reload();
         },
-        cancelRestart: function() {
+        cancelRestart() {
             /* skip in cordova */
         },
 
-        setClipboardText: function() {},
-        getClipboardText: function() {},
-        clearClipboardText: function() {},
+        setClipboardText() {},
+        getClipboardText() {},
+        clearClipboardText() {},
 
-        minimizeApp: function() {
+        minimizeApp() {
             this.hideApp();
         },
-        canMinimize: function() {
+        canMinimize() {
             return false;
         },
-        canDetectOsSleep: function() {
+        canDetectOsSleep() {
             return false;
         },
-        updaterEnabled: function() {
+        updaterEnabled() {
             return false;
         },
 
         // getMainWindow: function() { },
-        resolveProxy: function() {
+        resolveProxy() {
             /* skip in cordova */
         },
-        openWindow: function() {
+        openWindow() {
             /* skip in cordova */
         },
-        hideApp: function() {
+        hideApp() {
             /* skip in cordova */
         },
-        isAppFocused: function() {
+        isAppFocused() {
             return false; /* skip in cordova */
         },
-        showMainWindow: function() {
+        showMainWindow() {
             /* skip in cordova */
         },
         // spawn: function(config) { },
-        openFileChooser: function(callback) {
+        openFileChooser(callback) {
             const onFileSelected = function(selected) {
                 window.resolveLocalFileSystemURL(selected.uri, fileEntry => {
                     fileEntry.file(file => {
@@ -255,7 +255,7 @@ if (global.cordova) {
                 clientId: 'keeweb',
             },
 
-            register: function(fileId, password, callback) {
+            register(fileId, password, callback) {
                 FingerprintAuth.isAvailable(result => {
                     if (!result.isAvailable) {
                         return;
@@ -273,12 +273,12 @@ if (global.cordova) {
                 });
             },
 
-            auth: function(fileId, token, callback) {
+            auth(fileId, token, callback) {
                 if (!token) {
                     return callback();
                 }
 
-                const decryptConfig = { ...this.config, username: fileId, token: token };
+                const decryptConfig = { ...this.config, username: fileId, token };
 
                 FingerprintAuth.decrypt(decryptConfig, result => {
                     callback(result.password);

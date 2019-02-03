@@ -12,7 +12,7 @@ const isDesktop = !!(global.process && global.process.versions && global.process
 const state = {
     meta,
     userAgent: navigator.userAgent,
-    isDesktop: isDesktop,
+    isDesktop,
     isMac: navigator.platform.indexOf('Mac') >= 0,
     isWindows: navigator.platform.indexOf('Win') >= 0,
     isiOS: /iPad|iPhone|iPod/i.test(navigator.userAgent),

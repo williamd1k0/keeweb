@@ -284,7 +284,7 @@ module.exports = function(grunt) {
                 name: 'KeeWeb',
                 dir: 'tmp/desktop/app',
                 out: 'tmp/desktop',
-                electronVersion: electronVersion,
+                electronVersion,
                 overwrite: true,
                 asar: true,
                 appCopyright: `Copyright © ${year} Antelle`,
@@ -399,7 +399,7 @@ module.exports = function(grunt) {
             options: {
                 vars: {
                     version: pkg.version,
-                    rev: function() {
+                    rev() {
                         return grunt.config.get('gitinfo.local.branch.current.shortSHA');
                     },
                     homepage: pkg.homepage,
@@ -443,7 +443,7 @@ module.exports = function(grunt) {
                     description: pkg.description,
                     author: pkg.author,
                     homepage: pkg.homepage,
-                    rev: function() {
+                    rev() {
                         return grunt.config.get('gitinfo.local.branch.current.shortSHA');
                     },
                 },

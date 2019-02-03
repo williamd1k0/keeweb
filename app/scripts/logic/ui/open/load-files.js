@@ -21,7 +21,7 @@ export function loadFileContent(file) {
                     name: file.name.replace(/(.+)\.\w+$/i, '$1'),
                     path: file.path || null,
                     storage: file.path ? 'file' : null,
-                    data: data,
+                    data,
                     rev: null,
                 };
                 // TODO: showLocalFileAlert
@@ -62,7 +62,7 @@ export function loadKeyFileContent(file) {
                     id: uuid(),
                     name: file.name,
                     path: file.path,
-                    data: data,
+                    data,
                 };
                 return dispatch(displayKeyFile(keyFileInfo));
             })
