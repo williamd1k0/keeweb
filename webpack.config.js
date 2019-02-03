@@ -7,6 +7,8 @@ const webpack = require('webpack');
 const StringReplacePlugin = require('string-replace-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 const pkg = require('./package.json');
 
@@ -17,7 +19,7 @@ function config(grunt, mode = 'production') {
     return {
         mode,
         entry: {
-            app: 'index',
+            app: ['index', 'main.scss'],
             vendor: [
                 'redux',
                 'redux-thunk',
@@ -33,8 +35,8 @@ function config(grunt, mode = 'production') {
             ],
         },
         output: {
-            path: path.resolve('.', 'tmp/js'),
-            filename: '[name].js',
+            path: path.resolve('.', 'tmp'),
+            filename: 'js/[name].js',
         },
         target: 'web',
         performance: {
@@ -48,11 +50,14 @@ function config(grunt, mode = 'production') {
         progress: false,
         failOnError: true,
         resolve: {
-            modules: [path.join(__dirname, 'app/scripts'), path.join(__dirname, 'node_modules')],
+            modules: [
+                path.join(__dirname, 'app/scripts'),
+                path.join(__dirname, 'app/styles'),
+                path.join(__dirname, 'node_modules'),
+            ],
             alias: {
                 kdbxweb: 'kdbxweb/dist/kdbxweb.js',
                 baron: 'baron/baron.min.js',
-                pikaday: 'pikaday/pikaday.js',
                 qrcode: 'jsqrcode/dist/qrcode.min.js',
                 argon2: 'argon2-browser/dist/argon2.min.js',
                 'argon2-wasm': 'argon2-browser/dist/argon2.wasm',
@@ -81,10 +86,6 @@ function config(grunt, mode = 'production') {
                     }),
                 },
                 {
-                    test: /baron(\.min)?\.js$/,
-                    loader: 'exports-loader?baron; delete window.baron;',
-                },
-                {
                     test: /\.js$/,
                     exclude: /(node_modules)/,
                     loader: 'babel-loader',
@@ -99,7 +100,15 @@ function config(grunt, mode = 'production') {
                     loader: 'base64-loader',
                 },
                 { test: /argon2(\.min)?\.js/, loader: 'raw-loader' },
-                { test: /\.scss$/, loader: 'raw-loader' },
+                {
+                    test: /\.s?css$/,
+                    use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'],
+                },
+                {
+                    test: /fonts\/.*\.(woff2|ttf|eot|svg)/,
+                    use: ['raw-loader', 'ignore-loader'],
+                },
+                { test: /\.woff$/, loader: 'url-loader' },
                 {
                     test: /\.svg$/,
                     use: [
@@ -132,6 +141,11 @@ function config(grunt, mode = 'production') {
                         output: null,
                     },
                 }),
+                new OptimizeCSSAssetsPlugin({
+                    cssProcessorPluginOptions: {
+                        preset: ['default', { discardComments: { removeAll: true } }],
+                    },
+                }),
                 new BundleAnalyzerPlugin({
                     openAnalyzer: false,
                     analyzerMode: 'static',
@@ -143,17 +157,15 @@ function config(grunt, mode = 'production') {
         },
         plugins: [
             new webpack.BannerPlugin(
-                'keeweb v' +
-                    pkg.version +
-                    ', (c) ' +
-                    year +
-                    ' ' +
-                    pkg.author.name +
-                    ', opensource.org/licenses/' +
+                `keeweb v${pkg.version}, (c) ${year} ${pkg.author.name}, opensource.org/licenses/${
                     pkg.license
+                }`
             ),
             new webpack.IgnorePlugin(/^(moment)$/),
             new StringReplacePlugin(),
+            new MiniCssExtractPlugin({
+                filename: 'css/[name].css',
+            }),
         ],
         node: {
             console: false,
@@ -176,14 +188,14 @@ function config(grunt, mode = 'production') {
 }
 
 function devServerConfig(grunt) {
-    const config = config(grunt, 'development');
+    const cfg = config(grunt, 'development');
     return {
-        ...config,
+        ...cfg,
         devtool: 'source-map',
         resolve: {
-            ...config.resolve,
+            ...cfg.resolve,
             alias: {
-                ...config.resolve.alias,
+                ...cfg.resolve.alias,
                 baron: 'baron/baron.js',
                 qrcode: 'jsqrcode/dist/qrcode.js',
                 argon2: 'argon2-browser/dist/argon2.js',

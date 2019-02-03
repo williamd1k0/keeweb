@@ -6,7 +6,14 @@ module.exports = function(grunt) {
         'devsrv',
     ]);
 
-    grunt.registerTask('devsrv', 'Start web server and watcher', ['concurrent:dev-server']);
+    grunt.registerTask('devsrv', 'Start the webpack dev server', [
+        'gitinfo',
+        'copy:html',
+        'copy:favicon',
+        'copy:icons',
+        'copy:manifest',
+        'webpack-dev-server',
+    ]);
 
     grunt.registerTask('desktop', 'Build web and desktop apps for all platforms', [
         'default',

@@ -1,5 +1,5 @@
 import kdbxweb from 'kdbxweb';
-import publicKey from 'raw-loader!../../../resources/public-key.pem';
+import publicKey from 'raw-loader!resources/public-key.pem';
 import { Logger } from 'util/logger';
 
 const SignatureVerifier = {
