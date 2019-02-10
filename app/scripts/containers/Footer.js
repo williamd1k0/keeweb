@@ -5,6 +5,7 @@ import { toggleView } from 'store/ui/toggle-view';
 import { setView } from 'store/ui/set-view';
 import { setMenuSelection } from 'store/menu/set-menu-selection';
 import { toggleDropdown } from 'store/ui/toggle-dropdown';
+import { resetGenerator } from 'store/generator/reset-generator';
 
 const mapStateToProps = state => {
     return {
@@ -19,6 +20,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         onGeneratorClick({ position }) {
+            dispatch(resetGenerator());
             dispatch(toggleDropdown({ id: 'generator', position }));
         },
         onOpenClick() {
