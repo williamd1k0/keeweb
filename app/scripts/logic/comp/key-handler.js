@@ -14,16 +14,6 @@ const KeyHandler = {
     init() {
         document.addEventListener('keypress', e => this.keypress(e));
         document.addEventListener('keydown', e => this.keydown(e));
-
-        this.shortcuts[Keys.DOM_VK_A] = [
-            {
-                handler: e => this.handleAKey(e),
-                thisArg: this,
-                shortcut: this.SHORTCUT_ACTION,
-                modal: true,
-                noPrevent: true,
-            },
-        ];
     },
     onKey(key, handler, thisArg, shortcut, modal, noPrevent) {
         let keyShortcuts = this.shortcuts[key];
@@ -135,16 +125,6 @@ const KeyHandler = {
     },
     reg() {
         IdleTracker.regUserAction();
-    },
-    handleAKey(e) {
-        if (
-            e.target.tagName.toLowerCase() === 'input' &&
-            ['password', 'text'].indexOf(e.target.type) >= 0
-        ) {
-            e.stopImmediatePropagation();
-        } else {
-            e.preventDefault();
-        }
     },
 };
 

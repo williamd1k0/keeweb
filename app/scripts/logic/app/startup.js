@@ -13,6 +13,7 @@ import { loadLastFiles } from 'logic/files/load-last-files';
 import { initStorage } from 'logic/storage/init-storage';
 import { setView } from 'store/ui/set-view';
 import { SingleInstanceChecker } from 'logic/comp/single-instance-checker';
+import { GlobalShortcutManager } from 'logic/comp/global-shortcut-manager';
 
 export function startup() {
     return (dispatch, getState) => {
@@ -119,6 +120,7 @@ export function startup() {
 
         function postInit() {
             SingleInstanceChecker.init();
+            GlobalShortcutManager.init();
             // Updater.init(); // TODO
             // AppRightsChecker.init(); // TODO
             // setTimeout(() => PluginManager.runAutoUpdate(), Timeouts.AutoUpdatePluginsAfterStart);

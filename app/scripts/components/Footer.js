@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Res } from 'containers/util/Res';
 import { Tooltip } from 'components/util/Tooltip';
+import { KeyHandler } from 'logic/comp/key-handler';
+import { Keys } from 'const/keys';
 
 class Footer extends React.Component {
     static propTypes = {
@@ -17,6 +19,18 @@ class Footer extends React.Component {
     constructor(props) {
         super(props);
         this.generatorBtn = React.createRef();
+    }
+    componentDidMount() {
+        const off = KeyHandler.onKey(
+            Keys.DOM_VK_G,
+            this.onGenerateClick,
+            this,
+            KeyHandler.SHORTCUT_ACTION
+        );
+        this.subscriptions = [off];
+    }
+    componentWillUnmount() {
+        this.subscriptions.forEach(s => s());
     }
     onFileClick = e => {
         const id = e.target.closest('[data-file-id]').dataset.fileId;
