@@ -6,6 +6,9 @@ export function resetGenerator() {
     return { type };
 }
 
-export default function reducer() {
-    return getDefaultState();
+export default function reducer(state) {
+    return {
+        ...getDefaultState(),
+        version: state.version + 1,
+    };
 }

@@ -9,6 +9,6 @@ export default function reducer(state, action) {
         ...state,
         activePreset: action.name,
         options: undefined,
-        version: 1,
+        version: state.version + 1,
     };
 }
