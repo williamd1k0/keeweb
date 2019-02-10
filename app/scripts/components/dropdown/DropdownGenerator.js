@@ -17,40 +17,62 @@ class DropdownGenerator extends React.Component {
         locale: PropTypes.object.isRequired,
         opt: PropTypes.object.isRequired,
         presets: PropTypes.array.isRequired,
-        preset: PropTypes.string,
+        activePreset: PropTypes.string,
+        result: PropTypes.string.isRequired,
         onOptionChange: PropTypes.func.isRequired,
         onPresetChange: PropTypes.func.isRequired,
         onLengthChange: PropTypes.func.isRequired,
+        onRefreshClick: PropTypes.func.isRequired,
+        onButtonClick: PropTypes.func.isRequired,
     };
+    constructor(props) {
+        super(props);
+        this.resultNode = React.createRef();
+    }
     onPresetChange = e => {
         const preset = e.target.value;
         this.props.onPresetChange({ preset });
     };
     onOptionChange = e => {
-        const checked = e.target.checked;
+        const value = e.target.checked;
         const option = e.target.dataset.id;
-        this.props.onOptionChange({ option, checked });
+        this.props.onOptionChange({ option, value });
     };
     onLengthChange = e => {
         const value = e.target.value;
         this.props.onLengthChange({ value });
     };
+    onButtonClick = () => {
+        const selection = window.getSelection();
+        const range = document.createRange();
+        range.selectNodeContents(this.resultNode.current);
+        selection.removeAllRanges();
+        selection.addRange(range);
+
+        const result = this.props.result;
+        this.props.onButtonClick({ result });
+    };
     render() {
-        const { opt, locale, presets, preset } = this.props;
+        const { opt, locale, presets, activePreset, result, onRefreshClick } = this.props;
         return (
             <div className="gen">
                 <div>
                     <Res id="genLen" />: <span className="gen__length-range-val">{opt.length}</span>
-                    <i className="fa fa-refresh gen__btn-refresh" title={locale.genNewPass} />
+                    <i
+                        className="fa fa-refresh gen__btn-refresh"
+                        title={locale.genNewPass}
+                        onClick={onRefreshClick}
+                    />
                 </div>
                 <select
                     className="gen__sel-tpl input-base"
-                    value={preset}
+                    value={activePreset || ''}
                     onChange={this.onPresetChange}
                 >
+                    {!activePreset && <option value="" />}
                     {presets.map(preset => (
                         <option value={preset.name} key={preset.name}>
-                            {preset.title}
+                            {preset.titleIsLoc ? locale[preset.title] : preset.title}
                         </option>
                     ))}
                     <option value="...">...</option>
@@ -77,9 +99,11 @@ class DropdownGenerator extends React.Component {
                         </div>
                     ))}
                 </div>
-                <div className="gen__result" />
+                <div className="gen__result" ref={this.resultNode}>
+                    {result}
+                </div>
                 <div className="gen__btn-wrap">
-                    <button className="gen__btn-ok">
+                    <button className="gen__btn-ok" onClick={this.onButtonClick}>
                         <Res id="alertCopy" />
                     </button>
                 </div>

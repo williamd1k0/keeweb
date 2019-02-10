@@ -1,26 +1,32 @@
 const state = {
-    builtinPresets: {
-        default: {
-            id: 'default',
+    activePreset: undefined,
+    options: undefined,
+    version: 1,
+    builtinPresets: [
+        {
+            name: 'Default',
             builtin: true,
             title: 'genPresetDefault',
+            titleIsLoc: true,
             length: 16,
             upper: true,
             lower: true,
             digits: true,
         },
-        pronounceable: {
-            id: 'pronounceable',
+        {
+            name: 'Pronounceable',
             builtin: true,
             title: 'genPresetPronounceable',
+            titleIsLoc: true,
             length: 10,
             lower: true,
             upper: true,
         },
-        med: {
-            id: 'med',
+        {
+            name: 'Med',
             builtin: true,
             title: 'genPresetMed',
+            titleIsLoc: true,
             length: 16,
             upper: true,
             lower: true,
@@ -29,47 +35,52 @@ const state = {
             brackets: true,
             ambiguous: true,
         },
-        long: {
-            id: 'long',
+        {
+            name: 'Long',
             builtin: true,
             title: 'genPresetLong',
+            titleIsLoc: true,
             length: 32,
             upper: true,
             lower: true,
             digits: true,
         },
-        pin4: {
-            id: 'pin4',
+        {
+            name: 'Pin4',
             builtin: true,
             title: 'genPresetPin4',
+            titleIsLoc: true,
             length: 4,
             digits: true,
         },
-        mac: {
-            id: 'mac',
+        {
+            name: 'Mac',
             builtin: true,
             title: 'genPresetMac',
+            titleIsLoc: true,
             length: 17,
             upper: true,
             digits: true,
             special: true,
         },
-        hash128: {
-            id: 'hash128',
+        {
+            name: 'Hash128',
             title: 'genPresetHash128',
+            titleIsLoc: true,
             length: 32,
             lower: true,
             digits: true,
         },
-        hash256: {
-            id: 'hash256',
+        {
+            name: 'Hash256',
             builtin: true,
             title: 'genPresetHash256',
+            titleIsLoc: true,
             length: 64,
             lower: true,
             digits: true,
         },
-    },
+    ],
 };
 
 export default function reducer() {
